@@ -160,6 +160,9 @@ export function useFilters() {
  * 只管理組合的 Hook
  */
 export function useCombinations() {
+  // 客戶端掛載狀態
+  const mounted = useClientMounted();
+  
   const [combinations, setCombinations] = useAtom(combinationsAtom);
   const addCombination = useSetAtom(addCombinationAtom);
   const removeCombination = useSetAtom(removeCombinationAtom);
@@ -178,7 +181,7 @@ export function useCombinations() {
   };
 
   return {
-    combinations,
+    combinations: mounted ? combinations : [], // 在服務器端時返回空數組
     addCombination: handleAddCombination,
     removeCombination: handleRemoveCombination,
     clearAllCombinations: handleClearAllCombinations,
