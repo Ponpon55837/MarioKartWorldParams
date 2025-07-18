@@ -8,7 +8,7 @@ import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
 import CombinationCard from '@/components/CombinationCard';
 import CombinationSelector from '@/components/CombinationSelector';
-import FilterControls from '@/components/FilterControls';
+import PageControls from '@/components/PageControls';
 
 export default function Home() {
   // 使用自定義 Hook 載入資料
@@ -21,9 +21,9 @@ export default function Home() {
   const [sortBy, setSortBy] = useState<StatType>('speed');
   const [speedFilter, setSpeedFilter] = useState<SpeedType | 'display'>('display');
   const [handlingFilter, setHandlingFilter] = useState<HandlingType | 'display'>('display');
-  const [showCharacters, setShowCharacters] = useState(true);
-  const [showVehicles, setShowVehicles] = useState(true);
-  const [showCombinations, setShowCombinations] = useState(true);
+  
+  // 分頁狀態
+  const [currentPage, setCurrentPage] = useState<'characters' | 'vehicles' | 'combinations'>('characters');
 
   // 計算最大值用於進度條 (使用 useMemo 優化性能)
   const maxStats = useMemo(() => ({
@@ -144,41 +144,45 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
-      {/* 組合選擇器 */}
-      <CombinationSelector
-        characters={characters}
-        vehicles={vehicles}
-        onAddCombination={handleAddCombination}
-      />
-
-      <FilterControls
+      <PageControls
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
         sortBy={sortBy}
         setSortBy={setSortBy}
         speedFilter={speedFilter}
         setSpeedFilter={setSpeedFilter}
         handlingFilter={handlingFilter}
         setHandlingFilter={setHandlingFilter}
-        showCharacters={showCharacters}
-        setShowCharacters={setShowCharacters}
-        showVehicles={showVehicles}
-        setShowVehicles={setShowVehicles}
-        showCombinations={showCombinations}
-        setShowCombinations={setShowCombinations}
+        charactersCount={sortedCharacters.length}
+        vehiclesCount={sortedVehicles.length}
+        combinationsCount={combinations.length}
       />
 
-      {/* 組合區塊 */}
-      {showCombinations && (
+      {/* 動態內容顯示 */}
+      {currentPage === 'combinations' && (
         <section>
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             ⭐ 角色+載具組合 ({combinations.length})
           </h2>
+          
+          {/* 組合選擇器 */}
+          <CombinationSelector
+            characters={characters}
+            vehicles={vehicles}
+            onAddCombination={handleAddCombination}
+          />
+          
           {combinations.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <p className="text-gray-500 text-lg mb-4">還沒有建立任何組合</p>
-              <p className="text-gray-400">使用上方的組合選擇器來建立您的第一個組合！</p>
+            <div className="text-center py-8 bg-gray-50 rounded-lg mt-4">
+              <div className="text-6xl mb-4">🎯</div>
+              <p className="text-gray-500 text-lg mb-2">還沒有建立任何組合</p>
+              <p className="text-gray-400 mb-4">使用上方的選擇器來建立您的第一個組合！</p>
+              <div className="text-sm text-gray-500 bg-white p-3 rounded-lg border border-gray-200 inline-block">
+                💡 選擇一個角色和一個載具，然後點擊「建立組合」按鈕
+              </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
               {combinations.map((combination) => (
                 <CombinationCard
                   key={combination.id}
@@ -192,8 +196,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* 角色區塊 */}
-      {showCharacters && (
+      {currentPage === 'characters' && (
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             🎮 角色 ({sortedCharacters.length})
@@ -212,8 +215,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* 載具區塊 */}
-      {showVehicles && (
+      {currentPage === 'vehicles' && (
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             🏎️ 載具 ({sortedVehicles.length})
