@@ -38,16 +38,16 @@
 
 ```bash
 # 安裝相依套件
-npm install
+pnpm i
 
 # 啟動開發伺服器
-npm run dev
+pnpm dev
 
 # 建置生產版本
-npm run build
+pnpm build
 
 # 啟動生產伺服器
-npm start
+pnpm start
 ```
 
 ## 數據來源
