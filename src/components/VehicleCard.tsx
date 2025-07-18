@@ -1,5 +1,5 @@
-import { VehicleStats } from '@/types';
-import { getStatColor, getStatBarWidth } from '@/utils/csvParser';
+import { VehicleStats, SpeedType, HandlingType } from '@/types';
+import StatBar from './StatBar';
 
 interface VehicleCardProps {
   vehicle: VehicleStats;
@@ -9,100 +9,113 @@ interface VehicleCardProps {
     weight: number;
     handling: number;
   };
+  speedFilter: SpeedType | 'display';
+  handlingFilter: HandlingType | 'display';
 }
 
-export default function VehicleCard({ vehicle, maxStats }: VehicleCardProps) {
-  const stats = [
-    { 
-      label: '速度', 
-      value: vehicle.displaySpeed, 
-      max: maxStats.speed,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-500',
-      lightBg: 'bg-blue-50',
-      borderColor: 'border-blue-200'
-    },
-    { 
-      label: '加速度', 
-      value: vehicle.acceleration, 
-      max: maxStats.acceleration,
-      color: 'text-green-600',
-      bgColor: 'bg-green-500',
-      lightBg: 'bg-green-50',
-      borderColor: 'border-green-200'
-    },
-    { 
-      label: '重量', 
-      value: vehicle.weight, 
-      max: maxStats.weight,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-500',
-      lightBg: 'bg-purple-50',
-      borderColor: 'border-purple-200'
-    },
-    { 
-      label: '操控性', 
-      value: vehicle.displayHandling, 
-      max: maxStats.handling,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-500',
-      lightBg: 'bg-orange-50',
-      borderColor: 'border-orange-200'
-    },
-  ];
+/**
+ * 載具卡片組件 - 顯示載具的詳細統計資料
+ */
+export default function VehicleCard({ vehicle, maxStats, speedFilter, handlingFilter }: VehicleCardProps) {
+  // 根據篩選器取得當前顯示的速度值
+  const getSpeedValue = () => {
+    switch (speedFilter) {
+      case 'road': return vehicle.roadSpeed;
+      case 'terrain': return vehicle.terrainSpeed;
+      case 'water': return vehicle.waterSpeed;
+      default: return vehicle.displaySpeed;
+    }
+  };
+
+  // 根據篩選器取得當前顯示的轉向值
+  const getHandlingValue = () => {
+    switch (handlingFilter) {
+      case 'road': return vehicle.roadHandling;
+      case 'terrain': return vehicle.terrainHandling;
+      case 'water': return vehicle.waterHandling;
+      default: return vehicle.displayHandling;
+    }
+  };
+
+  // 取得速度標籤
+  const getSpeedLabel = () => {
+    switch (speedFilter) {
+      case 'road': return '道路速度';
+      case 'terrain': return '地形速度';
+      case 'water': return '水面速度';
+      default: return '速度';
+    }
+  };
+
+  // 取得轉向標籤
+  const getHandlingLabel = () => {
+    switch (handlingFilter) {
+      case 'road': return '道路轉向';
+      case 'terrain': return '地形轉向';
+      case 'water': return '水面轉向';
+      default: return '轉向';
+    }
+  };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border-2 border-gray-200 hover:border-mario-red">
-      <div className="text-center mb-4">
-        <h3 className="text-xl font-bold text-gray-800 mb-1">{vehicle.name}</h3>
-        <p className="text-sm text-gray-600">{vehicle.englishName}</p>
+    <div className="bg-white rounded-lg shadow-md p-3 card-hover border border-gray-200">
+      {/* 載具名稱 */}
+      <div className="text-center mb-3">
+        <h3 className="text-base font-semibold text-gray-800 mb-0.5">
+          {vehicle.name}
+        </h3>
+        <p className="text-xs text-gray-500">
+          {vehicle.englishName}
+        </p>
       </div>
-      
-      <div className="space-y-3">
-        {stats.map((stat) => (
-          <div key={stat.label} className={`p-3 rounded-lg ${stat.lightBg} border ${stat.borderColor}`}>
-            <div className="flex items-center justify-between mb-2">
-              <div className={`text-sm font-bold ${stat.color}`}>
-                {stat.label}
-              </div>
-              <div className={`text-lg font-bold ${stat.color}`}>
-                {stat.value}
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="flex-1 mx-1">
-                <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${stat.bgColor}`}
-                    style={{ width: getStatBarWidth(stat.value, stat.max) }}
-                  />
-                </div>
-              </div>
-              <div className="text-xs text-gray-500 ml-2">
-                {Math.round((stat.value / stat.max) * 100)}%
-              </div>
-            </div>
-          </div>
-        ))}
+
+      {/* 統計資料 */}
+      <div className="space-y-2">
+        <StatBar
+          label={getSpeedLabel()}
+          value={getSpeedValue()}
+          maxValue={maxStats.speed}
+          statType="speed"
+        />
+        
+        <StatBar
+          label="加速度"
+          value={vehicle.acceleration}
+          maxValue={maxStats.acceleration}
+          statType="acceleration"
+        />
+        
+        <StatBar
+          label="重量"
+          value={vehicle.weight}
+          maxValue={maxStats.weight}
+          statType="weight"
+        />
+        
+        <StatBar
+          label={getHandlingLabel()}
+          value={getHandlingValue()}
+          maxValue={maxStats.handling}
+          statType="handling"
+        />
       </div>
-      
-      <div className="mt-4 pt-3 border-t border-gray-200">
-        <div className="text-xs text-gray-600 font-semibold mb-2 text-center">詳細速度分佈</div>
-        <div className="grid grid-cols-3 gap-2 text-xs">
-          <div className="text-center p-2 bg-blue-50 rounded border border-blue-200">
-            <div className="font-semibold text-blue-700">道路</div>
-            <div className="text-blue-600 font-bold text-sm">{vehicle.roadSpeed}</div>
-          </div>
-          <div className="text-center p-2 bg-green-50 rounded border border-green-200">
-            <div className="font-semibold text-green-700">地形</div>
-            <div className="text-green-600 font-bold text-sm">{vehicle.terrainSpeed}</div>
-          </div>
-          <div className="text-center p-2 bg-cyan-50 rounded border border-cyan-200">
-            <div className="font-semibold text-cyan-700">水面</div>
-            <div className="text-cyan-600 font-bold text-sm">{vehicle.waterSpeed}</div>
+
+      {/* 詳細統計 */}
+      <details className="mt-3">
+        <summary className="cursor-pointer text-xs text-gray-600 hover:text-gray-800 transition-colors">
+          📊 詳細資料
+        </summary>
+        <div className="mt-2 text-xs text-gray-600 space-y-1">
+          <div className="grid grid-cols-2 gap-1 text-xs">
+            <div>道路速度: {vehicle.roadSpeed}</div>
+            <div>地形速度: {vehicle.terrainSpeed}</div>
+            <div>水面速度: {vehicle.waterSpeed}</div>
+            <div>道路轉向: {vehicle.roadHandling}</div>
+            <div>地形轉向: {vehicle.terrainHandling}</div>
+            <div>水面轉向: {vehicle.waterHandling}</div>
           </div>
         </div>
-      </div>
+      </details>
     </div>
   );
 }

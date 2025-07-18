@@ -1,3 +1,4 @@
+// 角色統計資料接口
 export interface CharacterStats {
   name: string;
   englishName: string;
@@ -5,16 +6,15 @@ export interface CharacterStats {
   roadSpeed: number;
   terrainSpeed: number;
   waterSpeed: number;
-  unknownSpeed: number;
   acceleration: number;
   weight: number;
   displayHandling: number;
   roadHandling: number;
   terrainHandling: number;
   waterHandling: number;
-  unknownHandling: number;
 }
 
+// 載具統計資料接口
 export interface VehicleStats {
   name: string;
   englishName: string;
@@ -22,16 +22,15 @@ export interface VehicleStats {
   roadSpeed: number;
   terrainSpeed: number;
   waterSpeed: number;
-  unknownSpeed: number;
   acceleration: number;
   weight: number;
   displayHandling: number;
   roadHandling: number;
   terrainHandling: number;
   waterHandling: number;
-  unknownHandling: number;
 }
 
+// 組合統計資料接口
 export interface CombinationStats {
   id: string;
   character: CharacterStats;
@@ -50,11 +49,13 @@ export interface CombinationStats {
   };
 }
 
+// 瑪利歐賽車資料接口
 export interface MarioKartData {
   characters: CharacterStats[];
   vehicles: VehicleStats[];
 }
 
+// 統計類型
 export type StatType = 'speed' | 'acceleration' | 'weight' | 'handling';
 export type SpeedType = 'road' | 'terrain' | 'water';
 export type HandlingType = 'road' | 'terrain' | 'water';

@@ -69,19 +69,19 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border-2 border-yellow-300 relative">
+    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300 border border-yellow-300 relative">
       {/* 移除按鈕 */}
       <button
         onClick={onRemove}
-        className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors flex items-center justify-center text-sm font-bold"
+        className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors flex items-center justify-center text-xs font-bold"
       >
         ×
       </button>
 
       {/* 組合標題 */}
-      <div className="text-center mb-4">
-        <div className="bg-yellow-100 rounded-lg p-3 border border-yellow-300">
-          <h3 className="text-lg font-bold text-gray-800 mb-1">
+      <div className="text-center mb-3">
+        <div className="bg-yellow-100 rounded-lg p-2 border border-yellow-300">
+          <h3 className="text-sm font-semibold text-gray-800 mb-0.5">
             {character.name} + {vehicle.name}
           </h3>
           <p className="text-xs text-gray-600">
@@ -91,20 +91,20 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
       </div>
 
       {/* 能力值顯示 */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         {stats.map((stat) => (
-          <div key={stat.label} className={`p-3 rounded-lg ${stat.lightBg} border ${stat.borderColor}`}>
-            <div className="flex items-center justify-between mb-2">
-              <div className={`text-sm font-bold ${stat.color}`}>
+          <div key={stat.label} className={`p-2 rounded-lg ${stat.lightBg} border ${stat.borderColor}`}>
+            <div className="flex items-center justify-between mb-1">
+              <div className={`text-xs font-semibold ${stat.color}`}>
                 {stat.label}
               </div>
-              <div className={`text-lg font-bold ${stat.color}`}>
+              <div className={`text-sm font-semibold ${stat.color}`}>
                 {stat.value}
               </div>
             </div>
-            <div className="flex items-center mb-2">
+            <div className="flex items-center mb-1">
               <div className="flex-1 mx-1">
-                <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${stat.bgColor}`}
                     style={{ width: getStatBarWidth(stat.value, maxPossibleValue) }}
@@ -119,33 +119,33 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
             <div className="text-xs text-gray-600 flex justify-between">
               <span>角色: {stat.charValue}</span>
               <span>載具: {stat.vehicleValue}</span>
-              <span className="text-yellow-600 font-semibold">加成: +3</span>
+              <span className="text-yellow-600 font-semibold">+3</span>
             </div>
           </div>
         ))}
       </div>
 
       {/* 詳細速度分佈 */}
-      <div className="mt-4 pt-3 border-t border-gray-200">
-        <div className="text-xs text-gray-600 font-semibold mb-2 text-center">詳細速度分佈</div>
-        <div className="grid grid-cols-3 gap-2 text-xs">
-          <div className="text-center p-2 bg-blue-50 rounded border border-blue-200">
+      <div className="mt-3 pt-2 border-t border-gray-200">
+        <div className="text-xs text-gray-600 font-semibold mb-1 text-center">詳細速度分佈</div>
+        <div className="grid grid-cols-3 gap-1 text-xs">
+          <div className="text-center p-1 bg-blue-50 rounded border border-blue-200">
             <div className="font-semibold text-blue-700">道路</div>
-            <div className="text-blue-600 font-bold text-sm">{combinedStats.roadSpeed}</div>
+            <div className="text-blue-600 font-bold text-xs">{combinedStats.roadSpeed}</div>
             <div className="text-gray-500 text-xs">
               {character.roadSpeed}+{vehicle.roadSpeed}+3
             </div>
           </div>
-          <div className="text-center p-2 bg-green-50 rounded border border-green-200">
+          <div className="text-center p-1 bg-green-50 rounded border border-green-200">
             <div className="font-semibold text-green-700">地形</div>
-            <div className="text-green-600 font-bold text-sm">{combinedStats.terrainSpeed}</div>
+            <div className="text-green-600 font-bold text-xs">{combinedStats.terrainSpeed}</div>
             <div className="text-gray-500 text-xs">
               {character.terrainSpeed}+{vehicle.terrainSpeed}+3
             </div>
           </div>
-          <div className="text-center p-2 bg-cyan-50 rounded border border-cyan-200">
+          <div className="text-center p-1 bg-cyan-50 rounded border border-cyan-200">
             <div className="font-semibold text-cyan-700">水面</div>
-            <div className="text-cyan-600 font-bold text-sm">{combinedStats.waterSpeed}</div>
+            <div className="text-cyan-600 font-bold text-xs">{combinedStats.waterSpeed}</div>
             <div className="text-gray-500 text-xs">
               {character.waterSpeed}+{vehicle.waterSpeed}+3
             </div>
