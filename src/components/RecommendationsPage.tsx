@@ -73,7 +73,7 @@ const RecommendationsPage: React.FC = () => {
           <span className="text-4xl">{getTerrainIcon(selectedTerrain)}</span>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-800">
-              {getTerrainName(selectedTerrain)}地形 TOP 10
+              {getTerrainName(selectedTerrain)} TOP 10
             </h2>
             <p className="text-gray-600">{getTerrainDescription(selectedTerrain)}</p>
           </div>

@@ -402,8 +402,8 @@ export const recommendedCombinationsAtom = atom((get) => {
     maxCombinedAcceleration = Math.max(maxCombinedAcceleration, totalAcceleration);
     maxCombinedWeight = Math.max(maxCombinedWeight, totalWeight);
 
-    // 計算綜合分數：速度40% + 操控性30% + 加速度20% + 重量10%（重量越高分數越低）
-    const score = (totalSpeed * 0.4) + (totalHandling * 0.3) + (totalAcceleration * 0.2) + (totalWeight * 0.1);
+    // 計算綜合分數：速度40% + 操控性30% + 加速度20% - 重量10%（重量越高分數越低）
+    const score = (totalSpeed * 0.4) + (totalHandling * 0.3) + (totalAcceleration * 0.2) - (totalWeight * 0.1);
     
     return {
       character,
@@ -427,9 +427,35 @@ export const recommendedCombinationsAtom = atom((get) => {
       }
     }
     
-    // 按分數降序排列並取前10名
-    return combinations
-      .sort((a, b) => b.score - a.score)
+    // 按分數降序排列
+    const sorted = combinations.sort((a, b) => b.score - a.score);
+    
+    // 增加多樣性：確保前10名中不會有太多相同載具
+    const diverseCombinations = [];
+    const usedVehicles = new Set();
+    const maxSameVehicle = 3; // 最多允許3個相同載具
+    
+    for (const combo of sorted) {
+      const vehicleCount = diverseCombinations.filter(c => c.vehicle.name === combo.vehicle.name).length;
+      
+      if (vehicleCount < maxSameVehicle) {
+        diverseCombinations.push(combo);
+      }
+      
+      if (diverseCombinations.length >= 10) break;
+    }
+    
+    // 如果多樣性篩選後不足10個，補充剩餘的高分組合
+    if (diverseCombinations.length < 10) {
+      for (const combo of sorted) {
+        if (!diverseCombinations.some(c => c.character.name === combo.character.name && c.vehicle.name === combo.vehicle.name)) {
+          diverseCombinations.push(combo);
+          if (diverseCombinations.length >= 10) break;
+        }
+      }
+    }
+    
+    return diverseCombinations
       .slice(0, 10)
       .map((combo, index) => ({
         ...combo,
