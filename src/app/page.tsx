@@ -1,116 +1,35 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
-import { CharacterStats, VehicleStats, StatType, SpeedType, HandlingType, CombinationStats } from '@/types';
-import { useMarioKartData } from '@/hooks/useMarioKartData';
-import { APP_CONSTANTS } from '@/constants';
 import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
 import CombinationCard from '@/components/CombinationCard';
 import CombinationSelector from '@/components/CombinationSelector';
 import PageControls from '@/components/PageControls';
+import { useMarioKartStore } from '@/hooks/useMarioKartStore';
 
 export default function Home() {
-  // 使用自定義 Hook 載入資料
-  const { characters, vehicles, loading, error } = useMarioKartData();
-  
-  // 組合狀態
-  const [combinations, setCombinations] = useState<CombinationStats[]>([]);
-
-  // 篩選狀態
-  const [sortBy, setSortBy] = useState<StatType>('speed');
-  const [speedFilter, setSpeedFilter] = useState<SpeedType | 'display'>('display');
-  const [handlingFilter, setHandlingFilter] = useState<HandlingType | 'display'>('display');
-  
-  // 分頁狀態
-  const [currentPage, setCurrentPage] = useState<'characters' | 'vehicles' | 'combinations'>('characters');
-
-  // 計算最大值用於進度條 (使用 useMemo 優化性能)
-  const maxStats = useMemo(() => ({
-    speed: Math.max(
-      1, // 避免除零錯誤
-      ...characters.map(c => c.displaySpeed),
-      ...vehicles.map(v => v.displaySpeed)
-    ),
-    acceleration: Math.max(
-      1,
-      ...characters.map(c => c.acceleration),
-      ...vehicles.map(v => v.acceleration)
-    ),
-    weight: Math.max(
-      1,
-      ...characters.map(c => c.weight),
-      ...vehicles.map(v => v.weight)
-    ),
-    handling: Math.max(
-      1,
-      ...characters.map(c => c.displayHandling),
-      ...vehicles.map(v => v.displayHandling)
-    ),
-  }), [characters, vehicles]);
-
-  // 添加組合 (使用 useCallback 優化性能)
-  const handleAddCombination = useCallback((character: CharacterStats, vehicle: VehicleStats) => {
-    const id = `${character.name}-${vehicle.name}-${Date.now()}`;
-    
-    const newCombination: CombinationStats = {
-      id,
-      character,
-      vehicle,
-      combinedStats: {
-        displaySpeed: character.displaySpeed + vehicle.displaySpeed + APP_CONSTANTS.COMBINATION_BONUS,
-        roadSpeed: character.roadSpeed + vehicle.roadSpeed + APP_CONSTANTS.COMBINATION_BONUS,
-        terrainSpeed: character.terrainSpeed + vehicle.terrainSpeed + APP_CONSTANTS.COMBINATION_BONUS,
-        waterSpeed: character.waterSpeed + vehicle.waterSpeed + APP_CONSTANTS.COMBINATION_BONUS,
-        acceleration: character.acceleration + vehicle.acceleration + APP_CONSTANTS.COMBINATION_BONUS,
-        weight: character.weight + vehicle.weight + APP_CONSTANTS.COMBINATION_BONUS,
-        displayHandling: character.displayHandling + vehicle.displayHandling + APP_CONSTANTS.COMBINATION_BONUS,
-        roadHandling: character.roadHandling + vehicle.roadHandling + APP_CONSTANTS.COMBINATION_BONUS,
-        terrainHandling: character.terrainHandling + vehicle.terrainHandling + APP_CONSTANTS.COMBINATION_BONUS,
-        waterHandling: character.waterHandling + vehicle.waterHandling + APP_CONSTANTS.COMBINATION_BONUS,
-      },
-    };
-    
-    setCombinations(prev => [...prev, newCombination]);
-  }, []);
-
-  // 移除組合
-  const handleRemoveCombination = useCallback((id: string) => {
-    setCombinations(prev => prev.filter(combo => combo.id !== id));
-  }, []);
-
-  // 排序函數
-  const getSortValue = useCallback((item: CharacterStats | VehicleStats, stat: StatType): number => {
-    switch (stat) {
-      case 'speed':
-        if (speedFilter === 'display') return item.displaySpeed;
-        if (speedFilter === 'road') return item.roadSpeed;
-        if (speedFilter === 'terrain') return item.terrainSpeed;
-        return item.waterSpeed;
-      case 'acceleration':
-        return item.acceleration;
-      case 'weight':
-        return item.weight;
-      case 'handling':
-        if (handlingFilter === 'display') return item.displayHandling;
-        if (handlingFilter === 'road') return item.roadHandling;
-        if (handlingFilter === 'terrain') return item.terrainHandling;
-        return item.waterHandling;
-      default:
-        return 0;
-    }
-  }, [speedFilter, handlingFilter]);
-
-  // 排序後的資料 (使用 useMemo 優化)
-  const sortedCharacters = useMemo(() => 
-    [...characters].sort((a, b) => getSortValue(b, sortBy) - getSortValue(a, sortBy)),
-    [characters, getSortValue, sortBy]
-  );
-
-  const sortedVehicles = useMemo(() => 
-    [...vehicles].sort((a, b) => getSortValue(b, sortBy) - getSortValue(a, sortBy)),
-    [vehicles, getSortValue, sortBy]
-  );
+  // 使用 Jotai store 管理所有狀態
+  const {
+    loading,
+    error,
+    characters,
+    vehicles,
+    maxStats,
+    sortedCharacters,
+    sortedVehicles,
+    sortBy,
+    setSortBy,
+    speedFilter,
+    setSpeedFilter,
+    handlingFilter,
+    setHandlingFilter,
+    currentPage,
+    setCurrentPage,
+    combinations,
+    addCombination,
+    removeCombination,
+    clearAllCombinations,
+  } = useMarioKartStore();
 
   // 載入中狀態
   if (loading) {
@@ -158,18 +77,38 @@ export default function Home() {
         combinationsCount={combinations.length}
       />
 
-      {/* 動態內容顯示 */}
+      {/* 管理員快速入口 */}
+      <div className="text-center mb-4">
+        <a
+          href="/admin"
+          className="inline-flex items-center px-3 py-1 text-xs text-gray-500 hover:text-blue-600 transition-colors border border-gray-300 rounded-full hover:border-blue-300"
+        >
+          🔧 數據管理
+        </a>
+      </div>
+
+      {/* 組合頁面 */}
       {currentPage === 'combinations' && (
         <section>
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-            ⭐ 角色+載具組合 ({combinations.length})
-          </h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-gray-800 text-center flex-1">
+              ⭐ 角色+載具組合 ({combinations.length})
+            </h2>
+            {combinations.length > 0 && (
+              <button
+                onClick={clearAllCombinations}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
+              >
+                🗑️ 清除全部
+              </button>
+            )}
+          </div>
           
           {/* 組合選擇器 */}
           <CombinationSelector
             characters={characters}
             vehicles={vehicles}
-            onAddCombination={handleAddCombination}
+            onAddCombination={addCombination}
           />
           
           {combinations.length === 0 ? (
@@ -188,7 +127,7 @@ export default function Home() {
                   key={combination.id}
                   character={combination.character}
                   vehicle={combination.vehicle}
-                  onRemove={() => handleRemoveCombination(combination.id)}
+                  onRemove={() => removeCombination(combination.id)}
                 />
               ))}
             </div>
@@ -196,6 +135,7 @@ export default function Home() {
         </section>
       )}
 
+      {/* 角色頁面 */}
       {currentPage === 'characters' && (
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
@@ -215,6 +155,7 @@ export default function Home() {
         </section>
       )}
 
+      {/* 載具頁面 */}
       {currentPage === 'vehicles' && (
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
@@ -288,6 +229,11 @@ export default function Home() {
           <p className="text-sm text-red-800">
             <strong>⚠️ 注意：</strong>遊戲中所有角色與載具組合都會額外獲得 +3 的能力值加成。
             表格中的數值為原始資料，實際遊戲中會有所調整。
+          </p>
+        </div>
+        <div className="mt-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
+          <p className="text-sm text-green-800">
+            <strong>💾 自動儲存：</strong>您建立的組合會自動儲存到本地，下次開啟網站時會自動載入您的組合設定！
           </p>
         </div>
       </section>
