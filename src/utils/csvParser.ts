@@ -1,6 +1,9 @@
 import { CharacterStats, VehicleStats, MarioKartData } from '@/types';
 
-// 簡易 CSV 解析器
+/**
+ * 簡易 CSV 解析器
+ * 處理包含引號的 CSV 格式
+ */
 const parseCSV = (csvContent: string): string[][] => {
   const lines = csvContent.split('\n');
   return lines.map(line => {
@@ -24,6 +27,11 @@ const parseCSV = (csvContent: string): string[][] => {
   });
 };
 
+/**
+ * 解析瑪利歐賽車 CSV 數據
+ * @param csvContent CSV 文件內容
+ * @returns 解析後的角色和載具數據
+ */
 export const parseMarioKartCSV = (csvContent: string): MarioKartData => {
   const rows = parseCSV(csvContent);
   
@@ -34,19 +42,21 @@ export const parseMarioKartCSV = (csvContent: string): MarioKartData => {
   for (let i = 2; i < rows.length; i++) {
     const row = rows[i];
     
-    // 跳過空行或只有標記符號的行
-    if (!row || row.length < 2 || !row[1] || row[1].trim() === '') {
+    // 跳過空行或無效行
+    if (!row || row.length < 2 || !row[1]?.trim()) {
       continue;
     }
     
-    // 如果這是解析說明行或包含特殊標記，跳過
-    if (row[1]?.includes('能力值解析') || row[1]?.includes('重要說明') || 
-        row[1]?.includes('能力值顯示不一致') || row[1]?.includes('未知的速度') ||
-        row[1]?.includes('¹') || row[1]?.includes('²') || row[1]?.includes('³')) {
+    // 跳過說明行和註解行
+    const cellContent = row[1];
+    if (cellContent.includes('能力值解析') || 
+        cellContent.includes('重要說明') || 
+        cellContent.includes('能力值顯示不一致') || 
+        /[¹²³]/.test(cellContent)) {
       continue;
     }
     
-    // 解析角色資料 (列 1-14)
+    // 解析角色資料 (列 1-12)
     if (row[1] && row[2] && row[1] !== '車輛') {
       const character: CharacterStats = {
         name: row[1],
@@ -55,19 +65,17 @@ export const parseMarioKartCSV = (csvContent: string): MarioKartData => {
         roadSpeed: parseInt(row[4]) || 0,
         terrainSpeed: parseInt(row[5]) || 0,
         waterSpeed: parseInt(row[6]) || 0,
-        unknownSpeed: parseInt(row[7]) || 0,
         acceleration: parseInt(row[8]) || 0,
         weight: parseInt(row[9]) || 0,
         displayHandling: parseInt(row[10]) || 0,
         roadHandling: parseInt(row[11]) || 0,
         terrainHandling: parseInt(row[12]) || 0,
         waterHandling: parseInt(row[13]) || 0,
-        unknownHandling: parseInt(row[14]) || 0,
       };
       characters.push(character);
     }
     
-    // 解析載具資料 (列 17-30)
+    // 解析載具資料 (列 17-28)
     if (row[17] && row[18]) {
       const vehicle: VehicleStats = {
         name: row[17],
@@ -76,25 +84,28 @@ export const parseMarioKartCSV = (csvContent: string): MarioKartData => {
         roadSpeed: parseInt(row[20]) || 0,
         terrainSpeed: parseInt(row[21]) || 0,
         waterSpeed: parseInt(row[22]) || 0,
-        unknownSpeed: parseInt(row[23]) || 0,
         acceleration: parseInt(row[24]) || 0,
         weight: parseInt(row[25]) || 0,
         displayHandling: parseInt(row[26]) || 0,
         roadHandling: parseInt(row[27]) || 0,
         terrainHandling: parseInt(row[28]) || 0,
         waterHandling: parseInt(row[29]) || 0,
-        unknownHandling: parseInt(row[30]) || 0,
       };
       vehicles.push(vehicle);
     }
   }
   
-  console.log('Parsed characters:', characters.length);
-  console.log('Parsed vehicles:', vehicles.length);
+  console.log(`✅ 解析完成 - 角色: ${characters.length}, 載具: ${vehicles.length}`);
   
   return { characters, vehicles };
 };
 
+/**
+ * 根據數值計算對應的顏色類別
+ * @param value 當前值
+ * @param maxValue 最大值
+ * @returns Tailwind CSS 背景色類別
+ */
 export const getStatColor = (value: number, maxValue: number): string => {
   const percentage = value / maxValue;
   if (percentage >= 0.8) return 'bg-green-500';
@@ -103,6 +114,12 @@ export const getStatColor = (value: number, maxValue: number): string => {
   return 'bg-red-500';
 };
 
+/**
+ * 計算統計條的寬度百分比
+ * @param value 當前值
+ * @param maxValue 最大值
+ * @returns 寬度百分比字符串
+ */
 export const getStatBarWidth = (value: number, maxValue: number): string => {
   const percentage = Math.round((value / maxValue) * 100);
   return `${Math.max(percentage, 5)}%`; // 最小寬度 5%
