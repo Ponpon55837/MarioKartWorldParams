@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CharacterStats, VehicleStats } from '@/types';
-import CustomSelect from './CustomSelect';
+import CustomSelect from '@/components/CustomSelect';
 
 interface CombinationSelectorProps {
   characters: CharacterStats[];

@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
 import { CharacterStats, VehicleStats } from '@/types';
-import CharacterCard from './CharacterCard';
-import VehicleCard from './VehicleCard';
+import CharacterCard from '@/components/CharacterCard';
+import VehicleCard from '@/components/VehicleCard';
 import { useDebounce } from '@/hooks/usePerformance';
 import { 
   getSearchHistory, 
@@ -9,20 +10,20 @@ import {
   removeSearchHistoryItem,
   type SearchHistoryItem 
 } from '@/utils/searchHistory';
+import {
+  searchModalOpenAtom,
+  searchQueryAtom,
+  searchResultsAtom,
+  searchLoadingAtom,
+  searchHistoryVisibleAtom,
+  charactersAtom,
+  vehiclesAtom,
+  dynamicMaxStatsAtom,
+  speedFilterAtom,
+  handlingFilterAtom
+} from '@/store/atoms';
 
 interface SearchModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  characters: CharacterStats[];
-  vehicles: VehicleStats[];
-  maxStats: {
-    speed: number;
-    acceleration: number;
-    weight: number;
-    handling: number;
-  };
-  speedFilter: any;
-  handlingFilter: any;
   onNavigate?: (type: 'characters' | 'vehicles') => void;
 }
 
@@ -32,58 +33,64 @@ interface SearchResult {
   score: number;
 }
 
-export default function SearchModal({
-  isOpen,
-  onClose,
-  characters,
-  vehicles,
-  maxStats,
-  speedFilter,
-  handlingFilter,
-  onNavigate
-}: SearchModalProps) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[]>([]);
-  const [showHistory, setShowHistory] = useState(false);
+export default function SearchModal({ onNavigate }: SearchModalProps) {
+  // 使用全域狀態管理
+  const [isOpen, setIsOpen] = useAtom(searchModalOpenAtom);
+  const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom);
+  const [searchResults, setSearchResults] = useAtom(searchResultsAtom);
+  const [isLoading, setIsLoading] = useAtom(searchLoadingAtom);
+  const [showHistory, setShowHistory] = useAtom(searchHistoryVisibleAtom);
+  
+  // 從全域狀態獲取資料
+  const characters = useAtomValue(charactersAtom);
+  const vehicles = useAtomValue(vehiclesAtom);
+  const maxStats = useAtomValue(dynamicMaxStatsAtom);
+  const speedFilter = useAtomValue(speedFilterAtom);
+  const handlingFilter = useAtomValue(handlingFilterAtom);
+  
+  // 本地狀態（不需要全域管理）
+  const [searchHistory, setSearchHistory] = React.useState<SearchHistoryItem[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // 計算搜尋相關性分數
-  const calculateScore = (name: string, englishName: string, query: string): number => {
-    const lowerQuery = query.toLowerCase();
-    const lowerName = name.toLowerCase();
-    const lowerEnglishName = englishName.toLowerCase();
+  // 優化的搜尋算法 - 使用 useMemo 避免重複計算
+  const searchAlgorithm = useMemo(() => {
+    const calculateScore = (name: string, englishName: string, query: string): number => {
+      const lowerQuery = query.toLowerCase();
+      const lowerName = name.toLowerCase();
+      const lowerEnglishName = englishName.toLowerCase();
 
-    // 完全匹配得分最高
-    if (lowerName === lowerQuery || lowerEnglishName === lowerQuery) return 100;
-    
-    // 開頭匹配得分較高
-    if (lowerName.startsWith(lowerQuery) || lowerEnglishName.startsWith(lowerQuery)) return 80;
-    
-    // 包含匹配得分中等
-    if (lowerName.includes(lowerQuery) || lowerEnglishName.includes(lowerQuery)) return 60;
-    
-    // 模糊匹配得分較低
-    const similarity = calculateSimilarity(lowerQuery, lowerName) || calculateSimilarity(lowerQuery, lowerEnglishName);
-    return similarity * 40;
-  };
+      // 完全匹配得分最高
+      if (lowerName === lowerQuery || lowerEnglishName === lowerQuery) return 100;
+      
+      // 開頭匹配得分較高
+      if (lowerName.startsWith(lowerQuery) || lowerEnglishName.startsWith(lowerQuery)) return 80;
+      
+      // 包含匹配得分中等
+      if (lowerName.includes(lowerQuery) || lowerEnglishName.includes(lowerQuery)) return 60;
+      
+      // 模糊匹配得分較低
+      const similarity = calculateSimilarity(lowerQuery, lowerName) || calculateSimilarity(lowerQuery, lowerEnglishName);
+      return similarity * 40;
+    };
 
-  // 簡單的字符串相似度計算
-  const calculateSimilarity = (str1: string, str2: string): number => {
-    const len1 = str1.length;
-    const len2 = str2.length;
-    const maxLen = Math.max(len1, len2);
-    
-    if (maxLen === 0) return 1;
-    
-    let matches = 0;
-    for (let i = 0; i < Math.min(len1, len2); i++) {
-      if (str1[i] === str2[i]) matches++;
-    }
-    
-    return matches / maxLen;
-  };
+    // 簡單的字符串相似度計算
+    const calculateSimilarity = (str1: string, str2: string): number => {
+      const len1 = str1.length;
+      const len2 = str2.length;
+      const maxLen = Math.max(len1, len2);
+      
+      if (maxLen === 0) return 1;
+      
+      let matches = 0;
+      for (let i = 0; i < Math.min(len1, len2); i++) {
+        if (str1[i] === str2[i]) matches++;
+      }
+      
+      return matches / maxLen;
+    };
+
+    return { calculateScore };
+  }, []);
 
   // 防抖搜尋函數
   const debouncedSearch = useDebounce((query: string) => {
@@ -101,7 +108,7 @@ export default function SearchModal({
     
     // 搜尋角色
     characters.forEach(character => {
-      const score = calculateScore(character.name, character.englishName, query);
+      const score = searchAlgorithm.calculateScore(character.name, character.englishName, query);
       if (score > 20) { // 只顯示相關性較高的結果
         results.push({
           type: 'character',
@@ -113,7 +120,7 @@ export default function SearchModal({
 
     // 搜尋載具
     vehicles.forEach(vehicle => {
-      const score = calculateScore(vehicle.name, vehicle.englishName, query);
+      const score = searchAlgorithm.calculateScore(vehicle.name, vehicle.englishName, query);
       if (score > 20) { // 只顯示相關性較高的結果
         results.push({
           type: 'vehicle',
@@ -153,19 +160,19 @@ export default function SearchModal({
   };
 
   // 清空搜尋
-  const clearSearch = () => {
+  const clearSearch = React.useCallback(() => {
     setSearchQuery('');
     setSearchResults([]);
     setIsLoading(false);
     setShowHistory(true);
-  };
+  }, [setSearchQuery, setSearchResults, setIsLoading, setShowHistory]);
 
   // 關閉模態框
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     clearSearch();
     setShowHistory(false);
-    onClose();
-  };
+    setIsOpen(false);
+  }, [clearSearch, setShowHistory, setIsOpen]);
 
   // 載入搜尋歷史
   useEffect(() => {
@@ -173,14 +180,13 @@ export default function SearchModal({
       setSearchHistory(getSearchHistory());
       setShowHistory(true);
     }
-  }, [isOpen]);
+  }, [isOpen, setShowHistory]);
 
   // 鍵盤事件處理
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        clearSearch();
-        onClose();
+        handleClose();
       }
     };
 
@@ -202,7 +208,7 @@ export default function SearchModal({
       // 清理時恢復滾動
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   // 點擊背景關閉
   const handleBackdropClick = (e: React.MouseEvent) => {

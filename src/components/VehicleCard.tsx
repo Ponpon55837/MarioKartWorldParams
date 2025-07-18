@@ -1,5 +1,5 @@
 import { VehicleStats, SpeedType, HandlingType } from '@/types';
-import StatBar from './StatBar';
+import StatBar from '@/components/StatBar';
 
 interface VehicleCardProps {
   vehicle: VehicleStats;

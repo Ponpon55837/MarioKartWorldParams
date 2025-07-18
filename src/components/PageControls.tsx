@@ -1,5 +1,5 @@
 import { StatType, SpeedType, HandlingType } from '@/types';
-import CustomSelect from './CustomSelect';
+import CustomSelect from '@/components/CustomSelect';
 
 interface PageControlsProps {
   currentPage: 'characters' | 'vehicles' | 'combinations';

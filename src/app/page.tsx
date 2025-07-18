@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useAtom } from 'jotai';
 import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
 import CombinationCard from '@/components/CombinationCard';
@@ -9,10 +10,11 @@ import PageControls from '@/components/PageControls';
 import SearchModal from '@/components/SearchModal';
 import SearchButton, { SearchShortcutHint } from '@/components/SearchButton';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
+import { searchModalOpenAtom } from '@/store/atoms';
 
 export default function Home() {
-  // 搜尋模態框狀態
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  // 使用全域狀態管理搜尋模態框
+  const [isSearchModalOpen, setIsSearchModalOpen] = useAtom(searchModalOpenAtom);
 
   // 使用 Jotai store 管理所有狀態
   const {
@@ -48,7 +50,7 @@ export default function Home() {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [setIsSearchModalOpen]);
 
   // 載入中狀態
   if (loading) {
@@ -197,16 +199,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* 管理員快速入口 */}
-      <div className="text-center mb-4">
-        <a
-          href="/admin"
-          className="inline-flex items-center px-3 py-1 text-xs text-gray-500 hover:text-blue-600 transition-colors border border-gray-300 rounded-full hover:border-blue-300"
-        >
-          🔧 資料管理
-        </a>
-      </div>
-
       {/* 說明區塊 */}
       <section className="bg-white rounded-lg shadow-md p-4 mt-8">
         <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">📊 能力值說明與圖例</h2>
@@ -270,15 +262,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 管理員快速入口 */}
+      <div className="text-center mb-2">
+        <a
+          href="/admin"
+          className="inline-flex items-center px-3 py-1 text-xs text-gray-500 hover:text-blue-600 transition-colors border border-gray-300 rounded-full hover:border-blue-300"
+        >
+          🔧 資料管理
+        </a>
+      </div>
+
       {/* 搜尋模態框 */}
       <SearchModal
-        isOpen={isSearchModalOpen}
-        onClose={() => setIsSearchModalOpen(false)}
-        characters={characters}
-        vehicles={vehicles}
-        maxStats={maxStats}
-        speedFilter={speedFilter}
-        handlingFilter={handlingFilter}
         onNavigate={(type) => setCurrentPage(type)}
       />
     </div>

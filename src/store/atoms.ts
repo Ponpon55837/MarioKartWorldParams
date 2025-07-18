@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { CharacterStats, VehicleStats, CombinationStats, StatType, SpeedType, HandlingType } from '@/types';
 import { parseMarioKartCSV } from '@/utils/csvParser';
-import { combinationsAtom } from './combinations';
+import { combinationsAtom } from '@/store/combinations';
 
 // 資料載入狀態 atom
 export const loadingAtom = atom<boolean>(false);
@@ -16,6 +16,13 @@ export const sortByAtom = atom<StatType>('speed');
 export const speedFilterAtom = atom<SpeedType | 'display'>('display');
 export const handlingFilterAtom = atom<HandlingType | 'display'>('display');
 export const currentPageAtom = atom<'characters' | 'vehicles' | 'combinations'>('characters');
+
+// 搜尋相關 atoms
+export const searchModalOpenAtom = atom<boolean>(false);
+export const searchQueryAtom = atom<string>('');
+export const searchResultsAtom = atom<any[]>([]);
+export const searchLoadingAtom = atom<boolean>(false);
+export const searchHistoryVisibleAtom = atom<boolean>(false);
 
 // 計算最大值的 atom (依賴於角色和載具資料)
 
