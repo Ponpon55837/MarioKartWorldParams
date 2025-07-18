@@ -66,5 +66,5 @@ export const combinationsAtom = atom(
   }
 );
 
-// 初始化組合數據
+// 初始化組合資料
 export const initializeCombinationsAtom = initCombinationsAtom;

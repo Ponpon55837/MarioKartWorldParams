@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import '@/app/globals.css'
 import JotaiProvider from '@/providers/JotaiProvider'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -33,7 +33,7 @@ export default function RootLayout({
             <main className="container mx-auto px-4 py-6">
               {children}
             </main>
-            <footer className="bg-gray-800 text-white p-6 mt-12">
+            <footer className="bg-gray-800 text-white p-6 mt-2">
               <div className="container mx-auto text-center">
                 <p>&copy; 2025 Mario Kart World 筆記系統</p>
                 <p className="text-sm opacity-70 mt-1">

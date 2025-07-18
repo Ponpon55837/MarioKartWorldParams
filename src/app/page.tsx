@@ -1,13 +1,21 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useAtom } from 'jotai';
 import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
 import CombinationCard from '@/components/CombinationCard';
 import CombinationSelector from '@/components/CombinationSelector';
 import PageControls from '@/components/PageControls';
+import SearchModal from '@/components/SearchModal';
+import SearchButton, { SearchShortcutHint } from '@/components/SearchButton';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
+import { searchModalOpenAtom } from '@/store/atoms';
 
 export default function Home() {
+  // 使用全域狀態管理搜尋模態框
+  const [isSearchModalOpen, setIsSearchModalOpen] = useAtom(searchModalOpenAtom);
+
   // 使用 Jotai store 管理所有狀態
   const {
     loading,
@@ -30,6 +38,19 @@ export default function Home() {
     removeCombination,
     clearAllCombinations,
   } = useMarioKartStore();
+
+  // 搜尋快捷鍵
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchModalOpen(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [setIsSearchModalOpen]);
 
   // 載入中狀態
   if (loading) {
@@ -63,6 +84,19 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
+      {/* 搜尋功能區 */}
+      <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <SearchButton onClick={() => setIsSearchModalOpen(true)} />
+            <SearchShortcutHint onClick={() => setIsSearchModalOpen(true)} />
+          </div>
+          <div className="text-sm text-gray-500">
+            共有 {characters.length} 個角色和 {vehicles.length} 個載具
+          </div>
+        </div>
+      </div>
+
       <PageControls
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
@@ -76,16 +110,6 @@ export default function Home() {
         vehiclesCount={sortedVehicles.length}
         combinationsCount={combinations.length}
       />
-
-      {/* 管理員快速入口 */}
-      <div className="text-center mb-4">
-        <a
-          href="/admin"
-          className="inline-flex items-center px-3 py-1 text-xs text-gray-500 hover:text-blue-600 transition-colors border border-gray-300 rounded-full hover:border-blue-300"
-        >
-          🔧 數據管理
-        </a>
-      </div>
 
       {/* 組合頁面 */}
       {currentPage === 'combinations' && (
@@ -237,6 +261,21 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* 管理員快速入口 */}
+      <div className="text-center mb-2">
+        <a
+          href="/admin"
+          className="inline-flex items-center px-3 py-1 text-xs text-gray-500 hover:text-blue-600 transition-colors border border-gray-300 rounded-full hover:border-blue-300"
+        >
+          🔧 資料管理
+        </a>
+      </div>
+
+      {/* 搜尋模態框 */}
+      <SearchModal
+        onNavigate={(type) => setCurrentPage(type)}
+      />
     </div>
   );
 }
