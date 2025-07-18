@@ -24,7 +24,7 @@ import {
 } from '@/store/atoms';
 
 interface SearchModalProps {
-  onNavigate?: (type: 'characters' | 'vehicles') => void;
+  onNavigate?: (type: 'characters' | 'vehicles' | 'recommendations') => void;
 }
 
 interface SearchResult {
@@ -426,6 +426,15 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                 className="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm"
               >
                 查看所有載具
+              </button>
+              <button
+                onClick={() => {
+                  onNavigate('recommendations');
+                  handleClose();
+                }}
+                className="px-3 py-1 bg-orange-100 text-orange-700 rounded hover:bg-orange-200 transition-colors text-sm"
+              >
+                🏆 推薦組合
               </button>
             </div>
           )}

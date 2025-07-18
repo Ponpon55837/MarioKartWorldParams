@@ -9,6 +9,7 @@ import CombinationSelector from '@/components/CombinationSelector';
 import PageControls from '@/components/PageControls';
 import SearchModal from '@/components/SearchModal';
 import SearchButton, { SearchShortcutHint } from '@/components/SearchButton';
+import RecommendationsPage from '@/components/RecommendationsPage';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
 import { searchModalOpenAtom } from '@/store/atoms';
 
@@ -196,6 +197,13 @@ export default function Home() {
               />
             ))}
           </div>
+        </section>
+      )}
+
+      {/* 推薦組合頁面 */}
+      {currentPage === 'recommendations' && (
+        <section>
+          <RecommendationsPage />
         </section>
       )}
 

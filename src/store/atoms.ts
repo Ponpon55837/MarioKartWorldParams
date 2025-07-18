@@ -15,7 +15,7 @@ export const vehiclesAtom = atom<VehicleStats[]>([]);
 export const sortByAtom = atom<StatType>('speed');
 export const speedFilterAtom = atom<SpeedType | 'display'>('display');
 export const handlingFilterAtom = atom<HandlingType | 'display'>('display');
-export const currentPageAtom = atom<'characters' | 'vehicles' | 'combinations'>('characters');
+export const currentPageAtom = atom<'characters' | 'vehicles' | 'combinations' | 'recommendations'>('characters');
 
 // 搜尋相關 atoms
 export const searchModalOpenAtom = atom<boolean>(false);
@@ -23,8 +23,6 @@ export const searchQueryAtom = atom<string>('');
 export const searchResultsAtom = atom<any[]>([]);
 export const searchLoadingAtom = atom<boolean>(false);
 export const searchHistoryVisibleAtom = atom<boolean>(false);
-
-// 計算最大值的 atom (依賴於角色和載具資料)
 
 // 計算最大值的 atom (依賴於角色和載具資料)
 export const maxStatsAtom = atom((get) => {
@@ -337,3 +335,118 @@ export const clearAllCombinationsAtom = atom(
     set(combinationsAtom, []);
   }
 );
+
+// 推薦組合相關 atoms
+export const recommendedCombinationsAtom = atom((get) => {
+  const characters = get(charactersAtom);
+  const vehicles = get(vehiclesAtom);
+  
+  if (characters.length === 0 || vehicles.length === 0) {
+    return {
+      road: [],
+      terrain: [],
+      water: [],
+      maxCombinedStats: {
+        speed: 1,
+        acceleration: 1,
+        weight: 1,
+        handling: 1,
+      }
+    };
+  }
+
+  // 計算所有可能組合的最大值
+  let maxCombinedSpeed = 0;
+  let maxCombinedAcceleration = 0;
+  let maxCombinedWeight = 0;
+  let maxCombinedHandling = 0;
+
+  // 計算每個角色與載具的組合分數
+  const calculateCombinationScore = (character: CharacterStats, vehicle: VehicleStats, terrain: 'road' | 'terrain' | 'water') => {
+    let characterSpeed = 0;
+    let vehicleSpeed = 0;
+    let characterHandling = 0;
+    let vehicleHandling = 0;
+
+    // 根據地形選擇對應的數值
+    switch (terrain) {
+      case 'road':
+        characterSpeed = character.roadSpeed;
+        vehicleSpeed = vehicle.roadSpeed;
+        characterHandling = character.roadHandling;
+        vehicleHandling = vehicle.roadHandling;
+        break;
+      case 'terrain':
+        characterSpeed = character.terrainSpeed;
+        vehicleSpeed = vehicle.terrainSpeed;
+        characterHandling = character.terrainHandling;
+        vehicleHandling = vehicle.terrainHandling;
+        break;
+      case 'water':
+        characterSpeed = character.waterSpeed;
+        vehicleSpeed = vehicle.waterSpeed;
+        characterHandling = character.waterHandling;
+        vehicleHandling = vehicle.waterHandling;
+        break;
+    }
+
+    // 組合總分數計算（速度 + 操控性 + 加速度，權重可調整）
+    const totalSpeed = characterSpeed + vehicleSpeed;
+    const totalHandling = characterHandling + vehicleHandling;
+    const totalAcceleration = character.acceleration + vehicle.acceleration;
+    const totalWeight = character.weight + vehicle.weight;
+
+    // 更新最大值
+    maxCombinedSpeed = Math.max(maxCombinedSpeed, totalSpeed);
+    maxCombinedHandling = Math.max(maxCombinedHandling, totalHandling);
+    maxCombinedAcceleration = Math.max(maxCombinedAcceleration, totalAcceleration);
+    maxCombinedWeight = Math.max(maxCombinedWeight, totalWeight);
+
+    // 計算綜合分數：速度40% + 操控性30% + 加速度20% + 重量10%（重量越高分數越低）
+    const score = (totalSpeed * 0.4) + (totalHandling * 0.3) + (totalAcceleration * 0.2) + (totalWeight * 0.1);
+    
+    return {
+      character,
+      vehicle,
+      score,
+      totalSpeed,
+      totalHandling,
+      totalAcceleration,
+      totalWeight,
+      terrain
+    };
+  };
+
+  // 為每個地形計算所有組合並取前10名
+  const getTopCombinations = (terrain: 'road' | 'terrain' | 'water') => {
+    const combinations = [];
+    
+    for (const character of characters) {
+      for (const vehicle of vehicles) {
+        combinations.push(calculateCombinationScore(character, vehicle, terrain));
+      }
+    }
+    
+    // 按分數降序排列並取前10名
+    return combinations
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+      .map((combo, index) => ({
+        ...combo,
+        rank: index + 1,
+        id: `${terrain}-${combo.character.name}-${combo.vehicle.name}`
+      }));
+  };
+
+  return {
+    road: getTopCombinations('road'),
+    terrain: getTopCombinations('terrain'),
+    water: getTopCombinations('water'),
+    maxCombinedStats: {
+      speed: maxCombinedSpeed,
+      acceleration: maxCombinedAcceleration,
+      weight: maxCombinedWeight,
+      handling: maxCombinedHandling,
+    }
+  };
+});
