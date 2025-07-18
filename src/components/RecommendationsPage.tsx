@@ -21,21 +21,21 @@ const RecommendationsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* 地形選擇器 */}
-      <div className="flex flex-wrap justify-center gap-4 mb-2">
+      <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mb-2">
         {(['road', 'terrain', 'water'] as const).map((terrain) => (
           <button
             key={terrain}
             onClick={() => handleTerrainChange(terrain)}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+            className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 flex-1 sm:flex-none ${
               selectedTerrain === terrain
                 ? 'bg-blue-500 text-white shadow-lg transform scale-105'
                 : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg'
             }`}
           >
-            <span className="text-2xl">{getTerrainIcon(terrain)}</span>
-            <div className="text-left">
-              <div className="text-lg">{getTerrainName(terrain)}</div>
-              <div className="text-xs opacity-80">{getTerrainDescription(terrain)}</div>
+            <span className="text-xl sm:text-2xl">{getTerrainIcon(terrain)}</span>
+            <div className="text-center sm:text-left">
+              <div className="text-base sm:text-lg">{getTerrainName(terrain)}</div>
+              <div className="text-xs opacity-80 hidden sm:block">{getTerrainDescription(terrain)}</div>
             </div>
           </button>
         ))}
