@@ -1,4 +1,5 @@
 import { StatType, SpeedType, HandlingType } from '@/types';
+import CustomSelect from './CustomSelect';
 
 interface PageControlsProps {
   currentPage: 'characters' | 'vehicles' | 'combinations';
@@ -95,16 +96,16 @@ export default function PageControls({
             <label className="block text-xs font-medium text-gray-700 mb-1">
               排序依據
             </label>
-            <select
+            <CustomSelect
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as StatType)}
-              className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="speed">速度</option>
-              <option value="acceleration">加速度</option>
-              <option value="weight">重量</option>
-              <option value="handling">轉向</option>
-            </select>
+              onChange={(value) => setSortBy(value as StatType)}
+              options={[
+                { value: 'speed', label: '速度' },
+                { value: 'acceleration', label: '加速度' },
+                { value: 'weight', label: '重量' },
+                { value: 'handling', label: '轉向' }
+              ]}
+            />
           </div>
 
           {/* 速度篩選 */}
@@ -112,16 +113,16 @@ export default function PageControls({
             <label className="block text-xs font-medium text-gray-700 mb-1">
               速度類型
             </label>
-            <select
+            <CustomSelect
               value={speedFilter}
-              onChange={(e) => setSpeedFilter(e.target.value as SpeedType | 'display')}
-              className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="display">遊戲顯示</option>
-              <option value="road">道路</option>
-              <option value="terrain">地形</option>
-              <option value="water">水面</option>
-            </select>
+              onChange={(value) => setSpeedFilter(value as SpeedType | 'display')}
+              options={[
+                { value: 'display', label: '遊戲顯示' },
+                { value: 'road', label: '道路' },
+                { value: 'terrain', label: '地形' },
+                { value: 'water', label: '水面' }
+              ]}
+            />
           </div>
 
           {/* 轉向篩選 */}
@@ -129,16 +130,16 @@ export default function PageControls({
             <label className="block text-xs font-medium text-gray-700 mb-1">
               轉向類型
             </label>
-            <select
+            <CustomSelect
               value={handlingFilter}
-              onChange={(e) => setHandlingFilter(e.target.value as HandlingType | 'display')}
-              className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="display">遊戲顯示</option>
-              <option value="road">道路</option>
-              <option value="terrain">地形</option>
-              <option value="water">水面</option>
-            </select>
+              onChange={(value) => setHandlingFilter(value as HandlingType | 'display')}
+              options={[
+                { value: 'display', label: '遊戲顯示' },
+                { value: 'road', label: '道路' },
+                { value: 'terrain', label: '地形' },
+                { value: 'water', label: '水面' }
+              ]}
+            />
           </div>
         </div>
       </div>
