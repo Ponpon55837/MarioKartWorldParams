@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-gradient-to-br from-blue-50 to-red-50;
+  }
+}
+
+@layer components {
+  .mario-gradient {
+    @apply bg-gradient-to-r from-mario-red via-mario-yellow to-mario-blue;
+  }
+  
+  .stat-bar {
+    @apply h-3 rounded-full transition-all duration-500 ease-in-out;
+  }
+  
+  .card-hover {
+    @apply transform transition-all duration-300 hover:scale-105 hover:shadow-2xl;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bg-pattern {
+    background-image: radial-gradient(circle at 20px 30px, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
+                      radial-gradient(circle at 70px 70px, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 100px 100px;
+  }
+}
