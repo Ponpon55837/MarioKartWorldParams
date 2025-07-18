@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import {
   loadingAtom,
   errorAtom,
@@ -61,25 +61,23 @@ export function useMarioKartStore() {
     loadData();
   }, [loadData]);
 
-  // 新增組合的輔助函數
-  const handleAddCombination = (character: CharacterStats, vehicle: VehicleStats) => {
+  // 使用 useCallback 優化回調函數
+  const handleAddCombination = useCallback((character: CharacterStats, vehicle: VehicleStats) => {
     addCombination({ character, vehicle });
-  };
+  }, [addCombination]);
 
-  // 移除組合的輔助函數
-  const handleRemoveCombination = (id: string) => {
+  const handleRemoveCombination = useCallback((id: string) => {
     removeCombination(id);
-  };
+  }, [removeCombination]);
 
-  // 清除所有組合的輔助函數
-  const handleClearAllCombinations = () => {
+  const handleClearAllCombinations = useCallback(() => {
     clearAllCombinations();
-  };
+  }, [clearAllCombinations]);
 
   // 重新載入資料
-  const reloadData = () => {
+  const reloadData = useCallback(() => {
     loadData();
-  };
+  }, [loadData]);
 
   return {
     // 基本狀態

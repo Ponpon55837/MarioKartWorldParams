@@ -33,52 +33,73 @@ export const maxStatsAtom = atom((get) => {
     };
   }
 
+  // 使用單次遍歷來計算所有最大值，避免重複遍歷
+  let maxDisplaySpeed = 1;
+  let maxRoadSpeed = 1;
+  let maxTerrainSpeed = 1;
+  let maxWaterSpeed = 1;
+  let maxAcceleration = 1;
+  let maxWeight = 1;
+  let maxDisplayHandling = 1;
+  let maxRoadHandling = 1;
+  let maxTerrainHandling = 1;
+  let maxWaterHandling = 1;
+
+  // 遍歷角色
+  for (const character of characters) {
+    maxDisplaySpeed = Math.max(maxDisplaySpeed, character.displaySpeed);
+    maxRoadSpeed = Math.max(maxRoadSpeed, character.roadSpeed);
+    maxTerrainSpeed = Math.max(maxTerrainSpeed, character.terrainSpeed);
+    maxWaterSpeed = Math.max(maxWaterSpeed, character.waterSpeed);
+    maxAcceleration = Math.max(maxAcceleration, character.acceleration);
+    maxWeight = Math.max(maxWeight, character.weight);
+    maxDisplayHandling = Math.max(maxDisplayHandling, character.displayHandling);
+    maxRoadHandling = Math.max(maxRoadHandling, character.roadHandling);
+    maxTerrainHandling = Math.max(maxTerrainHandling, character.terrainHandling);
+    maxWaterHandling = Math.max(maxWaterHandling, character.waterHandling);
+  }
+
+  // 遍歷載具
+  for (const vehicle of vehicles) {
+    maxDisplaySpeed = Math.max(maxDisplaySpeed, vehicle.displaySpeed);
+    maxRoadSpeed = Math.max(maxRoadSpeed, vehicle.roadSpeed);
+    maxTerrainSpeed = Math.max(maxTerrainSpeed, vehicle.terrainSpeed);
+    maxWaterSpeed = Math.max(maxWaterSpeed, vehicle.waterSpeed);
+    maxAcceleration = Math.max(maxAcceleration, vehicle.acceleration);
+    maxWeight = Math.max(maxWeight, vehicle.weight);
+    maxDisplayHandling = Math.max(maxDisplayHandling, vehicle.displayHandling);
+    maxRoadHandling = Math.max(maxRoadHandling, vehicle.roadHandling);
+    maxTerrainHandling = Math.max(maxTerrainHandling, vehicle.terrainHandling);
+    maxWaterHandling = Math.max(maxWaterHandling, vehicle.waterHandling);
+  }
+
   return {
-    speed: Math.max(
-      1,
-      // 包含所有速度類型的最大值
-      ...characters.map(c => c.displaySpeed),
-      ...characters.map(c => c.roadSpeed),
-      ...characters.map(c => c.terrainSpeed),
-      ...characters.map(c => c.waterSpeed),
-      ...vehicles.map(v => v.displaySpeed),
-      ...vehicles.map(v => v.roadSpeed),
-      ...vehicles.map(v => v.terrainSpeed),
-      ...vehicles.map(v => v.waterSpeed)
-    ),
-    acceleration: Math.max(
-      1,
-      ...characters.map(c => c.acceleration),
-      ...vehicles.map(v => v.acceleration)
-    ),
-    weight: Math.max(
-      1,
-      ...characters.map(c => c.weight),
-      ...vehicles.map(v => v.weight)
-    ),
-    handling: Math.max(
-      1,
-      // 包含所有轉向類型的最大值
-      ...characters.map(c => c.displayHandling),
-      ...characters.map(c => c.roadHandling),
-      ...characters.map(c => c.terrainHandling),
-      ...characters.map(c => c.waterHandling),
-      ...vehicles.map(v => v.displayHandling),
-      ...vehicles.map(v => v.roadHandling),
-      ...vehicles.map(v => v.terrainHandling),
-      ...vehicles.map(v => v.waterHandling)
-    ),
+    speed: Math.max(maxDisplaySpeed, maxRoadSpeed, maxTerrainSpeed, maxWaterSpeed),
+    acceleration: maxAcceleration,
+    weight: maxWeight,
+    handling: Math.max(maxDisplayHandling, maxRoadHandling, maxTerrainHandling, maxWaterHandling),
+    // 額外提供細分的最大值供動態計算使用
+    _internal: {
+      displaySpeed: maxDisplaySpeed,
+      roadSpeed: maxRoadSpeed,
+      terrainSpeed: maxTerrainSpeed,
+      waterSpeed: maxWaterSpeed,
+      displayHandling: maxDisplayHandling,
+      roadHandling: maxRoadHandling,
+      terrainHandling: maxTerrainHandling,
+      waterHandling: maxWaterHandling,
+    }
   };
 });
 
 // 動態最大值計算 atom - 根據當前篩選器計算對應的最大值
 export const dynamicMaxStatsAtom = atom((get) => {
-  const characters = get(charactersAtom);
-  const vehicles = get(vehiclesAtom);
+  const maxStats = get(maxStatsAtom);
   const speedFilter = get(speedFilterAtom);
   const handlingFilter = get(handlingFilterAtom);
   
-  if (characters.length === 0 && vehicles.length === 0) {
+  // 檢查 _internal 是否存在
+  if (!maxStats._internal) {
     return {
       speed: 1,
       acceleration: 1,
@@ -87,78 +108,37 @@ export const dynamicMaxStatsAtom = atom((get) => {
     };
   }
 
-  // 根據速度篩選器計算速度最大值
+  // 直接使用預計算的最大值，避免重複計算
   const getSpeedMax = () => {
     switch (speedFilter) {
       case 'road':
-        return Math.max(
-          1,
-          ...characters.map(c => c.roadSpeed),
-          ...vehicles.map(v => v.roadSpeed)
-        );
+        return maxStats._internal!.roadSpeed;
       case 'terrain':
-        return Math.max(
-          1,
-          ...characters.map(c => c.terrainSpeed),
-          ...vehicles.map(v => v.terrainSpeed)
-        );
+        return maxStats._internal!.terrainSpeed;
       case 'water':
-        return Math.max(
-          1,
-          ...characters.map(c => c.waterSpeed),
-          ...vehicles.map(v => v.waterSpeed)
-        );
+        return maxStats._internal!.waterSpeed;
       default: // 'display'
-        return Math.max(
-          1,
-          ...characters.map(c => c.displaySpeed),
-          ...vehicles.map(v => v.displaySpeed)
-        );
+        return maxStats._internal!.displaySpeed;
     }
   };
 
-  // 根據轉向篩選器計算轉向最大值
   const getHandlingMax = () => {
     switch (handlingFilter) {
       case 'road':
-        return Math.max(
-          1,
-          ...characters.map(c => c.roadHandling),
-          ...vehicles.map(v => v.roadHandling)
-        );
+        return maxStats._internal!.roadHandling;
       case 'terrain':
-        return Math.max(
-          1,
-          ...characters.map(c => c.terrainHandling),
-          ...vehicles.map(v => v.terrainHandling)
-        );
+        return maxStats._internal!.terrainHandling;
       case 'water':
-        return Math.max(
-          1,
-          ...characters.map(c => c.waterHandling),
-          ...vehicles.map(v => v.waterHandling)
-        );
+        return maxStats._internal!.waterHandling;
       default: // 'display'
-        return Math.max(
-          1,
-          ...characters.map(c => c.displayHandling),
-          ...vehicles.map(v => v.displayHandling)
-        );
+        return maxStats._internal!.displayHandling;
     }
   };
 
   return {
     speed: getSpeedMax(),
-    acceleration: Math.max(
-      1,
-      ...characters.map(c => c.acceleration),
-      ...vehicles.map(v => v.acceleration)
-    ),
-    weight: Math.max(
-      1,
-      ...characters.map(c => c.weight),
-      ...vehicles.map(v => v.weight)
-    ),
+    acceleration: maxStats.acceleration,
+    weight: maxStats.weight,
     handling: getHandlingMax(),
   };
 });
@@ -170,27 +150,36 @@ export const sortedCharactersAtom = atom((get) => {
   const speedFilter = get(speedFilterAtom);
   const handlingFilter = get(handlingFilterAtom);
 
+  // 快速路徑：如果沒有角色，直接返回
+  if (characters.length === 0) return characters;
+
+  // 預先計算排序函數，避免在排序過程中重複創建函數
   const getSortValue = (character: CharacterStats): number => {
     switch (sortBy) {
       case 'speed':
-        if (speedFilter === 'display') return character.displaySpeed;
-        if (speedFilter === 'road') return character.roadSpeed;
-        if (speedFilter === 'terrain') return character.terrainSpeed;
-        return character.waterSpeed;
+        switch (speedFilter) {
+          case 'road': return character.roadSpeed;
+          case 'terrain': return character.terrainSpeed;
+          case 'water': return character.waterSpeed;
+          default: return character.displaySpeed;
+        }
       case 'acceleration':
         return character.acceleration;
       case 'weight':
         return character.weight;
       case 'handling':
-        if (handlingFilter === 'display') return character.displayHandling;
-        if (handlingFilter === 'road') return character.roadHandling;
-        if (handlingFilter === 'terrain') return character.terrainHandling;
-        return character.waterHandling;
+        switch (handlingFilter) {
+          case 'road': return character.roadHandling;
+          case 'terrain': return character.terrainHandling;
+          case 'water': return character.waterHandling;
+          default: return character.displayHandling;
+        }
       default:
         return 0;
     }
   };
 
+  // 使用原地排序，避免不必要的複製
   return [...characters].sort((a, b) => getSortValue(b) - getSortValue(a));
 });
 
@@ -201,27 +190,36 @@ export const sortedVehiclesAtom = atom((get) => {
   const speedFilter = get(speedFilterAtom);
   const handlingFilter = get(handlingFilterAtom);
 
+  // 快速路徑：如果沒有載具，直接返回
+  if (vehicles.length === 0) return vehicles;
+
+  // 預先計算排序函數，避免在排序過程中重複創建函數
   const getSortValue = (vehicle: VehicleStats): number => {
     switch (sortBy) {
       case 'speed':
-        if (speedFilter === 'display') return vehicle.displaySpeed;
-        if (speedFilter === 'road') return vehicle.roadSpeed;
-        if (speedFilter === 'terrain') return vehicle.terrainSpeed;
-        return vehicle.waterSpeed;
+        switch (speedFilter) {
+          case 'road': return vehicle.roadSpeed;
+          case 'terrain': return vehicle.terrainSpeed;
+          case 'water': return vehicle.waterSpeed;
+          default: return vehicle.displaySpeed;
+        }
       case 'acceleration':
         return vehicle.acceleration;
       case 'weight':
         return vehicle.weight;
       case 'handling':
-        if (handlingFilter === 'display') return vehicle.displayHandling;
-        if (handlingFilter === 'road') return vehicle.roadHandling;
-        if (handlingFilter === 'terrain') return vehicle.terrainHandling;
-        return vehicle.waterHandling;
+        switch (handlingFilter) {
+          case 'road': return vehicle.roadHandling;
+          case 'terrain': return vehicle.terrainHandling;
+          case 'water': return vehicle.waterHandling;
+          default: return vehicle.displayHandling;
+        }
       default:
         return 0;
     }
   };
 
+  // 使用原地排序，避免不必要的複製
   return [...vehicles].sort((a, b) => getSortValue(b) - getSortValue(a));
 });
 
@@ -235,36 +233,30 @@ export const loadDataAtom = atom(
     const error = get(errorAtom);
     
     if (characters.length > 0 && vehicles.length > 0 && !error) {
-      console.log('資料已存在，跳過載入');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('資料已存在，跳過載入');
+      }
       return;
     }
 
-    console.log('開始載入資料...');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('開始載入資料...');
+    }
+    
     set(loadingAtom, true);
     set(errorAtom, null);
 
     try {
-      console.log('正在請求 CSV 文件...');
       const response = await fetch('/mario-kart-data.csv');
-      console.log('Response status:', response.status, response.statusText);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      console.log('正在讀取 CSV 內容...');
       const csvText = await response.text();
-      console.log('CSV 內容長度:', csvText.length);
       
       // 使用已存在的 CSV 解析器
-      console.log('正在解析 CSV...');
       const data = parseMarioKartCSV(csvText);
-      console.log('解析結果:', { 
-        characters: data.characters.length, 
-        vehicles: data.vehicles.length,
-        firstCharacter: data.characters[0]?.name,
-        firstVehicle: data.vehicles[0]?.name
-      });
       
       if (data.characters.length === 0) {
         throw new Error('未找到角色資料');
@@ -273,14 +265,19 @@ export const loadDataAtom = atom(
         throw new Error('未找到載具資料');
       }
 
-      console.log(`✅ 載入完成：${data.characters.length} 個角色，${data.vehicles.length} 個載具`);
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`✅ 載入完成：${data.characters.length} 個角色，${data.vehicles.length} 個載具`);
+      }
       
+      // 批次更新狀態，減少重新渲染
       set(charactersAtom, data.characters);
       set(vehiclesAtom, data.vehicles);
       
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : '載入資料時發生未知錯誤';
-      console.error('❌ 載入資料錯誤:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('❌ 載入資料錯誤:', error);
+      }
       set(errorAtom, errorMessage);
     } finally {
       set(loadingAtom, false);
