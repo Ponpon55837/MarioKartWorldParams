@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CharacterStats, VehicleStats } from '@/types';
 import StatBar from '@/components/StatBar';
+import { getTerrainIcon, getTerrainName } from '@/constants/terrain';
 
 interface RecommendationCardProps {
   recommendation: {
@@ -23,47 +24,36 @@ interface RecommendationCardProps {
   };
 }
 
-const RecommendationCard: React.FC<RecommendationCardProps> = ({ 
+const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(({ 
   recommendation, 
   maxStats 
 }) => {
   const { character, vehicle, score, totalSpeed, totalHandling, totalAcceleration, totalWeight, terrain, rank } = recommendation;
 
-  const getTerrainIcon = (terrain: string) => {
-    switch (terrain) {
-      case 'road': return '🏁';
-      case 'terrain': return '🌄';
-      case 'water': return '🌊';
-      default: return '🏁';
-    }
-  };
+  // 使用 useMemo 優化地形資訊
+  const terrainInfo = useMemo(() => ({
+    icon: getTerrainIcon(terrain),
+    name: getTerrainName(terrain)
+  }), [terrain]);
 
-  const getTerrainName = (terrain: string) => {
-    switch (terrain) {
-      case 'road': return '道路';
-      case 'terrain': return '地形';
-      case 'water': return '水面';
-      default: return '道路';
-    }
-  };
-
-  const getRankStyle = (rank: number) => {
+  // 使用 useMemo 優化排名樣式
+  const rankStyle = useMemo(() => {
     if (rank === 1) return 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-white';
     if (rank === 2) return 'bg-gradient-to-br from-gray-300 to-gray-500 text-white';
     if (rank === 3) return 'bg-gradient-to-br from-amber-600 to-amber-800 text-white';
     return 'bg-gradient-to-br from-blue-500 to-blue-700 text-white';
-  };
+  }, [rank]);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 border-2 border-gray-100">
       {/* 排名徽章 */}
       <div className="flex items-center justify-between mb-3">
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${getRankStyle(rank)}`}>
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${rankStyle}`}>
           {rank}
         </div>
         <div className="flex items-center space-x-2">
-          <span className="text-2xl">{getTerrainIcon(terrain)}</span>
-          <span className="text-sm font-medium text-gray-600">{getTerrainName(terrain)}</span>
+          <span className="text-2xl">{terrainInfo.icon}</span>
+          <span className="text-sm font-medium text-gray-600">{terrainInfo.name}</span>
         </div>
       </div>
 
@@ -136,11 +126,13 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
       {/* 地形特化提示 */}
       <div className="mt-4 p-2 bg-gray-50 rounded-lg">
         <div className="text-xs text-gray-600 text-center">
-          專為 <span className="font-semibold text-gray-800">{getTerrainName(terrain)}</span> 地形優化
+          專為 <span className="font-semibold text-gray-800">{terrainInfo.name}</span> 地形優化
         </div>
       </div>
     </div>
   );
-};
+});
+
+RecommendationCard.displayName = 'RecommendationCard';
 
 export default RecommendationCard;

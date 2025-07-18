@@ -55,16 +55,6 @@ export default function PageControls({
             🏎️ 載具 ({vehiclesCount})
           </button>
           <button
-            onClick={() => setCurrentPage('recommendations')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'recommendations'
-                ? 'bg-orange-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            🏆 推薦組合
-          </button>
-          <button
             onClick={() => setCurrentPage('combinations')}
             className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
               currentPage === 'combinations'
@@ -74,7 +64,16 @@ export default function PageControls({
           >
             ⭐ 組合 ({combinationsCount})
           </button>
-          
+          <button
+            onClick={() => setCurrentPage('recommendations')}
+            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
+              currentPage === 'recommendations'
+                ? 'bg-orange-500 text-white shadow-md'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            🏆 推薦組合
+          </button>          
         </div>
         
         {/* 當前頁面說明 */}

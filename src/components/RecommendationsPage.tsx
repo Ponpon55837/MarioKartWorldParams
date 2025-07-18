@@ -1,57 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
 import { recommendedCombinationsAtom } from '@/store/atoms';
 import RecommendationCard from '@/components/RecommendationCard';
+import { getTerrainIcon, getTerrainName, getTerrainDescription } from '@/constants/terrain';
 
 const RecommendationsPage: React.FC = () => {
   const [selectedTerrain, setSelectedTerrain] = useState<'road' | 'terrain' | 'water'>('road');
   const recommendations = useAtomValue(recommendedCombinationsAtom);
 
-  const getTerrainIcon = (terrain: string) => {
-    switch (terrain) {
-      case 'road': return '🏁';
-      case 'terrain': return '🌄';
-      case 'water': return '🌊';
-      default: return '🏁';
-    }
-  };
+  // 使用 useMemo 優化當前推薦計算
+  const currentRecommendations = useMemo(() => {
+    return recommendations[selectedTerrain] || [];
+  }, [recommendations, selectedTerrain]);
 
-  const getTerrainName = (terrain: string) => {
-    switch (terrain) {
-      case 'road': return '道路';
-      case 'terrain': return '地形';
-      case 'water': return '水面';
-      default: return '道路';
-    }
-  };
-
-  const getTerrainDescription = (terrain: string) => {
-    switch (terrain) {
-      case 'road': return '適合一般賽道和柏油路面';
-      case 'terrain': return '適合越野和沙地賽道';
-      case 'water': return '適合水上和濕滑路面';
-      default: return '適合一般賽道和柏油路面';
-    }
-  };
-
-  const currentRecommendations = recommendations[selectedTerrain] || [];
+  // 使用 useCallback 優化事件處理
+  const handleTerrainChange = useCallback((terrain: 'road' | 'terrain' | 'water') => {
+    setSelectedTerrain(terrain);
+  }, []);
 
   return (
     <div className="space-y-6">
-      {/* 頁面標題 */}
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">🏆 推薦組合</h1>
-        <p className="text-gray-600">
-          根據不同地形特性推薦最適合的角色與載具組合
-        </p>
-      </div>
-
       {/* 地形選擇器 */}
-      <div className="flex flex-wrap justify-center gap-4 mb-6">
+      <div className="flex flex-wrap justify-center gap-4 mb-2">
         {(['road', 'terrain', 'water'] as const).map((terrain) => (
           <button
             key={terrain}
-            onClick={() => setSelectedTerrain(terrain)}
+            onClick={() => handleTerrainChange(terrain)}
             className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
               selectedTerrain === terrain
                 ? 'bg-blue-500 text-white shadow-lg transform scale-105'
@@ -68,20 +42,11 @@ const RecommendationsPage: React.FC = () => {
       </div>
 
       {/* 當前選擇的地形資訊 */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6">
-        <div className="flex items-center justify-center space-x-4 mb-4">
-          <span className="text-4xl">{getTerrainIcon(selectedTerrain)}</span>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-800">
-              {getTerrainName(selectedTerrain)} TOP 10
-            </h2>
-            <p className="text-gray-600">{getTerrainDescription(selectedTerrain)}</p>
-          </div>
-        </div>
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-1">
         
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            綜合分數計算：速度 40% + 操控性 30% + 加速度 20% + 重量 10%
+            綜合分數計算：速度 40% + 操控性 30% + 加速度 20% - 重量 10%
           </p>
         </div>
       </div>
