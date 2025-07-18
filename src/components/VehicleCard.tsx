@@ -1,4 +1,4 @@
-import { VehicleStats } from '@/types';
+import { VehicleStats, SpeedType, HandlingType } from '@/types';
 import StatBar from './StatBar';
 
 interface VehicleCardProps {
@@ -9,12 +9,54 @@ interface VehicleCardProps {
     weight: number;
     handling: number;
   };
+  speedFilter: SpeedType | 'display';
+  handlingFilter: HandlingType | 'display';
 }
 
 /**
  * 載具卡片組件 - 顯示載具的詳細統計資料
  */
-export default function VehicleCard({ vehicle, maxStats }: VehicleCardProps) {
+export default function VehicleCard({ vehicle, maxStats, speedFilter, handlingFilter }: VehicleCardProps) {
+  // 根據篩選器取得當前顯示的速度值
+  const getSpeedValue = () => {
+    switch (speedFilter) {
+      case 'road': return vehicle.roadSpeed;
+      case 'terrain': return vehicle.terrainSpeed;
+      case 'water': return vehicle.waterSpeed;
+      default: return vehicle.displaySpeed;
+    }
+  };
+
+  // 根據篩選器取得當前顯示的轉向值
+  const getHandlingValue = () => {
+    switch (handlingFilter) {
+      case 'road': return vehicle.roadHandling;
+      case 'terrain': return vehicle.terrainHandling;
+      case 'water': return vehicle.waterHandling;
+      default: return vehicle.displayHandling;
+    }
+  };
+
+  // 取得速度標籤
+  const getSpeedLabel = () => {
+    switch (speedFilter) {
+      case 'road': return '道路速度';
+      case 'terrain': return '地形速度';
+      case 'water': return '水面速度';
+      default: return '速度';
+    }
+  };
+
+  // 取得轉向標籤
+  const getHandlingLabel = () => {
+    switch (handlingFilter) {
+      case 'road': return '道路轉向';
+      case 'terrain': return '地形轉向';
+      case 'water': return '水面轉向';
+      default: return '轉向';
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-3 card-hover border border-gray-200">
       {/* 載具名稱 */}
@@ -30,8 +72,8 @@ export default function VehicleCard({ vehicle, maxStats }: VehicleCardProps) {
       {/* 統計資料 */}
       <div className="space-y-2">
         <StatBar
-          label="速度"
-          value={vehicle.displaySpeed}
+          label={getSpeedLabel()}
+          value={getSpeedValue()}
           maxValue={maxStats.speed}
           statType="speed"
         />
@@ -51,8 +93,8 @@ export default function VehicleCard({ vehicle, maxStats }: VehicleCardProps) {
         />
         
         <StatBar
-          label="操控性"
-          value={vehicle.displayHandling}
+          label={getHandlingLabel()}
+          value={getHandlingValue()}
           maxValue={maxStats.handling}
           statType="handling"
         />
@@ -68,9 +110,9 @@ export default function VehicleCard({ vehicle, maxStats }: VehicleCardProps) {
             <div>道路速度: {vehicle.roadSpeed}</div>
             <div>地形速度: {vehicle.terrainSpeed}</div>
             <div>水面速度: {vehicle.waterSpeed}</div>
-            <div>道路操控: {vehicle.roadHandling}</div>
-            <div>地形操控: {vehicle.terrainHandling}</div>
-            <div>水面操控: {vehicle.waterHandling}</div>
+            <div>道路轉向: {vehicle.roadHandling}</div>
+            <div>地形轉向: {vehicle.terrainHandling}</div>
+            <div>水面轉向: {vehicle.waterHandling}</div>
           </div>
         </div>
       </details>

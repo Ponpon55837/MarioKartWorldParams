@@ -85,7 +85,7 @@ export default function FilterControls({
             <option value="speed">速度</option>
             <option value="acceleration">加速度</option>
             <option value="weight">重量</option>
-            <option value="handling">操控性</option>
+            <option value="handling">轉向</option>
           </select>
         </div>
 
@@ -106,10 +106,10 @@ export default function FilterControls({
           </select>
         </div>
 
-        {/* 操控性篩選 */}
+        {/* 轉向篩選 */}
         <div>
           <label className="block text-xs font-medium text-gray-700 mb-1">
-            操控性類型
+            轉向類型
           </label>
           <select
             value={handlingFilter}

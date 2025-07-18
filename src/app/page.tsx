@@ -204,6 +204,8 @@ export default function Home() {
                 key={character.name}
                 character={character}
                 maxStats={maxStats}
+                speedFilter={speedFilter}
+                handlingFilter={handlingFilter}
               />
             ))}
           </div>
@@ -222,6 +224,8 @@ export default function Home() {
                 key={vehicle.name}
                 vehicle={vehicle}
                 maxStats={maxStats}
+                speedFilter={speedFilter}
+                handlingFilter={handlingFilter}
               />
             ))}
           </div>
@@ -250,7 +254,7 @@ export default function Home() {
             </div>
             <div className="flex items-center space-x-2 p-2 bg-orange-50 rounded-lg border border-orange-200">
               <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-              <span className="text-orange-700 font-medium text-sm">操控性</span>
+              <span className="text-orange-700 font-medium text-sm">轉向</span>
             </div>
           </div>
         </div>
@@ -265,11 +269,11 @@ export default function Home() {
             </ul>
           </div>
           <div>
-            <h3 className="font-bold text-lg mb-2 text-green-600">⚡ 其他能力值</h3>
+            <h3 className="font-semibold text-base mb-2 text-green-600">⚡ 其他能力值</h3>
             <ul className="space-y-1">
               <li><strong>加速度：</strong>從靜止到最高速度的時間</li>
               <li><strong>重量：</strong>影響碰撞結果和金幣加成</li>
-              <li><strong>操控性：</strong>載具轉彎的靈活程度</li>
+              <li><strong>轉向：</strong>載具轉彎的靈活程度</li>
             </ul>
           </div>
         </div>
