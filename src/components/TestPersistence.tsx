@@ -7,7 +7,7 @@ export default function TestPersistence() {
   const { combinations, addCombination, clearAllCombinations } = useCombinations();
   const [testResult, setTestResult] = useState<string>('');
 
-  // 創建測試數據
+  // 創建測試資料
   const testCharacter = {
     name: '測試瑪利歐',
     englishName: 'Test Mario',
@@ -89,7 +89,7 @@ export default function TestPersistence() {
             onClick={clearAllCombinations}
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
           >
-            🗑️ 清除測試數據
+            🗑️ 清除測試資料
           </button>
         </div>
 
@@ -110,7 +110,7 @@ export default function TestPersistence() {
           <ul className="mt-1 space-y-1">
             <li>• 點擊「測試持久化」會添加一個測試組合</li>
             <li>• 重新整理頁面後組合應該還在</li>
-            <li>• 組合數據儲存在 localStorage 中的 &quot;mario-kart-combinations&quot; 鍵</li>
+            <li>• 組合資料儲存在 localStorage 中的 &quot;mario-kart-combinations&quot; 鍵</li>
           </ul>
         </div>
       </div>
