@@ -8,25 +8,12 @@
 - **詳細統計顯示**: 查看所有角色和載具的完整能力值
 - **地形特化分析**: 道路、地形、水面三種地形的專門數值
 - **視覺化統計**: 彩色進度條和動態圖表顯示相對強度
-- **響應式設計**: 完美適配桌面、平板和手機設備
 
-### 🔍 智能篩選與搜索
+### 🔍 篩選與搜索
 - **多維度排序**: 依據速度、加速度、重量、操控性進行排序
 - **即時搜索**: 快速搜索角色和載具
 - **高級篩選**: 複合條件篩選和範圍選擇
-- **排序記憶**: 自動記住用戶的篩選偏好
-
-### 🧩 組合分析系統
-- **智能組合**: 建立並比較角色+載具組合
-- **組合計算**: 自動計算總和能力值（含 +3 遊戲加成）
-- **組合管理**: 輕鬆新增/移除/編輯組合
-- **批量操作**: 支援批量創建和管理組合
-
-### 🏆 AI 推薦系統
-- **地形特化推薦**: 針對不同地形提供最佳組合建議
-- **多樣性演算法**: 避免推薦重複載具，提供多元選擇
-- **綜合評分**: 基於加權演算法的智能評分系統
-- **排名展示**: 金銀銅牌視覺化排名顯示
+- **排序記憶**: 自動記住使用者的篩選偏好
 
 ### 💾 資料持久化
 - **本地儲存**: 用戶組合和偏好自動儲存到 localStorage
@@ -44,66 +31,50 @@
 - **開發語言**: TypeScript 5.8.3
 - **套件管理**: pnpm
 
-### 架構特點
-- 📁 **模組化設計**: 清晰的檔案結構和關注點分離
-- 🎣 **自定義 Hooks**: 可重用的邏輯封裝
-- 🔧 **TypeScript**: 完整的型別安全和 IntelliSense
-- 🎨 **設計系統**: 統一的樣式常數和組件庫
-- ⚡ **全域狀態**: Jotai atoms 管理應用狀態
-- 🚀 **性能優化**: React.memo、useMemo、useCallback 等優化
-
-### 性能優化
-- **組件記憶化**: 使用 React.memo 減少不必要重新渲染
-- **計算優化**: useMemo 和 useCallback 優化昂貴計算
-- **虛擬化**: 大列表虛擬滾動支援
-- **懶加載**: 按需載入組件和資源
-- **性能監控**: 開發模式下的性能追蹤工具
-
 ## 📁 專案結構
 
 ```
 src/
-├── app/                     # Next.js App Router
-│   ├── admin/              # 管理後台
-│   │   └── page.tsx       # 資料同步管理頁面
-│   ├── globals.css        # 全域樣式
-│   ├── layout.tsx         # 根版面配置
-│   └── page.tsx          # 首頁
-├── components/            # React 組件庫
-│   ├── CharacterCard.tsx  # 角色卡片組件
-│   ├── VehicleCard.tsx    # 載具卡片組件
-│   ├── CombinationCard.tsx # 組合卡片組件
-│   ├── RecommendationCard.tsx # 推薦卡片組件
-│   ├── RecommendationsPage.tsx # 推薦頁面
-│   ├── StatBar.tsx        # 統計條組件
-│   ├── CustomSelect.tsx   # 自定義下拉選單
-│   ├── SearchModal.tsx    # 搜索模態框
-│   ├── SearchButton.tsx   # 搜索按鈕
-│   ├── PageControls.tsx   # 頁面控制組件
-│   ├── FilterControls.tsx # 篩選控制組件
-│   ├── CombinationSelector.tsx # 組合選擇器
-│   ├── VirtualizedList.tsx # 虛擬化列表
-│   ├── DebugDataLoading.tsx # 偵錯組件
-│   └── TestPersistence.tsx # 持久化測試組件
-├── hooks/                 # 自定義 Hooks
-│   ├── useClientMounted.ts # 客戶端掛載檢查
-│   ├── useMarioKartData.ts # 瑪利歐賽車資料管理
-│   ├── useMarioKartStore.ts # Jotai 狀態管理
-│   ├── usePerformance.ts   # 性能監控
+├── app/                         # Next.js App Router
+│   ├── admin/                   # 管理後台
+│   │   └── page.tsx             # 資料同步管理頁面
+│   ├── globals.css              # 全域樣式
+│   ├── layout.tsx               # 根版面配置
+│   └── page.tsx                 # 首頁
+├── components/                  # React 組件庫
+│   ├── CharacterCard.tsx        # 角色卡片組件
+│   ├── VehicleCard.tsx          # 載具卡片組件
+│   ├── CombinationCard.tsx      # 組合卡片組件
+│   ├── RecommendationCard.tsx   # 推薦卡片組件
+│   ├── RecommendationsPage.tsx  # 推薦頁面
+│   ├── StatBar.tsx              # 統計條組件
+│   ├── CustomSelect.tsx         # 自定義下拉選單
+│   ├── SearchModal.tsx          # 搜索模態框
+│   ├── SearchButton.tsx         # 搜索按鈕
+│   ├── PageControls.tsx         # 頁面控制元件
+│   ├── FilterControls.tsx       # 篩選控制元件
+│   ├── CombinationSelector.tsx  # 組合選擇器
+│   ├── VirtualizedList.tsx      # 虛擬化列表
+│   ├── DebugDataLoading.tsx     # 偵錯元件
+│   └── TestPersistence.tsx      # 持久化測試元件
+├── hooks/                       # 自定義 Hooks
+│   ├── useClientMounted.ts      # 客戶端掛載檢查
+│   ├── useMarioKartData.ts      # 瑪利歐賽車資料管理
+│   ├── useMarioKartStore.ts     # Jotai 狀態管理
+│   ├── usePerformance.ts        # 性能監控
 │   └── usePerformanceMonitor.ts # 性能監控工具
-├── providers/             # Context Providers
-│   └── JotaiProvider.tsx  # Jotai Provider 配置
-├── store/                 # 狀態管理
-│   ├── atoms.ts          # Jotai atoms 定義
-│   └── combinations.ts   # 組合狀態管理
-├── utils/                 # 工具函數
-│   └── csvParser.ts      # CSV 解析和資料處理
-├── types/                 # TypeScript 類型定義
-│   └── index.ts          # 應用程式類型定義
-└── constants/             # 應用程式常數
-    ├── index.ts          # 通用常數
-    └── terrain.ts        # 地形配置常數
-```
+├── providers/                   # Context Providers
+│   └── JotaiProvider.tsx        # Jotai Provider 配置
+├── store/                       # 狀態管理
+│   ├── atoms.ts                 # Jotai atoms 定義
+│   └── combinations.ts          # 組合狀態管理
+├── utils/                       # 工具函數
+│   └── csvParser.ts             # CSV 解析和資料處理
+├── types/                       # TypeScript 類型定義
+│   └── index.ts                 # 應用程式類型定義
+└── constants/                   # 應用程式常數
+    ├── index.ts                 # 通用常數
+    └── terrain.ts               # 地形配置常數
 
 ## 🛠️ 安裝與執行
 
@@ -186,7 +157,7 @@ pnpm lint
 
 ## 🎯 特色功能詳解
 
-### 智能推薦演算法
+### 推薦組合計算
 ```typescript
 綜合評分 = 速度 × 40% + 操控性 × 30% + 加速度 × 20% - 重量 × 10%
 ```
@@ -201,11 +172,6 @@ pnpm lint
 - 確保推薦結果的多樣性和實用性
 - 避免推薦清單過度集中於少數載具
 
-### 響應式設計
-- **桌面版**: 完整功能和詳細資訊顯示
-- **平板版**: 優化佈局和觸控體驗
-- **手機版**: 簡化界面和垂直佈局
-
 ## 🔧 開發指南
 
 ### 本地開發
@@ -216,17 +182,6 @@ pnpm dev
 # 開啟開發者工具
 # Jotai DevTools 會自動啟用
 ```
-
-### 新增功能
-1. 在 `src/components/` 新增組件
-2. 在 `src/hooks/` 新增自定義 hooks
-3. 在 `src/store/` 更新狀態管理
-4. 在 `src/types/` 新增類型定義
-
-### 效能優化
-- 使用 `React.memo` 包裝組件
-- 使用 `useMemo` 和 `useCallback` 優化計算
-- 使用 `usePerformanceMonitor` 監控效能
 
 ## 🚨 已知問題
 
@@ -245,51 +200,9 @@ pnpm dev
 pnpm store prune
 ```
 
-## 📈 未來規劃
-
-### 短期目標
-- [ ] 實作虛擬滾動優化大列表性能
-- [ ] 新增更多篩選選項和排序方式
-- [ ] 優化手機版使用者體驗
-- [ ] 新增組合匯出/匯入功能
-
-### 中期目標
-- [ ] 實作 PWA 功能
-- [ ] 新增雲端同步功能
-- [ ] 支援更多瑪利歐賽車版本
-- [ ] 新增統計圖表和趨勢分析
-
-### 長期目標
-- [ ] 實作機器學習推薦系統
-- [ ] 新增社群功能和分享
-- [ ] 支援多國語言
-- [ ] 開發手機 App 版本
-
 ## 🤝 貢獻指南
 
-歡迎貢獻代碼、回報問題或建議新功能！
-
-### 貢獻流程
-1. Fork 此專案
-2. 建立功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 建立 Pull Request
-
-### 代碼規範
-- 使用 TypeScript 進行開發
-- 遵循 ESLint 配置
-- 使用 Tailwind CSS 進行樣式設計
-- 新增適當的類型定義和註釋
-
-## 📊 專案統計
-
-- **總程式碼行數**: ~3,500 行
-- **組件數量**: 15+ 個
-- **自定義 Hooks**: 5 個
-- **支援角色**: 24 個
-- **支援載具**: 41 個
-- **可能組合**: 984 種
+歡迎貢獻程式碼、回報問題或建議新功能！
 
 ## 🎨 設計特色
 
@@ -313,19 +226,6 @@ pnpm store prune
 - **隱私保護**: 不收集任何個人資訊
 - **開源透明**: 程式碼完全開源，可供審核
 
-## 🌍 瀏覽器支援
-
-### 支援的瀏覽器
-- **Chrome**: 90+
-- **Firefox**: 88+
-- **Safari**: 14+
-- **Edge**: 90+
-
-### 移動設備支援
-- **iOS Safari**: 14+
-- **Chrome Mobile**: 90+
-- **Firefox Mobile**: 88+
-
 ## 📄 授權
 
 此專案採用 MIT 授權條款 - 詳見 [LICENSE](LICENSE) 檔案
@@ -336,6 +236,7 @@ pnpm store prune
 - 感謝 React 和 Next.js 社群的開源貢獻
 - 感謝 Jotai 團隊提供優秀的狀態管理方案
 - 感謝 Tailwind CSS 團隊提供強大的樣式框架
+- 感謝 任天堂玩家社群分享的資料內容
 - 感謝所有測試用戶的回饋和建議
 
 ---
