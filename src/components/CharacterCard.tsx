@@ -1,3 +1,4 @@
+import React from 'react';
 import { CharacterStats, SpeedType, HandlingType } from '@/types';
 import StatBar from '@/components/StatBar';
 
@@ -15,8 +16,9 @@ interface CharacterCardProps {
 
 /**
  * 角色卡片組件 - 顯示角色的詳細統計資料
+ * 使用 React.memo 優化性能
  */
-export default function CharacterCard({ character, maxStats, speedFilter, handlingFilter }: CharacterCardProps) {
+const CharacterCard: React.FC<CharacterCardProps> = React.memo(({ character, maxStats, speedFilter, handlingFilter }) => {
   // 根據篩選器取得當前顯示的速度值
   const getSpeedValue = () => {
     switch (speedFilter) {
@@ -118,4 +120,8 @@ export default function CharacterCard({ character, maxStats, speedFilter, handli
       </details>
     </div>
   );
-}
+});
+
+CharacterCard.displayName = 'CharacterCard';
+
+export default CharacterCard;

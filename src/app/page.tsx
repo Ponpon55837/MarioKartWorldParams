@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { useAtom } from 'jotai';
 import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
@@ -9,6 +9,8 @@ import CombinationSelector from '@/components/CombinationSelector';
 import PageControls from '@/components/PageControls';
 import SearchModal from '@/components/SearchModal';
 import SearchButton, { SearchShortcutHint } from '@/components/SearchButton';
+import RecommendationsPage from '@/components/RecommendationsPage';
+import { VirtualizedGrid } from '@/components/VirtualizedList';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
 import { searchModalOpenAtom } from '@/store/atoms';
 
@@ -38,6 +40,19 @@ export default function Home() {
     removeCombination,
     clearAllCombinations,
   } = useMarioKartStore();
+
+  // 使用 useCallback 優化事件處理
+  const handlePageChange = useCallback((page: typeof currentPage) => {
+    setCurrentPage(page);
+  }, [setCurrentPage]);
+
+  const handleClearCombinations = useCallback(() => {
+    clearAllCombinations();
+  }, [clearAllCombinations]);
+
+  const handleRemoveCombination = useCallback((id: string) => {
+    removeCombination(id);
+  }, [removeCombination]);
 
   // 搜尋快捷鍵
   useEffect(() => {
@@ -99,7 +114,7 @@ export default function Home() {
 
       <PageControls
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+        setCurrentPage={handlePageChange}
         sortBy={sortBy}
         setSortBy={setSortBy}
         speedFilter={speedFilter}
@@ -120,7 +135,7 @@ export default function Home() {
             </h2>
             {combinations.length > 0 && (
               <button
-                onClick={clearAllCombinations}
+                onClick={handleClearCombinations}
                 className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
               >
                 🗑️ 清除全部
@@ -151,7 +166,7 @@ export default function Home() {
                   key={combination.id}
                   character={combination.character}
                   vehicle={combination.vehicle}
-                  onRemove={() => removeCombination(combination.id)}
+                  onRemove={() => handleRemoveCombination(combination.id)}
                 />
               ))}
             </div>
@@ -196,6 +211,13 @@ export default function Home() {
               />
             ))}
           </div>
+        </section>
+      )}
+
+      {/* 推薦組合頁面 */}
+      {currentPage === 'recommendations' && (
+        <section>
+          <RecommendationsPage />
         </section>
       )}
 

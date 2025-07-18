@@ -1,3 +1,4 @@
+import React from 'react';
 import { STAT_CONFIGS, APP_CONSTANTS } from '@/constants';
 import { getStatColor } from '@/utils/csvParser';
 
@@ -11,14 +12,15 @@ interface StatBarProps {
 
 /**
  * 統計條組件 - 顯示能力值的進度條
+ * 使用 React.memo 優化性能
  */
-export default function StatBar({ 
+const StatBar: React.FC<StatBarProps> = React.memo(({ 
   label, 
   value, 
   maxValue, 
   statType, 
   showPercentage = true 
-}: StatBarProps) {
+}) => {
   const config = STAT_CONFIGS[statType];
   const percentage = Math.round((value / maxValue) * 100);
   const width = Math.max(percentage, APP_CONSTANTS.MIN_PROGRESS_WIDTH);
@@ -43,4 +45,8 @@ export default function StatBar({
       </div>
     </div>
   );
-}
+});
+
+StatBar.displayName = 'StatBar';
+
+export default StatBar;

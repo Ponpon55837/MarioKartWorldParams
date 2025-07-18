@@ -1,3 +1,4 @@
+import React from 'react';
 import { VehicleStats, SpeedType, HandlingType } from '@/types';
 import StatBar from '@/components/StatBar';
 
@@ -15,8 +16,9 @@ interface VehicleCardProps {
 
 /**
  * 載具卡片組件 - 顯示載具的詳細統計資料
+ * 使用 React.memo 優化性能
  */
-export default function VehicleCard({ vehicle, maxStats, speedFilter, handlingFilter }: VehicleCardProps) {
+const VehicleCard: React.FC<VehicleCardProps> = React.memo(({ vehicle, maxStats, speedFilter, handlingFilter }) => {
   // 根據篩選器取得當前顯示的速度值
   const getSpeedValue = () => {
     switch (speedFilter) {
@@ -118,4 +120,8 @@ export default function VehicleCard({ vehicle, maxStats, speedFilter, handlingFi
       </details>
     </div>
   );
-}
+});
+
+VehicleCard.displayName = 'VehicleCard';
+
+export default VehicleCard;
