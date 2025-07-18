@@ -70,8 +70,19 @@ export default function PageControls({
           <p className="text-sm text-gray-600">
             {currentPage === 'characters' && '瀏覽所有角色的能力值資料'}
             {currentPage === 'vehicles' && '瀏覽所有載具的能力值資料'}
-            {currentPage === 'combinations' && '管理您建立的角色+載具組合'}
+            {currentPage === 'combinations' && '建立和管理您的角色+載具組合'}
           </p>
+          {currentPage !== 'combinations' && (
+            <p className="text-xs text-gray-500 mt-1">
+              💡 想建立角色+載具組合？前往 
+              <button 
+                onClick={() => setCurrentPage('combinations')}
+                className="text-purple-600 hover:text-purple-800 font-medium mx-1 underline"
+              >
+                組合頁面
+              </button>
+            </p>
+          )}
         </div>
       </div>
 

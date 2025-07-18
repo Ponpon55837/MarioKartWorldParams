@@ -144,14 +144,6 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
-      {/* 組合選擇器 */}
-      <CombinationSelector
-        characters={characters}
-        vehicles={vehicles}
-        onAddCombination={handleAddCombination}
-        onSwitchToPage={setCurrentPage}
-      />
-
       <PageControls
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
@@ -172,13 +164,25 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             ⭐ 角色+載具組合 ({combinations.length})
           </h2>
+          
+          {/* 組合選擇器 */}
+          <CombinationSelector
+            characters={characters}
+            vehicles={vehicles}
+            onAddCombination={handleAddCombination}
+          />
+          
           {combinations.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <p className="text-gray-500 text-lg mb-4">還沒有建立任何組合</p>
-              <p className="text-gray-400">使用上方的組合選擇器來建立您的第一個組合！</p>
+            <div className="text-center py-8 bg-gray-50 rounded-lg mt-4">
+              <div className="text-6xl mb-4">🎯</div>
+              <p className="text-gray-500 text-lg mb-2">還沒有建立任何組合</p>
+              <p className="text-gray-400 mb-4">使用上方的選擇器來建立您的第一個組合！</p>
+              <div className="text-sm text-gray-500 bg-white p-3 rounded-lg border border-gray-200 inline-block">
+                💡 選擇一個角色和一個載具，然後點擊「建立組合」按鈕
+              </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
               {combinations.map((combination) => (
                 <CombinationCard
                   key={combination.id}

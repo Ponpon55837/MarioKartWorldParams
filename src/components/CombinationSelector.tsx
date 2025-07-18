@@ -4,10 +4,9 @@ interface CombinationSelectorProps {
   characters: CharacterStats[];
   vehicles: VehicleStats[];
   onAddCombination: (character: CharacterStats, vehicle: VehicleStats) => void;
-  onSwitchToPage?: (page: 'characters' | 'vehicles' | 'combinations') => void;
 }
 
-export default function CombinationSelector({ characters, vehicles, onAddCombination, onSwitchToPage }: CombinationSelectorProps) {
+export default function CombinationSelector({ characters, vehicles, onAddCombination }: CombinationSelectorProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -20,17 +19,13 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
     if (selectedCharacter && selectedVehicle) {
       onAddCombination(selectedCharacter, selectedVehicle);
       e.currentTarget.reset();
-      // 建立組合後自動切換到組合頁面
-      if (onSwitchToPage) {
-        onSwitchToPage('combinations');
-      }
     }
   };
 
   return (
-    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg shadow-md p-4 border border-yellow-200">
+    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg shadow-md p-4 border border-yellow-200 mb-4">
       <h3 className="text-lg font-bold text-gray-800 mb-3 text-center">
-        🏁 建立角色+載具組合
+        ✨ 建立新的角色+載具組合
       </h3>
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
