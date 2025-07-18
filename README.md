@@ -7,10 +7,6 @@
 - 📊 **詳細統計顯示**: 查看所有角色和載具的完整能力值
 - 🔍 **智能篩選**: 依據速度、加速度、重量、操控性進行排序
 - 🧩 **組合分析**: 建立並比較角色+載具組合
-- 📱 **響應式設計**: 支援各種螢幕尺寸
-- ⚡ **高效能**: 使用 Jotai 全域狀態管理，避免重複載入
-- 🎨 **現代 UI**: 基於 Tailwind CSS 的清潔介面
-- 🔄 **數據自動同步**: 從 Google Sheets 自動抓取最新數據
 - 💾 **持久化儲存**: 用戶組合自動儲存到 localStorage
 
 ## 🚀 技術架構
@@ -49,7 +45,7 @@ src/
 │   ├── TestPersistence.tsx # 持久化測試
 │   └── ...               # 其他組件
 ├── hooks/                 # 自定義 Hooks
-│   ├── useMarioKartData.ts # 舊版資料 hook
+│   ├── useClientMounted.ts # 客戶端掛載檢查
 │   └── useMarioKartStore.ts # Jotai 狀態管理
 ├── providers/             # Context Providers
 │   └── JotaiProvider.tsx  # Jotai Provider
