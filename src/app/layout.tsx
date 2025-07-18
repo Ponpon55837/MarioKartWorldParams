@@ -33,9 +33,9 @@ export default function RootLayout({
           </main>
           <footer className="bg-gray-800 text-white p-6 mt-12">
             <div className="container mx-auto text-center">
-              <p>&copy; 2024 Mario Kart World 筆記系統</p>
+              <p>&copy; 2025 Mario Kart World 筆記系統</p>
               <p className="text-sm opacity-70 mt-1">
-                基於官方資料製作的非官方工具
+                基於官方資料製作的非官方工具 @Upfloor5
               </p>
             </div>
           </footer>
