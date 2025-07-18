@@ -30,41 +30,41 @@ export default function FilterControls({
   setShowCombinations
 }: FilterControlsProps) {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">篩選與排序</h2>
+    <div className="bg-white rounded-lg shadow-md p-4 mb-4 border border-gray-200">
+      <h2 className="text-lg font-semibold text-gray-800 mb-3">篩選與排序</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* 顯示類型 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-1">
             顯示類型
           </label>
-          <div className="space-y-2">
-            <label className="flex items-center">
+          <div className="space-y-1">
+            <label className="flex items-center text-sm">
               <input
                 type="checkbox"
                 checked={showCharacters}
                 onChange={(e) => setShowCharacters(e.target.checked)}
-                className="mr-2"
+                className="mr-2 w-3 h-3"
               />
               角色
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center text-sm">
               <input
                 type="checkbox"
                 checked={showVehicles}
                 onChange={(e) => setShowVehicles(e.target.checked)}
-                className="mr-2"
+                className="mr-2 w-3 h-3"
               />
               載具
             </label>
             {showCombinations !== undefined && setShowCombinations && (
-              <label className="flex items-center">
+              <label className="flex items-center text-sm">
                 <input
                   type="checkbox"
                   checked={showCombinations}
                   onChange={(e) => setShowCombinations(e.target.checked)}
-                  className="mr-2"
+                  className="mr-2 w-3 h-3"
                 />
                 組合
               </label>
@@ -74,13 +74,13 @@ export default function FilterControls({
 
         {/* 排序依據 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-1">
             排序依據
           </label>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as StatType)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-mario-blue focus:border-transparent"
+            className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-mario-blue focus:border-transparent"
           >
             <option value="speed">速度</option>
             <option value="acceleration">加速度</option>
@@ -91,13 +91,13 @@ export default function FilterControls({
 
         {/* 速度篩選 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-1">
             速度類型
           </label>
           <select
             value={speedFilter}
             onChange={(e) => setSpeedFilter(e.target.value as SpeedType | 'display')}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-mario-blue focus:border-transparent"
+            className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-mario-blue focus:border-transparent"
           >
             <option value="display">遊戲顯示</option>
             <option value="road">道路</option>
@@ -108,13 +108,13 @@ export default function FilterControls({
 
         {/* 操控性篩選 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium text-gray-700 mb-1">
             操控性類型
           </label>
           <select
             value={handlingFilter}
             onChange={(e) => setHandlingFilter(e.target.value as HandlingType | 'display')}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-mario-blue focus:border-transparent"
+            className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-mario-blue focus:border-transparent"
           >
             <option value="display">遊戲顯示</option>
             <option value="road">道路</option>

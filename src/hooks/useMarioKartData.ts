@@ -11,7 +11,7 @@ interface UseMarioKartDataReturn {
 }
 
 /**
- * 自定義 Hook 用於載入和管理瑪利歐賽車數據
+ * 自定義 Hook 用於載入和管理瑪利歐賽車資料
  */
 export const useMarioKartData = (): UseMarioKartDataReturn => {
   const [characters, setCharacters] = useState<CharacterStats[]>([]);
@@ -37,14 +37,14 @@ export const useMarioKartData = (): UseMarioKartDataReturn => {
         const parsedData = parseMarioKartCSV(csvContent);
         
         if (parsedData.characters.length === 0 && parsedData.vehicles.length === 0) {
-          throw new Error('無有效數據');
+          throw new Error('無有效資料');
         }
         
         setCharacters(parsedData.characters);
         setVehicles(parsedData.vehicles);
         
       } catch (fetchError) {
-        console.error('載入數據失敗:', fetchError);
+        console.error('載入資料失敗:', fetchError);
         setError(ERROR_MESSAGES.LOAD_FAILED);
       } finally {
         setLoading(false);

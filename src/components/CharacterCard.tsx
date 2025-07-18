@@ -16,19 +16,19 @@ interface CharacterCardProps {
  */
 export default function CharacterCard({ character, maxStats }: CharacterCardProps) {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 card-hover">
+    <div className="bg-white rounded-lg shadow-md p-3 card-hover border border-gray-200">
       {/* 角色名稱 */}
-      <div className="text-center mb-4">
-        <h3 className="text-lg font-bold text-gray-800 mb-1">
+      <div className="text-center mb-3">
+        <h3 className="text-base font-semibold text-gray-800 mb-0.5">
           {character.name}
         </h3>
-        <p className="text-sm text-gray-500">
+        <p className="text-xs text-gray-500">
           {character.englishName}
         </p>
       </div>
 
       {/* 統計資料 */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         <StatBar
           label="速度"
           value={character.displaySpeed}
@@ -59,12 +59,12 @@ export default function CharacterCard({ character, maxStats }: CharacterCardProp
       </div>
 
       {/* 詳細統計 */}
-      <details className="mt-4">
-        <summary className="cursor-pointer text-sm text-gray-600 hover:text-gray-800 transition-colors">
-          📊 詳細數據
+      <details className="mt-3">
+        <summary className="cursor-pointer text-xs text-gray-600 hover:text-gray-800 transition-colors">
+          📊 詳細資料
         </summary>
-        <div className="mt-3 text-xs text-gray-600 space-y-1">
-          <div className="grid grid-cols-2 gap-2">
+        <div className="mt-2 text-xs text-gray-600 space-y-1">
+          <div className="grid grid-cols-2 gap-1 text-xs">
             <div>道路速度: {character.roadSpeed}</div>
             <div>地形速度: {character.terrainSpeed}</div>
             <div>水面速度: {character.waterSpeed}</div>

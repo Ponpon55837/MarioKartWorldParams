@@ -28,9 +28,9 @@ const parseCSV = (csvContent: string): string[][] => {
 };
 
 /**
- * 解析瑪利歐賽車 CSV 數據
+ * 解析瑪利歐賽車 CSV 資料
  * @param csvContent CSV 文件內容
- * @returns 解析後的角色和載具數據
+ * @returns 解析後的角色和載具資料
  */
 export const parseMarioKartCSV = (csvContent: string): MarioKartData => {
   const rows = parseCSV(csvContent);

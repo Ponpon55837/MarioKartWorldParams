@@ -11,7 +11,7 @@ import CombinationSelector from '@/components/CombinationSelector';
 import FilterControls from '@/components/FilterControls';
 
 export default function Home() {
-  // 使用自定義 Hook 載入數據
+  // 使用自定義 Hook 載入資料
   const { characters, vehicles, loading, error } = useMarioKartData();
   
   // 組合狀態
@@ -101,7 +101,7 @@ export default function Home() {
     }
   }, [speedFilter, handlingFilter]);
 
-  // 排序後的數據 (使用 useMemo 優化)
+  // 排序後的資料 (使用 useMemo 優化)
   const sortedCharacters = useMemo(() => 
     [...characters].sort((a, b) => getSortValue(b, sortBy) - getSortValue(a, sortBy)),
     [characters, getSortValue, sortBy]
@@ -118,7 +118,7 @@ export default function Home() {
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-mario-red mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600">載入瑪利歐賽車數據中...</p>
+          <p className="text-xl text-gray-600">載入瑪利歐賽車資料中...</p>
         </div>
       </div>
     );
@@ -143,7 +143,7 @@ export default function Home() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 組合選擇器 */}
       <CombinationSelector
         characters={characters}
@@ -178,7 +178,7 @@ export default function Home() {
               <p className="text-gray-400">使用上方的組合選擇器來建立您的第一個組合！</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {combinations.map((combination) => (
                 <CombinationCard
                   key={combination.id}
@@ -195,10 +195,10 @@ export default function Home() {
       {/* 角色區塊 */}
       {showCharacters && (
         <section>
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             🎮 角色 ({sortedCharacters.length})
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {sortedCharacters.map((character) => (
               <CharacterCard
                 key={character.name}
@@ -213,10 +213,10 @@ export default function Home() {
       {/* 載具區塊 */}
       {showVehicles && (
         <section>
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             🏎️ 載具 ({sortedVehicles.length})
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {sortedVehicles.map((vehicle) => (
               <VehicleCard
                 key={vehicle.name}
@@ -229,35 +229,35 @@ export default function Home() {
       )}
 
       {/* 說明區塊 */}
-      <section className="bg-white rounded-lg shadow-lg p-6 mt-12">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">📊 能力值說明與圖例</h2>
+      <section className="bg-white rounded-lg shadow-md p-4 mt-8">
+        <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">📊 能力值說明與圖例</h2>
         
         {/* 顏色圖例 */}
-        <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-bold text-lg mb-3 text-gray-800">🎨 能力值顏色圖例</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
-              <span className="text-blue-700 font-semibold">速度</span>
+        <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+          <h3 className="font-semibold text-base mb-2 text-gray-800">🎨 能力值顏色圖例</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="flex items-center space-x-2 p-2 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <span className="text-blue-700 font-medium text-sm">速度</span>
             </div>
-            <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg border border-green-200">
-              <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-              <span className="text-green-700 font-semibold">加速度</span>
+            <div className="flex items-center space-x-2 p-2 bg-green-50 rounded-lg border border-green-200">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span className="text-green-700 font-medium text-sm">加速度</span>
             </div>
-            <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
-              <div className="w-4 h-4 bg-purple-500 rounded-full"></div>
-              <span className="text-purple-700 font-semibold">重量</span>
+            <div className="flex items-center space-x-2 p-2 bg-purple-50 rounded-lg border border-purple-200">
+              <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+              <span className="text-purple-700 font-medium text-sm">重量</span>
             </div>
-            <div className="flex items-center space-x-3 p-3 bg-orange-50 rounded-lg border border-orange-200">
-              <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
-              <span className="text-orange-700 font-semibold">操控性</span>
+            <div className="flex items-center space-x-2 p-2 bg-orange-50 rounded-lg border border-orange-200">
+              <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+              <span className="text-orange-700 font-medium text-sm">操控性</span>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
           <div>
-            <h3 className="font-bold text-lg mb-2 text-blue-600">🏎️ 速度 (Speed)</h3>
+            <h3 className="font-semibold text-base mb-2 text-blue-600">🏎️ 速度 (Speed)</h3>
             <ul className="space-y-1">
               <li><strong>道路：</strong>混凝土、瀝青、金屬等平滑地面</li>
               <li><strong>地形：</strong>泥土、沙子、雪地等粗糙地面</li>
@@ -281,7 +281,7 @@ export default function Home() {
         <div className="mt-4 p-4 bg-red-50 rounded-lg border-l-4 border-red-400">
           <p className="text-sm text-red-800">
             <strong>⚠️ 注意：</strong>遊戲中所有角色與載具組合都會額外獲得 +3 的能力值加成。
-            表格中的數值為原始數據，實際遊戲中會有所調整。
+            表格中的數值為原始資料，實際遊戲中會有所調整。
           </p>
         </div>
       </section>

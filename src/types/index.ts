@@ -49,7 +49,7 @@ export interface CombinationStats {
   };
 }
 
-// 瑪利歐賽車數據接口
+// 瑪利歐賽車資料接口
 export interface MarioKartData {
   characters: CharacterStats[];
   vehicles: VehicleStats[];

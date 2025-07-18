@@ -49,7 +49,7 @@ export const APP_CONSTANTS = {
  * 錯誤訊息
  */
 export const ERROR_MESSAGES = {
-  LOAD_FAILED: '無法載入瑪利歐賽車數據，請檢查網路連線或重新整理頁面',
+  LOAD_FAILED: '無法載入瑪利歐賽車資料，請檢查網路連線或重新整理頁面',
   NETWORK_ERROR: '網路連線錯誤',
-  PARSE_ERROR: '數據解析錯誤',
+  PARSE_ERROR: '資料解析錯誤',
 } as const;

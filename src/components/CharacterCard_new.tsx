@@ -61,7 +61,7 @@ export default function CharacterCard({ character, maxStats }: CharacterCardProp
       {/* 詳細統計 */}
       <details className="mt-4">
         <summary className="cursor-pointer text-sm text-gray-600 hover:text-gray-800 transition-colors">
-          📊 詳細數據
+          📊 詳細資料
         </summary>
         <div className="mt-3 text-xs text-gray-600 space-y-1">
           <div className="grid grid-cols-2 gap-2">

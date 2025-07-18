@@ -24,9 +24,9 @@ export default function StatBar({
   const width = Math.max(percentage, APP_CONSTANTS.MIN_PROGRESS_WIDTH);
 
   return (
-    <div className={`p-3 rounded-lg ${config.lightBg} ${config.borderColor} border`}>
-      <div className="flex justify-between items-center mb-2">
-        <span className={`text-sm font-medium ${config.color}`}>
+    <div className={`p-2 rounded-lg ${config.lightBg} ${config.borderColor} border`}>
+      <div className="flex justify-between items-center mb-1">
+        <span className={`text-xs font-medium ${config.color}`}>
           {config.icon} {label}
         </span>
         {showPercentage && (
@@ -35,9 +35,9 @@ export default function StatBar({
           </span>
         )}
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
+      <div className="w-full bg-gray-200 rounded-full h-1.5">
         <div
-          className={`h-2 rounded-full transition-all duration-500 ease-in-out ${config.bgColor}`}
+          className={`h-1.5 rounded-full transition-all duration-500 ease-in-out ${config.bgColor}`}
           style={{ width: `${width}%` }}
         />
       </div>
