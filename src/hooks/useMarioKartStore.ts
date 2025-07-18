@@ -7,6 +7,7 @@ import {
   vehiclesAtom,
   loadDataAtom,
   maxStatsAtom,
+  dynamicMaxStatsAtom,
   sortedCharactersAtom,
   sortedVehiclesAtom,
   addCombinationAtom,
@@ -19,7 +20,7 @@ import {
 } from '@/store/atoms';
 import { combinationsAtom } from '@/store/combinations';
 import { useClientMounted } from '@/hooks/useClientMounted';
-import type { CharacterStats, VehicleStats, StatType, SpeedType, HandlingType } from '@/types';
+import type { CharacterStats, VehicleStats } from '@/types';
 
 /**
  * 瑪利歐賽車資料管理 Hook
@@ -36,7 +37,7 @@ export function useMarioKartStore() {
   const vehicles = useAtomValue(vehiclesAtom);
   
   // 計算值
-  const maxStats = useAtomValue(maxStatsAtom);
+  const maxStats = useAtomValue(dynamicMaxStatsAtom);
   const sortedCharacters = useAtomValue(sortedCharactersAtom);
   const sortedVehicles = useAtomValue(sortedVehiclesAtom);
   

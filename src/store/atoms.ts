@@ -36,8 +36,15 @@ export const maxStatsAtom = atom((get) => {
   return {
     speed: Math.max(
       1,
+      // 包含所有速度類型的最大值
       ...characters.map(c => c.displaySpeed),
-      ...vehicles.map(v => v.displaySpeed)
+      ...characters.map(c => c.roadSpeed),
+      ...characters.map(c => c.terrainSpeed),
+      ...characters.map(c => c.waterSpeed),
+      ...vehicles.map(v => v.displaySpeed),
+      ...vehicles.map(v => v.roadSpeed),
+      ...vehicles.map(v => v.terrainSpeed),
+      ...vehicles.map(v => v.waterSpeed)
     ),
     acceleration: Math.max(
       1,
@@ -51,9 +58,108 @@ export const maxStatsAtom = atom((get) => {
     ),
     handling: Math.max(
       1,
+      // 包含所有轉向類型的最大值
       ...characters.map(c => c.displayHandling),
-      ...vehicles.map(v => v.displayHandling)
+      ...characters.map(c => c.roadHandling),
+      ...characters.map(c => c.terrainHandling),
+      ...characters.map(c => c.waterHandling),
+      ...vehicles.map(v => v.displayHandling),
+      ...vehicles.map(v => v.roadHandling),
+      ...vehicles.map(v => v.terrainHandling),
+      ...vehicles.map(v => v.waterHandling)
     ),
+  };
+});
+
+// 動態最大值計算 atom - 根據當前篩選器計算對應的最大值
+export const dynamicMaxStatsAtom = atom((get) => {
+  const characters = get(charactersAtom);
+  const vehicles = get(vehiclesAtom);
+  const speedFilter = get(speedFilterAtom);
+  const handlingFilter = get(handlingFilterAtom);
+  
+  if (characters.length === 0 && vehicles.length === 0) {
+    return {
+      speed: 1,
+      acceleration: 1,
+      weight: 1,
+      handling: 1,
+    };
+  }
+
+  // 根據速度篩選器計算速度最大值
+  const getSpeedMax = () => {
+    switch (speedFilter) {
+      case 'road':
+        return Math.max(
+          1,
+          ...characters.map(c => c.roadSpeed),
+          ...vehicles.map(v => v.roadSpeed)
+        );
+      case 'terrain':
+        return Math.max(
+          1,
+          ...characters.map(c => c.terrainSpeed),
+          ...vehicles.map(v => v.terrainSpeed)
+        );
+      case 'water':
+        return Math.max(
+          1,
+          ...characters.map(c => c.waterSpeed),
+          ...vehicles.map(v => v.waterSpeed)
+        );
+      default: // 'display'
+        return Math.max(
+          1,
+          ...characters.map(c => c.displaySpeed),
+          ...vehicles.map(v => v.displaySpeed)
+        );
+    }
+  };
+
+  // 根據轉向篩選器計算轉向最大值
+  const getHandlingMax = () => {
+    switch (handlingFilter) {
+      case 'road':
+        return Math.max(
+          1,
+          ...characters.map(c => c.roadHandling),
+          ...vehicles.map(v => v.roadHandling)
+        );
+      case 'terrain':
+        return Math.max(
+          1,
+          ...characters.map(c => c.terrainHandling),
+          ...vehicles.map(v => v.terrainHandling)
+        );
+      case 'water':
+        return Math.max(
+          1,
+          ...characters.map(c => c.waterHandling),
+          ...vehicles.map(v => v.waterHandling)
+        );
+      default: // 'display'
+        return Math.max(
+          1,
+          ...characters.map(c => c.displayHandling),
+          ...vehicles.map(v => v.displayHandling)
+        );
+    }
+  };
+
+  return {
+    speed: getSpeedMax(),
+    acceleration: Math.max(
+      1,
+      ...characters.map(c => c.acceleration),
+      ...vehicles.map(v => v.acceleration)
+    ),
+    weight: Math.max(
+      1,
+      ...characters.map(c => c.weight),
+      ...vehicles.map(v => v.weight)
+    ),
+    handling: getHandlingMax(),
   };
 });
 
