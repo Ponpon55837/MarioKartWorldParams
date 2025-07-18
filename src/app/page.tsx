@@ -8,7 +8,7 @@ import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
 import CombinationCard from '@/components/CombinationCard';
 import CombinationSelector from '@/components/CombinationSelector';
-import FilterControls from '@/components/FilterControls';
+import PageControls from '@/components/PageControls';
 
 export default function Home() {
   // 使用自定義 Hook 載入資料
@@ -21,9 +21,9 @@ export default function Home() {
   const [sortBy, setSortBy] = useState<StatType>('speed');
   const [speedFilter, setSpeedFilter] = useState<SpeedType | 'display'>('display');
   const [handlingFilter, setHandlingFilter] = useState<HandlingType | 'display'>('display');
-  const [showCharacters, setShowCharacters] = useState(true);
-  const [showVehicles, setShowVehicles] = useState(true);
-  const [showCombinations, setShowCombinations] = useState(true);
+  
+  // 分頁狀態
+  const [currentPage, setCurrentPage] = useState<'characters' | 'vehicles' | 'combinations'>('characters');
 
   // 計算最大值用於進度條 (使用 useMemo 優化性能)
   const maxStats = useMemo(() => ({
@@ -149,27 +149,27 @@ export default function Home() {
         characters={characters}
         vehicles={vehicles}
         onAddCombination={handleAddCombination}
+        onSwitchToPage={setCurrentPage}
       />
 
-      <FilterControls
+      <PageControls
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
         sortBy={sortBy}
         setSortBy={setSortBy}
         speedFilter={speedFilter}
         setSpeedFilter={setSpeedFilter}
         handlingFilter={handlingFilter}
         setHandlingFilter={setHandlingFilter}
-        showCharacters={showCharacters}
-        setShowCharacters={setShowCharacters}
-        showVehicles={showVehicles}
-        setShowVehicles={setShowVehicles}
-        showCombinations={showCombinations}
-        setShowCombinations={setShowCombinations}
+        charactersCount={sortedCharacters.length}
+        vehiclesCount={sortedVehicles.length}
+        combinationsCount={combinations.length}
       />
 
-      {/* 組合區塊 */}
-      {showCombinations && (
+      {/* 動態內容顯示 */}
+      {currentPage === 'combinations' && (
         <section>
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             ⭐ 角色+載具組合 ({combinations.length})
           </h2>
           {combinations.length === 0 ? (
@@ -192,8 +192,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* 角色區塊 */}
-      {showCharacters && (
+      {currentPage === 'characters' && (
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             🎮 角色 ({sortedCharacters.length})
@@ -212,8 +211,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* 載具區塊 */}
-      {showVehicles && (
+      {currentPage === 'vehicles' && (
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
             🏎️ 載具 ({sortedVehicles.length})

@@ -4,9 +4,10 @@ interface CombinationSelectorProps {
   characters: CharacterStats[];
   vehicles: VehicleStats[];
   onAddCombination: (character: CharacterStats, vehicle: VehicleStats) => void;
+  onSwitchToPage?: (page: 'characters' | 'vehicles' | 'combinations') => void;
 }
 
-export default function CombinationSelector({ characters, vehicles, onAddCombination }: CombinationSelectorProps) {
+export default function CombinationSelector({ characters, vehicles, onAddCombination, onSwitchToPage }: CombinationSelectorProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -19,6 +20,10 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
     if (selectedCharacter && selectedVehicle) {
       onAddCombination(selectedCharacter, selectedVehicle);
       e.currentTarget.reset();
+      // 建立組合後自動切換到組合頁面
+      if (onSwitchToPage) {
+        onSwitchToPage('combinations');
+      }
     }
   };
 
