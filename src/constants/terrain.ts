@@ -49,10 +49,21 @@ export const useTerrainDescription = () => {
 // 兼容性函數 (會在下個版本移除)
 export const getTerrainName = (terrain: string): string => {
   console.warn('getTerrainName is deprecated, use useTerrainName hook instead');
-  return terrain === 'terrain' ? '地形' : terrain === 'water' ? '水面' : '道路';
+  // Fallback to English or provide a more extensible solution
+  const fallbacks = {
+    terrain: 'Terrain',
+    water: 'Water',
+    road: 'Road'
+  };
+  return fallbacks[terrain as keyof typeof fallbacks] || fallbacks.road;
 };
 
 export const getTerrainDescription = (terrain: string): string => {
   console.warn('getTerrainDescription is deprecated, use useTerrainDescription hook instead');
-  return terrain === 'terrain' ? '適合越野和沙地賽道' : terrain === 'water' ? '適合水上和濕滑路面' : '適合一般賽道和柏油路面';
-};
+  const fallbacks = {
+    terrain: '適合越野和沙地賽道',
+    water: '適合水上和濕滑路面',
+    road: '適合一般賽道和柏油路面'
+  };
+  return fallbacks[terrain as keyof typeof fallbacks] || fallbacks.road;
+}
