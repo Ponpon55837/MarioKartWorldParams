@@ -45,13 +45,13 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
   return (
     <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg shadow-md p-4 border border-yellow-200 mb-4">
       <h3 className="text-lg font-bold text-gray-800 mb-3 text-center">
-        ✨ 建立新的角色+載具組合
+        ✨ {t('combination.createNew')}
       </h3>
       <div className="space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              選擇角色 🎮
+              {t('combination.selectCharacter')}
             </label>
             <CustomSelect
               value={selectedCharacter}
@@ -63,7 +63,7 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              選擇載具 🏎️
+              {t('combination.selectVehicle')}
             </label>
             <CustomSelect
               value={selectedVehicle}
@@ -81,7 +81,7 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
             disabled={!selectedCharacter || !selectedVehicle}
             className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-medium py-2 px-6 rounded-md shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300"
           >
-            ✨ 建立組合
+            ✨ {t('combination.createButton')}
           </button>
         </div>
       </div>

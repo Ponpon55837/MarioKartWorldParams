@@ -77,6 +77,10 @@
     "loading": "검색 중...",
     "button": "캐릭터 & 카트 검색",
     "buttonShort": "검색",
+    "shortcutHint": {
+      "press": "누르기",
+      "quickSearch": "빠른 검색"
+    },
     "modal": {
       "title": "🔍 캐릭터와 카트 검색",
       "recentSearches": "🕐 최근 검색",
@@ -155,15 +159,35 @@
     "backToHome": "← 홈으로 돌아가기"
   },
   "combination": {
-    "autoSave": "자동 저장: 생성된 조합은 로컬에 자동 저장되며 다음 방문 시 자동으로 로드됩니다!"
+    "autoSave": "자동 저장: 생성된 조합은 로컬에 자동 저장되며 다음 방문 시 자동으로 로드됩니다!",
+    "createNew": "새로운 캐릭터+카트 조합 생성",
+    "selectCharacter": "캐릭터 선택 🎮",
+    "selectVehicle": "카트 선택 🏎️",
+    "createButton": "조합 생성",
+    "detailedSpeedDistribution": "세부 속도 분포",
+    "terrainNames": {
+      "road": "도로",
+      "terrain": "오프로드", 
+      "water": "수면"
+    }
   },
   "test": {
     "mario": "테스트 마리오",
     "vehicle": "테스트 카트",
-    "added": "테스트 조합이 추가되었습니다! 페이지를 새로고침하여 저장되었는지 확인해주세요...",
+    "added": "🟡 테스트 조합을 추가했습니다...",
     "success": "✅ 지속성 테스트 성공! 조합이 localStorage에 저장되었습니다",
-    "failNoData": "❌ 지속성 테스트 실패: localStorage에서 조합을 찾을 수 없습니다",
-    "failNoKey": "❌ 지속성 테스트 실패: localStorage에 mario-kart-combinations 키가 없습니다"
+    "failNoData": "❌ 테스트 실패: localStorage에서 조합 데이터를 찾을 수 없습니다",
+    "failNoKey": "❌ 테스트 실패: localStorage에서 키를 찾을 수 없습니다",
+    "loading": "로딩 중...",
+    "title": "지속성 테스트 도구",
+    "currentCount": "현재 조합 수:",
+    "autoSaveInfo": "이러한 조합은 localStorage에 자동으로 저장되어야 합니다",
+    "testPersistence": "지속성 테스트",
+    "clearTestData": "테스트 데이터 지우기",
+    "instructions": "테스트 설명:",
+    "instruction1": "'지속성 테스트'를 클릭하면 테스트 조합이 추가됩니다",
+    "instruction2": "페이지 새로고침 후에도 조합이 남아있어야 합니다",
+    "instruction3": "조합 데이터는 localStorage의 \"mario-kart-combinations\" 키에 저장됩니다"
   },
   "recommendations": {
     "scoreFormula": "종합 점수 계산: 스피드 40% + 핸들링 30% + 가속도 20% - 무게 10%",
@@ -178,7 +202,62 @@
       "water": "수면: 수상 트랙에 적합, 특별한 핸들링 기술 필요",
       "ranking": "순위: 종합 점수 순으로 정렬, 금은동 메달은 상위 3위를 나타냄",
       "score": "종합 점수: 모든 능력치를 고려한 가중 계산 결과"
+    },
+    "total": "총 {charactersCount}개 캐릭터와 {vehiclesCount}개 카트",
+    "characterCount": "캐릭터 ({count})",
+    "vehicleCount": "카트 ({count})",
+    "combinationCount": "캐릭터+카트 조합 ({count})",
+    "clearAll": "모두 지우기",
+    "legend": {
+      "title": "능력치 설명과 범례",
+      "colorLegend": "능력치 컬러 범례",
+      "speed": "속도",
+      "acceleration": "가속", 
+      "weight": "무게",
+      "handling": "핸들링"
+    },
+    "descriptions": {
+      "speedTitle": "속도",
+      "roadSpeedDesc": "로드: 콘크리트, 아스팔트, 금속 등 매끄러운 지면",
+      "terrainSpeedDesc": "오프로드: 흙, 모래, 눈 등 거친 지면", 
+      "waterSpeedDesc": "수상: 수상 카트 모드가 발동되는 수역",
+      "otherStatsTitle": "기타 능력치",
+      "accelerationDesc": "가속: 정지 상태에서 최고 속도까지의 시간",
+      "weightDesc": "무게: 충돌 결과와 코인 가산에 영향",
+      "handlingDesc": "핸들링: 카트 회전의 유연성"
+    },
+    "tips": {
+      "usage": "사용 팁: 색이 진한 진행 바일수록 능력치가 높음을 나타냅니다. 백분율은 최고값에 대한 비율을 보여주어 다른 캐릭터와 카트의 우열을 빠르게 비교할 수 있습니다!",
+      "notice": "주의: 게임 내 모든 캐릭터와 카트 조합은 추가로 +3의 능력치 보너스를 받습니다. 표의 수치는 원본 데이터이며 실제 게임플레이에서는 조정될 수 있습니다."
     }
+  },
+  "loading": {
+    "initializing": "초기화 중...",
+    "loadingData": "마리오 카트 데이터 로딩 중...",
+    "error": "로딩 오류",
+    "retry": "다시 로드"
+  },
+  "emptyCombination": {
+    "title": "아직 조합이 생성되지 않았습니다",
+    "subtitle": "위의 선택기를 사용하여 첫 번째 조합을 만들어보세요!",
+    "tip": "캐릭터와 카트를 선택한 후 '조합 생성' 버튼을 클릭하세요"
+  },
+  "debug": {
+    "title": "데이터 로딩 디버그",
+    "loadingState": "로딩 상태",
+    "charactersCount": "캐릭터 수",
+    "vehiclesCount": "카트 수",
+    "errorState": "오류 상태",
+    "loading": "로딩 중...",
+    "idle": "대기 중",
+    "noError": "오류 없음",
+    "manualLoad": "수동 로드",
+    "testDirectFetch": "직접 요청 테스트",
+    "errorDetails": "오류 세부사항:",
+    "loadSuccess": "로드 성공!",
+    "firstCharacters": "첫 3개 캐릭터:",
+    "firstVehicles": "첫 3개 카트:",
+    "speed": "속도"
   },
   "terrain": {
     "road": {

@@ -52,16 +52,18 @@ export function MiniSearchButton({ onClick, className = '' }: SearchButtonProps)
 
 // 搜尋快捷鍵提示組件
 export function SearchShortcutHint({ onClick }: { onClick: () => void }) {
+  const { t } = useTranslation();
+  
   return (
     <div className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-      <span>按</span>
+      <span>{t('search.shortcutHint.press')}</span>
       <kbd 
         className="px-2 py-1 bg-gray-100 border border-gray-300 rounded text-xs font-mono cursor-pointer hover:bg-gray-200 transition-colors"
         onClick={onClick}
       >
         Ctrl+K
       </kbd>
-      <span>快速搜尋</span>
+      <span>{t('search.shortcutHint.quickSearch')}</span>
     </div>
   );
 }

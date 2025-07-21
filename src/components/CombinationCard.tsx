@@ -10,6 +10,7 @@ interface CombinationCardProps {
 
 export default function CombinationCard({ character, vehicle, onRemove }: CombinationCardProps) {
   const { t } = useTranslation();
+  
   // 計算組合後的總能力值 (角色 + 載具 + 3 的遊戲加成)
   const combinedStats = {
     displaySpeed: character.displaySpeed + vehicle.displaySpeed + 3,
@@ -129,24 +130,24 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
 
       {/* 詳細速度分佈 */}
       <div className="mt-3 pt-2 border-t border-gray-200">
-        <div className="text-xs text-gray-600 font-semibold mb-1 text-center">詳細速度分佈</div>
+        <div className="text-xs text-gray-600 font-semibold mb-1 text-center">{t('combination.detailedSpeedDistribution')}</div>
         <div className="grid grid-cols-3 gap-1 text-xs">
           <div className="text-center p-1 bg-blue-50 rounded border border-blue-200">
-            <div className="font-semibold text-blue-700">道路</div>
+            <div className="font-semibold text-blue-700">{t('combination.terrainNames.road')}</div>
             <div className="text-blue-600 font-bold text-xs">{combinedStats.roadSpeed}</div>
             <div className="text-gray-500 text-xs">
               {character.roadSpeed}+{vehicle.roadSpeed}+3
             </div>
           </div>
           <div className="text-center p-1 bg-green-50 rounded border border-green-200">
-            <div className="font-semibold text-green-700">地形</div>
+            <div className="font-semibold text-green-700">{t('combination.terrainNames.terrain')}</div>
             <div className="text-green-600 font-bold text-xs">{combinedStats.terrainSpeed}</div>
             <div className="text-gray-500 text-xs">
               {character.terrainSpeed}+{vehicle.terrainSpeed}+3
             </div>
           </div>
           <div className="text-center p-1 bg-cyan-50 rounded border border-cyan-200">
-            <div className="font-semibold text-cyan-700">水面</div>
+            <div className="font-semibold text-cyan-700">{t('combination.terrainNames.water')}</div>
             <div className="text-cyan-600 font-bold text-xs">{combinedStats.waterSpeed}</div>
             <div className="text-gray-500 text-xs">
               {character.waterSpeed}+{vehicle.waterSpeed}+3

@@ -1,0 +1,114 @@
+{
+  "app": {
+    "title": "🏁 Mario Kart World 🏁",
+    "subtitle": "マリオカートノート - キャラクター・カート性能値参照",
+    "metadata": {
+      "title": "Mario Kart World - マリオカートノート",
+      "description": "マリオカートのキャラクターとカートの性能値参照システム"
+    },
+    "footer": {
+      "copyright": "© 2025 Mario Kart World ノートシステム",
+      "version": "Version 1.0"
+    }
+  },
+  "dataPages": {
+    "characters": "キャラクター",
+    "vehicles": "カート",
+    "combinations": "組み合わせ",
+    "recommendations": "おすすめ",
+    "descriptions": {
+      "characters": "すべてのキャラクターの能力値データを閲覧",
+      "vehicles": "すべてのカートの能力値データを閲覧",
+      "combinations": "キャラクター+カートの組み合わせを作成・管理",
+      "recommendations": "地形特性に基づいて最適な組み合わせを推薦"
+    }
+  },
+  "stats": {
+    "speed": "スピード",
+    "acceleration": "加速",
+    "weight": "重さ",
+    "handling": "ハンドリング",
+    "display": "ゲーム表示",
+    "road": "ロード",
+    "terrain": "オフロード",
+    "water": "水上",
+    "speedType": "スピードタイプ",
+    "handlingType": "ハンドリングタイプ",
+    "details": "📊 詳細データ",
+    "roadSpeed": "ロードスピード",
+    "terrainSpeed": "オフロードスピード",
+    "waterSpeed": "水上スピード",
+    "roadHandling": "ロードハンドリング",
+    "terrainHandling": "オフロードハンドリング",
+    "waterHandling": "水上ハンドリング",
+    "total": "合計 {charactersCount} キャラクターと {vehiclesCount} カート",
+    "characterCount": "キャラクター ({count})",
+    "vehicleCount": "カート ({count})",
+    "combinationCount": "キャラクター+カート組み合わせ ({count})",
+    "clearAll": "すべてクリア",
+    "speedTypes": {
+      "road": "ロードスピード",
+      "terrain": "オフロードスピード", 
+      "water": "水上スピード",
+      "default": "スピード"
+    },
+    "handlingTypes": {
+      "road": "ロードハンドリング",
+      "terrain": "オフロードハンドリング",
+      "water": "水上ハンドリング",
+      "default": "ハンドリング"
+    },
+    "legend": {
+      "title": "能力値説明と凡例",
+      "colorLegend": "能力値カラー凡例",
+      "speed": "スピード",
+      "acceleration": "加速", 
+      "weight": "重さ",
+      "handling": "ハンドリング"
+    },
+    "descriptions": {
+      "speedTitle": "スピード",
+      "roadSpeedDesc": "ロード：コンクリート、アスファルト、金属などの滑らかな地面",
+      "terrainSpeedDesc": "オフロード：泥、砂、雪などの荒い地面", 
+      "waterSpeedDesc": "水上：水上カートモードが発動する水域",
+      "otherStatsTitle": "その他の能力値",
+      "accelerationDesc": "加速：静止状態から最高速度までの時間",
+      "weightDesc": "重さ：衝突結果とコイン加算に影響",
+      "handlingDesc": "ハンドリング：カートの旋回の柔軟性"
+    },
+    "tips": {
+      "usage": "使用のヒント：色が濃いプログレスバーほど能力値が高いことを表します。パーセンテージは最高値に対する比率を示し、異なるキャラクターとカートの優劣を素早く比較できます！",
+      "notice": "注意：ゲーム内のすべてのキャラクターとカートの組み合わせは、追加で +3 の能力値ボーナスを受けます。表の数値は生データであり、実際のゲームプレイでは調整される場合があります。"
+    },
+    "tooltips": {
+      "displayStats": "表示値：ゲーム内で実際に表示される能力値",
+      "terrainStats": "地形別詳細値：各地形での実際のパフォーマンス",
+      "score": "総合スコア：すべての能力値を考慮した加重計算結果"
+    }
+  },
+  "loading": {
+    "initializing": "初期化中...",
+    "loadingData": "マリオカートデータ読み込み中...",
+    "error": "読み込みエラー",
+    "retry": "再読み込み"
+  },
+  "emptyCombination": {
+    "title": "まだ組み合わせが作成されていません",
+    "subtitle": "上のセレクターを使用して最初の組み合わせを作成してください！",
+    "tip": "キャラクターとカートを選択して、「組み合わせ作成」ボタンをクリックしてください"
+  },
+  "terrain": {
+    "road": {
+      "name": "ロード",
+      "description": "一般コースとアスファルト路面に適合"
+    },
+    "terrain": {
+      "name": "オフロード", 
+      "description": "オフロードと砂地コースに適合"
+    },
+    "water": {
+      "name": "水上",
+      "description": "水上と滑りやすい路面に適合"
+    }
+  }
+}

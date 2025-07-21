@@ -113,16 +113,6 @@
     "chooseOption": "Choose an option"
   },
   "search": {
-    "placeholder": "Search characters or vehicles...",
-    "inputPlaceholder": "Enter character or vehicle name...",
-    "noResults": "No matching results found",
-    "loading": "Searching...",
-    "button": "Search Characters and Vehicles",
-    "buttonShort": "Search",
-    "shortcutHint": {
-      "press": "Press",
-      "quickSearch": "to quick search"
-    },
     "modal": {
       "title": "🔍 Search Characters and Vehicles",
       "recentSearches": "🕐 Recent Searches",
@@ -153,13 +143,7 @@
     "createNew": "Create New Character + Vehicle Combination",
     "selectCharacter": "Select Character 🎮",
     "selectVehicle": "Select Vehicle 🏎️",
-    "createButton": "Create Combination",
-    "detailedSpeedDistribution": "Detailed Speed Distribution",
-    "terrainNames": {
-      "road": "Road",
-      "terrain": "Off-Road", 
-      "water": "Water"
-    }
+    "createButton": "Create Combination"
   },
   "test": {
     "mario": "Test Mario",
