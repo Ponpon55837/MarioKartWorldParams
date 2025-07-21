@@ -1,0 +1,83 @@
+{
+  "app": {
+    "title": "🏁 Mario Kart World 🏁",
+    "subtitle": "瑪利歐賽車筆記 - 角色與載具能力值查詢",
+    "footer": {
+      "copyright": "© 2025 Mario Kart World 筆記系統",
+      "disclaimer": "基於社群資料製作的非官方工具 @Upfloor5"
+    }
+  },
+  "language": {
+    "selector": "語言選擇",
+    "languages": {
+      "zh-TW": "繁體中文",
+      "zh-CN": "简体中文",
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어"
+    }
+  },
+  "navigation": {
+    "characters": "角色",
+    "vehicles": "載具",
+    "combinations": "組合",
+    "recommendations": "推薦",
+    "descriptions": {
+      "characters": "瀏覽所有角色的能力值資料",
+      "vehicles": "瀏覽所有載具的能力值資料",
+      "combinations": "建立和管理您的角色+載具組合",
+      "recommendations": "根據地形特性推薦最適合的組合"
+    }
+  },
+  "stats": {
+    "speed": "速度",
+    "acceleration": "加速度",
+    "weight": "重量",
+    "handling": "轉向",
+    "display": "遊戲顯示",
+    "road": "道路",
+    "terrain": "地形",
+    "water": "水面",
+    "speedTypes": {
+      "road": "道路速度",
+      "terrain": "地形速度", 
+      "water": "水面速度",
+      "default": "速度"
+    },
+    "handlingTypes": {
+      "road": "道路轉向",
+      "terrain": "地形轉向",
+      "water": "水面轉向",
+      "default": "轉向"
+    }
+  },
+  "sorting": {
+    "sortBy": "排序方式",
+    "ascending": "遞增",
+    "descending": "遞減"
+  },
+  "search": {
+    "placeholder": "搜尋角色或載具...",
+    "noResults": "找不到符合的結果",
+    "loading": "搜尋中...",
+    "button": "搜尋角色和載具",
+    "buttonShort": "搜尋"
+  },
+  "common": {
+    "loading": "載入中...",
+    "idle": "閒置",
+    "error": "發生錯誤",
+    "noError": "無錯誤",
+    "retry": "重試",
+    "close": "關閉",
+    "select": "選擇",
+    "all": "全部",
+    "none": "無"
+  },
+  "admin": {
+    "dataManagement": "資料管理"
+  },
+  "combination": {
+    "autoSave": "自動儲存：您建立的組合會自動儲存到本地，下次開啟網站時會自動載入您的組合設定！"
+  }
+}

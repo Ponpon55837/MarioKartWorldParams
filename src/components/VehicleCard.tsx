@@ -1,6 +1,7 @@
 import React from 'react';
 import { VehicleStats, SpeedType, HandlingType } from '@/types';
 import StatBar from '@/components/StatBar';
+import { useTranslation } from 'react-i18next';
 
 interface VehicleCardProps {
   vehicle: VehicleStats;
@@ -19,6 +20,8 @@ interface VehicleCardProps {
  * 使用 React.memo 優化性能
  */
 const VehicleCard: React.FC<VehicleCardProps> = React.memo(({ vehicle, maxStats, speedFilter, handlingFilter }) => {
+  const { t } = useTranslation();
+  
   // 根據篩選器取得當前顯示的速度值
   const getSpeedValue = () => {
     switch (speedFilter) {
@@ -42,20 +45,20 @@ const VehicleCard: React.FC<VehicleCardProps> = React.memo(({ vehicle, maxStats,
   // 取得速度標籤
   const getSpeedLabel = () => {
     switch (speedFilter) {
-      case 'road': return '道路速度';
-      case 'terrain': return '地形速度';
-      case 'water': return '水面速度';
-      default: return '速度';
+      case 'road': return t('stats.speedTypes.road');
+      case 'terrain': return t('stats.speedTypes.terrain');
+      case 'water': return t('stats.speedTypes.water');
+      default: return t('stats.speedTypes.default');
     }
   };
 
   // 取得轉向標籤
   const getHandlingLabel = () => {
     switch (handlingFilter) {
-      case 'road': return '道路轉向';
-      case 'terrain': return '地形轉向';
-      case 'water': return '水面轉向';
-      default: return '轉向';
+      case 'road': return t('stats.handlingTypes.road');
+      case 'terrain': return t('stats.handlingTypes.terrain');
+      case 'water': return t('stats.handlingTypes.water');
+      default: return t('stats.handlingTypes.default');
     }
   };
 
@@ -81,14 +84,14 @@ const VehicleCard: React.FC<VehicleCardProps> = React.memo(({ vehicle, maxStats,
         />
         
         <StatBar
-          label="加速度"
+          label={t('stats.acceleration')}
           value={vehicle.acceleration}
           maxValue={maxStats.acceleration}
           statType="acceleration"
         />
         
         <StatBar
-          label="重量"
+          label={t('stats.weight')}
           value={vehicle.weight}
           maxValue={maxStats.weight}
           statType="weight"

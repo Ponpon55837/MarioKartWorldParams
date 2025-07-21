@@ -1,0 +1,83 @@
+{
+  "app": {
+    "title": "🏁 Mario Kart World 🏁",
+    "subtitle": "马力欧赛车笔记 - 角色与载具能力值查询",
+    "footer": {
+      "copyright": "© 2025 Mario Kart World 笔记系统",
+      "disclaimer": "基于社群数据制作的非官方工具 @Upfloor5"
+    }
+  },
+  "language": {
+    "selector": "语言选择",
+    "languages": {
+      "zh-TW": "繁體中文",
+      "zh-CN": "简体中文",
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어"
+    }
+  },
+  "navigation": {
+    "characters": "角色",
+    "vehicles": "载具",
+    "combinations": "组合",
+    "recommendations": "推荐",
+    "descriptions": {
+      "characters": "浏览所有角色的能力值数据",
+      "vehicles": "浏览所有载具的能力值数据",
+      "combinations": "创建和管理您的角色+载具组合",
+      "recommendations": "根据地形特性推荐最适合的组合"
+    }
+  },
+  "stats": {
+    "speed": "速度",
+    "acceleration": "加速度",
+    "weight": "重量",
+    "handling": "转向",
+    "display": "游戏显示",
+    "road": "道路",
+    "terrain": "地形",
+    "water": "水面",
+    "speedTypes": {
+      "road": "道路速度",
+      "terrain": "地形速度",
+      "water": "水面速度",
+      "default": "速度"
+    },
+    "handlingTypes": {
+      "road": "道路转向",
+      "terrain": "地形转向",
+      "water": "水面转向",
+      "default": "转向"
+    }
+  },
+  "sorting": {
+    "sortBy": "排序方式",
+    "ascending": "递增",
+    "descending": "递减"
+  },
+  "search": {
+    "placeholder": "搜索角色或载具...",
+    "noResults": "找不到符合的结果",
+    "loading": "搜索中...",
+    "button": "搜索角色和载具",
+    "buttonShort": "搜索"
+  },
+  "common": {
+    "loading": "加载中...",
+    "idle": "闲置",
+    "error": "发生错误",
+    "noError": "无错误",
+    "retry": "重试",
+    "close": "关闭",
+    "select": "选择",
+    "all": "全部",
+    "none": "无"
+  },
+  "admin": {
+    "dataManagement": "数据管理"
+  },
+  "combination": {
+    "autoSave": "自动保存：您创建的组合会自动保存到本地，下次打开网站时会自动加载您的组合设定！"
+  }
+}

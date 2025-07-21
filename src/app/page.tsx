@@ -13,8 +13,12 @@ import RecommendationsPage from '@/components/RecommendationsPage';
 import { VirtualizedGrid } from '@/components/VirtualizedList';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
 import { searchModalOpenAtom } from '@/store/atoms';
+import LayoutContent from '@/components/LayoutContent';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
+  const { t } = useTranslation();
+  
   // 使用全域狀態管理搜尋模態框
   const [isSearchModalOpen, setIsSearchModalOpen] = useAtom(searchModalOpenAtom);
 
@@ -98,7 +102,8 @@ export default function Home() {
   }
 
   return (
-    <div className="space-y-6">
+    <LayoutContent>
+      <div className="space-y-6">
       {/* 搜尋功能區 */}
       <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
         <div className="flex items-center justify-between">
@@ -279,7 +284,7 @@ export default function Home() {
         </div>
         <div className="mt-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
           <p className="text-sm text-green-800">
-            <strong>💾 自動儲存：</strong>您建立的組合會自動儲存到本地，下次開啟網站時會自動載入您的組合設定！
+            <strong>💾 </strong>{t('combination.autoSave')}
           </p>
         </div>
       </section>
@@ -290,7 +295,7 @@ export default function Home() {
           href="/admin"
           className="inline-flex items-center px-3 py-1 text-xs text-gray-500 hover:text-blue-600 transition-colors border border-gray-300 rounded-full hover:border-blue-300"
         >
-          🔧 資料管理
+          🔧 {t('admin.dataManagement')}
         </a>
       </div>
 
@@ -298,6 +303,7 @@ export default function Home() {
       <SearchModal
         onNavigate={(type) => setCurrentPage(type)}
       />
-    </div>
+      </div>
+    </LayoutContent>
   );
 }

@@ -24,6 +24,12 @@ export const searchResultsAtom = atom<any[]>([]);
 export const searchLoadingAtom = atom<boolean>(false);
 export const searchHistoryVisibleAtom = atom<boolean>(false);
 
+// 語系相關 atoms
+export type SupportedLanguage = 'zh-TW' | 'zh-CN' | 'en' | 'ja' | 'ko';
+
+// 語系選擇 atom (持久化到 localStorage)
+export const languageAtom = atom<SupportedLanguage>('zh-TW');
+
 // 計算最大值的 atom (依賴於角色和載具資料)
 export const maxStatsAtom = atom((get) => {
   const characters = get(charactersAtom);

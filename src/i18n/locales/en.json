@@ -1,0 +1,83 @@
+{
+  "app": {
+    "title": "🏁 Mario Kart World 🏁",
+    "subtitle": "Mario Kart Notes - Character & Vehicle Stats Reference",
+    "footer": {
+      "copyright": "© 2025 Mario Kart World Notes System",
+      "disclaimer": "Unofficial tool based on community data @Upfloor5"
+    }
+  },
+  "language": {
+    "selector": "Language",
+    "languages": {
+      "zh-TW": "繁體中文",
+      "zh-CN": "简体中文",
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어"
+    }
+  },
+  "navigation": {
+    "characters": "Characters",
+    "vehicles": "Vehicles",
+    "combinations": "Combinations",
+    "recommendations": "Recommendations",
+    "descriptions": {
+      "characters": "Browse all character stats data",
+      "vehicles": "Browse all vehicle stats data",
+      "combinations": "Create and manage your character+vehicle combinations",
+      "recommendations": "Get terrain-based combination recommendations"
+    }
+  },
+  "stats": {
+    "speed": "Speed",
+    "acceleration": "Acceleration",
+    "weight": "Weight",
+    "handling": "Handling",
+    "display": "In-Game Display",
+    "road": "Road",
+    "terrain": "Off-Road",
+    "water": "Water",
+    "speedTypes": {
+      "road": "Road Speed",
+      "terrain": "Off-Road Speed",
+      "water": "Water Speed",
+      "default": "Speed"
+    },
+    "handlingTypes": {
+      "road": "Road Handling",
+      "terrain": "Off-Road Handling",
+      "water": "Water Handling",
+      "default": "Handling"
+    }
+  },
+  "sorting": {
+    "sortBy": "Sort By",
+    "ascending": "Ascending",
+    "descending": "Descending"
+  },
+  "search": {
+    "placeholder": "Search characters or vehicles...",
+    "noResults": "No matching results found",
+    "loading": "Searching...",
+    "button": "Search Characters and Vehicles",
+    "buttonShort": "Search"
+  },
+  "common": {
+    "loading": "Loading...",
+    "idle": "Idle",
+    "error": "An error occurred",
+    "noError": "No Error",
+    "retry": "Retry",
+    "close": "Close",
+    "select": "Select",
+    "all": "All",
+    "none": "None"
+  },
+  "admin": {
+    "dataManagement": "Data Management"
+  },
+  "combination": {
+    "autoSave": "Auto Save: Your combinations are automatically saved locally and will be loaded next time you visit!"
+  }
+}

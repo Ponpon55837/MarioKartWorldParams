@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '@/app/globals.css'
 import JotaiProvider from '@/providers/JotaiProvider'
+import LayoutContent from '@/components/LayoutContent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,29 +20,7 @@ export default function RootLayout({
     <html lang="zh-TW">
       <body className={inter.className}>
         <JotaiProvider>
-          <div className="min-h-screen bg-pattern">
-            <header className="mario-gradient text-white p-4 shadow-2xl">
-              <div className="container mx-auto">
-                <h1 className="text-3xl font-bold text-center text-shadow">
-                  🏁 Mario Kart World 🏁
-                </h1>
-                <p className="text-center mt-1 text-base opacity-90">
-                  瑪利歐賽車筆記 - 角色與載具能力值查詢
-                </p>
-              </div>
-            </header>
-            <main className="container mx-auto px-4 py-6">
-              {children}
-            </main>
-            <footer className="bg-gray-800 text-white p-6 mt-2">
-              <div className="container mx-auto text-center">
-                <p>&copy; 2025 Mario Kart World 筆記系統</p>
-                <p className="text-sm opacity-70 mt-1">
-                  基於社群資料製作的非官方工具 @Upfloor5
-                </p>
-              </div>
-            </footer>
-          </div>
+          {children}
         </JotaiProvider>
       </body>
     </html>
