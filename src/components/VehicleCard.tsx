@@ -108,16 +108,16 @@ const VehicleCard: React.FC<VehicleCardProps> = React.memo(({ vehicle, maxStats,
       {/* 詳細統計 */}
       <details className="mt-3">
         <summary className="cursor-pointer text-xs text-gray-600 hover:text-gray-800 transition-colors">
-          📊 詳細資料
+          {t('stats.details')}
         </summary>
         <div className="mt-2 text-xs text-gray-600 space-y-1">
           <div className="grid grid-cols-2 gap-1 text-xs">
-            <div>道路速度: {vehicle.roadSpeed}</div>
-            <div>地形速度: {vehicle.terrainSpeed}</div>
-            <div>水面速度: {vehicle.waterSpeed}</div>
-            <div>道路轉向: {vehicle.roadHandling}</div>
-            <div>地形轉向: {vehicle.terrainHandling}</div>
-            <div>水面轉向: {vehicle.waterHandling}</div>
+            <div>{t('stats.roadSpeed')}: {vehicle.roadSpeed}</div>
+            <div>{t('stats.terrainSpeed')}: {vehicle.terrainSpeed}</div>
+            <div>{t('stats.waterSpeed')}: {vehicle.waterSpeed}</div>
+            <div>{t('stats.roadHandling')}: {vehicle.roadHandling}</div>
+            <div>{t('stats.terrainHandling')}: {vehicle.terrainHandling}</div>
+            <div>{t('stats.waterHandling')}: {vehicle.waterHandling}</div>
           </div>
         </div>
       </details>

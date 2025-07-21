@@ -2,6 +2,10 @@
   "app": {
     "title": "🏁 Mario Kart World 🏁",
     "subtitle": "マリオカートノート - キャラクター・カート性能値参照",
+    "metadata": {
+      "title": "Mario Kart World - マリオカートノート",
+      "description": "マリオカートのキャラクターとカートの性能値参照システム"
+    },
     "footer": {
       "copyright": "© 2025 Mario Kart World ノートシステム",
       "disclaimer": "コミュニティデータに基づく非公式ツール @Upfloor5"
@@ -22,6 +26,7 @@
     "vehicles": "カート",
     "combinations": "組み合わせ",
     "recommendations": "おすすめ",
+    "dataPages": "データページ",
     "descriptions": {
       "characters": "全キャラクターの性能値データを閲覧",
       "vehicles": "全カートの性能値データを閲覧",
@@ -38,6 +43,15 @@
     "road": "ロード",
     "terrain": "オフロード",
     "water": "ウォーター",
+    "speedType": "スピード種類",
+    "handlingType": "ハンドリング種類",
+    "details": "📊 詳細",
+    "roadSpeed": "ロードスピード",
+    "terrainSpeed": "オフロードスピード",
+    "waterSpeed": "ウォータースピード",
+    "roadHandling": "ロードハンドリング",
+    "terrainHandling": "オフロードハンドリング",
+    "waterHandling": "ウォーターハンドリング",
     "speedTypes": {
       "road": "ロードスピード",
       "terrain": "オフロードスピード",
@@ -58,10 +72,47 @@
   },
   "search": {
     "placeholder": "キャラクターやカートを検索...",
+    "inputPlaceholder": "キャラクターまたはカート名を入力...",
     "noResults": "一致する結果が見つかりません",
     "loading": "検索中...",
     "button": "キャラクター・カート検索",
-    "buttonShort": "検索"
+    "buttonShort": "検索",
+    "modal": {
+      "title": "🔍 キャラクターとカートを検索",
+      "recentSearches": "🕐 最近の検索",
+      "resultsCount": "件の結果",
+      "searchTime": "検索時間",
+      "seconds": "秒",
+      "searchTips": "検索のコツ：",
+      "tip1": "• 中国語と英語の名前検索に対応",
+      "tip2": "• 部分的な名前で検索可能、例：「マリオ」で「マリオ」が見つかります",
+      "tip3": "• 検索結果は関連性順に表示されます",
+      "startSearch": "入力を開始してキャラクターやカートを検索",
+      "supportBoth": "中国語名と英語名の検索に対応",
+      "noResultsFor": "「{query}」の結果が見つかりません",
+      "tryOther": "他のキーワードを試すか、スペルを確認してください",
+      "searchTipTitle": "検索のコツ：",
+      "searchTip1": "• より短いキーワードを使用してみる",
+      "searchTip2": "• 中国語または英語の名前を使用",
+      "searchTip3": "• スペルエラーをチェック",
+      "foundResults": "{count}件の結果が見つかりました",
+      "searchQuery": "「{query}」を検索",
+      "viewAllCharacters": "すべてのキャラクターを表示",
+      "viewAllVehicles": "すべてのカートを表示",
+      "recommendedCombos": "🏆 おすすめ組み合わせ",
+      "supportHint": "💡 中国語と英語の名前検索に対応",
+      "escClose": "閉じる",
+      "ctrlKOpen": "検索を開く"
+    }
+  },
+  "selection": {
+    "pleaseSelect": "選択してください...",
+    "selectCharacter": "キャラクターを選択してください...",
+    "selectVehicle": "カートを選択してください..."
+  },
+  "types": {
+    "character": "キャラクター",
+    "vehicle": "カート"
   },
   "common": {
     "loading": "読み込み中...",
@@ -75,9 +126,72 @@
     "none": "なし"
   },
   "admin": {
-    "dataManagement": "データ管理"
+    "dataManagement": "データ管理",
+    "syncData": "データ同期",
+    "csvCopied": "CSVデータをクリップボードにコピーしました！",
+    "moreData": "詳細データ",
+    "title": "🔄 マリオカートデータ同期管理",
+    "instructions": {
+      "title": "📋 使用方法",
+      "step1": "• 「データ同期」ボタンをクリックしてGoogle Sheetsから最新データを取得",
+      "step2": "• 同期成功後、変換されたCSVファイルが自動ダウンロードされます",
+      "step3": "• このファイルでpublic/mario-kart-data.csvを置き換えることができます"
+    },
+    "syncing": "同期中...",
+    "syncButton": "🔄 データ同期",
+    "syncSuccess": "同期成功！",
+    "syncFailed": "同期失敗",
+    "syncTime": "同期時刻：",
+    "copyCSV": "📋 CSVをクリップボードにコピー",
+    "redownloadCSV": "💾 CSV再ダウンロード",
+    "previewCSV": "📄 変換後CSVデータプレビューを表示",
+    "warnings": {
+      "title": "⚠️ 注意事項",
+      "warning1": "• 同期後は手動でpublic/mario-kart-data.csvファイルを置き換えてください",
+      "warning2": "• 置き換え前に既存のCSVファイルをバックアップすることをお勧めします",
+      "warning3": "• 同期に失敗した場合、Google Sheetsが公開状態かどうか確認してください",
+      "warning4": "• データ変換には時間がかかる場合があります。しばらくお待ちください"
+    },
+    "backToHome": "← ホームに戻る"
   },
   "combination": {
     "autoSave": "自動保存：作成した組み合わせはローカルに自動保存され、次回のアクセス時に自動的に読み込まれます！"
+  },
+  "test": {
+    "mario": "テストマリオ",
+    "vehicle": "テストカート",
+    "added": "テスト組み合わせが追加されました！ページを更新して保存されるか確認してください...",
+    "success": "✅ 永続化テスト成功！組み合わせがlocalStorageに保存されました",
+    "failNoData": "❌ 永続化テスト失敗：localStorageに組み合わせが見つかりません",
+    "failNoKey": "❌ 永続化テスト失敗：localStorageにmario-kart-combinationsキーがありません"
+  },
+  "recommendations": {
+    "scoreFormula": "総合スコア計算：スピード 40% + ハンドリング 30% + 加速度 20% - 重量 10%",
+    "calculating": "推奨組合せを計算中...",
+    "ensureDataLoaded": "キャラクターと車両データが読み込まれていることを確認してください",
+    "compositeScore": "総合スコア",
+    "optimizedFor": "{terrain} 地形に最適化",
+    "instructions": {
+      "title": "💡 使用方法",
+      "roadTerrain": "路面地形：標準コースに適用、スピードとハンドリングのバランスを重視",
+      "terrain": "地形：オフロードコースに適用、加速度と重量安定性を重視",
+      "water": "水面：水上コースに適用、特殊なハンドリング技術が必要",
+      "ranking": "ランキング：総合スコア順、金銀銅メダルは上位3位を表示",
+      "score": "総合スコア：全能力値を考慮した加重計算結果"
+    }
+  },
+  "terrain": {
+    "road": {
+      "name": "ロード",
+      "description": "一般的なコースとアスファルト路面に適している"
+    },
+    "terrain": {
+      "name": "オフロード", 
+      "description": "オフロードと砂地コースに適している"
+    },
+    "water": {
+      "name": "ウォーター",
+      "description": "水上と濡れた路面に適している"
+    }
   }
 }

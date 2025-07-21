@@ -1,7 +1,11 @@
 {
   "app": {
     "title": "🏁 Mario Kart World 🏁",
-    "subtitle": "마리오 카트 노트 - 캐릭터 & 차량 능력치 참조",
+    "subtitle": "마리오 카트 노트 - 캐릭터 & 카트 성능 참조",
+    "metadata": {
+      "title": "Mario Kart World - 마리오 카트 노트",
+      "description": "마리오 카트 캐릭터와 카트 성능 참조 시스템"
+    },
     "footer": {
       "copyright": "© 2025 Mario Kart World 노트 시스템",
       "disclaimer": "커뮤니티 데이터 기반 비공식 도구 @Upfloor5"
@@ -19,34 +23,44 @@
   },
   "navigation": {
     "characters": "캐릭터",
-    "vehicles": "차량",
+    "vehicles": "카트",
     "combinations": "조합",
     "recommendations": "추천",
+    "dataPages": "데이터 페이지",
     "descriptions": {
-      "characters": "모든 캐릭터의 능력치 데이터 조회",
-      "vehicles": "모든 차량의 능력치 데이터 조회",
-      "combinations": "캐릭터+차량 조합 생성 및 관리",
-      "recommendations": "지형 특성에 따른 최적 조합 추천"
+      "characters": "모든 캐릭터의 성능치 데이터를 둘러보기",
+      "vehicles": "모든 카트의 성능치 데이터를 둘러보기",
+      "combinations": "캐릭터+카트 조합을 생성하고 관리하기",
+      "recommendations": "지형 특성에 기반한 최적의 조합 추천"
     }
   },
   "stats": {
-    "speed": "속도",
+    "speed": "스피드",
     "acceleration": "가속도",
     "weight": "무게",
     "handling": "핸들링",
     "display": "게임 표시",
     "road": "도로",
-    "terrain": "오프로드",
+    "terrain": "지형",
     "water": "수면",
+    "speedType": "스피드 종류",
+    "handlingType": "핸들링 종류",
+    "details": "📊 세부사항",
+    "roadSpeed": "도로 스피드",
+    "terrainSpeed": "지형 스피드",
+    "waterSpeed": "수면 스피드",
+    "roadHandling": "도로 핸들링",
+    "terrainHandling": "지형 핸들링",
+    "waterHandling": "수면 핸들링",
     "speedTypes": {
-      "road": "도로 속도",
-      "terrain": "오프로드 속도",
-      "water": "수면 속도",
-      "default": "속도"
+      "road": "도로 스피드",
+      "terrain": "지형 스피드",
+      "water": "수면 스피드",
+      "default": "스피드"
     },
     "handlingTypes": {
       "road": "도로 핸들링",
-      "terrain": "오프로드 핸들링",
+      "terrain": "지형 핸들링",
       "water": "수면 핸들링",
       "default": "핸들링"
     }
@@ -57,27 +71,127 @@
     "descending": "내림차순"
   },
   "search": {
-    "placeholder": "캐릭터나 차량 검색...",
+    "placeholder": "캐릭터나 카트 검색...",
+    "inputPlaceholder": "캐릭터 또는 카트 이름 입력...",
     "noResults": "일치하는 결과를 찾을 수 없습니다",
     "loading": "검색 중...",
-    "button": "캐릭터 및 차량 검색",
-    "buttonShort": "검색"
+    "button": "캐릭터 & 카트 검색",
+    "buttonShort": "검색",
+    "modal": {
+      "title": "🔍 캐릭터와 카트 검색",
+      "recentSearches": "🕐 최근 검색",
+      "resultsCount": "개 결과",
+      "searchTime": "검색 시간",
+      "seconds": "초",
+      "searchTips": "검색 팁:",
+      "tip1": "• 중국어와 영어 이름 검색 지원",
+      "tip2": "• 부분 이름 검색 가능, 예: '마리오'로 '마리오' 찾기",
+      "tip3": "• 검색 결과는 관련도 순으로 정렬됩니다",
+      "startSearch": "입력을 시작하여 캐릭터나 카트를 검색하세요",
+      "supportBoth": "중국어와 영어 이름 검색을 모두 지원합니다",
+      "noResultsFor": "'{query}'에 대한 결과를 찾을 수 없습니다",
+      "tryOther": "다른 키워드를 시도하거나 철자를 확인해주세요",
+      "searchTipTitle": "검색 팁:",
+      "searchTip1": "• 더 짧은 키워드를 사용해보세요",
+      "searchTip2": "• 중국어 또는 영어 이름을 사용하세요",
+      "searchTip3": "• 철자 오류를 확인하세요",
+      "foundResults": "{count}개의 결과를 찾았습니다",
+      "searchQuery": "'{query}' 검색",
+      "viewAllCharacters": "모든 캐릭터 보기",
+      "viewAllVehicles": "모든 카트 보기",
+      "recommendedCombos": "🏆 추천 조합",
+      "supportHint": "💡 중국어와 영어 이름 검색 지원",
+      "escClose": "닫기",
+      "ctrlKOpen": "검색 열기"
+    }
+  },
+  "selection": {
+    "pleaseSelect": "선택해주세요...",
+    "selectCharacter": "캐릭터를 선택해주세요...",
+    "selectVehicle": "카트를 선택해주세요..."
+  },
+  "types": {
+    "character": "캐릭터",
+    "vehicle": "카트"
   },
   "common": {
     "loading": "로딩 중...",
     "idle": "대기 중",
     "error": "오류가 발생했습니다",
     "noError": "오류 없음",
-    "retry": "다시 시도",
+    "retry": "재시도",
     "close": "닫기",
     "select": "선택",
     "all": "전체",
     "none": "없음"
   },
   "admin": {
-    "dataManagement": "데이터 관리"
+    "dataManagement": "데이터 관리",
+    "syncData": "데이터 동기화",
+    "csvCopied": "CSV 데이터가 클립보드에 복사되었습니다!",
+    "moreData": "추가 데이터",
+    "title": "🔄 마리오 카트 데이터 동기화 관리",
+    "instructions": {
+      "title": "📋 사용 방법",
+      "step1": "• '데이터 동기화' 버튼을 클릭하여 Google Sheets에서 최신 데이터 가져오기",
+      "step2": "• 동기화 성공 후, 변환된 CSV 파일이 자동으로 다운로드됩니다",
+      "step3": "• 이 파일로 public/mario-kart-data.csv를 교체할 수 있습니다"
+    },
+    "syncing": "동기화 중...",
+    "syncButton": "🔄 데이터 동기화",
+    "syncSuccess": "동기화 성공!",
+    "syncFailed": "동기화 실패",
+    "syncTime": "동기화 시간:",
+    "copyCSV": "📋 CSV 클립보드에 복사",
+    "redownloadCSV": "💾 CSV 재다운로드",
+    "previewCSV": "📄 변환된 CSV 데이터 미리보기 표시",
+    "warnings": {
+      "title": "⚠️ 주의사항",
+      "warning1": "• 동기화 후 수동으로 public/mario-kart-data.csv 파일을 교체해주세요",
+      "warning2": "• 교체 전에 기존 CSV 파일을 백업하는 것을 권장합니다",
+      "warning3": "• 동기화에 실패한 경우, Google Sheets가 공개 상태인지 확인해주세요",
+      "warning4": "• 데이터 변환에는 시간이 걸릴 수 있습니다. 잠시 기다려주세요"
+    },
+    "backToHome": "← 홈으로 돌아가기"
   },
   "combination": {
-    "autoSave": "자동 저장: 생성한 조합은 로컬에 자동 저장되며, 다음 방문 시 자동으로 불러옵니다!"
+    "autoSave": "자동 저장: 생성된 조합은 로컬에 자동 저장되며 다음 방문 시 자동으로 로드됩니다!"
+  },
+  "test": {
+    "mario": "테스트 마리오",
+    "vehicle": "테스트 카트",
+    "added": "테스트 조합이 추가되었습니다! 페이지를 새로고침하여 저장되었는지 확인해주세요...",
+    "success": "✅ 지속성 테스트 성공! 조합이 localStorage에 저장되었습니다",
+    "failNoData": "❌ 지속성 테스트 실패: localStorage에서 조합을 찾을 수 없습니다",
+    "failNoKey": "❌ 지속성 테스트 실패: localStorage에 mario-kart-combinations 키가 없습니다"
+  },
+  "recommendations": {
+    "scoreFormula": "종합 점수 계산: 스피드 40% + 핸들링 30% + 가속도 20% - 무게 10%",
+    "calculating": "추천 조합을 계산 중...",
+    "ensureDataLoaded": "캐릭터와 차량 데이터가 로드되었는지 확인해주세요",
+    "compositeScore": "종합 점수",
+    "optimizedFor": "{terrain} 지형에 최적화",
+    "instructions": {
+      "title": "💡 사용 방법",
+      "roadTerrain": "도로 지형: 대부분의 표준 트랙에 적합, 스피드와 핸들링 균형 중시",
+      "terrain": "지형: 오프로드 트랙에 적합, 가속도와 무게 안정성 중시",
+      "water": "수면: 수상 트랙에 적합, 특별한 핸들링 기술 필요",
+      "ranking": "순위: 종합 점수 순으로 정렬, 금은동 메달은 상위 3위를 나타냄",
+      "score": "종합 점수: 모든 능력치를 고려한 가중 계산 결과"
+    }
+  },
+  "terrain": {
+    "road": {
+      "name": "도로",
+      "description": "일반 코스와 아스팔트 노면에 적합"
+    },
+    "terrain": {
+      "name": "지형",
+      "description": "오프로드와 모래 코스에 적합"
+    },
+    "water": {
+      "name": "수면",
+      "description": "수상과 젖은 노면에 적합"
+    }
   }
 }

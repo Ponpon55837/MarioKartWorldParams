@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CharacterStats, VehicleStats } from '@/types';
 import CustomSelect from '@/components/CustomSelect';
+import { useTranslation } from 'react-i18next';
 
 interface CombinationSelectorProps {
   characters: CharacterStats[];
@@ -9,8 +10,10 @@ interface CombinationSelectorProps {
 }
 
 export default function CombinationSelector({ characters, vehicles, onAddCombination }: CombinationSelectorProps) {
+  const { t } = useTranslation();
+  
   const characterOptions = [
-    { value: '', label: '請選擇角色...' },
+    { value: '', label: t('selection.selectCharacter') },
     ...characters.map(character => ({
       value: character.name,
       label: character.name
@@ -18,7 +21,7 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
   ];
 
   const vehicleOptions = [
-    { value: '', label: '請選擇載具...' },
+    { value: '', label: t('selection.selectVehicle') },
     ...vehicles.map(vehicle => ({
       value: vehicle.name,
       label: vehicle.name
@@ -54,7 +57,7 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
               value={selectedCharacter}
               onChange={setSelectedCharacter}
               options={characterOptions}
-              placeholder="請選擇角色..."
+              placeholder={t('selection.selectCharacter')}
             />
           </div>
 
@@ -66,7 +69,7 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
               value={selectedVehicle}
               onChange={setSelectedVehicle}
               options={vehicleOptions}
-              placeholder="請選擇載具..."
+              placeholder={t('selection.selectVehicle')}
             />
           </div>
         </div>

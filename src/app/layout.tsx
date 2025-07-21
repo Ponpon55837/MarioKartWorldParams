@@ -2,13 +2,12 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '@/app/globals.css'
 import JotaiProvider from '@/providers/JotaiProvider'
-import LayoutContent from '@/components/LayoutContent'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Mario Kart World - 瑪利歐賽車筆記',
-  description: '瑪利歐賽車角色與載具能力值查詢系統',
+  title: 'Mario Kart World',
+  description: 'Mario Kart character and vehicle stats reference system',
 }
 
 export default function RootLayout({

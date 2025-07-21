@@ -40,8 +40,14 @@ i18n
     },
 
     detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
+      order: ['localStorage', 'navigator'],
+      lookupLocalStorage: 'mario-kart-language',
       caches: ['localStorage'],
+      excludeCacheFor: ['cimode'],
+    },
+
+    react: {
+      useSuspense: false, // 避免 SSR 問題
     },
   });
 

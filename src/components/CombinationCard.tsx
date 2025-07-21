@@ -1,5 +1,6 @@
 import { CharacterStats, VehicleStats } from '@/types';
 import { getStatColor, getStatBarWidth } from '@/utils/csvParser';
+import { useTranslation } from 'react-i18next';
 
 interface CombinationCardProps {
   character: CharacterStats;
@@ -8,6 +9,7 @@ interface CombinationCardProps {
 }
 
 export default function CombinationCard({ character, vehicle, onRemove }: CombinationCardProps) {
+  const { t } = useTranslation();
   // 計算組合後的總能力值 (角色 + 載具 + 3 的遊戲加成)
   const combinedStats = {
     displaySpeed: character.displaySpeed + vehicle.displaySpeed + 3,
@@ -27,7 +29,7 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
 
   const stats = [
     { 
-      label: '速度', 
+      label: t('stats.speed'), 
       value: combinedStats.displaySpeed,
       charValue: character.displaySpeed,
       vehicleValue: vehicle.displaySpeed,
@@ -37,7 +39,7 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
       borderColor: 'border-blue-200'
     },
     { 
-      label: '加速度', 
+      label: t('stats.acceleration'), 
       value: combinedStats.acceleration,
       charValue: character.acceleration,
       vehicleValue: vehicle.acceleration,
@@ -47,7 +49,7 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
       borderColor: 'border-green-200'
     },
     { 
-      label: '重量', 
+      label: t('stats.weight'), 
       value: combinedStats.weight,
       charValue: character.weight,
       vehicleValue: vehicle.weight,
@@ -57,7 +59,7 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
       borderColor: 'border-purple-200'
     },
     { 
-      label: '操控性', 
+      label: t('stats.handling'), 
       value: combinedStats.displayHandling,
       charValue: character.displayHandling,
       vehicleValue: vehicle.displayHandling,
@@ -117,8 +119,8 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
             </div>
             {/* 組成明細 */}
             <div className="text-xs text-gray-600 flex justify-between">
-              <span>角色: {stat.charValue}</span>
-              <span>載具: {stat.vehicleValue}</span>
+              <span>{t('types.character')}: {stat.charValue}</span>
+              <span>{t('types.vehicle')}: {stat.vehicleValue}</span>
               <span className="text-yellow-600 font-semibold">+3</span>
             </div>
           </div>

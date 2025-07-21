@@ -34,7 +34,7 @@ export default function PageControls({
     <div className="bg-white rounded-lg shadow-md p-4 mb-4 border border-gray-200">
       {/* 分頁選擇 */}
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-800 mb-3 text-center">🎯 資料分頁</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-3 text-center">🎯 {t('navigation.dataPages')}</h3>
         <div className="grid grid-cols-2 md:flex md:flex-wrap md:justify-center gap-2 mb-3">
           <button
             onClick={() => setCurrentPage('characters')}
@@ -125,7 +125,7 @@ export default function PageControls({
             {/* 速度篩選 */}
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">
-                速度類型
+                {t('stats.speedType')}
               </label>
               <CustomSelect
                 value={speedFilter}
@@ -142,7 +142,7 @@ export default function PageControls({
             {/* 轉向篩選 */}
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">
-                轉向類型
+                {t('stats.handlingType')}
               </label>
               <CustomSelect
                 value={handlingFilter}

@@ -12,12 +12,14 @@ import SearchButton, { SearchShortcutHint } from '@/components/SearchButton';
 import RecommendationsPage from '@/components/RecommendationsPage';
 import { VirtualizedGrid } from '@/components/VirtualizedList';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
+import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
 import { searchModalOpenAtom } from '@/store/atoms';
 import LayoutContent from '@/components/LayoutContent';
 import { useTranslation } from 'react-i18next';
 
 export default function Home() {
   const { t } = useTranslation();
+  const { isInitialized } = useLanguagePersistence();
   
   // 使用全域狀態管理搜尋模態框
   const [isSearchModalOpen, setIsSearchModalOpen] = useAtom(searchModalOpenAtom);
@@ -70,6 +72,18 @@ export default function Home() {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [setIsSearchModalOpen]);
+
+  // 語言初始化載入中
+  if (!isInitialized) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-xl text-gray-600">初始化中...</p>
+        </div>
+      </div>
+    );
+  }
 
   // 載入中狀態
   if (loading) {

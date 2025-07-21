@@ -2,13 +2,17 @@
   "app": {
     "title": "🏁 Mario Kart World 🏁",
     "subtitle": "Mario Kart Notes - Character & Vehicle Stats Reference",
+    "metadata": {
+      "title": "Mario Kart World - Mario Kart Notes",
+      "description": "Mario Kart character and vehicle stats reference system"
+    },
     "footer": {
       "copyright": "© 2025 Mario Kart World Notes System",
       "disclaimer": "Unofficial tool based on community data @Upfloor5"
     }
   },
   "language": {
-    "selector": "Language",
+    "selector": "Language Selection",
     "languages": {
       "zh-TW": "繁體中文",
       "zh-CN": "简体中文",
@@ -22,11 +26,12 @@
     "vehicles": "Vehicles",
     "combinations": "Combinations",
     "recommendations": "Recommendations",
+    "dataPages": "Data Pages",
     "descriptions": {
       "characters": "Browse all character stats data",
       "vehicles": "Browse all vehicle stats data",
       "combinations": "Create and manage your character+vehicle combinations",
-      "recommendations": "Get terrain-based combination recommendations"
+      "recommendations": "Recommended combinations based on terrain characteristics"
     }
   },
   "stats": {
@@ -34,19 +39,28 @@
     "acceleration": "Acceleration",
     "weight": "Weight",
     "handling": "Handling",
-    "display": "In-Game Display",
+    "display": "Game Display",
     "road": "Road",
-    "terrain": "Off-Road",
+    "terrain": "Terrain",
     "water": "Water",
+    "speedType": "Speed Type",
+    "handlingType": "Handling Type",
+    "details": "📊 Details",
+    "roadSpeed": "Road Speed",
+    "terrainSpeed": "Terrain Speed",
+    "waterSpeed": "Water Speed",
+    "roadHandling": "Road Handling",
+    "terrainHandling": "Terrain Handling",
+    "waterHandling": "Water Handling",
     "speedTypes": {
       "road": "Road Speed",
-      "terrain": "Off-Road Speed",
+      "terrain": "Terrain Speed",
       "water": "Water Speed",
       "default": "Speed"
     },
     "handlingTypes": {
       "road": "Road Handling",
-      "terrain": "Off-Road Handling",
+      "terrain": "Terrain Handling",
       "water": "Water Handling",
       "default": "Handling"
     }
@@ -58,16 +72,53 @@
   },
   "search": {
     "placeholder": "Search characters or vehicles...",
+    "inputPlaceholder": "Enter character or vehicle name...",
     "noResults": "No matching results found",
     "loading": "Searching...",
-    "button": "Search Characters and Vehicles",
-    "buttonShort": "Search"
+    "button": "Search Characters & Vehicles",
+    "buttonShort": "Search",
+    "modal": {
+      "title": "🔍 Search Characters and Vehicles",
+      "recentSearches": "🕐 Recent Searches",
+      "resultsCount": "results",
+      "searchTime": "Search time",
+      "seconds": "seconds",
+      "searchTips": "Search Tips:",
+      "tip1": "• Supports Chinese and English name searches",
+      "tip2": "• Partial name search supported, e.g., 'Mario' finds 'Mario'",
+      "tip3": "• Results are sorted by relevance",
+      "startSearch": "Start typing to search characters or vehicles",
+      "supportBoth": "Supports both Chinese and English name searches",
+      "noResultsFor": "No results found for '{query}'",
+      "tryOther": "Try other keywords or check spelling",
+      "searchTipTitle": "Search Tips:",
+      "searchTip1": "• Try using shorter keywords",
+      "searchTip2": "• Use Chinese or English names",
+      "searchTip3": "• Check for spelling errors",
+      "foundResults": "Found {count} results",
+      "searchQuery": "Search '{query}'",
+      "viewAllCharacters": "View All Characters",
+      "viewAllVehicles": "View All Vehicles",
+      "recommendedCombos": "🏆 Recommended Combinations",
+      "supportHint": "💡 Supports Chinese and English name searches",
+      "escClose": "Close",
+      "ctrlKOpen": "Open Search"
+    }
+  },
+  "selection": {
+    "pleaseSelect": "Please select...",
+    "selectCharacter": "Please select a character...",
+    "selectVehicle": "Please select a vehicle..."
+  },
+  "types": {
+    "character": "Character",
+    "vehicle": "Vehicle"
   },
   "common": {
     "loading": "Loading...",
     "idle": "Idle",
     "error": "An error occurred",
-    "noError": "No Error",
+    "noError": "No error",
     "retry": "Retry",
     "close": "Close",
     "select": "Select",
@@ -75,9 +126,72 @@
     "none": "None"
   },
   "admin": {
-    "dataManagement": "Data Management"
+    "dataManagement": "Data Management",
+    "syncData": "Sync Data",
+    "csvCopied": "CSV data copied to clipboard!",
+    "moreData": "More Data",
+    "title": "🔄 Mario Kart Data Sync Management",
+    "instructions": {
+      "title": "📋 How to Use",
+      "step1": "• Click 'Sync Data' button to fetch latest data from Google Sheets",
+      "step2": "• After successful sync, the converted CSV file will be automatically downloaded",
+      "step3": "• You can use this file to replace public/mario-kart-data.csv"
+    },
+    "syncing": "Syncing...",
+    "syncButton": "🔄 Sync Data",
+    "syncSuccess": "Sync successful!",
+    "syncFailed": "Sync failed",
+    "syncTime": "Sync time:",
+    "copyCSV": "📋 Copy CSV to Clipboard",
+    "redownloadCSV": "💾 Re-download CSV",
+    "previewCSV": "📄 Show Converted CSV Data Preview",
+    "warnings": {
+      "title": "⚠️ Important Notes",
+      "warning1": "• After syncing, manually replace the public/mario-kart-data.csv file",
+      "warning2": "• We recommend backing up the existing CSV file before replacement",
+      "warning3": "• If sync fails, check if Google Sheets is publicly accessible",
+      "warning4": "• Data conversion may take time, please wait patiently"
+    },
+    "backToHome": "← Back to Home"
   },
   "combination": {
-    "autoSave": "Auto Save: Your combinations are automatically saved locally and will be loaded next time you visit!"
+    "autoSave": "Auto-save: Created combinations are automatically saved locally and will be loaded automatically on your next visit!"
+  },
+  "test": {
+    "mario": "Test Mario",
+    "vehicle": "Test Vehicle",
+    "added": "Test combination added! Please refresh the page to check if it's saved...",
+    "success": "✅ Persistence test successful! Combination saved to localStorage",
+    "failNoData": "❌ Persistence test failed: No combinations found in localStorage",
+    "failNoKey": "❌ Persistence test failed: No mario-kart-combinations key in localStorage"
+  },
+  "recommendations": {
+    "scoreFormula": "Composite Score Calculation: Speed 40% + Handling 30% + Acceleration 20% - Weight 10%",
+    "calculating": "Calculating recommended combinations...",
+    "ensureDataLoaded": "Please ensure character and vehicle data is loaded",
+    "compositeScore": "Composite Score",
+    "optimizedFor": "Optimized for {terrain} terrain",
+    "instructions": {
+      "title": "💡 How to Use",
+      "roadTerrain": "Road Terrain: Suitable for most standard tracks, focuses on speed and handling balance",
+      "terrain": "Terrain: Suitable for off-road tracks, emphasizes acceleration and weight stability",
+      "water": "Water: Suitable for aquatic tracks, requires special handling skills",
+      "ranking": "Ranking: Sorted by composite score, gold/silver/bronze medals represent top three",
+      "score": "Composite Score: Weighted calculation result considering all stats"
+    }
+  },
+  "terrain": {
+    "road": {
+      "name": "Road",
+      "description": "Suitable for general courses and asphalt surfaces"
+    },
+    "terrain": {
+      "name": "Terrain",
+      "description": "Suitable for off-road and sandy courses"
+    },
+    "water": {
+      "name": "Water",
+      "description": "Suitable for aquatic and wet surfaces"
+    }
   }
 }

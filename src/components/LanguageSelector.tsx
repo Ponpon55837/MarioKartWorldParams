@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import { useAtom } from 'jotai';
-import { languageAtom, SupportedLanguage } from '@/store/atoms';
+import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
+import { SupportedLanguage } from '@/store/atoms';
 import CustomSelect from './CustomSelect';
 
 // 語言選項配置
-const languageOptions = [
+const languageOptions: Array<{ value: SupportedLanguage; label: string; flag: string }> = [
   { value: 'zh-TW', label: '繁體中文', flag: '🇹🇼' },
   { value: 'zh-CN', label: '简体中文', flag: '🇨🇳' },
   { value: 'en', label: 'English', flag: '🇺🇸' },
@@ -17,14 +17,13 @@ interface LanguageSelectorProps {
 }
 
 export default function LanguageSelector({ className = '' }: LanguageSelectorProps) {
-  const { t, i18n } = useTranslation();
-  const [language, setLanguage] = useAtom(languageAtom);
+  const { t } = useTranslation();
+  const { language, changeLanguage } = useLanguagePersistence();
 
   // 處理語言切換
-  const handleLanguageChange = (newLanguage: string) => {
+  const handleMultiLanguageChange = (newLanguage: string) => {
     const lang = newLanguage as SupportedLanguage;
-    setLanguage(lang);
-    i18n.changeLanguage(lang);
+    changeLanguage(lang);
   };
 
   // 準備選項給 CustomSelect
@@ -42,7 +41,7 @@ export default function LanguageSelector({ className = '' }: LanguageSelectorPro
       </label>
       <CustomSelect
         value={language}
-        onChange={handleLanguageChange}
+        onChange={handleMultiLanguageChange}
         options={selectOptions}
         placeholder={`${currentOption?.flag || '🌐'} ${t('language.selector')}`}
         className="min-w-[120px] sm:min-w-[140px]"

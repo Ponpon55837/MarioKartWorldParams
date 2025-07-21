@@ -1,10 +1,14 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
+import { useTranslation } from 'react-i18next';
 import { recommendedCombinationsAtom } from '@/store/atoms';
 import RecommendationCard from '@/components/RecommendationCard';
-import { getTerrainIcon, getTerrainName, getTerrainDescription } from '@/constants/terrain';
+import { getTerrainIcon, useTerrainName, useTerrainDescription } from '@/constants/terrain';
 
 const RecommendationsPage: React.FC = () => {
+  const { t } = useTranslation();
+  const getTerrainName = useTerrainName();
+  const getTerrainDescription = useTerrainDescription();
   const [selectedTerrain, setSelectedTerrain] = useState<'road' | 'terrain' | 'water'>('road');
   const recommendations = useAtomValue(recommendedCombinationsAtom);
 
@@ -46,7 +50,7 @@ const RecommendationsPage: React.FC = () => {
         
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            綜合分數計算：速度 40% + 操控性 30% + 加速度 20% - 重量 10%
+            {t('recommendations.scoreFormula')}
           </p>
         </div>
       </div>
@@ -55,8 +59,8 @@ const RecommendationsPage: React.FC = () => {
       {currentRecommendations.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">🔄</div>
-          <p className="text-gray-500 text-lg">正在計算推薦組合...</p>
-          <p className="text-gray-400 text-sm mt-2">請確保角色和載具資料已載入</p>
+          <p className="text-gray-500 text-lg">{t('recommendations.calculating')}</p>
+          <p className="text-gray-400 text-sm mt-2">{t('recommendations.ensureDataLoaded')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -72,13 +76,13 @@ const RecommendationsPage: React.FC = () => {
 
       {/* 使用說明 */}
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-yellow-800 mb-3">💡 使用說明</h3>
+        <h3 className="text-lg font-semibold text-yellow-800 mb-3">{t('recommendations.instructions.title')}</h3>
         <ul className="text-sm text-yellow-700 space-y-2">
-          <li>• <strong>道路地形</strong>：適合大部分標準賽道，注重速度和操控性平衡</li>
-          <li>• <strong>地形</strong>：適合越野賽道，更注重加速度和重量穩定性</li>
-          <li>• <strong>水面</strong>：適合水上賽道，需要特殊的操控技巧</li>
-          <li>• <strong>排名</strong>：根據綜合分數排列，金銀銅牌代表前三名</li>
-          <li>• <strong>綜合分數</strong>：考慮所有能力值的加權計算結果</li>
+          <li>• <strong>{t('terrain.road.name')}</strong>：{t('recommendations.instructions.roadTerrain')}</li>
+          <li>• <strong>{t('terrain.terrain.name')}</strong>：{t('recommendations.instructions.terrain')}</li>
+          <li>• <strong>{t('terrain.water.name')}</strong>：{t('recommendations.instructions.water')}</li>
+          <li>• <strong>{t('recommendations.instructions.ranking')}</strong></li>
+          <li>• <strong>{t('recommendations.instructions.score')}</strong></li>
         </ul>
       </div>
     </div>

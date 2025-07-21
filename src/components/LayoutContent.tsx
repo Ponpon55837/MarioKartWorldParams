@@ -3,6 +3,7 @@
 import { useTranslation } from 'react-i18next';
 import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
 import LanguageSelector from './LanguageSelector';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 interface LayoutContentProps {
   children: React.ReactNode;
@@ -36,6 +37,7 @@ export default function LayoutContent({ children }: LayoutContentProps) {
       </header>
       <main className="container mx-auto px-4 py-6">
         {children}
+         <SpeedInsights />
       </main>
       <footer className="bg-gray-800 text-white p-6 mt-2">
         <div className="container mx-auto text-center">

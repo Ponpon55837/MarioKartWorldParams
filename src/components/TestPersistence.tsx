@@ -2,14 +2,18 @@
 
 import { useCombinations } from '@/hooks/useMarioKartStore';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useClientMounted } from '@/hooks/useClientMounted';
 
 export default function TestPersistence() {
+  const { t } = useTranslation();
+  const mounted = useClientMounted();
   const { combinations, addCombination, clearAllCombinations } = useCombinations();
   const [testResult, setTestResult] = useState<string>('');
 
   // 創建測試資料
   const testCharacter = {
-    name: '測試瑪利歐',
+    name: t('test.mario'),
     englishName: 'Test Mario',
     displaySpeed: 5,
     roadSpeed: 5,
@@ -24,7 +28,7 @@ export default function TestPersistence() {
   };
 
   const testVehicle = {
-    name: '測試車',
+    name: t('test.vehicle'),
     englishName: 'Test Kart',
     displaySpeed: 3,
     roadSpeed: 3,
@@ -45,7 +49,7 @@ export default function TestPersistence() {
     // 添加測試組合
     addCombination(testCharacter, testVehicle);
     
-    setTestResult('測試組合已添加！請重新整理頁面檢查是否保持...');
+    setTestResult(t('test.added'));
     
     // 3秒後檢查結果
     setTimeout(() => {
@@ -53,15 +57,27 @@ export default function TestPersistence() {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed.length > 0) {
-          setTestResult('✅ 持久化測試成功！組合已儲存到 localStorage');
+          setTestResult(t('test.success'));
         } else {
-          setTestResult('❌ 持久化測試失敗：localStorage 中沒有找到組合');
+          setTestResult(t('test.failNoData'));
         }
       } else {
-        setTestResult('❌ 持久化測試失敗：localStorage 中沒有 mario-kart-combinations 鍵');
+        setTestResult(t('test.failNoKey'));
       }
     }, 1000);
   };
+
+  // 避免 SSR 水合不匹配問題
+  if (!mounted) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 className="text-lg font-bold text-gray-800 mb-4">🧪 載入中...</h3>
+        <div className="text-center py-4">
+          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-6">

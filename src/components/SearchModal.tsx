@@ -4,6 +4,7 @@ import { CharacterStats, VehicleStats } from '@/types';
 import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
 import { useDebounce } from '@/hooks/usePerformance';
+import { useTranslation } from 'react-i18next';
 import { 
   getSearchHistory, 
   addSearchHistory, 
@@ -34,6 +35,8 @@ interface SearchResult {
 }
 
 export default function SearchModal({ onNavigate }: SearchModalProps) {
+  const { t } = useTranslation();
+  
   // 使用全域狀態管理
   const [isOpen, setIsOpen] = useAtom(searchModalOpenAtom);
   const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom);
@@ -238,7 +241,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl my-4 mx-4 overflow-hidden min-h-[400px] max-h-[calc(100vh-2rem)]">
         {/* 搜尋標題列 */}
         <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200 bg-white sticky top-0 z-10">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-800">🔍 搜尋角色與載具</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800">{t('search.modal.title')}</h2>
           <button
             onClick={handleClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
@@ -257,7 +260,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              placeholder="輸入角色或載具名稱..."
+              placeholder={t('search.inputPlaceholder')}
               className="w-full p-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mario-blue focus:border-transparent text-sm sm:text-base"
             />
             <div className="absolute right-3 top-3">
@@ -288,7 +291,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
               {/* 搜尋歷史 */}
               {searchHistory.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-2">🕐 最近搜尋</h3>
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">{t('search.modal.recentSearches')}</h3>
                   <div className="space-y-1">
                     {searchHistory.slice(0, 5).map((item, index) => (
                       <div key={index} className="flex items-center justify-between group">
@@ -298,7 +301,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                         >
                           <span className="font-medium">{item.query}</span>
                           <span className="text-xs text-gray-400 ml-2">
-                            {item.resultCount} 個結果
+                            {item.resultCount} {t('search.modal.resultsCount')}
                           </span>
                         </button>
                         <button
@@ -323,11 +326,11 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                 <div className="flex items-start space-x-2">
                   <span className="text-blue-500 text-sm">💡</span>
                   <div className="text-sm text-blue-700">
-                    <p className="font-medium mb-1">搜尋技巧：</p>
+                    <p className="font-medium mb-1">{t('search.modal.searchTips')}</p>
                     <ul className="space-y-1 text-xs">
-                      <li>• 支援中文和英文名稱搜尋</li>
-                      <li>• 可以搜尋部分名稱，如「瑪利」會找到「瑪利歐」</li>
-                      <li>• 搜尋結果會按相關性排序</li>
+                      <li>{t('search.modal.tip1')}</li>
+                      <li>{t('search.modal.tip2')}</li>
+                      <li>{t('search.modal.tip3')}</li>
                     </ul>
                   </div>
                 </div>
@@ -336,33 +339,33 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
           ) : !searchQuery ? (
             <div className="text-center py-8 text-gray-500">
               <div className="text-6xl mb-4">🎮</div>
-              <p className="text-lg">開始輸入來搜尋角色或載具</p>
-              <p className="text-sm mt-2">支援中文名稱和英文名稱搜尋</p>
+              <p className="text-lg">{t('search.modal.startSearch')}</p>
+              <p className="text-sm mt-2">{t('search.modal.supportBoth')}</p>
             </div>
           ) : isLoading ? (
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mario-blue mx-auto mb-4"></div>
-              <p className="text-gray-500">正在搜尋...</p>
+              <p className="text-gray-500">{t('search.loading')}</p>
             </div>
           ) : searchResults.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <div className="text-6xl mb-4">🤔</div>
-              <p className="text-lg">找不到「{searchQuery}」的結果</p>
-              <p className="text-sm mt-2">試試其他關鍵字，或檢查拼寫</p>
+              <p className="text-lg">{t('search.modal.noResultsFor', { query: searchQuery })}</p>
+              <p className="text-sm mt-2">{t('search.modal.tryOther')}</p>
               <div className="mt-4 text-xs text-gray-400">
-                <p>搜尋技巧：</p>
-                <p>• 嘗試使用更短的關鍵字</p>
-                <p>• 使用中文或英文名稱</p>
-                <p>• 檢查是否有拼寫錯誤</p>
+                <p>{t('search.modal.searchTipTitle')}</p>
+                <p>{t('search.modal.searchTip1')}</p>
+                <p>{t('search.modal.searchTip2')}</p>
+                <p>{t('search.modal.searchTip3')}</p>
               </div>
             </div>
           ) : (
             <div className="space-y-4">
               {/* 搜尋結果統計 */}
               <div className="flex items-center justify-between text-sm text-gray-600">
-                <span>找到 {searchResults.length} 個結果</span>
+                <span>{t('search.modal.foundResults', { count: searchResults.length })}</span>
                 <span className="text-xs">
-                  搜尋「{searchQuery}」用時 {searchQuery.length > 0 ? '~' : ''}0.1秒
+                  {t('search.modal.searchQuery', { query: searchQuery })} {t('search.modal.searchTime')} {searchQuery.length > 0 ? '~' : ''}0.1{t('search.modal.seconds')}
                 </span>
               </div>
 
@@ -377,7 +380,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                           ? 'bg-blue-100 text-blue-800' 
                           : 'bg-green-100 text-green-800'
                       }`}>
-                        {result.type === 'character' ? '角色' : '載具'}
+                        {result.type === 'character' ? t('types.character') : t('types.vehicle')}
                       </span>
                     </div>
 
@@ -416,7 +419,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                 }}
                 className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm"
               >
-                查看所有角色
+                {t('search.modal.viewAllCharacters')}
               </button>
               <button
                 onClick={() => {
@@ -425,7 +428,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                 }}
                 className="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm"
               >
-                查看所有載具
+                {t('search.modal.viewAllVehicles')}
               </button>
               <button
                 onClick={() => {
@@ -434,7 +437,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                 }}
                 className="px-3 py-1 bg-orange-100 text-orange-700 rounded hover:bg-orange-200 transition-colors text-sm"
               >
-                🏆 推薦組合
+                {t('search.modal.recommendedCombos')}
               </button>
             </div>
           )}
@@ -442,10 +445,10 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
           {/* 快捷鍵說明 */}
           <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
             <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 mb-2 sm:mb-0">
-              <span className="text-xs mb-1 sm:mb-0">💡 支援中文和英文名稱搜尋</span>
+              <span className="text-xs mb-1 sm:mb-0">{t('search.modal.supportHint')}</span>
               <div className="flex items-center space-x-1">
                 <kbd className="px-1 sm:px-2 py-1 bg-white border border-gray-300 rounded text-gray-700 font-mono text-xs">Esc</kbd>
-                <span className="text-xs">關閉</span>
+                <span className="text-xs">{t('search.modal.escClose')}</span>
               </div>
             </div>
             <div className="text-center sm:text-right">
@@ -453,7 +456,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                 <kbd className="px-1 sm:px-2 py-1 bg-white border border-gray-300 rounded text-gray-700 font-mono text-xs">Ctrl</kbd>
                 <span className="text-xs">+</span>
                 <kbd className="px-1 sm:px-2 py-1 bg-white border border-gray-300 rounded text-gray-700 font-mono text-xs">K</kbd>
-                <span className="text-xs">開啟搜尋</span>
+                <span className="text-xs">{t('search.modal.ctrlKOpen')}</span>
               </div>
             </div>
           </div>

@@ -1,21 +1,17 @@
+import { useTranslation } from 'react-i18next';
+
 /**
  * 地形配置常數
  */
 export const TERRAIN_CONFIG = {
   road: {
-    icon: '🏁',
-    name: '道路',
-    description: '適合一般賽道和柏油路面'
+    icon: '🏁'
   },
   terrain: {
-    icon: '🌄',
-    name: '地形',
-    description: '適合越野和沙地賽道'
+    icon: '🌄'
   },
   water: {
-    icon: '🌊',
-    name: '水面',
-    description: '適合水上和濕滑路面'
+    icon: '🌊'
   }
 } as const;
 
@@ -29,15 +25,34 @@ export const getTerrainIcon = (terrain: string): string => {
 };
 
 /**
- * 獲取地形名稱
+ * 獲取地形名稱 (需要在組件中使用)
  */
-export const getTerrainName = (terrain: string): string => {
-  return TERRAIN_CONFIG[terrain as TerrainType]?.name || '道路';
+export const useTerrainName = () => {
+  const { t } = useTranslation();
+  
+  return (terrain: string): string => {
+    return t(`terrain.${terrain}.name`) || t('terrain.road.name');
+  };
 };
 
 /**
- * 獲取地形描述
+ * 獲取地形描述 (需要在組件中使用)
  */
+export const useTerrainDescription = () => {
+  const { t } = useTranslation();
+  
+  return (terrain: string): string => {
+    return t(`terrain.${terrain}.description`) || t('terrain.road.description');
+  };
+};
+
+// 兼容性函數 (會在下個版本移除)
+export const getTerrainName = (terrain: string): string => {
+  console.warn('getTerrainName is deprecated, use useTerrainName hook instead');
+  return terrain === 'terrain' ? '地形' : terrain === 'water' ? '水面' : '道路';
+};
+
 export const getTerrainDescription = (terrain: string): string => {
-  return TERRAIN_CONFIG[terrain as TerrainType]?.description || '適合一般賽道和柏油路面';
+  console.warn('getTerrainDescription is deprecated, use useTerrainDescription hook instead');
+  return terrain === 'terrain' ? '適合越野和沙地賽道' : terrain === 'water' ? '適合水上和濕滑路面' : '適合一般賽道和柏油路面';
 };
