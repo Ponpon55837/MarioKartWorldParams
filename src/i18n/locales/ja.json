@@ -12,6 +12,8 @@
     }
   },
   "language": {
+    "switch": "言語切り替え",
+    "current": "現在：日本語",
     "selector": "言語選択",
     "options": {
       "zh-TW": "繁體中文",
@@ -20,6 +22,9 @@
       "ja": "日本語",
       "ko": "한국어"
     }
+  },
+  "admin": {
+    "dataManagement": "データ管理"
   },
   "navigation": {
     "dataPages": "データページ",
@@ -97,10 +102,6 @@
       "score": "総合スコア：すべての能力値を考慮した加重計算結果"
     }
   },
-  "sorting": {
-    "ascending": "昇順",
-    "descending": "降順"
-  },
   "search": {
     "placeholder": "キャラクターやカートを検索...",
     "inputPlaceholder": "キャラクターまたはカート名を入力...",
@@ -141,25 +142,6 @@
     "selectCharacter": "キャラクターを選択",
     "selectVehicle": "カートを選択",
     "chooseOption": "オプションを選択"
-  },
-  "types": {
-    "character": "キャラクター",
-    "vehicle": "カート"
-  },
-  "common": {
-    "all": "すべて",
-    "sortBy": "並び順",
-    "filterBy": "フィルター",
-    "reset": "リセット",
-    "confirm": "確認",
-    "cancel": "キャンセル",
-    "save": "保存",
-    "delete": "削除",
-    "edit": "編集",
-    "close": "閉じる"
-  },
-  "admin": {
-    "dataManagement": "データ管理"
   },
   "combination": {
     "autoSave": "自動保存：作成された組み合わせはローカルに自動保存され、次回訪問時に自動読み込みされます！",
@@ -250,5 +232,28 @@
       "name": "水上",
       "description": "水上と滑りやすい路面に適合"
     }
+  },
+  "common": {
+    "all": "すべて",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "confirm": "確認",
+    "delete": "削除",
+    "edit": "編集",
+    "filterBy": "フィルタ",
+    "reset": "リセット",
+    "save": "保存",
+    "sortBy": "ソート"
+  },
+  "dataPages": {
+    "recommendations": "おすすめ"
+  },
+  "types": {
+    "vehicle": "カート",
+    "character": "キャラクター"
+  },
+  "sorting": {
+    "ascending": "昇順",
+    "descending": "降順"
   }
 }

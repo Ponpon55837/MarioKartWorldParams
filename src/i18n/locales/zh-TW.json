@@ -13,7 +13,15 @@
   },
   "language": {
     "switch": "切換語言",
-    "current": "目前：繁體中文"
+    "current": "目前：繁體中文",
+    "options": {
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    },
+    "selector": "選擇語言"
   },
   "admin": {
     "dataManagement": "資料管理"
@@ -56,7 +64,7 @@
     "clearAll": "清除所有",
     "speedTypes": {
       "road": "一般道路速度",
-      "terrain": "越野地形速度", 
+      "terrain": "越野地形速度",
       "water": "水中速度",
       "default": "速度"
     },
@@ -70,14 +78,14 @@
       "title": "數據說明與圖例",
       "colorLegend": "數據顏色圖例",
       "speed": "速度",
-      "acceleration": "加速度", 
+      "acceleration": "加速度",
       "weight": "重量",
       "handling": "操控性"
     },
     "descriptions": {
       "speedTitle": "速度",
       "roadSpeedDesc": "一般道路：混凝土、柏油路、金屬等平滑表面",
-      "terrainSpeedDesc": "越野地形：泥濘、沙地、雪地等崎嶇地形", 
+      "terrainSpeedDesc": "越野地形：泥濘、沙地、雪地等崎嶇地形",
       "waterSpeedDesc": "水中：水域區域，會啟動水中卡丁車模式",
       "otherStatsTitle": "其他數據",
       "accelerationDesc": "加速度：從靜止到最高速度的時間",
@@ -158,7 +166,7 @@
     "detailedSpeedDistribution": "詳細速度分布",
     "terrainNames": {
       "road": "一般道路",
-      "terrain": "越野地形", 
+      "terrain": "越野地形",
       "water": "水中"
     }
   },
@@ -238,5 +246,28 @@
       "name": "水中",
       "description": "適合水上與濕滑路面"
     }
+  },
+  "common": {
+    "all": "全部",
+    "cancel": "取消",
+    "close": "關閉",
+    "confirm": "確認",
+    "delete": "刪除",
+    "edit": "編輯",
+    "filterBy": "過濾",
+    "reset": "重設",
+    "save": "儲存",
+    "sortBy": "排序"
+  },
+  "dataPages": {
+    "recommendations": "推薦"
+  },
+  "types": {
+    "vehicle": "載具",
+    "character": "角色"
+  },
+  "sorting": {
+    "ascending": "升冪",
+    "descending": "降冪"
   }
 }

@@ -13,7 +13,15 @@
   },
   "language": {
     "switch": "Switch Language",
-    "current": "Current: English"
+    "current": "Current: English",
+    "options": {
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    },
+    "selector": "Select Language"
   },
   "admin": {
     "dataManagement": "Data Management"
@@ -56,7 +64,7 @@
     "clearAll": "Clear All",
     "speedTypes": {
       "road": "Road Speed",
-      "terrain": "Off-Road Speed", 
+      "terrain": "Off-Road Speed",
       "water": "Water Speed",
       "default": "Speed"
     },
@@ -70,14 +78,14 @@
       "title": "Stats Description and Legend",
       "colorLegend": "Stats Color Legend",
       "speed": "Speed",
-      "acceleration": "Acceleration", 
+      "acceleration": "Acceleration",
       "weight": "Weight",
       "handling": "Handling"
     },
     "descriptions": {
       "speedTitle": "Speed",
       "roadSpeedDesc": "Road: Concrete, asphalt, metal and other smooth surfaces",
-      "terrainSpeedDesc": "Off-Road: Mud, sand, snow and other rough terrain", 
+      "terrainSpeedDesc": "Off-Road: Mud, sand, snow and other rough terrain",
       "waterSpeedDesc": "Water: Water areas where aquatic kart mode activates",
       "otherStatsTitle": "Other Stats",
       "accelerationDesc": "Acceleration: Time from standstill to maximum speed",
@@ -158,7 +166,7 @@
     "detailedSpeedDistribution": "Detailed Speed Distribution",
     "terrainNames": {
       "road": "Road",
-      "terrain": "Off-Road", 
+      "terrain": "Off-Road",
       "water": "Water"
     }
   },
@@ -238,5 +246,28 @@
       "name": "Water",
       "description": "Suitable for aquatic and wet surfaces"
     }
+  },
+  "dataPages": {
+    "recommendations": "Recommendations"
+  },
+  "sorting": {
+    "ascending": "Ascending",
+    "descending": "Descending"
+  },
+  "types": {
+    "vehicle": "Vehicle",
+    "character": "Character"
+  },
+  "common": {
+    "all": "All",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "filterBy": "Filter By",
+    "reset": "Reset",
+    "save": "Save",
+    "sortBy": "Sort By"
   }
 }

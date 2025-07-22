@@ -13,7 +13,15 @@
   },
   "language": {
     "switch": "언어 변경",
-    "current": "현재: 한국어"
+    "current": "현재: 한국어",
+    "selector": "언어 선택",
+    "options": {
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    }
   },
   "admin": {
     "dataManagement": "데이터 관리"
@@ -56,7 +64,7 @@
     "clearAll": "전체 삭제",
     "speedTypes": {
       "road": "일반 도로 스피드",
-      "terrain": "오프로드 스피드", 
+      "terrain": "오프로드 스피드",
       "water": "수중 스피드",
       "default": "스피드"
     },
@@ -70,14 +78,14 @@
       "title": "데이터 설명 및 범례",
       "colorLegend": "데이터 색상 범례",
       "speed": "스피드",
-      "acceleration": "가속도", 
+      "acceleration": "가속도",
       "weight": "무게",
       "handling": "핸들링"
     },
     "descriptions": {
       "speedTitle": "스피드",
       "roadSpeedDesc": "일반 도로: 콘크리트, 아스팔트, 금속 등 매끄러운 노면",
-      "terrainSpeedDesc": "오프로드: 진흙, 모래, 눈길 등 거친 지형", 
+      "terrainSpeedDesc": "오프로드: 진흙, 모래, 눈길 등 거친 지형",
       "waterSpeedDesc": "수중: 물이 있는 구역, 호버크래프트 모드 활성화",
       "otherStatsTitle": "기타 데이터",
       "accelerationDesc": "가속도: 정지 상태에서 최고 속도까지 도달하는 시간",
@@ -158,7 +166,7 @@
     "detailedSpeedDistribution": "상세 스피드 분포",
     "terrainNames": {
       "road": "일반 도로",
-      "terrain": "오프로드", 
+      "terrain": "오프로드",
       "water": "수중"
     }
   },
@@ -238,5 +246,28 @@
       "name": "수중",
       "description": "수상과 젖은 노면에 적합"
     }
+  },
+  "common": {
+    "all": "전체",
+    "cancel": "취소",
+    "close": "닫기",
+    "confirm": "확인",
+    "delete": "삭제",
+    "edit": "편집",
+    "filterBy": "필터",
+    "reset": "초기화",
+    "save": "저장",
+    "sortBy": "정렬"
+  },
+  "dataPages": {
+    "recommendations": "추천"
+  },
+  "types": {
+    "vehicle": "카트",
+    "character": "캐릭터"
+  },
+  "sorting": {
+    "ascending": "오름차순",
+    "descending": "내림차순"
   }
 }
