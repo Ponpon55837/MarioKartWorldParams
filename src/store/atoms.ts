@@ -258,26 +258,60 @@ export const loadDataAtom = atom(
     set(errorAtom, null);
 
     try {
-      const response = await fetch('/mario-kart-data.csv');
+      let data;
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // 優先嘗試載入 JSON 格式 (更快)
+      try {
+        if (process.env.NODE_ENV === 'development') {
+          console.log('🚀 嘗試載入 JSON 格式資料...');
+        }
+        
+        const jsonResponse = await fetch('/mario-kart-data.json');
+        
+        if (jsonResponse.ok) {
+          const jsonData = await jsonResponse.json();
+          
+          if (jsonData.data && jsonData.data.characters && jsonData.data.vehicles) {
+            data = jsonData.data;
+            
+            if (process.env.NODE_ENV === 'development') {
+              console.log(`✅ JSON 格式載入成功！${data.characters.length} 個角色，${data.vehicles.length} 個載具`);
+              console.log('📊 資料版本:', jsonData.version);
+              console.log('🕐 最後更新:', jsonData.lastUpdate);
+            }
+          } else {
+            throw new Error('JSON 資料格式不正確');
+          }
+        } else {
+          throw new Error(`JSON 檔案回應錯誤: ${jsonResponse.status}`);
+        }
+      } catch (jsonError) {
+        // JSON 載入失敗，回退到 CSV 格式
+        if (process.env.NODE_ENV === 'development') {
+          console.log('⚠️ JSON 載入失敗，回退到 CSV 格式:', jsonError);
+        }
+        
+        const csvResponse = await fetch('/mario-kart-data.csv');
+        
+        if (!csvResponse.ok) {
+          throw new Error(`CSV 檔案也無法載入: ${csvResponse.status}`);
+        }
+        
+        const csvText = await csvResponse.text();
+        
+        // 使用已存在的 CSV 解析器
+        data = parseMarioKartCSV(csvText);
+        
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`✅ CSV 格式載入完成：${data.characters.length} 個角色，${data.vehicles.length} 個載具`);
+        }
       }
-      
-      const csvText = await response.text();
-      
-      // 使用已存在的 CSV 解析器
-      const data = parseMarioKartCSV(csvText);
       
       if (data.characters.length === 0) {
         throw new Error('未找到角色資料');
       }
       if (data.vehicles.length === 0) {
         throw new Error('未找到載具資料');
-      }
-
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`✅ 載入完成：${data.characters.length} 個角色，${data.vehicles.length} 個載具`);
       }
       
       // 批次更新狀態，減少重新渲染
