@@ -1,6 +1,6 @@
 'use client';
 
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { loadDataAtom, charactersAtom, vehiclesAtom, loadingAtom, errorAtom } from '@/store/atoms';
 

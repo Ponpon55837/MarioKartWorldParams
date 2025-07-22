@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useAtom } from 'jotai';
 import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';

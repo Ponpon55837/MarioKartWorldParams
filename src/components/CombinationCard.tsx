@@ -1,5 +1,5 @@
 import { CharacterStats, VehicleStats } from '@/types';
-import { getStatColor, getStatBarWidth } from '@/utils/csvParser';
+import { getStatBarWidth } from '@/utils/csvParser';
 import { useTranslation } from 'react-i18next';
 
 interface CombinationCardProps {

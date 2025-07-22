@@ -268,6 +268,7 @@
   },
   "sorting": {
     "ascending": "오름차순",
-    "descending": "내림차순"
+    "descending": "내림차순",
+    "sortBy": "정렬 방식"
   }
 }

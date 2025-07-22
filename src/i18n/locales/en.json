@@ -1,10 +1,10 @@
 {
   "app": {
     "title": "🏁 Mario Kart World 🏁",
-    "subtitle": "Mario Kart Notes - Character & Vehicle Stats Reference",
+    "subtitle": "Mario Kart Notes - Character & Vehicle Data Reference",
     "metadata": {
       "title": "Mario Kart World - Mario Kart Notes",
-      "description": "Mario Kart character and vehicle stats reference system"
+      "description": "Mario Kart character and vehicle data reference system"
     },
     "footer": {
       "copyright": "© 2025 Mario Kart World Notes System",
@@ -33,10 +33,10 @@
     "combinations": "Combinations",
     "recommendations": "Recommendations",
     "descriptions": {
-      "characters": "View all character stats data",
-      "vehicles": "View all vehicle stats data",
+      "characters": "View all character data",
+      "vehicles": "View all vehicle data",
       "combinations": "Create and manage character + vehicle combinations",
-      "recommendations": "Recommend optimal combinations based on terrain characteristics"
+      "recommendations": "Get optimal combinations based on terrain characteristics"
     }
   },
   "stats": {
@@ -50,7 +50,7 @@
     "water": "Water",
     "speedType": "Speed Type",
     "handlingType": "Handling Type",
-    "details": "📊 Detailed Data",
+    "details": "📊 Detailed Stats",
     "roadSpeed": "Road Speed",
     "terrainSpeed": "Off-Road Speed",
     "waterSpeed": "Water Speed",
@@ -75,8 +75,8 @@
       "default": "Handling"
     },
     "legend": {
-      "title": "Stats Description and Legend",
-      "colorLegend": "Stats Color Legend",
+      "title": "Data Legend & Guide",
+      "colorLegend": "Data Color Legend",
       "speed": "Speed",
       "acceleration": "Acceleration",
       "weight": "Weight",
@@ -86,19 +86,19 @@
       "speedTitle": "Speed",
       "roadSpeedDesc": "Road: Concrete, asphalt, metal and other smooth surfaces",
       "terrainSpeedDesc": "Off-Road: Mud, sand, snow and other rough terrain",
-      "waterSpeedDesc": "Water: Water areas where aquatic kart mode activates",
+      "waterSpeedDesc": "Water: Water areas that activate underwater kart mode",
       "otherStatsTitle": "Other Stats",
-      "accelerationDesc": "Acceleration: Time from standstill to maximum speed",
+      "accelerationDesc": "Acceleration: Time to reach top speed from standstill",
       "weightDesc": "Weight: Affects collision results and coin collection",
-      "handlingDesc": "Handling: Kart's turning flexibility"
+      "handlingDesc": "Handling: Kart's turning agility and responsiveness"
     },
     "tips": {
-      "usage": "Usage Tips: Darker progress bars indicate higher stats. Percentages show ratio to maximum value, allowing quick comparison between different characters and vehicles!",
-      "notice": "Notice: All character and vehicle combinations in the game receive an additional +3 stat bonus. The table shows raw data, which may be adjusted in actual gameplay."
+      "usage": "Usage Tip: Darker progress bar colors indicate higher stats, percentages show relative values compared to maximum for easy comparison between characters and vehicles!",
+      "notice": "Note: All character and vehicle combinations in-game receive an additional +3 stat bonus. The table shows base stats, actual in-game values may be adjusted."
     },
     "tooltips": {
-      "displayStats": "Display Stats: Stats actually shown in the game",
-      "terrainStats": "Terrain-specific detailed values: Actual performance on each terrain type",
+      "displayStats": "Display Stats: Actual stats shown in-game",
+      "terrainStats": "Terrain-specific detailed values: Real performance on each terrain type",
       "score": "Composite Score: Weighted calculation considering all stats"
     }
   },
@@ -126,40 +126,40 @@
     "inputPlaceholder": "Enter character or vehicle name...",
     "noResults": "No matching results found",
     "loading": "Searching...",
-    "button": "Search Characters and Vehicles",
+    "button": "Search Characters & Vehicles",
     "buttonShort": "Search",
     "shortcutHint": {
       "press": "Press",
-      "quickSearch": "to quick search"
+      "quickSearch": "for quick search"
     },
     "modal": {
-      "title": "🔍 Search Characters and Vehicles",
+      "title": "🔍 Search Characters & Vehicles",
       "recentSearches": "🕐 Recent Searches",
       "resultsCount": "results",
       "searchTime": "Search time",
       "seconds": "seconds",
       "searchTips": "Search Tips:",
-      "tip1": "• Supports Chinese and English name searches",
-      "tip2": "• Partial name search supported, e.g., 'Mario' finds 'Mario'",
-      "tip3": "• Results are sorted by relevance",
-      "startSearch": "Start typing to search characters or vehicles",
-      "supportBoth": "Supports both Chinese and English name searches",
-      "noResultsFor": "No results found for '{query}'",
+      "tip1": "• Supports both English and Chinese name searches",
+      "tip2": "• Supports partial name searches, e.g., 'Mario' will find 'Mario'",
+      "tip3": "• Results sorted by relevance",
+      "startSearch": "Start typing to search for characters or vehicles",
+      "supportBoth": "Supports both English and Chinese name searches",
+      "noResultsFor": "No results found for \"{{query}}\"",
       "tryOther": "Try other keywords or check spelling",
       "searchTipTitle": "Search Tips:",
       "searchTip1": "• Try using shorter keywords",
-      "searchTip2": "• Use Chinese or English names",
+      "searchTip2": "• Use English or Chinese names",
       "searchTip3": "• Check for spelling errors",
       "foundResults": "Found {{count}} results",
-      "searchQuery": "Search '{{query}}'",
+      "searchQuery": "Search \"{{query}}\"",
       "viewAllCharacters": "View All Characters",
       "viewAllVehicles": "View All Vehicles",
       "backToHome": "← Back to Home"
     }
   },
   "combination": {
-    "autoSave": "Auto Save: Created combinations are automatically saved locally and will be loaded automatically on your next visit!",
-    "createNew": "Create New Character + Vehicle Combination",
+    "autoSave": "Auto-save: Created combinations are automatically saved locally and will load on your next visit!",
+    "createNew": "Create new Character + Vehicle combination",
     "selectCharacter": "Select Character 🎮",
     "selectVehicle": "Select Vehicle 🏎️",
     "createButton": "Create Combination",
@@ -178,15 +178,15 @@
     "failNoData": "❌ Test failed: No combination data found in localStorage",
     "failNoKey": "❌ Test failed: No key found in localStorage",
     "loading": "Loading...",
-    "title": "Persistence Testing Tool",
+    "title": "Persistence Test Tool",
     "currentCount": "Current combination count:",
-    "autoSaveInfo": "These combinations should be automatically saved to localStorage",
+    "autoSaveInfo": "These combinations should auto-save to localStorage",
     "testPersistence": "Test Persistence",
     "clearTestData": "Clear Test Data",
     "instructions": "Test Instructions:",
-    "instruction1": "Clicking 'Test Persistence' will add a test combination",
-    "instruction2": "Combinations should remain after page refresh",
-    "instruction3": "Combination data is stored in localStorage under the \"mario-kart-combinations\" key"
+    "instruction1": "Click 'Test Persistence' to add a test combination",
+    "instruction2": "Combinations should persist after page refresh",
+    "instruction3": "Combination data is stored in localStorage under 'mario-kart-combinations' key"
   },
   "recommendations": {
     "scoreFormula": "Composite Score Calculation: Speed 40% + Handling 30% + Acceleration 20% - Weight 10%",
@@ -195,68 +195,57 @@
     "compositeScore": "Composite Score",
     "optimizedFor": "Optimized for {{terrain}} terrain",
     "instructions": {
-      "title": "💡 Usage Instructions",
+      "title": "💡 Usage Guide",
       "description": "This page provides optimal character and vehicle combinations for different terrain types. Click the buttons below to view recommendations for specific terrains.",
-      "howToUse": "How to Use:",
+      "howToUse": "How to use:",
       "step1": "• Click terrain buttons (Road, Off-Road, Water) to view optimized combinations",
-      "step2": "• Each combination shows composite scores and detailed stats breakdown",
+      "step2": "• Each combination shows composite score and detailed stat analysis",
       "step3": "• Click 'Add to My Combinations' to save favorite combinations",
-      "step4": "• Scores are calculated based on terrain-specific performance weighting"
+      "step4": "• Scores are calculated using terrain-specific performance weights"
     },
     "backToHome": "← Back to Home"
   },
   "loading": {
     "initializing": "Initializing...",
     "loadingData": "Loading Mario Kart data...",
-    "error": "Loading Error",
-    "retry": "Reload"
+    "error": "Loading error",
+    "retry": "Retry"
   },
   "emptyCombination": {
     "title": "No combinations created yet",
-    "subtitle": "Use the selector above to create your first combination!",
-    "tip": "Select a character and a vehicle, then click the 'Create Combination' button"
+    "subtitle": "Use the selectors above to create your first combination!",
+    "tip": "Choose a character and a vehicle, then click the 'Create Combination' button"
   },
   "debug": {
     "title": "Data Loading Debug",
     "loadingState": "Loading State",
-    "charactersCount": "Characters Count",
-    "vehiclesCount": "Vehicles Count",
+    "charactersCount": "Character Count",
+    "vehiclesCount": "Vehicle Count",
     "errorState": "Error State",
     "loading": "Loading...",
     "idle": "Idle",
     "noError": "No Error",
     "manualLoad": "Manual Load",
-    "testDirectFetch": "Test Direct Request",
+    "testDirectFetch": "Test Direct Fetch",
     "errorDetails": "Error Details:",
-    "loadSuccess": "Load Success!",
-    "firstCharacters": "First 3 Characters:",
-    "firstVehicles": "First 3 Vehicles:",
+    "loadSuccess": "Load successful!",
+    "firstCharacters": "First 3 characters:",
+    "firstVehicles": "First 3 vehicles:",
     "speed": "Speed"
   },
   "terrain": {
     "road": {
       "name": "Road",
-      "description": "Suitable for general courses and asphalt surfaces"
+      "description": "Suitable for regular tracks and paved surfaces"
     },
     "terrain": {
       "name": "Off-Road",
-      "description": "Suitable for off-road and sandy courses"
+      "description": "Suitable for off-road and sandy tracks"
     },
     "water": {
       "name": "Water",
-      "description": "Suitable for aquatic and wet surfaces"
+      "description": "Suitable for water and slippery surfaces"
     }
-  },
-  "dataPages": {
-    "recommendations": "Recommendations"
-  },
-  "sorting": {
-    "ascending": "Ascending",
-    "descending": "Descending"
-  },
-  "types": {
-    "vehicle": "Vehicle",
-    "character": "Character"
   },
   "common": {
     "all": "All",
@@ -265,9 +254,21 @@
     "confirm": "Confirm",
     "delete": "Delete",
     "edit": "Edit",
-    "filterBy": "Filter By",
+    "filterBy": "Filter",
     "reset": "Reset",
     "save": "Save",
+    "sortBy": "Sort"
+  },
+  "dataPages": {
+    "recommendations": "Recommendations"
+  },
+  "types": {
+    "vehicle": "Vehicle",
+    "character": "Character"
+  },
+  "sorting": {
+    "ascending": "Ascending",
+    "descending": "Descending",
     "sortBy": "Sort By"
   }
 }

@@ -30,13 +30,13 @@
     "dataPages": "資料頁面",
     "characters": "角色",
     "vehicles": "載具",
-    "combinations": "組合配置",
-    "recommendations": "推薦配置",
+    "combinations": "組合",
+    "recommendations": "推薦",
     "descriptions": {
       "characters": "查看所有角色數據資料",
       "vehicles": "查看所有載具數據資料",
-      "combinations": "建立與管理角色+載具組合配置",
-      "recommendations": "根據地形特性推薦最佳組合配置"
+      "combinations": "建立與管理角色+載具組合",
+      "recommendations": "根據地形特性推薦最佳組合"
     }
   },
   "stats": {
@@ -268,6 +268,7 @@
   },
   "sorting": {
     "ascending": "升冪",
-    "descending": "降冪"
+    "descending": "降冪",
+    "sortBy": "排序方式"
   }
 }

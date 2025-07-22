@@ -1,27 +1,27 @@
 {
   "app": {
-    "title": "🏁 Mario Kart World 🏁",
-    "subtitle": "マリオカートノート - キャラクター・カート性能値参照",
+    "title": "🏁 マリオカート ワールド 🏁",
+    "subtitle": "マリオカート ノート - キャラクター＆マシンデータ参考",
     "metadata": {
-      "title": "Mario Kart World - マリオカートノート",
-      "description": "マリオカートのキャラクターとカートの性能値参照システム"
+      "title": "マリオカート ワールド - マリオカート ノート",
+      "description": "マリオカート キャラクター＆マシンデータ参考システム"
     },
     "footer": {
-      "copyright": "© 2025 Mario Kart World ノートシステム",
-      "disclaimer": "コミュニティデータに基づく非公式ツール @Upfloor5"
+      "copyright": "© 2025 マリオカート ワールド ノートシステム",
+      "disclaimer": "コミュニティデータベースの非公式ツール @Upfloor5"
     }
   },
   "language": {
-    "switch": "言語切り替え",
+    "switch": "言語切替",
     "current": "現在：日本語",
-    "selector": "言語選択",
     "options": {
-      "zh-TW": "繁體中文",
-      "zh-CN": "简体中文",
       "en": "English",
       "ja": "日本語",
-      "ko": "한국어"
-    }
+      "ko": "한국어",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    },
+    "selector": "言語選択"
   },
   "admin": {
     "dataManagement": "データ管理"
@@ -29,14 +29,14 @@
   "navigation": {
     "dataPages": "データページ",
     "characters": "キャラクター",
-    "vehicles": "カート",
-    "combinations": "組み合わせ",
-    "recommendations": "おすすめ",
+    "vehicles": "マシン",
+    "combinations": "組み合わせ設定",
+    "recommendations": "おすすめ設定",
     "descriptions": {
-      "characters": "すべてのキャラクターの能力値データを閲覧",
-      "vehicles": "すべてのカートの能力値データを閲覧",
-      "combinations": "キャラクター+カートの組み合わせを作成・管理",
-      "recommendations": "地形特性に基づいて最適な組み合わせを推薦"
+      "characters": "全キャラクターのデータを表示",
+      "vehicles": "全マシンのデータを表示",
+      "combinations": "キャラクター＋マシンの組み合わせ設定を作成・管理",
+      "recommendations": "コース特性に基づく最適な組み合わせを提案"
     }
   },
   "stats": {
@@ -45,168 +45,182 @@
     "weight": "重さ",
     "handling": "ハンドリング",
     "display": "ゲーム表示",
-    "road": "ロード",
+    "road": "陸上",
     "terrain": "オフロード",
-    "water": "水上",
+    "water": "水中",
     "speedType": "スピードタイプ",
     "handlingType": "ハンドリングタイプ",
     "details": "📊 詳細データ",
-    "roadSpeed": "ロードスピード",
+    "roadSpeed": "陸上スピード",
     "terrainSpeed": "オフロードスピード",
-    "waterSpeed": "水上スピード",
-    "roadHandling": "ロードハンドリング",
+    "waterSpeed": "水中スピード",
+    "roadHandling": "陸上ハンドリング",
     "terrainHandling": "オフロードハンドリング",
-    "waterHandling": "水上ハンドリング",
-    "total": "合計 {{charactersCount}} キャラクターと {{vehiclesCount}} カート",
+    "waterHandling": "水中ハンドリング",
+    "total": "合計 {{charactersCount}} キャラクター、{{vehiclesCount}} マシン",
     "characterCount": "キャラクター ({{count}})",
-    "vehicleCount": "カート ({{count}})",
-    "combinationCount": "キャラクター+カート組み合わせ ({{count}})",
+    "vehicleCount": "マシン ({{count}})",
+    "combinationCount": "キャラクター＋マシン組み合わせ ({{count}})",
     "clearAll": "すべてクリア",
     "speedTypes": {
-      "road": "ロードスピード",
-      "terrain": "オフロードスピード", 
-      "water": "水上スピード",
+      "road": "陸上スピード",
+      "terrain": "オフロードスピード",
+      "water": "水中スピード",
       "default": "スピード"
     },
     "handlingTypes": {
-      "road": "ロードハンドリング",
+      "road": "陸上ハンドリング",
       "terrain": "オフロードハンドリング",
-      "water": "水上ハンドリング",
+      "water": "水中ハンドリング",
       "default": "ハンドリング"
     },
     "legend": {
-      "title": "能力値説明と凡例",
-      "colorLegend": "能力値カラー凡例",
+      "title": "データ説明と凡例",
+      "colorLegend": "データカラー凡例",
       "speed": "スピード",
-      "acceleration": "加速", 
+      "acceleration": "加速",
       "weight": "重さ",
       "handling": "ハンドリング"
     },
     "descriptions": {
       "speedTitle": "スピード",
-      "roadSpeedDesc": "ロード：コンクリート、アスファルト、金属などの滑らかな地面",
-      "terrainSpeedDesc": "オフロード：泥、砂、雪などの荒い地面", 
-      "waterSpeedDesc": "水上：水上カートモードが発動する水域",
-      "otherStatsTitle": "その他の能力値",
-      "accelerationDesc": "加速：静止状態から最高速度までの時間",
-      "weightDesc": "重さ：衝突結果とコイン加算に影響",
-      "handlingDesc": "ハンドリング：カートの旋回の柔軟性"
+      "roadSpeedDesc": "陸上：コンクリート、アスファルト、メタルなどの滑らかな路面",
+      "terrainSpeedDesc": "オフロード：泥、砂地、雪などの悪路",
+      "waterSpeedDesc": "水中：水域エリア、ホバークラフトモードが発動",
+      "otherStatsTitle": "その他のデータ",
+      "accelerationDesc": "加速：停止状態から最高速度までの時間",
+      "weightDesc": "重さ：衝突結果とコイン収集に影響",
+      "handlingDesc": "ハンドリング：カートのコーナリング性能"
     },
     "tips": {
-      "usage": "使用のヒント：色が濃いプログレスバーほど能力値が高いことを表します。パーセンテージは最高値に対する比率を示し、異なるキャラクターとカートの優劣を素早く比較できます！",
-      "notice": "注意：ゲーム内のすべてのキャラクターとカートの組み合わせは、追加で +3 の能力値ボーナスを受けます。表の数値は生データであり、実際のゲームプレイでは調整される場合があります。"
+      "usage": "使用ヒント：プログレスバーの色が濃いほどデータが高く、パーセンテージは最大値に対する割合を示し、異なるキャラクター＆マシンの素早い比較が可能です！",
+      "notice": "注意事項：ゲーム内では全キャラクター＆マシンの組み合わせに追加で+3のデータボーナスが付きます。表は原データを表示しており、実際のゲームでは調整される場合があります。"
     },
     "tooltips": {
-      "displayStats": "表示値：ゲーム内で実際に表示される能力値",
-      "terrainStats": "地形別詳細値：各地形での実際のパフォーマンス",
-      "score": "総合スコア：すべての能力値を考慮した加重計算結果"
+      "displayStats": "表示データ：ゲーム内で実際に表示されるデータ",
+      "terrainStats": "地形専用詳細数値：各地形タイプでの実際のパフォーマンス",
+      "score": "総合スコア：全データを考慮した重み付け計算"
     }
   },
+  "selection": {
+    "all": "すべて",
+    "character": "キャラクター",
+    "vehicle": "マシン",
+    "sortBy": "並び順",
+    "sortByRoadSpeed": "陸上スピード",
+    "sortByTerrainSpeed": "オフロードスピード",
+    "sortByWaterSpeed": "水中スピード",
+    "sortByAcceleration": "加速",
+    "sortByWeight": "重さ",
+    "sortByRoadHandling": "陸上ハンドリング",
+    "sortByTerrainHandling": "オフロードハンドリング",
+    "sortByWaterHandling": "水中ハンドリング",
+    "filterBySpeed": "スピードで絞り込み",
+    "filterByHandling": "ハンドリングで絞り込み",
+    "selectCharacter": "キャラクター選択",
+    "selectVehicle": "マシン選択",
+    "chooseOption": "選択してください"
+  },
   "search": {
-    "placeholder": "キャラクターやカートを検索...",
-    "inputPlaceholder": "キャラクターまたはカート名を入力...",
-    "noResults": "一致する結果が見つかりません",
+    "placeholder": "キャラクターまたはマシンを検索...",
+    "inputPlaceholder": "キャラクターまたはマシン名を入力...",
+    "noResults": "該当する結果が見つかりません",
     "loading": "検索中...",
-    "button": "キャラクターとカートを検索",
+    "button": "キャラクター＆マシン検索",
     "buttonShort": "検索",
     "shortcutHint": {
       "press": "押す",
       "quickSearch": "クイック検索"
     },
     "modal": {
-      "title": "🔍 キャラクターとカートを検索",
+      "title": "🔍 キャラクター＆マシン検索",
       "recentSearches": "🕐 最近の検索",
       "resultsCount": "件の結果",
       "searchTime": "検索時間",
       "seconds": "秒",
       "searchTips": "検索のコツ：",
       "tip1": "• 日本語と英語の名前検索に対応",
-      "tip2": "• 部分名検索対応、例：「マリオ」で「マリオ」を検索",
+      "tip2": "• 部分名検索対応、例：「マリオ」で「マリオ」を検索可能",
       "tip3": "• 結果は関連度順に表示",
-      "startSearch": "キャラクターやカートを検索するには入力を開始してください",
+      "startSearch": "キャラクターまたはマシンを検索するには入力を開始してください",
       "supportBoth": "日本語と英語の名前検索に対応",
-      "noResultsFor": "「{{query}}」の検索結果が見つかりません",
+      "noResultsFor": "「{{query}}」に関連する結果が見つかりません",
       "tryOther": "他のキーワードを試すか、スペルを確認してください",
       "searchTipTitle": "検索のコツ：",
-      "searchTip1": "• より短いキーワードを使用してみてください",
+      "searchTip1": "• より短いキーワードを試してください",
       "searchTip2": "• 日本語または英語の名前を使用",
       "searchTip3": "• スペルミスがないか確認",
       "foundResults": "{{count}}件の結果が見つかりました",
       "searchQuery": "「{{query}}」を検索",
       "viewAllCharacters": "すべてのキャラクターを表示",
-      "viewAllVehicles": "すべてのカートを表示",
+      "viewAllVehicles": "すべてのマシンを表示",
       "backToHome": "← ホームに戻る"
     }
   },
-  "selection": {
-    "selectCharacter": "キャラクターを選択",
-    "selectVehicle": "カートを選択",
-    "chooseOption": "オプションを選択"
-  },
   "combination": {
-    "autoSave": "自動保存：作成された組み合わせはローカルに自動保存され、次回訪問時に自動読み込みされます！",
-    "createNew": "新しいキャラクター+カート組み合わせ作成",
+    "autoSave": "自動保存：作成した組み合わせは自動的にローカルに保存され、次回訪問時に自動読み込みされます！",
+    "createNew": "新しいキャラクター＋マシン組み合わせを作成",
     "selectCharacter": "キャラクター選択 🎮",
-    "selectVehicle": "カート選択 🏎️",
+    "selectVehicle": "マシン選択 🏎️",
     "createButton": "組み合わせ作成",
     "detailedSpeedDistribution": "詳細スピード分布",
     "terrainNames": {
-      "road": "ロード",
-      "terrain": "オフロード", 
-      "water": "水上"
+      "road": "陸上",
+      "terrain": "オフロード",
+      "water": "水中"
     }
   },
   "test": {
     "mario": "テストマリオ",
-    "vehicle": "テストカート",
-    "added": "🟡 テスト組み合わせを追加しました...",
+    "vehicle": "テストマシン",
+    "added": "🟡 テスト組み合わせを追加中...",
     "success": "✅ 永続化テスト成功！組み合わせがlocalStorageに保存されました",
-    "failNoData": "❌ テスト失敗：localStorageで組み合わせデータが見つかりません",
-    "failNoKey": "❌ テスト失敗：localStorageでキーが見つかりません",
+    "failNoData": "❌ テスト失敗：localStorageに組み合わせデータが見つかりません",
+    "failNoKey": "❌ テスト失敗：localStorageにキーが見つかりません",
     "loading": "読み込み中...",
     "title": "永続化テストツール",
     "currentCount": "現在の組み合わせ数：",
-    "autoSaveInfo": "これらの組み合わせはlocalStorageに自動保存されるはずです",
+    "autoSaveInfo": "これらの組み合わせはlocalStorageに自動保存されます",
     "testPersistence": "永続化テスト",
-    "clearTestData": "テストデータクリア",
+    "clearTestData": "テストデータをクリア",
     "instructions": "テスト説明：",
     "instruction1": "「永続化テスト」をクリックするとテスト組み合わせが追加されます",
     "instruction2": "ページ更新後も組み合わせが残っているはずです",
-    "instruction3": "組み合わせデータはlocalStorageの\"mario-kart-combinations\"キーに保存されます"
+    "instruction3": "組み合わせデータはlocalStorageの「mario-kart-combinations」キーに保存されます"
   },
   "recommendations": {
-    "scoreFormula": "総合スコア計算：スピード 40% + ハンドリング 30% + 加速度 20% - 重さ 10%",
-    "calculating": "推奨組み合わせを計算中...",
-    "ensureDataLoaded": "キャラクターとカートのデータが読み込まれていることを確認してください",
+    "scoreFormula": "総合スコア計算：スピード40% + ハンドリング30% + 加速20% - 重さ10%",
+    "calculating": "おすすめ組み合わせを計算中...",
+    "ensureDataLoaded": "キャラクター＆マシンデータが読み込まれていることを確認してください",
     "compositeScore": "総合スコア",
     "optimizedFor": "{{terrain}}地形に最適化",
     "instructions": {
       "title": "💡 使用方法",
-      "description": "このページでは、異なる地形タイプに最適なキャラクターとカートの組み合わせを提供します。下のボタンをクリックして特定の地形の推奨を表示してください。",
+      "description": "このページでは、異なる地形タイプに最適なキャラクター＆マシンの組み合わせを提案します。下のボタンをクリックして特定地形のおすすめ設定を表示してください。",
       "howToUse": "使用方法：",
-      "step1": "• 地形ボタン（ロード、オフロード、水上）をクリックして最適化された組み合わせを表示",
-      "step2": "• 各組み合わせは総合スコアと詳細な能力値の内訳を表示",
+      "step1": "• 地形ボタン（陸上、オフロード、水中）をクリックして最適化組み合わせを表示",
+      "step2": "• 各組み合わせは総合スコアと詳細データ分析を表示",
       "step3": "• 「マイ組み合わせに追加」をクリックしてお気に入りの組み合わせを保存",
-      "step4": "• スコアは地形特化パフォーマンス重み付けに基づいて計算"
+      "step4": "• スコアは地形専用パフォーマンス重みに基づいて計算"
     },
     "backToHome": "← ホームに戻る"
   },
   "loading": {
     "initializing": "初期化中...",
-    "loadingData": "マリオカートデータ読み込み中...",
+    "loadingData": "マリオカートデータを読み込み中...",
     "error": "読み込みエラー",
     "retry": "再読み込み"
   },
   "emptyCombination": {
     "title": "まだ組み合わせが作成されていません",
-    "subtitle": "上のセレクターを使用して最初の組み合わせを作成してください！",
-    "tip": "キャラクターとカートを選択して、「組み合わせ作成」ボタンをクリックしてください"
+    "subtitle": "上のセレクターを使って最初の組み合わせを作成してください！",
+    "tip": "キャラクターとマシンを選択して、「組み合わせ作成」ボタンをクリックしてください"
   },
   "debug": {
     "title": "データ読み込みデバッグ",
     "loadingState": "読み込み状態",
     "charactersCount": "キャラクター数",
-    "vehiclesCount": "カート数",
+    "vehiclesCount": "マシン数",
     "errorState": "エラー状態",
     "loading": "読み込み中...",
     "idle": "待機中",
@@ -216,21 +230,21 @@
     "errorDetails": "エラー詳細：",
     "loadSuccess": "読み込み成功！",
     "firstCharacters": "最初の3キャラクター：",
-    "firstVehicles": "最初の3カート：",
+    "firstVehicles": "最初の3マシン：",
     "speed": "スピード"
   },
   "terrain": {
     "road": {
-      "name": "ロード",
-      "description": "一般コースとアスファルト路面に適合"
+      "name": "陸上",
+      "description": "通常コースとアスファルト路面に適している"
     },
     "terrain": {
-      "name": "オフロード", 
-      "description": "オフロードと砂地コースに適合"
+      "name": "オフロード",
+      "description": "オフロードと砂地コースに適している"
     },
     "water": {
-      "name": "水上",
-      "description": "水上と滑りやすい路面に適合"
+      "name": "水中",
+      "description": "水上と滑りやすい路面に適している"
     }
   },
   "common": {
@@ -240,20 +254,21 @@
     "confirm": "確認",
     "delete": "削除",
     "edit": "編集",
-    "filterBy": "フィルタ",
+    "filterBy": "絞り込み",
     "reset": "リセット",
     "save": "保存",
-    "sortBy": "ソート"
+    "sortBy": "並び順"
   },
   "dataPages": {
     "recommendations": "おすすめ"
   },
   "types": {
-    "vehicle": "カート",
+    "vehicle": "マシン",
     "character": "キャラクター"
   },
   "sorting": {
     "ascending": "昇順",
-    "descending": "降順"
+    "descending": "降順",
+    "sortBy": "並び順"
   }
 }
