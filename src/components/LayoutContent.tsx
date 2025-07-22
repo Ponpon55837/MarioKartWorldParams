@@ -2,7 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
-import LanguageSelector from './LanguageSelector';
+import LanguageSelector from '@/components/LanguageSelector';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 interface LayoutContentProps {

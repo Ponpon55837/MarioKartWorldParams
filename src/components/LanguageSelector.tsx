@@ -36,9 +36,9 @@ export default function LanguageSelector({ className = '' }: LanguageSelectorPro
 
   return (
     <div className={`flex flex-col sm:flex-row sm:items-center gap-2 ${className}`}>
-      <label className="text-xs sm:text-sm font-medium text-white/90 whitespace-nowrap text-center sm:text-left">
+      {/* <label className="text-xs sm:text-sm font-medium text-white/90 whitespace-nowrap text-center sm:text-left">
         {t('language.selector')}
-      </label>
+      </label> */}
       <CustomSelect
         value={language}
         onChange={handleMultiLanguageChange}
