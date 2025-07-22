@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { parseMarioKartCSV } from '@/utils/csvParser';
 
 // Google Sheets CSV 導出 URL
-const GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/1k4Q-bdzLDdsOfEe07bNkw9DOtTUcxqNHAyXmoZqhngU/export?format=csv&gid=735843013';
+const GOOGLE_SHEETS_CSV_URL = process.env.GOOGLE_SHEETS_CSV_URL || '';
 
 export async function POST() {
   try {
