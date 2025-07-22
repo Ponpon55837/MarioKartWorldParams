@@ -37,7 +37,10 @@
       "vehicles": "View all vehicle data",
       "combinations": "Create and manage character + vehicle combinations",
       "recommendations": "Get optimal combinations based on terrain characteristics"
-    }
+    },
+    "goToCombinations": "Want to create character + vehicle combinations? Go to",
+    "combinationsPage": "Combinations Page",
+    "filterAndSort": "Filter and Sort"
   },
   "stats": {
     "speed": "Speed",
@@ -154,6 +157,10 @@
       "searchQuery": "Search \"{{query}}\"",
       "viewAllCharacters": "View All Characters",
       "viewAllVehicles": "View All Vehicles",
+      "recommendedCombos": "Recommended Combinations",
+      "supportHint": "Supports both English and Chinese name searches",
+      "escClose": "Press ESC key to close search window",
+      "ctrlKOpen": "Press Ctrl + K to open search",
       "backToHome": "← Back to Home"
     }
   },
@@ -198,10 +205,7 @@
       "title": "💡 Usage Guide",
       "description": "This page provides optimal character and vehicle combinations for different terrain types. Click the buttons below to view recommendations for specific terrains.",
       "howToUse": "How to use:",
-      "step1": "• Click terrain buttons (Road, Off-Road, Water) to view optimized combinations",
-      "step2": "• Each combination shows composite score and detailed stat analysis",
-      "step3": "• Click 'Add to My Combinations' to save favorite combinations",
-      "step4": "• Scores are calculated using terrain-specific performance weights"
+      "step1": "Important Note: All character and vehicle combinations in the game receive an additional +3 stat bonus, which may be handled by a separate function. This applies to Mario Kart 7, Mario Kart 8, and Mario Kart 8 Deluxe. Some vehicles have completely different stats when used with Bowser or ultra-lightweight characters compared to other characters. See the 'Stat Display Inconsistencies' section below for details. Some vehicles have exceptionally high stats in certain areas, such as the Stellar Sled with +11 water speed, far exceeding all other vehicles. While it's unclear why Nintendo designed it this way, this value should be accurate. The 'Speed' and 'Handling' shown in the game interface appear as single values, but are actually the sum of three sub-stats. The values displayed in-game are only rough averages and not precise. The 'Terrain Stats' listed in the table are only tiers (e.g., 1 is slower than 2), not actual values. To obtain actual values, data mining is required. Some tiers are not used by any vehicles in the game, such as no vehicle having terrain speed tier 3. This can be verified by comparing characters and vehicles with similar tiers. Characters themselves likely have hidden 'Handling' sub-stats that are currently unknown and under investigation."
     },
     "backToHome": "← Back to Home"
   },

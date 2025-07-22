@@ -78,11 +78,7 @@ const RecommendationsPage: React.FC = () => {
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-yellow-800 mb-3">{t('recommendations.instructions.title')}</h3>
         <ul className="text-sm text-yellow-700 space-y-2">
-          <li>• <strong>{t('terrain.road.name')}</strong>：{t('recommendations.instructions.roadTerrain')}</li>
-          <li>• <strong>{t('terrain.terrain.name')}</strong>：{t('recommendations.instructions.terrain')}</li>
-          <li>• <strong>{t('terrain.water.name')}</strong>：{t('recommendations.instructions.water')}</li>
-          <li>• <strong>{t('recommendations.instructions.ranking')}</strong></li>
-          <li>• <strong>{t('recommendations.instructions.score')}</strong></li>
+          <li>• <strong>{t('recommendations.instructions.step1')}</strong></li>
         </ul>
       </div>
     </div>

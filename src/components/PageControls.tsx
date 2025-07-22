@@ -88,12 +88,12 @@ export default function PageControls({
           </p>
           {currentPage !== 'combinations' && currentPage !== 'recommendations' && (
             <p className="text-xs text-gray-500 mt-1">
-              💡 想建立角色+載具組合？前往 
+              💡 {t('navigation.goToCombinations')}
               <button 
                 onClick={() => setCurrentPage('combinations')}
                 className="text-purple-600 hover:text-purple-800 font-medium mx-1 underline"
               >
-                組合頁面
+                {t('navigation.combinationsPage')}
               </button>
             </p>
           )}
@@ -103,7 +103,7 @@ export default function PageControls({
       {/* 篩選與排序 */}
       {currentPage !== 'combinations' && currentPage !== 'recommendations' && (
         <div className="border-t border-gray-200 pt-3">
-          <h3 className="text-base font-medium text-gray-700 mb-3 text-center">🔧 篩選與排序</h3>
+          <h3 className="text-base font-medium text-gray-700 mb-3 text-center">🔧 {t('navigation.filterAndSort')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* 排序依據 */}
             <div>
