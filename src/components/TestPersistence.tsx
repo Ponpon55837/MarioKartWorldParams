@@ -2,14 +2,18 @@
 
 import { useCombinations } from '@/hooks/useMarioKartStore';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useClientMounted } from '@/hooks/useClientMounted';
 
 export default function TestPersistence() {
+  const { t } = useTranslation();
+  const mounted = useClientMounted();
   const { combinations, addCombination, clearAllCombinations } = useCombinations();
   const [testResult, setTestResult] = useState<string>('');
 
   // 創建測試資料
   const testCharacter = {
-    name: '測試瑪利歐',
+    name: t('test.mario'),
     englishName: 'Test Mario',
     displaySpeed: 5,
     roadSpeed: 5,
@@ -24,7 +28,7 @@ export default function TestPersistence() {
   };
 
   const testVehicle = {
-    name: '測試車',
+    name: t('test.vehicle'),
     englishName: 'Test Kart',
     displaySpeed: 3,
     roadSpeed: 3,
@@ -45,7 +49,7 @@ export default function TestPersistence() {
     // 添加測試組合
     addCombination(testCharacter, testVehicle);
     
-    setTestResult('測試組合已添加！請重新整理頁面檢查是否保持...');
+    setTestResult(t('test.added'));
     
     // 3秒後檢查結果
     setTimeout(() => {
@@ -53,27 +57,39 @@ export default function TestPersistence() {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed.length > 0) {
-          setTestResult('✅ 持久化測試成功！組合已儲存到 localStorage');
+          setTestResult(t('test.success'));
         } else {
-          setTestResult('❌ 持久化測試失敗：localStorage 中沒有找到組合');
+          setTestResult(t('test.failNoData'));
         }
       } else {
-        setTestResult('❌ 持久化測試失敗：localStorage 中沒有 mario-kart-combinations 鍵');
+        setTestResult(t('test.failNoKey'));
       }
     }, 1000);
   };
 
+  // 避免 SSR 水合不匹配問題
+  if (!mounted) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 className="text-lg font-bold text-gray-800 mb-4">🧪 {t('test.loading')}</h3>
+        <div className="text-center py-4">
+          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-      <h3 className="text-lg font-bold text-gray-800 mb-4">🧪 持久化測試工具</h3>
+      <h3 className="text-lg font-bold text-gray-800 mb-4">🧪 {t('test.title')}</h3>
       
       <div className="space-y-4">
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="text-sm text-blue-800 mb-2">
-            <strong>目前組合數量：</strong>{combinations.length}
+            <strong>{t('test.currentCount')}</strong>{combinations.length}
           </p>
           <p className="text-xs text-blue-600">
-            這些組合應該會自動儲存到 localStorage 中
+            {t('test.autoSaveInfo')}
           </p>
         </div>
 
@@ -82,14 +98,14 @@ export default function TestPersistence() {
             onClick={testPersistence}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
-            🧪 測試持久化
+            🧪 {t('test.testPersistence')}
           </button>
           
           <button
             onClick={clearAllCombinations}
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
           >
-            🗑️ 清除測試資料
+            🗑️ {t('test.clearTestData')}
           </button>
         </div>
 
@@ -106,11 +122,11 @@ export default function TestPersistence() {
         )}
 
         <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
-          <strong>測試說明：</strong>
+          <strong>{t('test.instructions')}</strong>
           <ul className="mt-1 space-y-1">
-            <li>• 點擊「測試持久化」會添加一個測試組合</li>
-            <li>• 重新整理頁面後組合應該還在</li>
-            <li>• 組合資料儲存在 localStorage 中的 &quot;mario-kart-combinations&quot; 鍵</li>
+            <li>• {t('test.instruction1')}</li>
+            <li>• {t('test.instruction2')}</li>
+            <li>• {t('test.instruction3')}</li>
           </ul>
         </div>
       </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { STAT_CONFIGS, APP_CONSTANTS } from '@/constants';
-import { getStatColor } from '@/utils/csvParser';
 
 interface StatBarProps {
   label: string;

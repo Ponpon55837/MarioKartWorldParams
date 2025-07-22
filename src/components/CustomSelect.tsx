@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Option {
   value: string;
@@ -13,7 +14,10 @@ interface CustomSelectProps {
   className?: string;
 }
 
-export default function CustomSelect({ value, onChange, options, placeholder = "請選擇...", className = "" }: CustomSelectProps) {
+export default function CustomSelect({ value, onChange, options, placeholder, className = "" }: CustomSelectProps) {
+  const { t } = useTranslation();
+  const defaultPlaceholder = placeholder || t('selection.pleaseSelect');
+  
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -83,7 +87,7 @@ export default function CustomSelect({ value, onChange, options, placeholder = "
         className="w-full p-2 text-sm text-left bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 transition-all duration-200 flex items-center justify-between"
       >
         <span className={selectedOption ? 'text-gray-900' : 'text-gray-500'}>
-          {selectedOption ? selectedOption.label : placeholder}
+          {selectedOption ? selectedOption.label : defaultPlaceholder}
         </span>
         <svg
           className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}

@@ -2,6 +2,7 @@
 
 import { Provider } from 'jotai';
 import { DevTools } from 'jotai-devtools';
+import '@/i18n/config'; // 初始化 i18n
 
 interface JotaiProviderProps {
   children: React.ReactNode;

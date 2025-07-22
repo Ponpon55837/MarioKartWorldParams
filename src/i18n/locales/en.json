@@ -1,0 +1,311 @@
+{
+  "app": {
+    "title": "🏁 Mario Kart World 🏁",
+    "subtitle": "Mario Kart Notes - Character & Vehicle Data Reference",
+    "metadata": {
+      "title": "Mario Kart World - Mario Kart Notes",
+      "description": "Mario Kart character and vehicle data reference system"
+    },
+    "footer": {
+      "copyright": "© 2025 Mario Kart World Notes System",
+      "disclaimer": "Unofficial tool based on community data @Upfloor5"
+    }
+  },
+  "language": {
+    "switch": "Switch Language",
+    "current": "Current: English",
+    "options": {
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    },
+    "selector": "Select Language"
+  },
+  "admin": {
+    "dataManagement": "Data Management",
+    "systemManagement": "System Management Panel",
+    "currentDataStatus": "Current Data Status",
+    "checkingStatus": "Checking...",
+    "jsonDataFile": "JSON Data File:",
+    "jsonDataFileExists": "Exists",
+    "jsonDataFileNotExists": "Not Exists",
+    "characterCount": "Character Count:",
+    "vehicleCount": "Vehicle Count:",
+    "dataSource": "Data Source:",
+    "lastUpdated": "Last Updated:",
+    "checkStatusFailed": "Unable to check data status",
+    "newFeatures": "New Features Description",
+    "syncFromSheets": "Sync latest data directly from Google Sheets",
+    "autoConvertToJson": "Auto-convert to JSON format for faster loading",
+    "keepCsvBackup": "Keep CSV format as backup",
+    "realTimeUpdate": "Real-time update application data",
+    "detailedSyncStatus": "Provide detailed sync status and data statistics",
+    "syncInProgress": "Syncing...",
+    "syncSuccess": "Sync successful!",
+    "characterCountNum": "Character Count",
+    "vehicleCountNum": "Vehicle Count",
+    "csvSize": "CSV Size",
+    "jsonSize": "JSON Size",
+    "downloadCsv": "Download CSV File",
+    "downloadJson": "Download JSON File",
+    "syncFailed": "Sync failed",
+    "notice": "Notice",
+    "syncWillOverwrite": "Sync will overwrite existing data files",
+    "ensureGoogleSheetsAccess": "Please ensure Google Sheets document is public or has correct access permissions",
+    "autoReload": "Application will automatically reload data after sync",
+    "jsonLoadingSpeed": "JSON format loads approximately 2-3 times faster than CSV",
+    "regularSync": "Recommended to sync regularly after data updates",
+    "backToHome": "Back to Home"
+  },
+  "navigation": {
+    "dataPages": "Data Pages",
+    "characters": "Characters",
+    "vehicles": "Vehicles",
+    "combinations": "Combinations",
+    "recommendations": "Recommendations",
+    "descriptions": {
+      "characters": "View all character data",
+      "vehicles": "View all vehicle data",
+      "combinations": "Create and manage character + vehicle combinations",
+      "recommendations": "Get optimal combinations based on terrain characteristics"
+    },
+    "goToCombinations": "Want to create character + vehicle combinations? Go to",
+    "combinationsPage": "Combinations Page",
+    "filterAndSort": "Filter and Sort"
+  },
+  "stats": {
+    "speed": "Speed",
+    "acceleration": "Acceleration",
+    "weight": "Weight",
+    "handling": "Handling",
+    "display": "Game Display",
+    "road": "Road",
+    "terrain": "Off-Road",
+    "water": "Water",
+    "speedType": "Speed Type",
+    "handlingType": "Handling Type",
+    "details": "📊 Detailed Stats",
+    "roadSpeed": "Road Speed",
+    "terrainSpeed": "Off-Road Speed",
+    "waterSpeed": "Water Speed",
+    "roadHandling": "Road Handling",
+    "terrainHandling": "Off-Road Handling",
+    "waterHandling": "Water Handling",
+    "total": "Total {{charactersCount}} characters and {{vehiclesCount}} vehicles",
+    "characterCount": "Characters ({{count}})",
+    "vehicleCount": "Vehicles ({{count}})",
+    "combinationCount": "Character + Vehicle Combinations ({{count}})",
+    "clearAll": "Clear All",
+    "speedTypes": {
+      "road": "Road Speed",
+      "terrain": "Off-Road Speed",
+      "water": "Water Speed",
+      "default": "Speed"
+    },
+    "handlingTypes": {
+      "road": "Road Handling",
+      "terrain": "Off-Road Handling",
+      "water": "Water Handling",
+      "default": "Handling"
+    },
+    "legend": {
+      "title": "Data Legend & Guide",
+      "colorLegend": "Data Color Legend",
+      "speed": "Speed",
+      "acceleration": "Acceleration",
+      "weight": "Weight",
+      "handling": "Handling"
+    },
+    "descriptions": {
+      "speedTitle": "Speed",
+      "roadSpeedDesc": "Road: Concrete, asphalt, metal and other smooth surfaces",
+      "terrainSpeedDesc": "Off-Road: Mud, sand, snow and other rough terrain",
+      "waterSpeedDesc": "Water: Water areas that activate underwater kart mode",
+      "otherStatsTitle": "Other Stats",
+      "accelerationDesc": "Acceleration: Time to reach top speed from standstill",
+      "weightDesc": "Weight: Affects collision results and coin collection",
+      "handlingDesc": "Handling: Kart's turning agility and responsiveness"
+    },
+    "tips": {
+      "usage": "Usage Tip: Darker progress bar colors indicate higher stats, percentages show relative values compared to maximum for easy comparison between characters and vehicles!",
+      "notice": "Note: All character and vehicle combinations in-game receive an additional +3 stat bonus. The table shows base stats, actual in-game values may be adjusted."
+    },
+    "tooltips": {
+      "displayStats": "Display Stats: Actual stats shown in-game",
+      "terrainStats": "Terrain-specific detailed values: Real performance on each terrain type",
+      "score": "Composite Score: Weighted calculation considering all stats"
+    }
+  },
+  "selection": {
+    "all": "All",
+    "character": "Character",
+    "vehicle": "Vehicle",
+    "sortBy": "Sort By",
+    "sortByRoadSpeed": "Road Speed",
+    "sortByTerrainSpeed": "Off-Road Speed",
+    "sortByWaterSpeed": "Water Speed",
+    "sortByAcceleration": "Acceleration",
+    "sortByWeight": "Weight",
+    "sortByRoadHandling": "Road Handling",
+    "sortByTerrainHandling": "Off-Road Handling",
+    "sortByWaterHandling": "Water Handling",
+    "filterBySpeed": "Filter by Speed",
+    "filterByHandling": "Filter by Handling",
+    "selectCharacter": "Select Character",
+    "selectVehicle": "Select Vehicle",
+    "chooseOption": "Choose an option"
+  },
+  "search": {
+    "placeholder": "Search characters or vehicles...",
+    "inputPlaceholder": "Enter character or vehicle name...",
+    "noResults": "No matching results found",
+    "loading": "Searching...",
+    "button": "Search Characters & Vehicles",
+    "buttonShort": "Search",
+    "shortcutHint": {
+      "press": "Press",
+      "quickSearch": "for quick search"
+    },
+    "modal": {
+      "title": "🔍 Search Characters & Vehicles",
+      "recentSearches": "🕐 Recent Searches",
+      "resultsCount": "results",
+      "searchTime": "Search time",
+      "seconds": "seconds",
+      "searchTips": "Search Tips:",
+      "tip1": "• Supports both English and Chinese name searches",
+      "tip2": "• Supports partial name searches, e.g., 'Mario' will find 'Mario'",
+      "tip3": "• Results sorted by relevance",
+      "startSearch": "Start typing to search for characters or vehicles",
+      "supportBoth": "Supports both English and Chinese name searches",
+      "noResultsFor": "No results found for \"{{query}}\"",
+      "tryOther": "Try other keywords or check spelling",
+      "searchTipTitle": "Search Tips:",
+      "searchTip1": "• Try using shorter keywords",
+      "searchTip2": "• Use English or Chinese names",
+      "searchTip3": "• Check for spelling errors",
+      "foundResults": "Found {{count}} results",
+      "searchQuery": "Search \"{{query}}\"",
+      "viewAllCharacters": "View All Characters",
+      "viewAllVehicles": "View All Vehicles",
+      "recommendedCombos": "Recommended Combinations",
+      "supportHint": "Supports both English and Chinese name searches",
+      "escClose": "Press ESC key to close search window",
+      "ctrlKOpen": "Press Ctrl + K to open search",
+      "backToHome": "← Back to Home"
+    }
+  },
+  "combination": {
+    "autoSave": "Auto-save: Created combinations are automatically saved locally and will load on your next visit!",
+    "createNew": "Create new Character + Vehicle combination",
+    "selectCharacter": "Select Character 🎮",
+    "selectVehicle": "Select Vehicle 🏎️",
+    "createButton": "Create Combination",
+    "detailedSpeedDistribution": "Detailed Speed Distribution",
+    "terrainNames": {
+      "road": "Road",
+      "terrain": "Off-Road",
+      "water": "Water"
+    }
+  },
+  "test": {
+    "mario": "Test Mario",
+    "vehicle": "Test Vehicle",
+    "added": "🟡 Test combination added...",
+    "success": "✅ Persistence test successful! Combination saved to localStorage",
+    "failNoData": "❌ Test failed: No combination data found in localStorage",
+    "failNoKey": "❌ Test failed: No key found in localStorage",
+    "loading": "Loading...",
+    "title": "Persistence Test Tool",
+    "currentCount": "Current combination count:",
+    "autoSaveInfo": "These combinations should auto-save to localStorage",
+    "testPersistence": "Test Persistence",
+    "clearTestData": "Clear Test Data",
+    "instructions": "Test Instructions:",
+    "instruction1": "Click 'Test Persistence' to add a test combination",
+    "instruction2": "Combinations should persist after page refresh",
+    "instruction3": "Combination data is stored in localStorage under 'mario-kart-combinations' key"
+  },
+  "recommendations": {
+    "scoreFormula": "Composite Score Calculation: Speed 40% + Handling 30% + Acceleration 20% - Weight 10%",
+    "calculating": "Calculating recommended combinations...",
+    "ensureDataLoaded": "Please ensure character and vehicle data is loaded",
+    "compositeScore": "Composite Score",
+    "optimizedFor": "Optimized for {{terrain}} terrain",
+    "instructions": {
+      "title": "💡 Usage Guide",
+      "description": "This page provides optimal character and vehicle combinations for different terrain types. Click the buttons below to view recommendations for specific terrains.",
+      "howToUse": "How to use:",
+      "step1": "Important Note: All character and vehicle combinations in the game receive an additional +3 stat bonus, which may be handled by a separate function. This applies to Mario Kart 7, Mario Kart 8, and Mario Kart 8 Deluxe. Some vehicles have completely different stats when used with Bowser or ultra-lightweight characters compared to other characters. See the 'Stat Display Inconsistencies' section below for details. Some vehicles have exceptionally high stats in certain areas, such as the Stellar Sled with +11 water speed, far exceeding all other vehicles. While it's unclear why Nintendo designed it this way, this value should be accurate. The 'Speed' and 'Handling' shown in the game interface appear as single values, but are actually the sum of three sub-stats. The values displayed in-game are only rough averages and not precise. The 'Terrain Stats' listed in the table are only tiers (e.g., 1 is slower than 2), not actual values. To obtain actual values, data mining is required. Some tiers are not used by any vehicles in the game, such as no vehicle having terrain speed tier 3. This can be verified by comparing characters and vehicles with similar tiers. Characters themselves likely have hidden 'Handling' sub-stats that are currently unknown and under investigation."
+    },
+    "backToHome": "← Back to Home"
+  },
+  "loading": {
+    "initializing": "Initializing...",
+    "loadingData": "Loading Mario Kart data...",
+    "error": "Loading error",
+    "retry": "Retry"
+  },
+  "emptyCombination": {
+    "title": "No combinations created yet",
+    "subtitle": "Use the selectors above to create your first combination!",
+    "tip": "Choose a character and a vehicle, then click the 'Create Combination' button"
+  },
+  "debug": {
+    "title": "Data Loading Debug",
+    "loadingState": "Loading State",
+    "charactersCount": "Character Count",
+    "vehiclesCount": "Vehicle Count",
+    "errorState": "Error State",
+    "loading": "Loading...",
+    "idle": "Idle",
+    "noError": "No Error",
+    "manualLoad": "Manual Load",
+    "testDirectFetch": "Test Direct Fetch",
+    "errorDetails": "Error Details:",
+    "loadSuccess": "Load successful!",
+    "firstCharacters": "First 3 characters:",
+    "firstVehicles": "First 3 vehicles:",
+    "speed": "Speed"
+  },
+  "terrain": {
+    "road": {
+      "name": "Road",
+      "description": "Suitable for regular tracks and paved surfaces"
+    },
+    "terrain": {
+      "name": "Off-Road",
+      "description": "Suitable for off-road and sandy tracks"
+    },
+    "water": {
+      "name": "Water",
+      "description": "Suitable for water and slippery surfaces"
+    }
+  },
+  "common": {
+    "all": "All",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "filterBy": "Filter",
+    "reset": "Reset",
+    "save": "Save",
+    "sortBy": "Sort"
+  },
+  "dataPages": {
+    "recommendations": "Recommendations"
+  },
+  "types": {
+    "vehicle": "Vehicle",
+    "character": "Character"
+  },
+  "sorting": {
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "sortBy": "Sort By"
+  }
+}

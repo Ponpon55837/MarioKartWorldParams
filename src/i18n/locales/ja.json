@@ -1,0 +1,311 @@
+{
+  "app": {
+    "title": "🏁 マリオカート ワールド 🏁",
+    "subtitle": "マリオカート ノート - キャラクター＆マシンデータ参考",
+    "metadata": {
+      "title": "マリオカート ワールド - マリオカート ノート",
+      "description": "マリオカート キャラクター＆マシンデータ参考システム"
+    },
+    "footer": {
+      "copyright": "© 2025 マリオカート ワールド ノートシステム",
+      "disclaimer": "コミュニティデータベースの非公式ツール @Upfloor5"
+    }
+  },
+  "language": {
+    "switch": "言語切替",
+    "current": "現在：日本語",
+    "options": {
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "zh-CN": "简体中文",
+      "zh-TW": "繁體中文"
+    },
+    "selector": "言語選択"
+  },
+  "admin": {
+    "dataManagement": "データ管理",
+    "systemManagement": "システム管理パネル",
+    "currentDataStatus": "現在のデータ状態",
+    "checkingStatus": "チェック中...",
+    "jsonDataFile": "JSONデータファイル:",
+    "jsonDataFileExists": "存在",
+    "jsonDataFileNotExists": "存在しない",
+    "characterCount": "キャラクター数:",
+    "vehicleCount": "マシン数:",
+    "dataSource": "データソース:",
+    "lastUpdated": "最終更新:",
+    "checkStatusFailed": "データ状態をチェックできません",
+    "newFeatures": "新機能説明",
+    "syncFromSheets": "Google Sheetsから最新データを直接同期",
+    "autoConvertToJson": "JSON形式に自動変換して読み込み速度を向上",
+    "keepCsvBackup": "同時にCSV形式をバックアップとして保持",
+    "realTimeUpdate": "アプリケーションのデータをリアルタイム更新",
+    "detailedSyncStatus": "詳細な同期状態とデータ統計を提供",
+    "syncInProgress": "同期中...",
+    "syncSuccess": "同期成功！",
+    "characterCountNum": "キャラクター数",
+    "vehicleCountNum": "マシン数",
+    "csvSize": "CSVサイズ",
+    "jsonSize": "JSONサイズ",
+    "downloadCsv": "CSVファイルをダウンロード",
+    "downloadJson": "JSONファイルをダウンロード",
+    "syncFailed": "同期失敗",
+    "notice": "注意事項",
+    "syncWillOverwrite": "同期により既存のデータファイルが上書きされます",
+    "ensureGoogleSheetsAccess": "Google Sheetsドキュメントが公開されているか、正しいアクセス権限があることを確認してください",
+    "autoReload": "同期後、アプリケーションは自動的にデータを再読み込みします",
+    "jsonLoadingSpeed": "JSON形式の読み込み速度はCSVより約2-3倍高速",
+    "regularSync": "データ更新後は定期的に同期を実行することをお勧めします",
+    "backToHome": "ホームに戻る"
+  },
+  "navigation": {
+    "dataPages": "データページ",
+    "characters": "キャラクター",
+    "vehicles": "マシン",
+    "combinations": "組み合わせ設定",
+    "recommendations": "おすすめ設定",
+    "descriptions": {
+      "characters": "全キャラクターのデータを表示",
+      "vehicles": "全マシンのデータを表示",
+      "combinations": "キャラクター＋マシンの組み合わせ設定を作成・管理",
+      "recommendations": "コース特性に基づく最適な組み合わせを提案"
+    },
+    "goToCombinations": "キャラクター＋マシンの組み合わせを作成したいですか？",
+    "combinationsPage": "組み合わせページ",
+    "filterAndSort": "フィルターとソート"
+  },
+  "stats": {
+    "speed": "スピード",
+    "acceleration": "加速",
+    "weight": "重さ",
+    "handling": "ハンドリング",
+    "display": "ゲーム表示",
+    "road": "陸上",
+    "terrain": "オフロード",
+    "water": "水中",
+    "speedType": "スピードタイプ",
+    "handlingType": "ハンドリングタイプ",
+    "details": "📊 詳細データ",
+    "roadSpeed": "陸上スピード",
+    "terrainSpeed": "オフロードスピード",
+    "waterSpeed": "水中スピード",
+    "roadHandling": "陸上ハンドリング",
+    "terrainHandling": "オフロードハンドリング",
+    "waterHandling": "水中ハンドリング",
+    "total": "合計 {{charactersCount}} キャラクター、{{vehiclesCount}} マシン",
+    "characterCount": "キャラクター ({{count}})",
+    "vehicleCount": "マシン ({{count}})",
+    "combinationCount": "キャラクター＋マシン組み合わせ ({{count}})",
+    "clearAll": "すべてクリア",
+    "speedTypes": {
+      "road": "陸上スピード",
+      "terrain": "オフロードスピード",
+      "water": "水中スピード",
+      "default": "スピード"
+    },
+    "handlingTypes": {
+      "road": "陸上ハンドリング",
+      "terrain": "オフロードハンドリング",
+      "water": "水中ハンドリング",
+      "default": "ハンドリング"
+    },
+    "legend": {
+      "title": "データ説明と凡例",
+      "colorLegend": "データカラー凡例",
+      "speed": "スピード",
+      "acceleration": "加速",
+      "weight": "重さ",
+      "handling": "ハンドリング"
+    },
+    "descriptions": {
+      "speedTitle": "スピード",
+      "roadSpeedDesc": "陸上：コンクリート、アスファルト、メタルなどの滑らかな路面",
+      "terrainSpeedDesc": "オフロード：泥、砂地、雪などの悪路",
+      "waterSpeedDesc": "水中：水域エリア、ホバークラフトモードが発動",
+      "otherStatsTitle": "その他のデータ",
+      "accelerationDesc": "加速：停止状態から最高速度までの時間",
+      "weightDesc": "重さ：衝突結果とコイン収集に影響",
+      "handlingDesc": "ハンドリング：カートのコーナリング性能"
+    },
+    "tips": {
+      "usage": "使用ヒント：プログレスバーの色が濃いほどデータが高く、パーセンテージは最大値に対する割合を示し、異なるキャラクター＆マシンの素早い比較が可能です！",
+      "notice": "注意事項：ゲーム内では全キャラクター＆マシンの組み合わせに追加で+3のデータボーナスが付きます。表は原データを表示しており、実際のゲームでは調整される場合があります。"
+    },
+    "tooltips": {
+      "displayStats": "表示データ：ゲーム内で実際に表示されるデータ",
+      "terrainStats": "地形専用詳細数値：各地形タイプでの実際のパフォーマンス",
+      "score": "総合スコア：全データを考慮した重み付け計算"
+    }
+  },
+  "selection": {
+    "all": "すべて",
+    "character": "キャラクター",
+    "vehicle": "マシン",
+    "sortBy": "並び順",
+    "sortByRoadSpeed": "陸上スピード",
+    "sortByTerrainSpeed": "オフロードスピード",
+    "sortByWaterSpeed": "水中スピード",
+    "sortByAcceleration": "加速",
+    "sortByWeight": "重さ",
+    "sortByRoadHandling": "陸上ハンドリング",
+    "sortByTerrainHandling": "オフロードハンドリング",
+    "sortByWaterHandling": "水中ハンドリング",
+    "filterBySpeed": "スピードで絞り込み",
+    "filterByHandling": "ハンドリングで絞り込み",
+    "selectCharacter": "キャラクター選択",
+    "selectVehicle": "マシン選択",
+    "chooseOption": "選択してください"
+  },
+  "search": {
+    "placeholder": "キャラクターまたはマシンを検索...",
+    "inputPlaceholder": "キャラクターまたはマシン名を入力...",
+    "noResults": "該当する結果が見つかりません",
+    "loading": "検索中...",
+    "button": "キャラクター＆マシン検索",
+    "buttonShort": "検索",
+    "shortcutHint": {
+      "press": "押す",
+      "quickSearch": "クイック検索"
+    },
+    "modal": {
+      "title": "🔍 キャラクター＆マシン検索",
+      "recentSearches": "🕐 最近の検索",
+      "resultsCount": "件の結果",
+      "searchTime": "検索時間",
+      "seconds": "秒",
+      "searchTips": "検索のコツ：",
+      "tip1": "• 日本語と英語の名前検索に対応",
+      "tip2": "• 部分名検索対応、例：「マリオ」で「マリオ」を検索可能",
+      "tip3": "• 結果は関連度順に表示",
+      "startSearch": "キャラクターまたはマシンを検索するには入力を開始してください",
+      "supportBoth": "日本語と英語の名前検索に対応",
+      "noResultsFor": "「{{query}}」に関連する結果が見つかりません",
+      "tryOther": "他のキーワードを試すか、スペルを確認してください",
+      "searchTipTitle": "検索のコツ：",
+      "searchTip1": "• より短いキーワードを試してください",
+      "searchTip2": "• 日本語または英語の名前を使用",
+      "searchTip3": "• スペルミスがないか確認",
+      "foundResults": "{{count}}件の結果が見つかりました",
+      "searchQuery": "「{{query}}」を検索",
+      "viewAllCharacters": "すべてのキャラクターを表示",
+      "viewAllVehicles": "すべてのマシンを表示",
+      "recommendedCombos": "おすすめの組み合わせ",
+      "supportHint": "日本語と英語の名前検索に対応",
+      "escClose": "ESCキーを押して検索ウィンドウを閉じる",
+      "ctrlKOpen": "Ctrl + Kキーを押して検索を開く",
+      "backToHome": "← ホームに戻る"
+    }
+  },
+  "combination": {
+    "autoSave": "自動保存：作成した組み合わせは自動的にローカルに保存され、次回訪問時に自動読み込みされます！",
+    "createNew": "新しいキャラクター＋マシン組み合わせを作成",
+    "selectCharacter": "キャラクター選択 🎮",
+    "selectVehicle": "マシン選択 🏎️",
+    "createButton": "組み合わせ作成",
+    "detailedSpeedDistribution": "詳細スピード分布",
+    "terrainNames": {
+      "road": "陸上",
+      "terrain": "オフロード",
+      "water": "水中"
+    }
+  },
+  "test": {
+    "mario": "テストマリオ",
+    "vehicle": "テストマシン",
+    "added": "🟡 テスト組み合わせを追加中...",
+    "success": "✅ 永続化テスト成功！組み合わせがlocalStorageに保存されました",
+    "failNoData": "❌ テスト失敗：localStorageに組み合わせデータが見つかりません",
+    "failNoKey": "❌ テスト失敗：localStorageにキーが見つかりません",
+    "loading": "読み込み中...",
+    "title": "永続化テストツール",
+    "currentCount": "現在の組み合わせ数：",
+    "autoSaveInfo": "これらの組み合わせはlocalStorageに自動保存されます",
+    "testPersistence": "永続化テスト",
+    "clearTestData": "テストデータをクリア",
+    "instructions": "テスト説明：",
+    "instruction1": "「永続化テスト」をクリックするとテスト組み合わせが追加されます",
+    "instruction2": "ページ更新後も組み合わせが残っているはずです",
+    "instruction3": "組み合わせデータはlocalStorageの「mario-kart-combinations」キーに保存されます"
+  },
+  "recommendations": {
+    "scoreFormula": "総合スコア計算：スピード40% + ハンドリング30% + 加速20% - 重さ10%",
+    "calculating": "おすすめ組み合わせを計算中...",
+    "ensureDataLoaded": "キャラクター＆マシンデータが読み込まれていることを確認してください",
+    "compositeScore": "総合スコア",
+    "optimizedFor": "{{terrain}}地形に最適化",
+    "instructions": {
+      "title": "💡 使用方法",
+      "description": "このページでは、異なる地形タイプに最適なキャラクター＆マシンの組み合わせを提案します。下のボタンをクリックして特定地形のおすすめ設定を表示してください。",
+      "howToUse": "使用方法：",
+      "step1": "重要な説明：ゲーム内では全キャラクター＆マシンの組み合わせに追加で+3のデータボーナスが付きます。これは独立した関数で処理されている可能性があります。この仕様は『マリオカート7』、『マリオカート8』、『マリオカート8 デラックス』でも同様です。一部のマシンではクッパや超軽量キャラクターを使用した際、他のキャラクター使用時とは全く異なるデータになります。詳細は下記「¹ データ表示の不整合」をご参照ください。一部のマシンは特定のデータが突出して高く、例えば「ステラスレッド（Stellar Sled）」は+11の水中スピードを持ち、他のマシンを大きく上回ります。任天堂がなぜこのような設定にしたかは不明ですが、この数値は正確なはずです。ゲーム内で表示される「スピード」と「ハンドリング」は単一の数値に見えますが、実際は3つのサブデータの合計です。ゲーム内表示値は平均的な概算値であり、正確ではありません。表に記載されている「地形データ」はレベル値のみ（例：1は2より遅い）であり、実際の数値ではありません。実際の数値を取得するにはデータマイニングが必要です。一部のレベルはゲーム内で使用されているマシンが存在しません。例えば、地形スピードが3のマシンは存在しません。これは近似レベルのキャラクター＆マシンを比較することで確認できます。キャラクター自体にも隠された「ハンドリング」サブデータが存在する可能性がありますが、現在は不明で研究中です。"
+    },
+    "backToHome": "← ホームに戻る"
+  },
+  "loading": {
+    "initializing": "初期化中...",
+    "loadingData": "マリオカートデータを読み込み中...",
+    "error": "読み込みエラー",
+    "retry": "再読み込み"
+  },
+  "emptyCombination": {
+    "title": "まだ組み合わせが作成されていません",
+    "subtitle": "上のセレクターを使って最初の組み合わせを作成してください！",
+    "tip": "キャラクターとマシンを選択して、「組み合わせ作成」ボタンをクリックしてください"
+  },
+  "debug": {
+    "title": "データ読み込みデバッグ",
+    "loadingState": "読み込み状態",
+    "charactersCount": "キャラクター数",
+    "vehiclesCount": "マシン数",
+    "errorState": "エラー状態",
+    "loading": "読み込み中...",
+    "idle": "待機中",
+    "noError": "エラーなし",
+    "manualLoad": "手動読み込み",
+    "testDirectFetch": "直接リクエストテスト",
+    "errorDetails": "エラー詳細：",
+    "loadSuccess": "読み込み成功！",
+    "firstCharacters": "最初の3キャラクター：",
+    "firstVehicles": "最初の3マシン：",
+    "speed": "スピード"
+  },
+  "terrain": {
+    "road": {
+      "name": "陸上",
+      "description": "通常コースとアスファルト路面に適している"
+    },
+    "terrain": {
+      "name": "オフロード",
+      "description": "オフロードと砂地コースに適している"
+    },
+    "water": {
+      "name": "水中",
+      "description": "水上と滑りやすい路面に適している"
+    }
+  },
+  "common": {
+    "all": "すべて",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "confirm": "確認",
+    "delete": "削除",
+    "edit": "編集",
+    "filterBy": "絞り込み",
+    "reset": "リセット",
+    "save": "保存",
+    "sortBy": "並び順"
+  },
+  "dataPages": {
+    "recommendations": "おすすめ"
+  },
+  "types": {
+    "vehicle": "マシン",
+    "character": "キャラクター"
+  },
+  "sorting": {
+    "ascending": "昇順",
+    "descending": "降順",
+    "sortBy": "並び順"
+  }
+}

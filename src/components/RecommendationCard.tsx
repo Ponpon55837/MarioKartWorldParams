@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CharacterStats, VehicleStats } from '@/types';
 import StatBar from '@/components/StatBar';
-import { getTerrainIcon, getTerrainName } from '@/constants/terrain';
+import { getTerrainIcon, useTerrainName } from '@/constants/terrain';
 
 interface RecommendationCardProps {
   recommendation: {
@@ -28,13 +29,15 @@ const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(({
   recommendation, 
   maxStats 
 }) => {
+  const { t } = useTranslation();
+  const getTerrainName = useTerrainName();
   const { character, vehicle, score, totalSpeed, totalHandling, totalAcceleration, totalWeight, terrain, rank } = recommendation;
 
   // 使用 useMemo 優化地形資訊
   const terrainInfo = useMemo(() => ({
     icon: getTerrainIcon(terrain),
     name: getTerrainName(terrain)
-  }), [terrain]);
+  }), [terrain, getTerrainName]);
 
   // 使用 useMemo 優化排名樣式
   const rankStyle = useMemo(() => {
@@ -61,72 +64,72 @@ const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(({
       <div className="flex items-center space-x-4 mb-4">
         <div className="flex-1 text-center">
           <div className="text-lg font-bold text-gray-800">{character.name}</div>
-          <div className="text-xs text-gray-500">角色</div>
+          <div className="text-xs text-gray-500">{t('types.character')}</div>
         </div>
         <div className="text-2xl">+</div>
         <div className="flex-1 text-center">
           <div className="text-lg font-bold text-gray-800">{vehicle.name}</div>
-          <div className="text-xs text-gray-500">載具</div>
+          <div className="text-xs text-gray-500">{t('types.vehicle')}</div>
         </div>
       </div>
 
       {/* 綜合分數 */}
       <div className="mb-4 text-center">
-        <div className="text-sm text-gray-600">綜合分數</div>
+        <div className="text-sm text-gray-600">{t('recommendations.compositeScore')}</div>
         <div className="text-2xl font-bold text-green-600">{score.toFixed(1)}</div>
       </div>
 
       {/* 組合統計 */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">速度</span>
+          <span className="text-sm text-gray-600">{t('stats.speed')}</span>
           <span className="text-sm font-medium">{totalSpeed.toFixed(1)}</span>
         </div>
         <StatBar
           value={totalSpeed}
           maxValue={maxStats.speed}
           statType="speed"
-          label="速度"
+          label={t('stats.speed')}
         />
         
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">操控性</span>
+          <span className="text-sm text-gray-600">{t('stats.handling')}</span>
           <span className="text-sm font-medium">{totalHandling.toFixed(1)}</span>
         </div>
         <StatBar
           value={totalHandling}
           maxValue={maxStats.handling}
           statType="handling"
-          label="操控性"
+          label={t('stats.handling')}
         />
         
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">加速度</span>
+          <span className="text-sm text-gray-600">{t('stats.acceleration')}</span>
           <span className="text-sm font-medium">{totalAcceleration.toFixed(1)}</span>
         </div>
         <StatBar
           value={totalAcceleration}
           maxValue={maxStats.acceleration}
           statType="acceleration"
-          label="加速度"
+          label={t('stats.acceleration')}
         />
         
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">重量</span>
+          <span className="text-sm text-gray-600">{t('stats.weight')}</span>
           <span className="text-sm font-medium">{totalWeight.toFixed(1)}</span>
         </div>
         <StatBar
           value={totalWeight}
           maxValue={maxStats.weight}
           statType="weight"
-          label="重量"
+          label={t('stats.weight')}
         />
       </div>
 
       {/* 地形特化提示 */}
       <div className="mt-4 p-2 bg-gray-50 rounded-lg">
         <div className="text-xs text-gray-600 text-center">
-          專為 <span className="font-semibold text-gray-800">{terrainInfo.name}</span> 地形優化
+          {t('recommendations.optimizedFor', { terrain: terrainInfo.name })}
         </div>
       </div>
     </div>

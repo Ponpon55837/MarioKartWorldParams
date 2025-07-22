@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useAtom } from 'jotai';
 import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
@@ -10,11 +10,17 @@ import PageControls from '@/components/PageControls';
 import SearchModal from '@/components/SearchModal';
 import SearchButton, { SearchShortcutHint } from '@/components/SearchButton';
 import RecommendationsPage from '@/components/RecommendationsPage';
-import { VirtualizedGrid } from '@/components/VirtualizedList';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
+import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
 import { searchModalOpenAtom } from '@/store/atoms';
+import LayoutContent from '@/components/LayoutContent';
+import ClientOnlyWrapper from '@/components/ClientOnlyWrapper';
+import { useTranslation } from 'react-i18next';
 
-export default function Home() {
+function HomeContent() {
+  const { t } = useTranslation();
+  const { isInitialized } = useLanguagePersistence();
+  
   // 使用全域狀態管理搜尋模態框
   const [isSearchModalOpen, setIsSearchModalOpen] = useAtom(searchModalOpenAtom);
 
@@ -67,13 +73,25 @@ export default function Home() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [setIsSearchModalOpen]);
 
+  // 語言初始化載入中
+  if (!isInitialized) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-xl text-gray-600">{t('loading.initializing')}</p>
+        </div>
+      </div>
+    );
+  }
+
   // 載入中狀態
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-mario-red mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600">載入瑪利歐賽車資料中...</p>
+          <p className="text-xl text-gray-600">{t('loading.loadingData')}</p>
         </div>
       </div>
     );
@@ -84,13 +102,13 @@ export default function Home() {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg text-center max-w-md">
-          <h2 className="text-xl font-bold mb-2">❌ 載入錯誤</h2>
+          <h2 className="text-xl font-bold mb-2">❌ {t('loading.error')}</h2>
           <p className="mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors"
           >
-            重新載入
+            {t('loading.retry')}
           </button>
         </div>
       </div>
@@ -98,7 +116,8 @@ export default function Home() {
   }
 
   return (
-    <div className="space-y-6">
+    <LayoutContent>
+      <div className="space-y-6">
       {/* 搜尋功能區 */}
       <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
         <div className="flex items-center justify-between">
@@ -107,7 +126,7 @@ export default function Home() {
             <SearchShortcutHint onClick={() => setIsSearchModalOpen(true)} />
           </div>
           <div className="text-sm text-gray-500">
-            共有 {characters.length} 個角色和 {vehicles.length} 個載具
+            {t('stats.total', { charactersCount: characters.length, vehiclesCount: vehicles.length })}
           </div>
         </div>
       </div>
@@ -131,14 +150,14 @@ export default function Home() {
         <section>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold text-gray-800 text-center flex-1">
-              ⭐ 角色+載具組合 ({combinations.length})
+              ⭐ {t('stats.combinationCount', { count: combinations.length })}
             </h2>
             {combinations.length > 0 && (
               <button
                 onClick={handleClearCombinations}
                 className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
               >
-                🗑️ 清除全部
+                🗑️ {t('stats.clearAll')}
               </button>
             )}
           </div>
@@ -153,10 +172,10 @@ export default function Home() {
           {combinations.length === 0 ? (
             <div className="text-center py-8 bg-gray-50 rounded-lg mt-4">
               <div className="text-6xl mb-4">🎯</div>
-              <p className="text-gray-500 text-lg mb-2">還沒有建立任何組合</p>
-              <p className="text-gray-400 mb-4">使用上方的選擇器來建立您的第一個組合！</p>
+              <p className="text-gray-500 text-lg mb-2">{t('emptyCombination.title')}</p>
+              <p className="text-gray-400 mb-4">{t('emptyCombination.subtitle')}</p>
               <div className="text-sm text-gray-500 bg-white p-3 rounded-lg border border-gray-200 inline-block">
-                💡 選擇一個角色和一個載具，然後點擊「建立組合」按鈕
+                💡 {t('emptyCombination.tip')}
               </div>
             </div>
           ) : (
@@ -178,7 +197,7 @@ export default function Home() {
       {currentPage === 'characters' && (
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-            🎮 角色 ({sortedCharacters.length})
+            🎮 {t('stats.characterCount', { count: sortedCharacters.length })}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {sortedCharacters.map((character) => (
@@ -198,7 +217,7 @@ export default function Home() {
       {currentPage === 'vehicles' && (
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-            🏎️ 載具 ({sortedVehicles.length})
+            🏎️ {t('stats.vehicleCount', { count: sortedVehicles.length })}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {sortedVehicles.map((vehicle) => (
@@ -223,63 +242,62 @@ export default function Home() {
 
       {/* 說明區塊 */}
       <section className="bg-white rounded-lg shadow-md p-4 mt-8">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">📊 能力值說明與圖例</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">📊 {t('stats.legend.title')}</h2>
         
         {/* 顏色圖例 */}
         <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold text-base mb-2 text-gray-800">🎨 能力值顏色圖例</h3>
+          <h3 className="font-semibold text-base mb-2 text-gray-800">🎨 {t('stats.legend.colorLegend')}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="flex items-center space-x-2 p-2 bg-blue-50 rounded-lg border border-blue-200">
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span className="text-blue-700 font-medium text-sm">速度</span>
+              <span className="text-blue-700 font-medium text-sm">{t('stats.legend.speed')}</span>
             </div>
             <div className="flex items-center space-x-2 p-2 bg-green-50 rounded-lg border border-green-200">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-green-700 font-medium text-sm">加速度</span>
+              <span className="text-green-700 font-medium text-sm">{t('stats.legend.acceleration')}</span>
             </div>
             <div className="flex items-center space-x-2 p-2 bg-purple-50 rounded-lg border border-purple-200">
               <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-              <span className="text-purple-700 font-medium text-sm">重量</span>
+              <span className="text-purple-700 font-medium text-sm">{t('stats.legend.weight')}</span>
             </div>
             <div className="flex items-center space-x-2 p-2 bg-orange-50 rounded-lg border border-orange-200">
               <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-              <span className="text-orange-700 font-medium text-sm">轉向</span>
+              <span className="text-orange-700 font-medium text-sm">{t('stats.legend.handling')}</span>
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
           <div>
-            <h3 className="font-semibold text-base mb-2 text-blue-600">🏎️ 速度 (Speed)</h3>
+            <h3 className="font-semibold text-base mb-2 text-blue-600">🏎️ {t('stats.descriptions.speedTitle')}</h3>
             <ul className="space-y-1">
-              <li><strong>道路：</strong>混凝土、瀝青、金屬等平滑地面</li>
-              <li><strong>地形：</strong>泥土、沙子、雪地等粗糙地面</li>
-              <li><strong>水面：</strong>觸發水上載具模式的水域</li>
+              <li><strong>{t('stats.road')}：</strong>{t('stats.descriptions.roadSpeedDesc')}</li>
+              <li><strong>{t('stats.terrain')}：</strong>{t('stats.descriptions.terrainSpeedDesc')}</li>
+              <li><strong>{t('stats.water')}：</strong>{t('stats.descriptions.waterSpeedDesc')}</li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold text-base mb-2 text-green-600">⚡ 其他能力值</h3>
+            <h3 className="font-semibold text-base mb-2 text-green-600">⚡ {t('stats.descriptions.otherStatsTitle')}</h3>
             <ul className="space-y-1">
-              <li><strong>加速度：</strong>從靜止到最高速度的時間</li>
-              <li><strong>重量：</strong>影響碰撞結果和金幣加成</li>
-              <li><strong>轉向：</strong>載具轉彎的靈活程度</li>
+              <li><strong>{t('stats.acceleration')}：</strong>{t('stats.descriptions.accelerationDesc')}</li>
+              <li><strong>{t('stats.weight')}：</strong>{t('stats.descriptions.weightDesc')}</li>
+              <li><strong>{t('stats.handling')}：</strong>{t('stats.descriptions.handlingDesc')}</li>
             </ul>
           </div>
         </div>
         <div className="mt-4 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
           <p className="text-sm text-yellow-800">
-            <strong>💡 使用提示：</strong>顏色越深的進度條代表該能力值越高。百分比顯示相對於最高值的比例，幫助您快速比較不同角色和載具的優劣！
+            <strong>💡 {t('stats.tips.usage')}</strong>
           </p>
         </div>
         <div className="mt-4 p-4 bg-red-50 rounded-lg border-l-4 border-red-400">
           <p className="text-sm text-red-800">
-            <strong>⚠️ 注意：</strong>遊戲中所有角色與載具組合都會額外獲得 +3 的能力值加成。
-            表格中的數值為原始資料，實際遊戲中會有所調整。
+            <strong>⚠️ {t('stats.tips.notice')}</strong>
           </p>
         </div>
         <div className="mt-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
           <p className="text-sm text-green-800">
-            <strong>💾 自動儲存：</strong>您建立的組合會自動儲存到本地，下次開啟網站時會自動載入您的組合設定！
+            <strong>💾 </strong>{t('combination.autoSave')}
           </p>
         </div>
       </section>
@@ -290,7 +308,7 @@ export default function Home() {
           href="/admin"
           className="inline-flex items-center px-3 py-1 text-xs text-gray-500 hover:text-blue-600 transition-colors border border-gray-300 rounded-full hover:border-blue-300"
         >
-          🔧 資料管理
+          🔧 {t('admin.dataManagement')}
         </a>
       </div>
 
@@ -298,6 +316,24 @@ export default function Home() {
       <SearchModal
         onNavigate={(type) => setCurrentPage(type)}
       />
-    </div>
+      </div>
+    </LayoutContent>
+  );
+}
+
+export default function Home() {
+  return (
+    <ClientOnlyWrapper
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-xl text-gray-600">載入中...</p>
+          </div>
+        </div>
+      }
+    >
+      <HomeContent />
+    </ClientOnlyWrapper>
   );
 }
