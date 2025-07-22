@@ -1,37 +1,34 @@
 {
   "app": {
-    "title": "🏁 Mario Kart World 🏁",
-    "subtitle": "마리오 카트 노트 - 캐릭터 & 카트 성능 참조",
+    "title": "🏁 마리오 카트 월드 🏁",
+    "subtitle": "마리오 카트 노트 - 캐릭터 & 카트 데이터 가이드",
     "metadata": {
-      "title": "Mario Kart World - 마리오 카트 노트",
-      "description": "마리오 카트 캐릭터와 카트 성능 참조 시스템"
+      "title": "마리오 카트 월드 - 마리오 카트 노트",
+      "description": "마리오 카트 캐릭터 & 카트 데이터 참고 시스템"
     },
     "footer": {
-      "copyright": "© 2025 Mario Kart World 노트 시스템",
-      "disclaimer": "커뮤니티 데이터 기반 비공식 도구 @Upfloor5"
+      "copyright": "© 2025 마리오 카트 월드 노트 시스템",
+      "disclaimer": "커뮤니티 데이터 기반 비공식 툴 @Upfloor5"
     }
   },
   "language": {
-    "selector": "언어 선택",
-    "languages": {
-      "zh-TW": "繁體中文",
-      "zh-CN": "简体中文",
-      "en": "English",
-      "ja": "日本語",
-      "ko": "한국어"
-    }
+    "switch": "언어 변경",
+    "current": "현재: 한국어"
+  },
+  "admin": {
+    "dataManagement": "데이터 관리"
   },
   "navigation": {
+    "dataPages": "데이터 페이지",
     "characters": "캐릭터",
     "vehicles": "카트",
-    "combinations": "조합",
-    "recommendations": "추천",
-    "dataPages": "데이터 페이지",
+    "combinations": "조합 설정",
+    "recommendations": "추천 조합",
     "descriptions": {
-      "characters": "모든 캐릭터의 성능치 데이터를 둘러보기",
-      "vehicles": "모든 카트의 성능치 데이터를 둘러보기",
-      "combinations": "캐릭터+카트 조합을 생성하고 관리하기",
-      "recommendations": "지형 특성에 기반한 최적의 조합 추천"
+      "characters": "모든 캐릭터 데이터 확인",
+      "vehicles": "모든 카트 데이터 확인",
+      "combinations": "캐릭터+카트 조합 생성 및 관리",
+      "recommendations": "지형별 최적 조합 추천"
     }
   },
   "stats": {
@@ -40,196 +37,165 @@
     "weight": "무게",
     "handling": "핸들링",
     "display": "게임 표시",
-    "road": "도로",
-    "terrain": "지형",
-    "water": "수면",
-    "speedType": "스피드 종류",
-    "handlingType": "핸들링 종류",
-    "details": "📊 세부사항",
-    "roadSpeed": "도로 스피드",
-    "terrainSpeed": "지형 스피드",
-    "waterSpeed": "수면 스피드",
-    "roadHandling": "도로 핸들링",
-    "terrainHandling": "지형 핸들링",
-    "waterHandling": "수면 핸들링",
+    "road": "일반 도로",
+    "terrain": "오프로드",
+    "water": "수중",
+    "speedType": "스피드 타입",
+    "handlingType": "핸들링 타입",
+    "details": "📊 상세 데이터",
+    "roadSpeed": "일반 도로 스피드",
+    "terrainSpeed": "오프로드 스피드",
+    "waterSpeed": "수중 스피드",
+    "roadHandling": "일반 도로 핸들링",
+    "terrainHandling": "오프로드 핸들링",
+    "waterHandling": "수중 핸들링",
+    "total": "총 캐릭터 {charactersCount}명, 카트 {vehiclesCount}대",
+    "characterCount": "캐릭터 ({count}명)",
+    "vehicleCount": "카트 ({count}대)",
+    "combinationCount": "캐릭터+카트 조합 ({count}개)",
+    "clearAll": "전체 삭제",
     "speedTypes": {
-      "road": "도로 스피드",
-      "terrain": "지형 스피드",
-      "water": "수면 스피드",
+      "road": "일반 도로 스피드",
+      "terrain": "오프로드 스피드", 
+      "water": "수중 스피드",
       "default": "스피드"
     },
     "handlingTypes": {
-      "road": "도로 핸들링",
-      "terrain": "지형 핸들링",
-      "water": "수면 핸들링",
+      "road": "일반 도로 핸들링",
+      "terrain": "오프로드 핸들링",
+      "water": "수중 핸들링",
       "default": "핸들링"
+    },
+    "legend": {
+      "title": "데이터 설명 및 범례",
+      "colorLegend": "데이터 색상 범례",
+      "speed": "스피드",
+      "acceleration": "가속도", 
+      "weight": "무게",
+      "handling": "핸들링"
+    },
+    "descriptions": {
+      "speedTitle": "스피드",
+      "roadSpeedDesc": "일반 도로: 콘크리트, 아스팔트, 금속 등 매끄러운 노면",
+      "terrainSpeedDesc": "오프로드: 진흙, 모래, 눈길 등 거친 지형", 
+      "waterSpeedDesc": "수중: 물이 있는 구역, 호버크래프트 모드 활성화",
+      "otherStatsTitle": "기타 데이터",
+      "accelerationDesc": "가속도: 정지 상태에서 최고 속도까지 도달하는 시간",
+      "weightDesc": "무게: 충돌 결과와 코인 수집에 영향",
+      "handlingDesc": "핸들링: 카트의 코너링 민첩성"
+    },
+    "tips": {
+      "usage": "사용 팁: 진행률 바 색상이 진할수록 높은 데이터를 의미하며, 백분율은 최대값 대비 비율로 서로 다른 캐릭터와 카트를 쉽게 비교할 수 있어요!",
+      "notice": "참고사항: 게임 내에서 모든 캐릭터와 카트 조합은 추가로 +3 데이터 보너스를 받습니다. 표에 표시된 것은 기본 데이터이며, 실제 게임에서는 조정될 수 있습니다."
+    },
+    "tooltips": {
+      "displayStats": "표시 데이터: 게임에서 실제로 보이는 데이터",
+      "terrainStats": "지형별 상세 수치: 각 지형 타입에서의 실제 성능",
+      "score": "종합 점수: 모든 데이터를 고려한 가중치 계산"
     }
   },
-  "sorting": {
+  "selection": {
+    "all": "전체",
+    "character": "캐릭터",
+    "vehicle": "카트",
     "sortBy": "정렬 기준",
-    "ascending": "오름차순",
-    "descending": "내림차순"
+    "sortByRoadSpeed": "일반 도로 스피드",
+    "sortByTerrainSpeed": "오프로드 스피드",
+    "sortByWaterSpeed": "수중 스피드",
+    "sortByAcceleration": "가속도",
+    "sortByWeight": "무게",
+    "sortByRoadHandling": "일반 도로 핸들링",
+    "sortByTerrainHandling": "오프로드 핸들링",
+    "sortByWaterHandling": "수중 핸들링",
+    "filterBySpeed": "스피드로 필터",
+    "filterByHandling": "핸들링으로 필터",
+    "selectCharacter": "캐릭터 선택",
+    "selectVehicle": "카트 선택",
+    "chooseOption": "옵션을 선택하세요"
   },
   "search": {
     "placeholder": "캐릭터나 카트 검색...",
-    "inputPlaceholder": "캐릭터 또는 카트 이름 입력...",
-    "noResults": "일치하는 결과를 찾을 수 없습니다",
+    "inputPlaceholder": "캐릭터나 카트 이름 입력...",
+    "noResults": "검색 결과가 없습니다",
     "loading": "검색 중...",
     "button": "캐릭터 & 카트 검색",
     "buttonShort": "검색",
     "shortcutHint": {
-      "press": "누르기",
+      "press": "누르세요",
       "quickSearch": "빠른 검색"
     },
     "modal": {
-      "title": "🔍 캐릭터와 카트 검색",
+      "title": "🔍 캐릭터 & 카트 검색",
       "recentSearches": "🕐 최근 검색",
       "resultsCount": "개 결과",
       "searchTime": "검색 시간",
       "seconds": "초",
       "searchTips": "검색 팁:",
-      "tip1": "• 중국어와 영어 이름 검색 지원",
-      "tip2": "• 부분 이름 검색 가능, 예: '마리오'로 '마리오' 찾기",
-      "tip3": "• 검색 결과는 관련도 순으로 정렬됩니다",
-      "startSearch": "입력을 시작하여 캐릭터나 카트를 검색하세요",
-      "supportBoth": "중국어와 영어 이름 검색을 모두 지원합니다",
-      "noResultsFor": "'{query}'에 대한 결과를 찾을 수 없습니다",
+      "tip1": "• 한국어와 영어 이름으로 검색 가능",
+      "tip2": "• 부분 이름 검색 지원, 예: '마리오'로 '마리오' 찾기",
+      "tip3": "• 결과는 관련도 순으로 정렬",
+      "startSearch": "캐릭터나 카트를 검색하려면 입력을 시작하세요",
+      "supportBoth": "한국어와 영어 이름 검색 지원",
+      "noResultsFor": "'{query}'에 대한 검색 결과가 없습니다",
       "tryOther": "다른 키워드를 시도하거나 철자를 확인해주세요",
       "searchTipTitle": "검색 팁:",
-      "searchTip1": "• 더 짧은 키워드를 사용해보세요",
-      "searchTip2": "• 중국어 또는 영어 이름을 사용하세요",
-      "searchTip3": "• 철자 오류를 확인하세요",
-      "foundResults": "{count}개의 결과를 찾았습니다",
+      "searchTip1": "• 더 짧은 키워드로 시도해보세요",
+      "searchTip2": "• 한국어나 영어 이름을 사용해보세요",
+      "searchTip3": "• 철자 오류가 있는지 확인해보세요",
+      "foundResults": "{count}개 결과 발견",
       "searchQuery": "'{query}' 검색",
       "viewAllCharacters": "모든 캐릭터 보기",
       "viewAllVehicles": "모든 카트 보기",
-      "recommendedCombos": "🏆 추천 조합",
-      "supportHint": "💡 중국어와 영어 이름 검색 지원",
-      "escClose": "닫기",
-      "ctrlKOpen": "검색 열기"
+      "backToHome": "← 홈으로 돌아가기"
     }
   },
-  "selection": {
-    "pleaseSelect": "선택해주세요...",
-    "selectCharacter": "캐릭터를 선택해주세요...",
-    "selectVehicle": "카트를 선택해주세요..."
-  },
-  "types": {
-    "character": "캐릭터",
-    "vehicle": "카트"
-  },
-  "common": {
-    "loading": "로딩 중...",
-    "idle": "대기 중",
-    "error": "오류가 발생했습니다",
-    "noError": "오류 없음",
-    "retry": "재시도",
-    "close": "닫기",
-    "select": "선택",
-    "all": "전체",
-    "none": "없음"
-  },
-  "admin": {
-    "dataManagement": "데이터 관리",
-    "syncData": "데이터 동기화",
-    "csvCopied": "CSV 데이터가 클립보드에 복사되었습니다!",
-    "moreData": "추가 데이터",
-    "title": "🔄 마리오 카트 데이터 동기화 관리",
-    "instructions": {
-      "title": "📋 사용 방법",
-      "step1": "• '데이터 동기화' 버튼을 클릭하여 Google Sheets에서 최신 데이터 가져오기",
-      "step2": "• 동기화 성공 후, 변환된 CSV 파일이 자동으로 다운로드됩니다",
-      "step3": "• 이 파일로 public/mario-kart-data.csv를 교체할 수 있습니다"
-    },
-    "syncing": "동기화 중...",
-    "syncButton": "🔄 데이터 동기화",
-    "syncSuccess": "동기화 성공!",
-    "syncFailed": "동기화 실패",
-    "syncTime": "동기화 시간:",
-    "copyCSV": "📋 CSV 클립보드에 복사",
-    "redownloadCSV": "💾 CSV 재다운로드",
-    "previewCSV": "📄 변환된 CSV 데이터 미리보기 표시",
-    "warnings": {
-      "title": "⚠️ 주의사항",
-      "warning1": "• 동기화 후 수동으로 public/mario-kart-data.csv 파일을 교체해주세요",
-      "warning2": "• 교체 전에 기존 CSV 파일을 백업하는 것을 권장합니다",
-      "warning3": "• 동기화에 실패한 경우, Google Sheets가 공개 상태인지 확인해주세요",
-      "warning4": "• 데이터 변환에는 시간이 걸릴 수 있습니다. 잠시 기다려주세요"
-    },
-    "backToHome": "← 홈으로 돌아가기"
-  },
   "combination": {
-    "autoSave": "자동 저장: 생성된 조합은 로컬에 자동 저장되며 다음 방문 시 자동으로 로드됩니다!",
+    "autoSave": "자동 저장: 생성한 조합은 로컬에 자동 저장되어 다음 방문 시 자동으로 불러옵니다!",
     "createNew": "새로운 캐릭터+카트 조합 생성",
     "selectCharacter": "캐릭터 선택 🎮",
     "selectVehicle": "카트 선택 🏎️",
     "createButton": "조합 생성",
-    "detailedSpeedDistribution": "세부 속도 분포",
+    "detailedSpeedDistribution": "상세 스피드 분포",
     "terrainNames": {
-      "road": "도로",
+      "road": "일반 도로",
       "terrain": "오프로드", 
-      "water": "수면"
+      "water": "수중"
     }
   },
   "test": {
     "mario": "테스트 마리오",
     "vehicle": "테스트 카트",
-    "added": "🟡 테스트 조합을 추가했습니다...",
-    "success": "✅ 지속성 테스트 성공! 조합이 localStorage에 저장되었습니다",
+    "added": "🟡 테스트 조합 추가됨...",
+    "success": "✅ 저장 테스트 성공! 조합이 localStorage에 저장되었습니다",
     "failNoData": "❌ 테스트 실패: localStorage에서 조합 데이터를 찾을 수 없습니다",
     "failNoKey": "❌ 테스트 실패: localStorage에서 키를 찾을 수 없습니다",
     "loading": "로딩 중...",
-    "title": "지속성 테스트 도구",
+    "title": "저장 테스트 도구",
     "currentCount": "현재 조합 수:",
-    "autoSaveInfo": "이러한 조합은 localStorage에 자동으로 저장되어야 합니다",
-    "testPersistence": "지속성 테스트",
-    "clearTestData": "테스트 데이터 지우기",
+    "autoSaveInfo": "이 조합들은 localStorage에 자동 저장됩니다",
+    "testPersistence": "저장 테스트",
+    "clearTestData": "테스트 데이터 삭제",
     "instructions": "테스트 설명:",
-    "instruction1": "'지속성 테스트'를 클릭하면 테스트 조합이 추가됩니다",
-    "instruction2": "페이지 새로고침 후에도 조합이 남아있어야 합니다",
-    "instruction3": "조합 데이터는 localStorage의 \"mario-kart-combinations\" 키에 저장됩니다"
+    "instruction1": "'저장 테스트' 클릭 시 테스트 조합 추가",
+    "instruction2": "페이지 새로고침 후에도 조합이 남아있어야 함",
+    "instruction3": "조합 데이터는 localStorage의 'mario-kart-combinations' 키에 저장됨"
   },
   "recommendations": {
     "scoreFormula": "종합 점수 계산: 스피드 40% + 핸들링 30% + 가속도 20% - 무게 10%",
-    "calculating": "추천 조합을 계산 중...",
-    "ensureDataLoaded": "캐릭터와 차량 데이터가 로드되었는지 확인해주세요",
+    "calculating": "추천 조합 계산 중...",
+    "ensureDataLoaded": "캐릭터와 카트 데이터가 로드되었는지 확인하세요",
     "compositeScore": "종합 점수",
-    "optimizedFor": "{terrain} 지형에 최적화",
+    "optimizedFor": "{terrain} 지형에 최적화됨",
     "instructions": {
-      "title": "💡 사용 방법",
-      "roadTerrain": "도로 지형: 대부분의 표준 트랙에 적합, 스피드와 핸들링 균형 중시",
-      "terrain": "지형: 오프로드 트랙에 적합, 가속도와 무게 안정성 중시",
-      "water": "수면: 수상 트랙에 적합, 특별한 핸들링 기술 필요",
-      "ranking": "순위: 종합 점수 순으로 정렬, 금은동 메달은 상위 3위를 나타냄",
-      "score": "종합 점수: 모든 능력치를 고려한 가중 계산 결과"
+      "title": "💡 사용법",
+      "description": "이 페이지는 다양한 지형 타입에 맞는 최적의 캐릭터와 카트 조합을 제공합니다. 아래 버튼을 클릭하여 특정 지형의 추천 설정을 확인하세요.",
+      "howToUse": "사용 방법:",
+      "step1": "• 지형 버튼(일반 도로, 오프로드, 수중)을 클릭하여 최적화된 조합 확인",
+      "step2": "• 각 조합은 종합 점수와 상세 데이터 분석을 표시",
+      "step3": "• '내 조합에 추가' 클릭으로 마음에 드는 조합 저장",
+      "step4": "• 점수는 지형별 성능 가중치를 바탕으로 계산"
     },
-    "total": "총 {charactersCount}개 캐릭터와 {vehiclesCount}개 카트",
-    "characterCount": "캐릭터 ({count})",
-    "vehicleCount": "카트 ({count})",
-    "combinationCount": "캐릭터+카트 조합 ({count})",
-    "clearAll": "모두 지우기",
-    "legend": {
-      "title": "능력치 설명과 범례",
-      "colorLegend": "능력치 컬러 범례",
-      "speed": "속도",
-      "acceleration": "가속", 
-      "weight": "무게",
-      "handling": "핸들링"
-    },
-    "descriptions": {
-      "speedTitle": "속도",
-      "roadSpeedDesc": "로드: 콘크리트, 아스팔트, 금속 등 매끄러운 지면",
-      "terrainSpeedDesc": "오프로드: 흙, 모래, 눈 등 거친 지면", 
-      "waterSpeedDesc": "수상: 수상 카트 모드가 발동되는 수역",
-      "otherStatsTitle": "기타 능력치",
-      "accelerationDesc": "가속: 정지 상태에서 최고 속도까지의 시간",
-      "weightDesc": "무게: 충돌 결과와 코인 가산에 영향",
-      "handlingDesc": "핸들링: 카트 회전의 유연성"
-    },
-    "tips": {
-      "usage": "사용 팁: 색이 진한 진행 바일수록 능력치가 높음을 나타냅니다. 백분율은 최고값에 대한 비율을 보여주어 다른 캐릭터와 카트의 우열을 빠르게 비교할 수 있습니다!",
-      "notice": "주의: 게임 내 모든 캐릭터와 카트 조합은 추가로 +3의 능력치 보너스를 받습니다. 표의 수치는 원본 데이터이며 실제 게임플레이에서는 조정될 수 있습니다."
-    }
+    "backToHome": "← 홈으로 돌아가기"
   },
   "loading": {
     "initializing": "초기화 중...",
@@ -238,7 +204,7 @@
     "retry": "다시 로드"
   },
   "emptyCombination": {
-    "title": "아직 조합이 생성되지 않았습니다",
+    "title": "아직 생성된 조합이 없습니다",
     "subtitle": "위의 선택기를 사용하여 첫 번째 조합을 만들어보세요!",
     "tip": "캐릭터와 카트를 선택한 후 '조합 생성' 버튼을 클릭하세요"
   },
@@ -249,27 +215,27 @@
     "vehiclesCount": "카트 수",
     "errorState": "오류 상태",
     "loading": "로딩 중...",
-    "idle": "대기 중",
+    "idle": "대기",
     "noError": "오류 없음",
     "manualLoad": "수동 로드",
     "testDirectFetch": "직접 요청 테스트",
-    "errorDetails": "오류 세부사항:",
-    "loadSuccess": "로드 성공!",
+    "errorDetails": "오류 상세:",
+    "loadSuccess": "로딩 성공!",
     "firstCharacters": "첫 3개 캐릭터:",
     "firstVehicles": "첫 3개 카트:",
-    "speed": "속도"
+    "speed": "스피드"
   },
   "terrain": {
     "road": {
-      "name": "도로",
-      "description": "일반 코스와 아스팔트 노면에 적합"
+      "name": "일반 도로",
+      "description": "일반 트랙과 아스팔트 노면에 적합"
     },
     "terrain": {
-      "name": "지형",
-      "description": "오프로드와 모래 코스에 적합"
+      "name": "오프로드",
+      "description": "오프로드와 모래 트랙에 적합"
     },
     "water": {
-      "name": "수면",
+      "name": "수중",
       "description": "수상과 젖은 노면에 적합"
     }
   }

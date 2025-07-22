@@ -18,7 +18,8 @@
   "admin": {
     "dataManagement": "Data Management"
   },
-  "dataPages": {
+  "navigation": {
+    "dataPages": "Data Pages",
     "characters": "Characters",
     "vehicles": "Vehicles",
     "combinations": "Combinations",

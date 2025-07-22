@@ -10,14 +10,14 @@ import PageControls from '@/components/PageControls';
 import SearchModal from '@/components/SearchModal';
 import SearchButton, { SearchShortcutHint } from '@/components/SearchButton';
 import RecommendationsPage from '@/components/RecommendationsPage';
-import { VirtualizedGrid } from '@/components/VirtualizedList';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
 import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
 import { searchModalOpenAtom } from '@/store/atoms';
 import LayoutContent from '@/components/LayoutContent';
+import ClientOnlyWrapper from '@/components/ClientOnlyWrapper';
 import { useTranslation } from 'react-i18next';
 
-export default function Home() {
+function HomeContent() {
   const { t } = useTranslation();
   const { isInitialized } = useLanguagePersistence();
   
@@ -318,5 +318,22 @@ export default function Home() {
       />
       </div>
     </LayoutContent>
+  );
+}
+
+export default function Home() {
+  return (
+    <ClientOnlyWrapper
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-xl text-gray-600">載入中...</p>
+          </div>
+        </div>
+      }
+    >
+      <HomeContent />
+    </ClientOnlyWrapper>
   );
 }

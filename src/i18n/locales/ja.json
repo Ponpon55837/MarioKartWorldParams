@@ -22,11 +22,11 @@
     }
   },
   "navigation": {
+    "dataPages": "データページ",
     "characters": "キャラクター",
     "vehicles": "カート",
     "combinations": "組み合わせ",
     "recommendations": "おすすめ",
-    "dataPages": "データページ",
     "descriptions": {
       "characters": "すべてのキャラクターの能力値データを閲覧",
       "vehicles": "すべてのカートの能力値データを閲覧",
