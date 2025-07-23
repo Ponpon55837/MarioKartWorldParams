@@ -33,7 +33,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'zh-TW',
-    lng: 'zh-TW', // 確保 SSR 時使用預設語言
+    lng: typeof window !== 'undefined' ? localStorage.getItem('mario-kart-language') || 'zh-TW' : 'zh-TW',
     debug: false,
     
     interpolation: {

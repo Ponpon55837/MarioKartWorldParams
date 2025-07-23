@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="zh-TW" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <JotaiProvider>
           {children}

@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useClientMounted } from '@/hooks/useClientMounted';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
+import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
 import LanguageSelector from '@/components/LanguageSelector';
+import ClientOnlyWrapper from '@/components/ClientOnlyWrapper';
 
 interface SyncResult {
   success: boolean;
@@ -36,8 +38,26 @@ interface DataStatus {
 }
 
 export default function AdminPage() {
+  return (
+    <ClientOnlyWrapper
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-xl text-gray-600">載入中...</p>
+          </div>
+        </div>
+      }
+    >
+      <AdminPageContent />
+    </ClientOnlyWrapper>
+  );
+}
+
+function AdminPageContent() {
   const { t } = useTranslation();
   const mounted = useClientMounted();
+  const { isInitialized } = useLanguagePersistence();
   const { reloadData } = useMarioKartStore();
   const [syncing, setSyncing] = useState(false);
   const [result, setResult] = useState<SyncResult | null>(null);
@@ -63,10 +83,8 @@ export default function AdminPage() {
 
   // 頁面載入時檢查資料狀態
   useEffect(() => {
-    if (mounted) {
-      checkDataStatus();
-    }
-  }, [mounted]);
+    checkDataStatus();
+  }, []);
 
   const handleSync = async () => {
     setSyncing(true);
@@ -123,30 +141,15 @@ export default function AdminPage() {
     }
   };
 
-  // 避免 SSR 水合不匹配問題
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="text-center py-8">
-              <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-xl text-gray-600">載入中...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // 避免 SSR 水合不匹配問題 - 現在由 ClientOnlyWrapper 處理
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-md p-3">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-            🛠️ {t('admin.systemManagement')}           
-          </h1>
-           <div className="flex justify-center lg:justify-end lg:ml-4 p-1">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-lg shadow-md p-3">
+            <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+              🛠️ {t('admin.systemManagement')}           
+            </h1>
+             <div className="flex justify-center lg:justify-end lg:ml-4 p-1">
             <LanguageSelector className="w-full max-w-[200px] lg:w-auto" />
           </div>
 

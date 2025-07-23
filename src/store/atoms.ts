@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import { CharacterStats, VehicleStats, CombinationStats, StatType, SpeedType, HandlingType } from '@/types';
 import { parseMarioKartCSV } from '@/utils/csvParser';
 import { combinationsAtom } from '@/store/combinations';
@@ -27,8 +28,8 @@ export const searchHistoryVisibleAtom = atom<boolean>(false);
 // 語系相關 atoms
 export type SupportedLanguage = 'zh-TW' | 'zh-CN' | 'en' | 'ja' | 'ko';
 
-// 語系選擇 atom (持久化到 localStorage)
-export const languageAtom = atom<SupportedLanguage>('zh-TW');
+// 語系選擇 atom (自動持久化到 localStorage)
+export const languageAtom = atomWithStorage<SupportedLanguage>('mario-kart-language', 'zh-TW');
 
 // 計算最大值的 atom (依賴於角色和載具資料)
 export const maxStatsAtom = atom((get) => {
