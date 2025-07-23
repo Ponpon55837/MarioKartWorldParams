@@ -29,32 +29,31 @@ export function useLanguagePersistence() {
   const { i18n } = useTranslation();
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // 初始化：同步 Jotai state 到 i18next 和 DOM
+  const initializeLanguage = async () => {
+    try {
+      // 確保使用 localStorage 中的值而不是 atom 的初始值
+      const storedLanguage = typeof window !== 'undefined' 
+        ? localStorage.getItem('mario-kart-language') as SupportedLanguage || 'zh-TW'
+        : 'zh-TW';
+      
+      // 如果 localStorage 中的語言與當前 atom 不一致，更新 atom
+      if (storedLanguage !== language && isValidLanguage(storedLanguage)) {
+        setLanguage(storedLanguage);
+      }
+      
+      // 使用存儲的語言同步到 i18next 和 DOM
+      const targetLanguage = isValidLanguage(storedLanguage) ? storedLanguage : language;
+      await i18n.changeLanguage(targetLanguage);
+      updateDocumentLanguage(targetLanguage);
+      setIsInitialized(true);
+    } catch (error) {
+      console.error('Language initialization failed:', error);
+      setIsInitialized(true); // 即使失敗也要標記為已初始化
+    }
+  };
+
   useEffect(() => {
     if (!isInitialized) {
-      const initializeLanguage = async () => {
-        try {
-          // 確保使用 localStorage 中的值而不是 atom 的初始值
-          const storedLanguage = typeof window !== 'undefined' 
-            ? localStorage.getItem('mario-kart-language') as SupportedLanguage || 'zh-TW'
-            : 'zh-TW';
-          
-          // 如果 localStorage 中的語言與當前 atom 不一致，更新 atom
-          if (storedLanguage !== language && isValidLanguage(storedLanguage)) {
-            setLanguage(storedLanguage);
-          }
-          
-          // 使用存儲的語言同步到 i18next 和 DOM
-          const targetLanguage = isValidLanguage(storedLanguage) ? storedLanguage : language;
-          await i18n.changeLanguage(targetLanguage);
-          updateDocumentLanguage(targetLanguage);
-          setIsInitialized(true);
-        } catch (error) {
-          console.error('Language initialization failed:', error);
-          setIsInitialized(true); // 即使失敗也要標記為已初始化
-        }
-      };
-
       initializeLanguage();
     }
   }, [language, i18n, isInitialized, setLanguage]);
