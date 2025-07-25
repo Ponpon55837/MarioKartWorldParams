@@ -12,7 +12,7 @@ import SearchButton, { SearchShortcutHint } from '@/components/SearchButton';
 import RecommendationsPage from '@/components/RecommendationsPage';
 import { useMarioKartStore } from '@/hooks/useMarioKartStore';
 import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
-import { searchModalOpenAtom } from '@/store/atoms';
+import { searchModalOpenAtom } from '@/store/dataAtoms';
 import LayoutContent from '@/components/LayoutContent';
 import ClientOnlyWrapper from '@/components/ClientOnlyWrapper';
 import { useTranslation } from 'react-i18next';

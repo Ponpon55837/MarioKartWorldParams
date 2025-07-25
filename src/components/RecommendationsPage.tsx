@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { recommendedCombinationsAtom } from '@/store/atoms';
+import { recommendedCombinationsAtom } from '@/store/dataAtoms';
 import RecommendationCard from '@/components/RecommendationCard';
 import { getTerrainIcon, useTerrainName, useTerrainDescription } from '@/constants/terrain';
 

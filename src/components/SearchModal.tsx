@@ -22,7 +22,7 @@ import {
   dynamicMaxStatsAtom,
   speedFilterAtom,
   handlingFilterAtom
-} from '@/store/atoms';
+} from '@/store/dataAtoms';
 
 interface SearchModalProps {
   onNavigate?: (type: 'characters' | 'vehicles' | 'recommendations') => void;

@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { useEffect, useState, useCallback } from 'react';
-import { languageAtom, SupportedLanguage } from '@/store/atoms';
+import { languageAtom, SupportedLanguage } from '@/store/dataAtoms';
 import { useTranslation } from 'react-i18next';
 
 // 常數定義
