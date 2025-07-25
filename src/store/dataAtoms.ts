@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { CharacterStats, VehicleStats, CombinationStats, StatType, SpeedType, HandlingType } from '@/types';
+import { CharacterStats, VehicleStats, CombinationStats, StatType, SpeedType, HandlingType, SearchResultItem } from '@/types';
 import { parseMarioKartCSV } from '@/utils/csvParser';
 import { combinationsAtom } from '@/store/combinations';
 
@@ -17,19 +17,6 @@ export const sortByAtom = atom<StatType>('speed');
 export const speedFilterAtom = atom<SpeedType | 'display'>('display');
 export const handlingFilterAtom = atom<HandlingType | 'display'>('display');
 export const currentPageAtom = atom<'characters' | 'vehicles' | 'combinations' | 'recommendations'>('characters');
-
-// 搜尋相關 atoms
-// 搜尋結果的聯合型別
-export type SearchResultItem = {
-  type: 'character';
-  data: CharacterStats;
-} | {
-  type: 'vehicle';
-  data: VehicleStats;
-} | {
-  type: 'combination';
-  data: CombinationStats;
-};
 
 export const searchModalOpenAtom = atom<boolean>(false);
 export const searchQueryAtom = atom<string>('');

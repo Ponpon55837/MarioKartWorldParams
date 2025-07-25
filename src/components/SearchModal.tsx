@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
-import { CharacterStats, VehicleStats } from '@/types';
+import { SearchModalProps, SearchResult, CharacterStats, VehicleStats } from '@/types';
 import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
 import { useDebounce } from '@/hooks/usePerformance';
@@ -24,15 +24,7 @@ import {
   handlingFilterAtom
 } from '@/store/dataAtoms';
 
-interface SearchModalProps {
-  onNavigate?: (type: 'characters' | 'vehicles' | 'recommendations') => void;
-}
 
-interface SearchResult {
-  type: 'character' | 'vehicle';
-  data: CharacterStats | VehicleStats;
-  score: number;
-}
 
 export default function SearchModal({ onNavigate }: SearchModalProps) {
   const { t } = useTranslation();

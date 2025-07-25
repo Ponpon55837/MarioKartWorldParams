@@ -6,7 +6,6 @@ import {
   charactersAtom,
   vehiclesAtom,
   loadDataAtom,
-  maxStatsAtom,
   dynamicMaxStatsAtom,
   sortedCharactersAtom,
   sortedVehiclesAtom,
