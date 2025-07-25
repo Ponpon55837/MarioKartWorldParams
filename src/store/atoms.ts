@@ -19,9 +19,21 @@ export const handlingFilterAtom = atom<HandlingType | 'display'>('display');
 export const currentPageAtom = atom<'characters' | 'vehicles' | 'combinations' | 'recommendations'>('characters');
 
 // 搜尋相關 atoms
+// 搜尋結果的聯合型別
+type SearchResultItem = {
+  type: 'character';
+  data: CharacterStats;
+} | {
+  type: 'vehicle';
+  data: VehicleStats;
+} | {
+  type: 'combination';
+  data: CombinationStats;
+};
+
 export const searchModalOpenAtom = atom<boolean>(false);
 export const searchQueryAtom = atom<string>('');
-export const searchResultsAtom = atom<any[]>([]);
+export const searchResultsAtom = atom<SearchResultItem[]>([]);
 export const searchLoadingAtom = atom<boolean>(false);
 export const searchHistoryVisibleAtom = atom<boolean>(false);
 
@@ -83,7 +95,11 @@ const calculateEntityMaxStats = <T extends CharacterStats | VehicleStats>(entiti
 };
 
 // 合併兩個最大值物件，取每個屬性的最大值
-const mergeMaxStats = (stats1: any, stats2: any) => {
+type MaxStats = {
+  [K in typeof STAT_PROPERTIES[number]]: number;
+};
+
+const mergeMaxStats = (stats1: MaxStats, stats2: MaxStats): MaxStats => {
   const merged = { ...stats1 };
   
   for (const property of STAT_PROPERTIES) {
