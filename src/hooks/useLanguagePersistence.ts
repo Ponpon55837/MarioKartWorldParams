@@ -56,6 +56,7 @@ export function useLanguagePersistence() {
     if (!isInitialized) {
       initializeLanguage();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language, i18n, isInitialized, setLanguage]);
 
   // 語言切換函數

@@ -49,7 +49,6 @@ export async function POST() {
         characterCount: parsedData.characters.length,
         vehicleCount: parsedData.vehicles.length,
         source: 'Google Sheets',
-        sourceUrl: GOOGLE_SHEETS_CSV_URL.split('?')[0], // 移除參數
       }
     };
 
