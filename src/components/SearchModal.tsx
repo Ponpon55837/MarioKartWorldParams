@@ -30,7 +30,7 @@ interface SearchModalProps {
 
 interface SearchResult {
   type: 'character' | 'vehicle';
-  item: CharacterStats | VehicleStats;
+  data: CharacterStats | VehicleStats;
   score: number;
 }
 
@@ -115,7 +115,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       if (score > 20) { // 只顯示相關性較高的結果
         results.push({
           type: 'character',
-          item: character,
+          data: character,
           score
         });
       }
@@ -127,7 +127,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       if (score > 20) { // 只顯示相關性較高的結果
         results.push({
           type: 'vehicle',
-          item: vehicle,
+          data: vehicle,
           score
         });
       }
@@ -137,7 +137,13 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
     results.sort((a, b) => b.score - a.score);
     
     // 限制結果數量
-    const finalResults = results.slice(0, 20);
+    const limitedResults = results.slice(0, 20);
+    
+    // 轉換為符合 SearchResultItem 格式
+    const finalResults = limitedResults.map(result => ({
+      type: result.type,
+      data: result.data
+    }));
     setSearchResults(finalResults);
     setIsLoading(false);
     
@@ -387,14 +393,14 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                     {/* 渲染卡片 */}
                     {result.type === 'character' ? (
                       <CharacterCard
-                        character={result.item as CharacterStats}
+                        character={result.data as CharacterStats}
                         maxStats={maxStats}
                         speedFilter={speedFilter}
                         handlingFilter={handlingFilter}
                       />
                     ) : (
                       <VehicleCard
-                        vehicle={result.item as VehicleStats}
+                        vehicle={result.data as VehicleStats}
                         maxStats={maxStats}
                         speedFilter={speedFilter}
                         handlingFilter={handlingFilter}

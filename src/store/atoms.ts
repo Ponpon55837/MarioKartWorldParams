@@ -20,7 +20,7 @@ export const currentPageAtom = atom<'characters' | 'vehicles' | 'combinations' |
 
 // 搜尋相關 atoms
 // 搜尋結果的聯合型別
-type SearchResultItem = {
+export type SearchResultItem = {
   type: 'character';
   data: CharacterStats;
 } | {
