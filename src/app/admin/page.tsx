@@ -224,7 +224,7 @@ function AdminPageContent() {
               {syncing ? (
                 <div className="flex items-center space-x-2">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>{t('admin.syncing')}...</span>
+                  <span>{t('admin.syncInProgress')}...</span>
                 </div>
               ) : (
                 t('admin.syncFromSheets')

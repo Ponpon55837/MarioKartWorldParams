@@ -2,7 +2,7 @@
 
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { loadDataAtom, charactersAtom, vehiclesAtom, loadingAtom, errorAtom } from '@/store/atoms';
+import { loadDataAtom, charactersAtom, vehiclesAtom, loadingAtom, errorAtom } from '@/store/dataAtoms';
 
 export default function DebugDataLoading() {
   const { t } = useTranslation();

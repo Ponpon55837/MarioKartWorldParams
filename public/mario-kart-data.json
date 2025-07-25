@@ -1,6 +1,6 @@
 {
-  "version": "2025-07-22T08:59:24.800Z",
-  "lastUpdate": "2025-07-22T08:59:24.800Z",
+  "version": "2025-07-25T07:05:34.359Z",
+  "lastUpdate": "2025-07-25T07:05:34.359Z",
   "data": {
     "characters": [
       {
@@ -1270,7 +1270,6 @@
   "metadata": {
     "characterCount": 50,
     "vehicleCount": 40,
-    "source": "Google Sheets",
-    "sourceUrl": "https://docs.google.com/spreadsheets/d/1k4Q-bdzLDdsOfEe07bNkw9DOtTUcxqNHAyXmoZqhngU/export"
+    "source": "Google Sheets"
   }
 }

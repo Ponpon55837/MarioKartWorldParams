@@ -59,3 +59,28 @@ export interface MarioKartData {
 export type StatType = 'speed' | 'acceleration' | 'weight' | 'handling';
 export type SpeedType = 'road' | 'terrain' | 'water';
 export type HandlingType = 'road' | 'terrain' | 'water';
+
+// 搜尋相關 atoms
+// 搜尋結果的分頁型別
+export interface SearchModalProps {
+  onNavigate?: (type: 'characters' | 'vehicles' | 'recommendations') => void;
+}
+
+// 搜尋結果的聯合型別
+export type SearchResultItem = {
+  type: 'character';
+  data: CharacterStats;
+} | {
+  type: 'vehicle';
+  data: VehicleStats;
+} | {
+  type: 'combination';
+  data: CombinationStats;
+};
+
+// 搜尋結果的統一型別
+export interface SearchResult {
+  type: 'character' | 'vehicle';
+  data: CharacterStats | VehicleStats;
+  score: number;
+}

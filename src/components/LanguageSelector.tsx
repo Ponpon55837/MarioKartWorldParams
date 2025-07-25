@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
-import { SupportedLanguage } from '@/store/atoms';
+import { SupportedLanguage } from '@/store/dataAtoms';
 import CustomSelect from './CustomSelect';
 
 // 語言選項配置

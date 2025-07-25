@@ -6,7 +6,6 @@ import {
   charactersAtom,
   vehiclesAtom,
   loadDataAtom,
-  maxStatsAtom,
   dynamicMaxStatsAtom,
   sortedCharactersAtom,
   sortedVehiclesAtom,
@@ -17,7 +16,7 @@ import {
   speedFilterAtom,
   handlingFilterAtom,
   currentPageAtom,
-} from '@/store/atoms';
+} from '@/store/dataAtoms';
 import { combinationsAtom } from '@/store/combinations';
 import { useClientMounted } from '@/hooks/useClientMounted';
 import type { CharacterStats, VehicleStats } from '@/types';

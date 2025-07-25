@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { useEffect, useState, useCallback } from 'react';
-import { languageAtom, SupportedLanguage } from '@/store/atoms';
+import { languageAtom, SupportedLanguage } from '@/store/dataAtoms';
 import { useTranslation } from 'react-i18next';
 
 // 常數定義
@@ -56,6 +56,7 @@ export function useLanguagePersistence() {
     if (!isInitialized) {
       initializeLanguage();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language, i18n, isInitialized, setLanguage]);
 
   // 語言切換函數
