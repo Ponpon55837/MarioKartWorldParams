@@ -31,9 +31,7 @@ const RecommendationsPage: React.FC = () => {
             key={terrain}
             onClick={() => handleTerrainChange(terrain)}
             className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 flex-1 sm:flex-none ${
-              selectedTerrain === terrain
-                ? 'bg-blue-500 text-white shadow-lg transform scale-105'
-                : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg'
+              selectedTerrain === terrain ? 'bg-blue-500 text-white shadow-lg transform scale-105' : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg'
             }`}
           >
             <span className="text-xl sm:text-2xl">{getTerrainIcon(terrain)}</span>
@@ -47,11 +45,8 @@ const RecommendationsPage: React.FC = () => {
 
       {/* 當前選擇的地形資訊 */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-1">
-        
         <div className="text-center">
-          <p className="text-sm text-gray-600">
-            {t('recommendations.scoreFormula')}
-          </p>
+          <p className="text-sm text-gray-600">{t('recommendations.scoreFormula')}</p>
         </div>
       </div>
 
@@ -65,11 +60,7 @@ const RecommendationsPage: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {currentRecommendations.map((recommendation) => (
-            <RecommendationCard
-              key={recommendation.id}
-              recommendation={recommendation}
-              maxStats={recommendations.maxCombinedStats}
-            />
+            <RecommendationCard key={recommendation.id} recommendation={recommendation} maxStats={recommendations.maxCombinedStats} />
           ))}
         </div>
       )}
@@ -78,7 +69,9 @@ const RecommendationsPage: React.FC = () => {
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-yellow-800 mb-3">{t('recommendations.instructions.title')}</h3>
         <ul className="text-sm text-yellow-700 space-y-2">
-          <li>• <strong>{t('recommendations.instructions.step1')}</strong></li>
+          <li>
+            • <strong>{t('recommendations.instructions.step1')}</strong>
+          </li>
         </ul>
       </div>
     </div>

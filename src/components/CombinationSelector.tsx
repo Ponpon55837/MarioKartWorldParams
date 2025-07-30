@@ -11,10 +11,10 @@ interface CombinationSelectorProps {
 
 export default function CombinationSelector({ characters, vehicles, onAddCombination }: CombinationSelectorProps) {
   const { t } = useTranslation();
-  
+
   const characterOptions = [
     { value: '', label: t('selection.selectCharacter') },
-    ...characters.map(character => ({
+    ...characters.map((character) => ({
       value: character.name,
       label: character.name
     }))
@@ -22,7 +22,7 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
 
   const vehicleOptions = [
     { value: '', label: t('selection.selectVehicle') },
-    ...vehicles.map(vehicle => ({
+    ...vehicles.map((vehicle) => ({
       value: vehicle.name,
       label: vehicle.name
     }))
@@ -32,8 +32,8 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
   const [selectedVehicle, setSelectedVehicle] = useState<string>('');
 
   const handleAddCombination = () => {
-    const character = characters.find(c => c.name === selectedCharacter);
-    const vehicle = vehicles.find(v => v.name === selectedVehicle);
+    const character = characters.find((c) => c.name === selectedCharacter);
+    const vehicle = vehicles.find((v) => v.name === selectedVehicle);
 
     if (character && vehicle) {
       onAddCombination(character, vehicle);
@@ -44,33 +44,17 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
 
   return (
     <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg shadow-md p-4 border border-yellow-200 mb-4">
-      <h3 className="text-lg font-bold text-gray-800 mb-3 text-center">
-        ✨ {t('combination.createNew')}
-      </h3>
+      <h3 className="text-lg font-bold text-gray-800 mb-3 text-center">✨ {t('combination.createNew')}</h3>
       <div className="space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              {t('combination.selectCharacter')}
-            </label>
-            <CustomSelect
-              value={selectedCharacter}
-              onChange={setSelectedCharacter}
-              options={characterOptions}
-              placeholder={t('selection.selectCharacter')}
-            />
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('combination.selectCharacter')}</label>
+            <CustomSelect value={selectedCharacter} onChange={setSelectedCharacter} options={characterOptions} placeholder={t('selection.selectCharacter')} />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              {t('combination.selectVehicle')}
-            </label>
-            <CustomSelect
-              value={selectedVehicle}
-              onChange={setSelectedVehicle}
-              options={vehicleOptions}
-              placeholder={t('selection.selectVehicle')}
-            />
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('combination.selectVehicle')}</label>
+            <CustomSelect value={selectedVehicle} onChange={setSelectedVehicle} options={vehicleOptions} placeholder={t('selection.selectVehicle')} />
           </div>
         </div>
 

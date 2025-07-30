@@ -25,19 +25,19 @@ interface RecommendationCardProps {
   };
 }
 
-const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(({ 
-  recommendation, 
-  maxStats 
-}) => {
+const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(({ recommendation, maxStats }) => {
   const { t } = useTranslation();
   const getTerrainName = useTerrainName();
   const { character, vehicle, score, totalSpeed, totalHandling, totalAcceleration, totalWeight, terrain, rank } = recommendation;
 
   // 使用 useMemo 優化地形資訊
-  const terrainInfo = useMemo(() => ({
-    icon: getTerrainIcon(terrain),
-    name: getTerrainName(terrain)
-  }), [terrain, getTerrainName]);
+  const terrainInfo = useMemo(
+    () => ({
+      icon: getTerrainIcon(terrain),
+      name: getTerrainName(terrain)
+    }),
+    [terrain, getTerrainName]
+  );
 
   // 使用 useMemo 優化排名樣式
   const rankStyle = useMemo(() => {
@@ -51,9 +51,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(({
     <div className="bg-white rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 border-2 border-gray-100">
       {/* 排名徽章 */}
       <div className="flex items-center justify-between mb-3">
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${rankStyle}`}>
-          {rank}
-        </div>
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${rankStyle}`}>{rank}</div>
         <div className="flex items-center space-x-2">
           <span className="text-2xl">{terrainInfo.icon}</span>
           <span className="text-sm font-medium text-gray-600">{terrainInfo.name}</span>
@@ -85,52 +83,30 @@ const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(({
           <span className="text-sm text-gray-600">{t('stats.speed')}</span>
           <span className="text-sm font-medium">{totalSpeed.toFixed(1)}</span>
         </div>
-        <StatBar
-          value={totalSpeed}
-          maxValue={maxStats.speed}
-          statType="speed"
-          label={t('stats.speed')}
-        />
-        
+        <StatBar value={totalSpeed} maxValue={maxStats.speed} statType="speed" label={t('stats.speed')} />
+
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">{t('stats.handling')}</span>
           <span className="text-sm font-medium">{totalHandling.toFixed(1)}</span>
         </div>
-        <StatBar
-          value={totalHandling}
-          maxValue={maxStats.handling}
-          statType="handling"
-          label={t('stats.handling')}
-        />
-        
+        <StatBar value={totalHandling} maxValue={maxStats.handling} statType="handling" label={t('stats.handling')} />
+
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">{t('stats.acceleration')}</span>
           <span className="text-sm font-medium">{totalAcceleration.toFixed(1)}</span>
         </div>
-        <StatBar
-          value={totalAcceleration}
-          maxValue={maxStats.acceleration}
-          statType="acceleration"
-          label={t('stats.acceleration')}
-        />
-        
+        <StatBar value={totalAcceleration} maxValue={maxStats.acceleration} statType="acceleration" label={t('stats.acceleration')} />
+
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">{t('stats.weight')}</span>
           <span className="text-sm font-medium">{totalWeight.toFixed(1)}</span>
         </div>
-        <StatBar
-          value={totalWeight}
-          maxValue={maxStats.weight}
-          statType="weight"
-          label={t('stats.weight')}
-        />
+        <StatBar value={totalWeight} maxValue={maxStats.weight} statType="weight" label={t('stats.weight')} />
       </div>
 
       {/* 地形特化提示 */}
       <div className="mt-4 p-2 bg-gray-50 rounded-lg">
-        <div className="text-xs text-gray-600 text-center">
-          {t('recommendations.optimizedFor', { terrain: terrainInfo.name })}
-        </div>
+        <div className="text-xs text-gray-600 text-center">{t('recommendations.optimizedFor', { terrain: terrainInfo.name })}</div>
       </div>
     </div>
   );

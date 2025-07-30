@@ -1,10 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./src/pages/**/*.{js,ts,jsx,tsx,mdx}', './src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
@@ -12,13 +8,13 @@ module.exports = {
           red: '#FF0000',
           blue: '#0066CC',
           yellow: '#FFD700',
-          green: '#00AA00',
-        },
+          green: '#00AA00'
+        }
       },
       animation: {
-        'bounce-slow': 'bounce 2s infinite',
+        'bounce-slow': 'bounce 2s infinite'
       }
-    },
+    }
   },
-  plugins: [],
-}
+  plugins: []
+};
