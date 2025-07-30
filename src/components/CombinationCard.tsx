@@ -10,7 +10,7 @@ interface CombinationCardProps {
 
 export default function CombinationCard({ character, vehicle, onRemove }: CombinationCardProps) {
   const { t } = useTranslation();
-  
+
   // 計算組合後的總能力值 (角色 + 載具 + 3 的遊戲加成)
   const combinedStats = {
     displaySpeed: character.displaySpeed + vehicle.displaySpeed + 3,
@@ -22,15 +22,15 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
     displayHandling: character.displayHandling + vehicle.displayHandling + 3,
     roadHandling: character.roadHandling + vehicle.roadHandling + 3,
     terrainHandling: character.terrainHandling + vehicle.terrainHandling + 3,
-    waterHandling: character.waterHandling + vehicle.waterHandling + 3,
+    waterHandling: character.waterHandling + vehicle.waterHandling + 3
   };
 
   // 計算最大可能值（用於進度條比例）
   const maxPossibleValue = 10 + 7 + 3; // 最高角色值 + 最高載具值 + 遊戲加成
 
   const stats = [
-    { 
-      label: t('stats.speed'), 
+    {
+      label: t('stats.speed'),
       value: combinedStats.displaySpeed,
       charValue: character.displaySpeed,
       vehicleValue: vehicle.displaySpeed,
@@ -39,8 +39,8 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
       lightBg: 'bg-blue-50',
       borderColor: 'border-blue-200'
     },
-    { 
-      label: t('stats.acceleration'), 
+    {
+      label: t('stats.acceleration'),
       value: combinedStats.acceleration,
       charValue: character.acceleration,
       vehicleValue: vehicle.acceleration,
@@ -49,8 +49,8 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
       lightBg: 'bg-green-50',
       borderColor: 'border-green-200'
     },
-    { 
-      label: t('stats.weight'), 
+    {
+      label: t('stats.weight'),
       value: combinedStats.weight,
       charValue: character.weight,
       vehicleValue: vehicle.weight,
@@ -59,8 +59,8 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
       lightBg: 'bg-purple-50',
       borderColor: 'border-purple-200'
     },
-    { 
-      label: t('stats.handling'), 
+    {
+      label: t('stats.handling'),
       value: combinedStats.displayHandling,
       charValue: character.displayHandling,
       vehicleValue: vehicle.displayHandling,
@@ -68,16 +68,13 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
       bgColor: 'bg-orange-500',
       lightBg: 'bg-orange-50',
       borderColor: 'border-orange-200'
-    },
+    }
   ];
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300 border border-yellow-300 relative">
       {/* 移除按鈕 */}
-      <button
-        onClick={onRemove}
-        className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors flex items-center justify-center text-xs font-bold"
-      >
+      <button onClick={onRemove} className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors flex items-center justify-center text-xs font-bold">
         ×
       </button>
 
@@ -98,30 +95,25 @@ export default function CombinationCard({ character, vehicle, onRemove }: Combin
         {stats.map((stat) => (
           <div key={stat.label} className={`p-2 rounded-lg ${stat.lightBg} border ${stat.borderColor}`}>
             <div className="flex items-center justify-between mb-1">
-              <div className={`text-xs font-semibold ${stat.color}`}>
-                {stat.label}
-              </div>
-              <div className={`text-sm font-semibold ${stat.color}`}>
-                {stat.value}
-              </div>
+              <div className={`text-xs font-semibold ${stat.color}`}>{stat.label}</div>
+              <div className={`text-sm font-semibold ${stat.color}`}>{stat.value}</div>
             </div>
             <div className="flex items-center mb-1">
               <div className="flex-1 mx-1">
                 <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${stat.bgColor}`}
-                    style={{ width: getStatBarWidth(stat.value, maxPossibleValue) }}
-                  />
+                  <div className={`h-full rounded-full transition-all duration-500 ${stat.bgColor}`} style={{ width: getStatBarWidth(stat.value, maxPossibleValue) }} />
                 </div>
               </div>
-              <div className="text-xs text-gray-500 ml-2">
-                {Math.round((stat.value / maxPossibleValue) * 100)}%
-              </div>
+              <div className="text-xs text-gray-500 ml-2">{Math.round((stat.value / maxPossibleValue) * 100)}%</div>
             </div>
             {/* 組成明細 */}
             <div className="text-xs text-gray-600 flex justify-between">
-              <span>{t('types.character')}: {stat.charValue}</span>
-              <span>{t('types.vehicle')}: {stat.vehicleValue}</span>
+              <span>
+                {t('types.character')}: {stat.charValue}
+              </span>
+              <span>
+                {t('types.vehicle')}: {stat.vehicleValue}
+              </span>
               <span className="text-yellow-600 font-semibold">+3</span>
             </div>
           </div>

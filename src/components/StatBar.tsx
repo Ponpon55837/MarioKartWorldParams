@@ -13,13 +13,7 @@ interface StatBarProps {
  * 統計條組件 - 顯示能力值的進度條
  * 使用 React.memo 優化性能
  */
-const StatBar: React.FC<StatBarProps> = React.memo(({ 
-  label, 
-  value, 
-  maxValue, 
-  statType, 
-  showPercentage = true 
-}) => {
+const StatBar: React.FC<StatBarProps> = React.memo(({ label, value, maxValue, statType, showPercentage = true }) => {
   const config = STAT_CONFIGS[statType];
   const percentage = Math.round((value / maxValue) * 100);
   const width = Math.max(percentage, APP_CONSTANTS.MIN_PROGRESS_WIDTH);
@@ -37,10 +31,7 @@ const StatBar: React.FC<StatBarProps> = React.memo(({
         )}
       </div>
       <div className="w-full bg-gray-200 rounded-full h-1.5">
-        <div
-          className={`h-1.5 rounded-full transition-all duration-500 ease-in-out ${config.bgColor}`}
-          style={{ width: `${width}%` }}
-        />
+        <div className={`h-1.5 rounded-full transition-all duration-500 ease-in-out ${config.bgColor}`} style={{ width: `${width}%` }} />
       </div>
     </div>
   );

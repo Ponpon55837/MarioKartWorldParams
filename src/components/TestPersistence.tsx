@@ -24,7 +24,7 @@ export default function TestPersistence() {
     displayHandling: 5,
     roadHandling: 5,
     terrainHandling: 5,
-    waterHandling: 5,
+    waterHandling: 5
   };
 
   const testVehicle = {
@@ -39,18 +39,18 @@ export default function TestPersistence() {
     displayHandling: 3,
     roadHandling: 3,
     terrainHandling: 3,
-    waterHandling: 3,
+    waterHandling: 3
   };
 
   const testPersistence = () => {
     // 清除現有組合
     clearAllCombinations();
-    
+
     // 添加測試組合
     addCombination(testCharacter, testVehicle);
-    
+
     setTestResult(t('test.added'));
-    
+
     // 3秒後檢查結果
     setTimeout(() => {
       const stored = localStorage.getItem('mario-kart-combinations');
@@ -82,41 +82,28 @@ export default function TestPersistence() {
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-6">
       <h3 className="text-lg font-bold text-gray-800 mb-4">🧪 {t('test.title')}</h3>
-      
+
       <div className="space-y-4">
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="text-sm text-blue-800 mb-2">
-            <strong>{t('test.currentCount')}</strong>{combinations.length}
+            <strong>{t('test.currentCount')}</strong>
+            {combinations.length}
           </p>
-          <p className="text-xs text-blue-600">
-            {t('test.autoSaveInfo')}
-          </p>
+          <p className="text-xs text-blue-600">{t('test.autoSaveInfo')}</p>
         </div>
 
         <div className="flex gap-3">
-          <button
-            onClick={testPersistence}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
+          <button onClick={testPersistence} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
             🧪 {t('test.testPersistence')}
           </button>
-          
-          <button
-            onClick={clearAllCombinations}
-            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-          >
+
+          <button onClick={clearAllCombinations} className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
             🗑️ {t('test.clearTestData')}
           </button>
         </div>
 
         {testResult && (
-          <div className={`p-3 rounded-lg ${
-            testResult.includes('✅') 
-              ? 'bg-green-50 text-green-800' 
-              : testResult.includes('❌')
-              ? 'bg-red-50 text-red-800'
-              : 'bg-yellow-50 text-yellow-800'
-          }`}>
+          <div className={`p-3 rounded-lg ${testResult.includes('✅') ? 'bg-green-50 text-green-800' : testResult.includes('❌') ? 'bg-red-50 text-red-800' : 'bg-yellow-50 text-yellow-800'}`}>
             {testResult}
           </div>
         )}

@@ -9,7 +9,7 @@ const languageOptions: Array<{ value: SupportedLanguage; label: string; flag: st
   { value: 'zh-CN', label: '简体中文', flag: '🇨🇳' },
   { value: 'en', label: 'English', flag: '🇺🇸' },
   { value: 'ja', label: '日本語', flag: '🇯🇵' },
-  { value: 'ko', label: '한국어', flag: '🇰🇷' },
+  { value: 'ko', label: '한국어', flag: '🇰🇷' }
 ];
 
 interface LanguageSelectorProps {
@@ -27,12 +27,12 @@ export default function LanguageSelector({ className = '' }: LanguageSelectorPro
   };
 
   // 準備選項給 CustomSelect
-  const selectOptions = languageOptions.map(option => ({
+  const selectOptions = languageOptions.map((option) => ({
     value: option.value,
     label: `${option.flag} ${option.label}`
   }));
 
-  const currentOption = languageOptions.find(option => option.value === language);
+  const currentOption = languageOptions.find((option) => option.value === language);
 
   return (
     <div className={`flex flex-col sm:flex-row sm:items-center gap-2 ${className}`}>

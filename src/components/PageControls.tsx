@@ -39,9 +39,7 @@ export default function PageControls({
           <button
             onClick={() => setCurrentPage('characters')}
             className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'characters'
-                ? 'bg-blue-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              currentPage === 'characters' ? 'bg-blue-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
             🎮 {t('navigation.characters')} ({charactersCount})
@@ -49,9 +47,7 @@ export default function PageControls({
           <button
             onClick={() => setCurrentPage('vehicles')}
             className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'vehicles'
-                ? 'bg-green-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              currentPage === 'vehicles' ? 'bg-green-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
             🏎️ {t('navigation.vehicles')} ({vehiclesCount})
@@ -59,9 +55,7 @@ export default function PageControls({
           <button
             onClick={() => setCurrentPage('combinations')}
             className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'combinations'
-                ? 'bg-purple-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              currentPage === 'combinations' ? 'bg-purple-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
             ⭐ {t('navigation.combinations')} ({combinationsCount})
@@ -69,15 +63,13 @@ export default function PageControls({
           <button
             onClick={() => setCurrentPage('recommendations')}
             className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'recommendations'
-                ? 'bg-orange-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              currentPage === 'recommendations' ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
             🏆 {t('navigation.recommendations')}
-          </button>          
+          </button>
         </div>
-        
+
         {/* 當前頁面說明 */}
         <div className="text-center">
           <p className="text-sm text-gray-600">
@@ -89,10 +81,7 @@ export default function PageControls({
           {currentPage !== 'combinations' && currentPage !== 'recommendations' && (
             <p className="text-xs text-gray-500 mt-1">
               💡 {t('navigation.goToCombinations')}
-              <button 
-                onClick={() => setCurrentPage('combinations')}
-                className="text-purple-600 hover:text-purple-800 font-medium mx-1 underline"
-              >
+              <button onClick={() => setCurrentPage('combinations')} className="text-purple-600 hover:text-purple-800 font-medium mx-1 underline">
                 {t('navigation.combinationsPage')}
               </button>
             </p>
@@ -107,9 +96,7 @@ export default function PageControls({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* 排序依據 */}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                {t('sorting.sortBy')}
-              </label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">{t('sorting.sortBy')}</label>
               <CustomSelect
                 value={sortBy}
                 onChange={(value) => setSortBy(value as StatType)}
@@ -124,9 +111,7 @@ export default function PageControls({
 
             {/* 速度篩選 */}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                {t('stats.speedType')}
-              </label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">{t('stats.speedType')}</label>
               <CustomSelect
                 value={speedFilter}
                 onChange={(value) => setSpeedFilter(value as SpeedType | 'display')}
@@ -141,9 +126,7 @@ export default function PageControls({
 
             {/* 轉向篩選 */}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                {t('stats.handlingType')}
-              </label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">{t('stats.handlingType')}</label>
               <CustomSelect
                 value={handlingFilter}
                 onChange={(value) => setHandlingFilter(value as HandlingType | 'display')}

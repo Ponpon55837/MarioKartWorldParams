@@ -5,12 +5,7 @@ import CharacterCard from '@/components/CharacterCard';
 import VehicleCard from '@/components/VehicleCard';
 import { useDebounce } from '@/hooks/usePerformance';
 import { useTranslation } from 'react-i18next';
-import { 
-  getSearchHistory, 
-  addSearchHistory, 
-  removeSearchHistoryItem,
-  type SearchHistoryItem 
-} from '@/utils/searchHistory';
+import { getSearchHistory, addSearchHistory, removeSearchHistoryItem, type SearchHistoryItem } from '@/utils/searchHistory';
 import {
   searchModalOpenAtom,
   searchQueryAtom,
@@ -24,25 +19,23 @@ import {
   handlingFilterAtom
 } from '@/store/dataAtoms';
 
-
-
 export default function SearchModal({ onNavigate }: SearchModalProps) {
   const { t } = useTranslation();
-  
+
   // 使用全域狀態管理
   const [isOpen, setIsOpen] = useAtom(searchModalOpenAtom);
   const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom);
   const [searchResults, setSearchResults] = useAtom(searchResultsAtom);
   const [isLoading, setIsLoading] = useAtom(searchLoadingAtom);
   const [showHistory, setShowHistory] = useAtom(searchHistoryVisibleAtom);
-  
+
   // 從全域狀態獲取資料
   const characters = useAtomValue(charactersAtom);
   const vehicles = useAtomValue(vehiclesAtom);
   const maxStats = useAtomValue(dynamicMaxStatsAtom);
   const speedFilter = useAtomValue(speedFilterAtom);
   const handlingFilter = useAtomValue(handlingFilterAtom);
-  
+
   // 本地狀態（不需要全域管理）
   const [searchHistory, setSearchHistory] = React.useState<SearchHistoryItem[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -56,13 +49,13 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
 
       // 完全匹配得分最高
       if (lowerName === lowerQuery || lowerEnglishName === lowerQuery) return 100;
-      
+
       // 開頭匹配得分較高
       if (lowerName.startsWith(lowerQuery) || lowerEnglishName.startsWith(lowerQuery)) return 80;
-      
+
       // 包含匹配得分中等
       if (lowerName.includes(lowerQuery) || lowerEnglishName.includes(lowerQuery)) return 60;
-      
+
       // 模糊匹配得分較低
       const similarity = calculateSimilarity(lowerQuery, lowerName) || calculateSimilarity(lowerQuery, lowerEnglishName);
       return similarity * 40;
@@ -73,14 +66,14 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       const len1 = str1.length;
       const len2 = str2.length;
       const maxLen = Math.max(len1, len2);
-      
+
       if (maxLen === 0) return 1;
-      
+
       let matches = 0;
       for (let i = 0; i < Math.min(len1, len2); i++) {
         if (str1[i] === str2[i]) matches++;
       }
-      
+
       return matches / maxLen;
     };
 
@@ -98,13 +91,14 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
 
     setIsLoading(true);
     setShowHistory(false);
-    
+
     const results: SearchResult[] = [];
-    
+
     // 搜尋角色
-    characters.forEach(character => {
+    characters.forEach((character) => {
       const score = searchAlgorithm.calculateScore(character.name, character.englishName, query);
-      if (score > 20) { // 只顯示相關性較高的結果
+      if (score > 20) {
+        // 只顯示相關性較高的結果
         results.push({
           type: 'character',
           data: character,
@@ -114,9 +108,10 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
     });
 
     // 搜尋載具
-    vehicles.forEach(vehicle => {
+    vehicles.forEach((vehicle) => {
       const score = searchAlgorithm.calculateScore(vehicle.name, vehicle.englishName, query);
-      if (score > 20) { // 只顯示相關性較高的結果
+      if (score > 20) {
+        // 只顯示相關性較高的結果
         results.push({
           type: 'vehicle',
           data: vehicle,
@@ -127,18 +122,18 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
 
     // 按相關性排序
     results.sort((a, b) => b.score - a.score);
-    
+
     // 限制結果數量
     const limitedResults = results.slice(0, 20);
-    
+
     // 轉換為符合 SearchResultItem 格式
-    const finalResults = limitedResults.map(result => ({
+    const finalResults = limitedResults.map((result) => ({
       type: result.type,
       data: result.data
     }));
     setSearchResults(finalResults);
     setIsLoading(false);
-    
+
     // 保存搜尋歷史
     if (finalResults.length > 0) {
       addSearchHistory(query, finalResults.length);
@@ -223,7 +218,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
   return (
     <div
       className="fixed bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto"
-      style={{ 
+      style={{
         position: 'fixed',
         top: 0,
         left: 0,
@@ -240,10 +235,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
         {/* 搜尋標題列 */}
         <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200 bg-white sticky top-0 z-10">
           <h2 className="text-lg sm:text-xl font-bold text-gray-800">{t('search.modal.title')}</h2>
-          <button
-            onClick={handleClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
-          >
+          <button onClick={handleClose} className="text-gray-500 hover:text-gray-700 transition-colors">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -265,10 +257,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
               {isLoading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-mario-blue"></div>
               ) : searchQuery ? (
-                <button
-                  onClick={clearSearch}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
-                >
+                <button onClick={clearSearch} className="text-gray-400 hover:text-gray-600 transition-colors">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -293,10 +282,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                   <div className="space-y-1">
                     {searchHistory.slice(0, 5).map((item, index) => (
                       <div key={index} className="flex items-center justify-between group">
-                        <button
-                          onClick={() => handleSelectSuggestion(item.query)}
-                          className="flex-1 text-left px-3 py-2 rounded text-sm text-gray-600 hover:bg-gray-100 transition-colors"
-                        >
+                        <button onClick={() => handleSelectSuggestion(item.query)} className="flex-1 text-left px-3 py-2 rounded text-sm text-gray-600 hover:bg-gray-100 transition-colors">
                           <span className="font-medium">{item.query}</span>
                           <span className="text-xs text-gray-400 ml-2">
                             {item.resultCount} {t('search.modal.resultsCount')}
@@ -373,30 +359,16 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                   <div key={`${result.type}-${index}`} className="relative">
                     {/* 類型標籤 */}
                     <div className="absolute -top-2 -right-2 z-10">
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        result.type === 'character' 
-                          ? 'bg-blue-100 text-blue-800' 
-                          : 'bg-green-100 text-green-800'
-                      }`}>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${result.type === 'character' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
                         {result.type === 'character' ? t('types.character') : t('types.vehicle')}
                       </span>
                     </div>
 
                     {/* 渲染卡片 */}
                     {result.type === 'character' ? (
-                      <CharacterCard
-                        character={result.data as CharacterStats}
-                        maxStats={maxStats}
-                        speedFilter={speedFilter}
-                        handlingFilter={handlingFilter}
-                      />
+                      <CharacterCard character={result.data as CharacterStats} maxStats={maxStats} speedFilter={speedFilter} handlingFilter={handlingFilter} />
                     ) : (
-                      <VehicleCard
-                        vehicle={result.data as VehicleStats}
-                        maxStats={maxStats}
-                        speedFilter={speedFilter}
-                        handlingFilter={handlingFilter}
-                      />
+                      <VehicleCard vehicle={result.data as VehicleStats} maxStats={maxStats} speedFilter={speedFilter} handlingFilter={handlingFilter} />
                     )}
                   </div>
                 ))}
@@ -439,7 +411,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
               </button>
             </div>
           )}
-          
+
           {/* 快捷鍵說明 */}
           <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
             <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 mb-2 sm:mb-0">
