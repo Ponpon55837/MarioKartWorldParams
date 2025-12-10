@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { STAT_CONFIGS, APP_CONSTANTS } from '@/constants';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslation } from 'react-i18next';
 import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
 import { SupportedLanguage } from '@/store/dataAtoms';
@@ -39,13 +41,7 @@ export default function LanguageSelector({ className = '' }: LanguageSelectorPro
       {/* <label className="text-xs sm:text-sm font-medium text-white/90 whitespace-nowrap text-center sm:text-left">
         {t('language.selector')}
       </label> */}
-      <CustomSelect
-        value={language}
-        onChange={handleMultiLanguageChange}
-        options={selectOptions}
-        placeholder={`${currentOption?.flag || '🌐'} ${t('language.selector')}`}
-        className="min-w-[120px] sm:min-w-[140px]"
-      />
+      <CustomSelect value={language} onChange={handleMultiLanguageChange} options={selectOptions} placeholder={`${currentOption?.flag || '🌐'} ${t('language.selector')}`} className="min-w-[120px] sm:min-w-[140px]" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { CharacterStats, VehicleStats } from '@/types';
 import CustomSelect from '@/components/CustomSelect';
@@ -59,12 +61,7 @@ export default function CombinationSelector({ characters, vehicles, onAddCombina
         </div>
 
         <div className="flex justify-center pt-2">
-          <button
-            type="button"
-            onClick={handleAddCombination}
-            disabled={!selectedCharacter || !selectedVehicle}
-            className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-medium py-2 px-6 rounded-md shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-          >
+          <button type="button" onClick={handleAddCombination} disabled={!selectedCharacter || !selectedVehicle} className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-medium py-2 px-6 rounded-md shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300">
             ✨ {t('combination.createButton')}
           </button>
         </div>
