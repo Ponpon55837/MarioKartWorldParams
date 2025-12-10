@@ -1,3 +1,5 @@
+'use client';
+
 import { StatType, SpeedType, HandlingType } from '@/types';
 import CustomSelect from '@/components/CustomSelect';
 import { useTranslation } from 'react-i18next';
@@ -16,19 +18,7 @@ interface PageControlsProps {
   combinationsCount: number;
 }
 
-export default function PageControls({
-  currentPage,
-  setCurrentPage,
-  sortBy,
-  setSortBy,
-  speedFilter,
-  setSpeedFilter,
-  handlingFilter,
-  setHandlingFilter,
-  charactersCount,
-  vehiclesCount,
-  combinationsCount
-}: PageControlsProps) {
+export default function PageControls({ currentPage, setCurrentPage, sortBy, setSortBy, speedFilter, setSpeedFilter, handlingFilter, setHandlingFilter, charactersCount, vehiclesCount, combinationsCount }: PageControlsProps) {
   const { t } = useTranslation();
   return (
     <div className="bg-white rounded-lg shadow-md p-4 mb-4 border border-gray-200">
@@ -36,36 +26,16 @@ export default function PageControls({
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-gray-800 mb-3 text-center">🎯 {t('navigation.dataPages')}</h3>
         <div className="grid grid-cols-2 md:flex md:flex-wrap md:justify-center gap-2 mb-3">
-          <button
-            onClick={() => setCurrentPage('characters')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'characters' ? 'bg-blue-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
+          <button onClick={() => setCurrentPage('characters')} className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${currentPage === 'characters' ? 'bg-blue-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
             🎮 {t('navigation.characters')} ({charactersCount})
           </button>
-          <button
-            onClick={() => setCurrentPage('vehicles')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'vehicles' ? 'bg-green-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
+          <button onClick={() => setCurrentPage('vehicles')} className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${currentPage === 'vehicles' ? 'bg-green-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
             🏎️ {t('navigation.vehicles')} ({vehiclesCount})
           </button>
-          <button
-            onClick={() => setCurrentPage('combinations')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'combinations' ? 'bg-purple-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
+          <button onClick={() => setCurrentPage('combinations')} className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${currentPage === 'combinations' ? 'bg-purple-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
             ⭐ {t('navigation.combinations')} ({combinationsCount})
           </button>
-          <button
-            onClick={() => setCurrentPage('recommendations')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${
-              currentPage === 'recommendations' ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
+          <button onClick={() => setCurrentPage('recommendations')} className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 text-center ${currentPage === 'recommendations' ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
             🏆 {t('navigation.recommendations')}
           </button>
         </div>

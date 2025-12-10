@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 interface ClientOnlyWrapperProps {
   children: React.ReactNode;

@@ -1,3 +1,4 @@
+'use client';
 import { CharacterStats, VehicleStats } from '@/types';
 import { getStatBarWidth } from '@/utils/csvParser';
 import { useTranslation } from 'react-i18next';

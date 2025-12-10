@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { SearchModalProps, SearchResult, CharacterStats, VehicleStats } from '@/types';
@@ -6,18 +8,7 @@ import VehicleCard from '@/components/VehicleCard';
 import { useDebounce } from '@/hooks/usePerformance';
 import { useTranslation } from 'react-i18next';
 import { getSearchHistory, addSearchHistory, removeSearchHistoryItem, type SearchHistoryItem } from '@/utils/searchHistory';
-import {
-  searchModalOpenAtom,
-  searchQueryAtom,
-  searchResultsAtom,
-  searchLoadingAtom,
-  searchHistoryVisibleAtom,
-  charactersAtom,
-  vehiclesAtom,
-  dynamicMaxStatsAtom,
-  speedFilterAtom,
-  handlingFilterAtom
-} from '@/store/dataAtoms';
+import { searchModalOpenAtom, searchQueryAtom, searchResultsAtom, searchLoadingAtom, searchHistoryVisibleAtom, charactersAtom, vehiclesAtom, dynamicMaxStatsAtom, speedFilterAtom, handlingFilterAtom } from '@/store/dataAtoms';
 
 export default function SearchModal({ onNavigate }: SearchModalProps) {
   const { t } = useTranslation();
@@ -245,14 +236,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
         {/* 搜尋輸入框 */}
         <div className="p-3 sm:p-4 border-b border-gray-200 bg-white sticky top-12 sm:top-16 z-10">
           <div className="relative">
-            <input
-              ref={inputRef}
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder={t('search.inputPlaceholder')}
-              className="w-full p-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mario-blue focus:border-transparent text-sm sm:text-base"
-            />
+            <input ref={inputRef} type="text" value={searchQuery} onChange={handleSearchChange} placeholder={t('search.inputPlaceholder')} className="w-full p-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mario-blue focus:border-transparent text-sm sm:text-base" />
             <div className="absolute right-3 top-3">
               {isLoading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-mario-blue"></div>
@@ -359,17 +343,11 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                   <div key={`${result.type}-${index}`} className="relative">
                     {/* 類型標籤 */}
                     <div className="absolute -top-2 -right-2 z-10">
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${result.type === 'character' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
-                        {result.type === 'character' ? t('types.character') : t('types.vehicle')}
-                      </span>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${result.type === 'character' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>{result.type === 'character' ? t('types.character') : t('types.vehicle')}</span>
                     </div>
 
                     {/* 渲染卡片 */}
-                    {result.type === 'character' ? (
-                      <CharacterCard character={result.data as CharacterStats} maxStats={maxStats} speedFilter={speedFilter} handlingFilter={handlingFilter} />
-                    ) : (
-                      <VehicleCard vehicle={result.data as VehicleStats} maxStats={maxStats} speedFilter={speedFilter} handlingFilter={handlingFilter} />
-                    )}
+                    {result.type === 'character' ? <CharacterCard character={result.data as CharacterStats} maxStats={maxStats} speedFilter={speedFilter} handlingFilter={handlingFilter} /> : <VehicleCard vehicle={result.data as VehicleStats} maxStats={maxStats} speedFilter={speedFilter} handlingFilter={handlingFilter} />}
                   </div>
                 ))}
               </div>

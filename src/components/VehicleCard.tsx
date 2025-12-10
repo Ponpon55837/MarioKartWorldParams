@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { VehicleStats, SpeedType, HandlingType } from '@/types';
 import StatBar from '@/components/StatBar';
