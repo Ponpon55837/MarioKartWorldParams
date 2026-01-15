@@ -97,7 +97,7 @@ function AdminPageContent() {
   };
 
   const downloadJsonData = () => {
-    if (result?.jsonData) {
+    if (result?.jsonData && typeof result.jsonData === 'object') {
       const blob = new Blob([JSON.stringify(result.jsonData, null, 2)], {
         type: 'application/json;charset=utf-8;'
       });
@@ -242,7 +242,7 @@ function AdminPageContent() {
                               📥 {t('admin.downloadCsv')}
                             </button>
 
-                            {result.jsonData && (
+                            {Boolean(result.jsonData) && (
                               <button onClick={downloadJsonData} className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm">
                                 📥 {t('admin.downloadJson')}
                               </button>
