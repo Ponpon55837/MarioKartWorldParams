@@ -84,3 +84,42 @@ export interface SearchResult {
   data: CharacterStats | VehicleStats;
   score: number;
 }
+
+// ==========================================
+// Admin 頁面相關型別
+// ==========================================
+
+/**
+ * 資料同步結果
+ */
+export interface SyncResult {
+  success: boolean;
+  message?: string;
+  error?: string;
+  csvData?: string;
+  jsonData?: unknown;
+  timestamp?: string;
+  metadata?: {
+    characterCount: number;
+    vehicleCount: number;
+    dataSize: {
+      csv: number;
+      json: number;
+    };
+  };
+}
+
+/**
+ * 資料狀態
+ */
+export interface DataStatus {
+  success: boolean;
+  hasData: boolean;
+  metadata?: {
+    characterCount: number;
+    vehicleCount: number;
+    source: string;
+  };
+  lastUpdate?: string;
+  version?: string;
+}

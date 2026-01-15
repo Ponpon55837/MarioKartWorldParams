@@ -7,35 +7,7 @@ import { useMarioKartStore } from '@/hooks/useMarioKartStore';
 import { useLanguagePersistence } from '@/hooks/useLanguagePersistence';
 import LanguageSelector from '@/components/LanguageSelector';
 import ClientOnlyWrapper from '@/components/ClientOnlyWrapper';
-
-interface SyncResult {
-  success: boolean;
-  message?: string;
-  error?: string;
-  csvData?: string;
-  jsonData?: any;
-  timestamp?: string;
-  metadata?: {
-    characterCount: number;
-    vehicleCount: number;
-    dataSize: {
-      csv: number;
-      json: number;
-    };
-  };
-}
-
-interface DataStatus {
-  success: boolean;
-  hasData: boolean;
-  metadata?: {
-    characterCount: number;
-    vehicleCount: number;
-    source: string;
-  };
-  lastUpdate?: string;
-  version?: string;
-}
+import type { SyncResult, DataStatus } from '@/types';
 
 export default function AdminPage() {
   return (
@@ -68,9 +40,9 @@ function AdminPageContent() {
   const checkDataStatus = async () => {
     try {
       const response = await fetch('/api/sync-data', {
-        method: 'GET',
+        method: 'GET'
       });
-      
+
       const data = await response.json();
       setDataStatus(data);
     } catch (error) {
@@ -94,8 +66,8 @@ function AdminPageContent() {
       const response = await fetch('/api/sync-data', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
       });
 
       const data = await response.json();
@@ -104,7 +76,7 @@ function AdminPageContent() {
       // 同步成功後重新檢查狀態並重新載入應用資料
       if (data.success) {
         await checkDataStatus();
-        
+
         // 重新載入應用中的資料
         try {
           await reloadData();
@@ -113,12 +85,11 @@ function AdminPageContent() {
           console.error('❌ 重新載入應用資料失敗:', reloadError);
         }
       }
-
     } catch (error) {
       setResult({
         success: false,
         error: error instanceof Error ? error.message : '同步時發生未知錯誤',
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       });
     } finally {
       setSyncing(false);
@@ -126,9 +97,9 @@ function AdminPageContent() {
   };
 
   const downloadJsonData = () => {
-    if (result?.jsonData) {
-      const blob = new Blob([JSON.stringify(result.jsonData, null, 2)], { 
-        type: 'application/json;charset=utf-8;' 
+    if (result?.jsonData && typeof result.jsonData === 'object') {
+      const blob = new Blob([JSON.stringify(result.jsonData, null, 2)], {
+        type: 'application/json;charset=utf-8;'
       });
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
@@ -144,12 +115,10 @@ function AdminPageContent() {
   // 避免 SSR 水合不匹配問題 - 現在由 ClientOnlyWrapper 處理
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg shadow-md p-3">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-              🛠️ {t('admin.systemManagement')}           
-            </h1>
-             <div className="flex justify-center lg:justify-end lg:ml-4 p-1">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-3">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">🛠️ {t('admin.systemManagement')}</h1>
+          <div className="flex justify-center lg:justify-end lg:ml-4 p-1">
             <LanguageSelector className="w-full max-w-[200px] lg:w-auto" />
           </div>
 
@@ -165,9 +134,7 @@ function AdminPageContent() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{t('admin.jsonDataFile')}</span>
-                  <span className={dataStatus.hasData ? 'text-green-600 font-medium' : 'text-red-600'}>
-                    {dataStatus.hasData ? `✅ ${t('admin.jsonDataFileExists')}` : `❌ ${t('admin.jsonDataFileNotExists')}`}
-                  </span>
+                  <span className={dataStatus.hasData ? 'text-green-600 font-medium' : 'text-red-600'}>{dataStatus.hasData ? `✅ ${t('admin.jsonDataFileExists')}` : `❌ ${t('admin.jsonDataFileNotExists')}`}</span>
                 </div>
                 {dataStatus.hasData && dataStatus.metadata && (
                   <>
@@ -212,15 +179,7 @@ function AdminPageContent() {
           </div>
 
           <div className="text-center mb-6">
-            <button
-              onClick={handleSync}
-              disabled={syncing}
-              className={`px-6 py-3 rounded-lg font-medium text-white transition-all duration-200 ${
-                syncing
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg transform hover:scale-105'
-              }`}
-            >
+            <button onClick={handleSync} disabled={syncing} className={`px-6 py-3 rounded-lg font-medium text-white transition-all duration-200 ${syncing ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg transform hover:scale-105'}`}>
               {syncing ? (
                 <div className="flex items-center space-x-2">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -241,7 +200,7 @@ function AdminPageContent() {
                     <div className="flex-1">
                       <h3 className="text-green-800 font-semibold mb-2">{t('admin.syncSuccess')}</h3>
                       <p className="text-green-700 text-sm mb-3">{result.message}</p>
-                      
+
                       {result.metadata && (
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
                           <div className="bg-white p-2 rounded border border-green-200">
@@ -254,15 +213,11 @@ function AdminPageContent() {
                           </div>
                           <div className="bg-white p-2 rounded border border-green-200">
                             <div className="text-green-600 font-medium">{t('admin.csvSize')}</div>
-                            <div className="text-xl font-bold text-green-800">
-                              {(result.metadata.dataSize.csv / 1024).toFixed(1)}KB
-                            </div>
+                            <div className="text-xl font-bold text-green-800">{(result.metadata.dataSize.csv / 1024).toFixed(1)}KB</div>
                           </div>
                           <div className="bg-white p-2 rounded border border-green-200">
                             <div className="text-green-600 font-medium">{t('admin.jsonSize')}</div>
-                            <div className="text-xl font-bold text-green-800">
-                              {(result.metadata.dataSize.json / 1024).toFixed(1)}KB
-                            </div>
+                            <div className="text-xl font-bold text-green-800">{(result.metadata.dataSize.json / 1024).toFixed(1)}KB</div>
                           </div>
                         </div>
                       )}
@@ -286,12 +241,9 @@ function AdminPageContent() {
                             >
                               📥 {t('admin.downloadCsv')}
                             </button>
-                            
-                            {result.jsonData && (
-                              <button
-                                onClick={downloadJsonData}
-                                className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm"
-                              >
+
+                            {Boolean(result.jsonData) && (
+                              <button onClick={downloadJsonData} className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm">
                                 📥 {t('admin.downloadJson')}
                               </button>
                             )}
@@ -327,10 +279,7 @@ function AdminPageContent() {
           </div>
 
           <div className="mt-6 text-center">
-            <a
-              href="/"
-              className="inline-flex items-center px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors"
-            >
+            <a href="/" className="inline-flex items-center px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors">
               ← {t('admin.backToHome')}
             </a>
           </div>
