@@ -2,7 +2,9 @@ import { CharacterStats, VehicleStats, MarioKartData } from '@/types';
 
 /**
  * 簡易 CSV 解析器
- * 處理包含引號的 CSV 格式
+ * 處理包含引號的 CSV 格式，正確解析逗號分隔的欄位
+ * @param csvContent - CSV 文件內容字串
+ * @returns 解析後的二維字串陣列
  */
 const parseCSV = (csvContent: string): string[][] => {
   const lines = csvContent.split('\n');
@@ -29,8 +31,15 @@ const parseCSV = (csvContent: string): string[][] => {
 
 /**
  * 解析瑪利歐賽車 CSV 資料
- * @param csvContent CSV 文件內容
- * @returns 解析後的角色和載具資料
+ * 從 CSV 格式的資料中提取角色和載具的統計資訊
+ * @param csvContent - CSV 文件內容字串
+ * @returns 包含角色和載具陣列的資料物件
+ * @example
+ * ```typescript
+ * const csvData = await fetch('/data.csv').then(r => r.text());
+ * const { characters, vehicles } = parseMarioKartCSV(csvData);
+ * console.log(`載入了 ${characters.length} 個角色`);
+ * ```
  */
 export const parseMarioKartCSV = (csvContent: string): MarioKartData => {
   const rows = parseCSV(csvContent);
@@ -102,9 +111,14 @@ export const parseMarioKartCSV = (csvContent: string): MarioKartData => {
 
 /**
  * 根據數值計算對應的顏色類別
- * @param value 當前值
- * @param maxValue 最大值
- * @returns Tailwind CSS 背景色類別
+ * 用於統計條的顏色視覺化，數值越高顏色越綠
+ * @param value - 當前統計值
+ * @param maxValue - 最大統計值
+ * @returns Tailwind CSS 背景色類別名稱
+ * @example
+ * ```typescript
+ * const color = getStatColor(8, 10); // 返回 'bg-green-500'
+ * ```
  */
 export const getStatColor = (value: number, maxValue: number): string => {
   const percentage = value / maxValue;
@@ -116,9 +130,15 @@ export const getStatColor = (value: number, maxValue: number): string => {
 
 /**
  * 計算統計條的寬度百分比
- * @param value 當前值
- * @param maxValue 最大值
- * @returns 寬度百分比字符串
+ * 根據當前值與最大值的比例計算進度條寬度，最小寬度為 5%
+ * @param value - 當前統計值
+ * @param maxValue - 最大統計值
+ * @returns 寬度百分比字串（例如："85%"）
+ * @example
+ * ```typescript
+ * const width = getStatBarWidth(7, 10); // 返回 "70%"
+ * const minWidth = getStatBarWidth(0, 10); // 返回 "5%"（最小寬度）
+ * ```
  */
 export const getStatBarWidth = (value: number, maxValue: number): string => {
   const percentage = Math.round((value / maxValue) * 100);
