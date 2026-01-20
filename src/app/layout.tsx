@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import dynamic from "next/dynamic";
 import "@/app/globals.css";
 import JotaiProvider from "@/providers/JotaiProvider";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-
-// 延遲載入 SpeedInsights 以改善初始載入效能
-const SpeedInsights = dynamic(
-  () => import("@vercel/speed-insights/next").then((mod) => mod.SpeedInsights),
-  { ssr: false },
-);
+import { SpeedInsightsWrapper } from "@/components/SpeedInsightsWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +24,7 @@ export default function RootLayout({
         <ErrorBoundary>
           <JotaiProvider>{children}</JotaiProvider>
         </ErrorBoundary>
-        <SpeedInsights />
+        <SpeedInsightsWrapper />
       </body>
     </html>
   );

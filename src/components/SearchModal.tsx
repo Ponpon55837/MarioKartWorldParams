@@ -266,6 +266,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
           <button
             onClick={handleClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
+            aria-label={t("common.close")}
           >
             <svg
               className="w-6 h-6"
@@ -301,6 +302,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                 <button
                   onClick={clearSearch}
                   className="text-gray-400 hover:text-gray-600 transition-colors"
+                  aria-label={t("search.modal.clearSearch")}
                 >
                   <svg
                     className="w-4 h-4"
@@ -366,6 +368,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                             setSearchHistory(getSearchHistory());
                           }}
                           className="p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                          aria-label={t("common.delete")}
                         >
                           <svg
                             className="w-4 h-4"
