@@ -133,11 +133,7 @@ function HomeContent() {
     <LayoutContent>
       <div className="space-y-6">
         {/* 搜尋功能區 */}
-        <SearchBar
-          onSearchClick={() => setIsSearchModalOpen(true)}
-          charactersCount={characters.length}
-          vehiclesCount={vehicles.length}
-        />
+        <SearchBar />
 
         <PageControls
           currentPage={currentPage}
@@ -154,36 +150,13 @@ function HomeContent() {
         />
 
         {/* 組合頁面 */}
-        {currentPage === "combinations" && (
-          <CombinationsView
-            characters={characters}
-            vehicles={vehicles}
-            combinations={combinations}
-            onAddCombination={addCombination}
-            onRemoveCombination={handleRemoveCombination}
-            onClearAll={handleClearCombinations}
-          />
-        )}
+        {currentPage === "combinations" && <CombinationsView />}
 
         {/* 角色頁面 */}
-        {currentPage === "characters" && (
-          <CharactersView
-            characters={sortedCharacters}
-            maxStats={maxStats}
-            speedFilter={speedFilter}
-            handlingFilter={handlingFilter}
-          />
-        )}
+        {currentPage === "characters" && <CharactersView />}
 
         {/* 載具頁面 */}
-        {currentPage === "vehicles" && (
-          <VehiclesView
-            vehicles={sortedVehicles}
-            maxStats={maxStats}
-            speedFilter={speedFilter}
-            handlingFilter={handlingFilter}
-          />
-        )}
+        {currentPage === "vehicles" && <VehiclesView />}
 
         {/* 推薦組合頁面 */}
         {currentPage === "recommendations" && (

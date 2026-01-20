@@ -1,28 +1,23 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { useAtomValue } from "jotai";
 import VehicleCard from "@/components/VehicleCard";
-import type { VehicleStats, SpeedType, HandlingType } from "@/types";
+import {
+  sortedVehiclesAtom,
+  dynamicMaxStatsAtom,
+  speedFilterAtom,
+  handlingFilterAtom,
+} from "@/store/dataAtoms";
 
-interface VehiclesViewProps {
-  vehicles: VehicleStats[];
-  maxStats: {
-    speed: number;
-    acceleration: number;
-    weight: number;
-    handling: number;
-  };
-  speedFilter: SpeedType | "display";
-  handlingFilter: HandlingType | "display";
-}
-
-export function VehiclesView({
-  vehicles,
-  maxStats,
-  speedFilter,
-  handlingFilter,
-}: VehiclesViewProps) {
+export function VehiclesView() {
   const { t } = useTranslation();
+
+  // 使用全域狀態
+  const vehicles = useAtomValue(sortedVehiclesAtom);
+  const maxStats = useAtomValue(dynamicMaxStatsAtom);
+  const speedFilter = useAtomValue(speedFilterAtom);
+  const handlingFilter = useAtomValue(handlingFilterAtom);
 
   return (
     <section>

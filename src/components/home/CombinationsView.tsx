@@ -1,28 +1,28 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { useAtomValue, useSetAtom } from "jotai";
 import CombinationSelector from "@/components/CombinationSelector";
 import CombinationCard from "@/components/CombinationCard";
-import type { CharacterStats, VehicleStats, CombinationStats } from "@/types";
+import {
+  charactersAtom,
+  vehiclesAtom,
+  addCombinationAtom,
+  removeCombinationAtom,
+  clearAllCombinationsAtom,
+} from "@/store/dataAtoms";
+import { combinationsAtom } from "@/store/combinations";
 
-interface CombinationsViewProps {
-  characters: CharacterStats[];
-  vehicles: VehicleStats[];
-  combinations: CombinationStats[];
-  onAddCombination: (character: CharacterStats, vehicle: VehicleStats) => void;
-  onRemoveCombination: (id: string) => void;
-  onClearAll: () => void;
-}
-
-export function CombinationsView({
-  characters,
-  vehicles,
-  combinations,
-  onAddCombination,
-  onRemoveCombination,
-  onClearAll,
-}: CombinationsViewProps) {
+export function CombinationsView() {
   const { t } = useTranslation();
+
+  // 使用全域狀態
+  const characters = useAtomValue(charactersAtom);
+  const vehicles = useAtomValue(vehiclesAtom);
+  const combinations = useAtomValue(combinationsAtom);
+  const addCombination = useSetAtom(addCombinationAtom);
+  const removeCombination = useSetAtom(removeCombinationAtom);
+  const clearAllCombinations = useSetAtom(clearAllCombinationsAtom);
 
   return (
     <section>
@@ -32,7 +32,7 @@ export function CombinationsView({
         </h2>
         {combinations.length > 0 && (
           <button
-            onClick={onClearAll}
+            onClick={() => clearAllCombinations()}
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
           >
             🗑️ {t("stats.clearAll")}
@@ -44,7 +44,9 @@ export function CombinationsView({
       <CombinationSelector
         characters={characters}
         vehicles={vehicles}
-        onAddCombination={onAddCombination}
+        onAddCombination={(character, vehicle) =>
+          addCombination({ character, vehicle })
+        }
       />
 
       {combinations.length === 0 ? (
@@ -65,7 +67,7 @@ export function CombinationsView({
               key={combination.id}
               character={combination.character}
               vehicle={combination.vehicle}
-              onRemove={() => onRemoveCombination(combination.id)}
+              onRemove={() => removeCombination(combination.id)}
             />
           ))}
         </div>

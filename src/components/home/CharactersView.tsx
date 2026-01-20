@@ -1,28 +1,23 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { useAtomValue } from "jotai";
 import CharacterCard from "@/components/CharacterCard";
-import type { CharacterStats, SpeedType, HandlingType } from "@/types";
+import {
+  sortedCharactersAtom,
+  dynamicMaxStatsAtom,
+  speedFilterAtom,
+  handlingFilterAtom,
+} from "@/store/dataAtoms";
 
-interface CharactersViewProps {
-  characters: CharacterStats[];
-  maxStats: {
-    speed: number;
-    acceleration: number;
-    weight: number;
-    handling: number;
-  };
-  speedFilter: SpeedType | "display";
-  handlingFilter: HandlingType | "display";
-}
-
-export function CharactersView({
-  characters,
-  maxStats,
-  speedFilter,
-  handlingFilter,
-}: CharactersViewProps) {
+export function CharactersView() {
   const { t } = useTranslation();
+
+  // 使用全域狀態
+  const characters = useAtomValue(sortedCharactersAtom);
+  const maxStats = useAtomValue(dynamicMaxStatsAtom);
+  const speedFilter = useAtomValue(speedFilterAtom);
+  const handlingFilter = useAtomValue(handlingFilterAtom);
 
   return (
     <section>
