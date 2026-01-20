@@ -1,112 +1,113 @@
 ---
 name: vercel-react-best-practices
-description: React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements.
+description: 來自 Vercel Engineering 的 React 與 Next.js 效能最佳化指南。此技能應用於撰寫、審查或重構 React/Next.js 程式碼，以確保最佳效能模式。適用於涉及 React 元件、Next.js 頁面、資料獲取、打包最佳化或效能改善的任務。
 license: MIT
 metadata:
   author: vercel
   version: "1.0.0"
 ---
 
-# Vercel React Best Practices
+# Vercel React 最佳實踐
 
-Comprehensive performance optimization guide for React and Next.js applications, maintained by Vercel. Contains 45 rules across 8 categories, prioritized by impact to guide automated refactoring and code generation.
+針對 React 和 Next.js 應用程式的全面效能最佳化指南，由 Vercel 維護。包含 8 大類別共 45 條規則，依影響程度排序，用於指導自動化重構和程式碼產生。
 
-## When to Apply
+## 適用時機
 
-Reference these guidelines when:
-- Writing new React components or Next.js pages
-- Implementing data fetching (client or server-side)
-- Reviewing code for performance issues
-- Refactoring existing React/Next.js code
-- Optimizing bundle size or load times
+在以下情況時參考這些指南：
 
-## Rule Categories by Priority
+- 撰寫新的 React 元件或 Next.js 頁面
+- 實作資料獲取（客戶端或伺服器端）
+- 審查程式碼的效能問題
+- 重構現有的 React/Next.js 程式碼
+- 最佳化打包大小或載入時間
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Eliminating Waterfalls | CRITICAL | `async-` |
-| 2 | Bundle Size Optimization | CRITICAL | `bundle-` |
-| 3 | Server-Side Performance | HIGH | `server-` |
-| 4 | Client-Side Data Fetching | MEDIUM-HIGH | `client-` |
-| 5 | Re-render Optimization | MEDIUM | `rerender-` |
-| 6 | Rendering Performance | MEDIUM | `rendering-` |
-| 7 | JavaScript Performance | LOW-MEDIUM | `js-` |
-| 8 | Advanced Patterns | LOW | `advanced-` |
+## 依優先級劃分的規則類別
 
-## Quick Reference
+| 優先級 | 類別            | 影響程度 | 前綴         |
+| ------ | --------------- | -------- | ------------ |
+| 1      | 消除瀑布流      | 關鍵     | `async-`     |
+| 2      | 打包大小最佳化  | 關鍵     | `bundle-`    |
+| 3      | 伺服器端效能    | 高       | `server-`    |
+| 4      | 客戶端資料獲取  | 中高     | `client-`    |
+| 5      | 重新渲染最佳化  | 中       | `rerender-`  |
+| 6      | 渲染效能        | 中       | `rendering-` |
+| 7      | JavaScript 效能 | 低中     | `js-`        |
+| 8      | 進階模式        | 低       | `advanced-`  |
 
-### 1. Eliminating Waterfalls (CRITICAL)
+## 快速參考
 
-- `async-defer-await` - Move await into branches where actually used
-- `async-parallel` - Use Promise.all() for independent operations
-- `async-dependencies` - Use better-all for partial dependencies
-- `async-api-routes` - Start promises early, await late in API routes
-- `async-suspense-boundaries` - Use Suspense to stream content
+### 1. 消除瀑布流（關鍵）
 
-### 2. Bundle Size Optimization (CRITICAL)
+- `async-defer-await` - 將 await 移至實際使用的分支中
+- `async-parallel` - 對獨立操作使用 Promise.all()
+- `async-dependencies` - 對部分依賴使用 better-all
+- `async-api-routes` - 在 API 路由中提早啟動 promise，延遲 await
+- `async-suspense-boundaries` - 使用 Suspense 串流內容
 
-- `bundle-barrel-imports` - Import directly, avoid barrel files
-- `bundle-dynamic-imports` - Use next/dynamic for heavy components
-- `bundle-defer-third-party` - Load analytics/logging after hydration
-- `bundle-conditional` - Load modules only when feature is activated
-- `bundle-preload` - Preload on hover/focus for perceived speed
+### 2. 打包大小最佳化（關鍵）
 
-### 3. Server-Side Performance (HIGH)
+- `bundle-barrel-imports` - 直接匯入，避免桶檔案
+- `bundle-dynamic-imports` - 對大型元件使用 next/dynamic
+- `bundle-defer-third-party` - 在 hydration 後載入分析/日誌程式庫
+- `bundle-conditional` - 僅在功能啟用時載入模組
+- `bundle-preload` - 在懸停/聚焦時預載入以提升感知速度
 
-- `server-cache-react` - Use React.cache() for per-request deduplication
-- `server-cache-lru` - Use LRU cache for cross-request caching
-- `server-serialization` - Minimize data passed to client components
-- `server-parallel-fetching` - Restructure components to parallelize fetches
-- `server-after-nonblocking` - Use after() for non-blocking operations
+### 3. 伺服器端效能（高）
 
-### 4. Client-Side Data Fetching (MEDIUM-HIGH)
+- `server-cache-react` - 使用 React.cache() 進行每次請求的去重
+- `server-cache-lru` - 使用 LRU 快取進行跨請求快取
+- `server-serialization` - 最小化傳遞給客戶端元件的資料
+- `server-parallel-fetching` - 重組元件以平行化資料獲取
+- `server-after-nonblocking` - 使用 after() 進行非阻塞操作
 
-- `client-swr-dedup` - Use SWR for automatic request deduplication
-- `client-event-listeners` - Deduplicate global event listeners
+### 4. 客戶端資料獲取（中高）
 
-### 5. Re-render Optimization (MEDIUM)
+- `client-swr-dedup` - 使用 SWR 自動去重請求
+- `client-event-listeners` - 去重全域事件監聽器
 
-- `rerender-defer-reads` - Don't subscribe to state only used in callbacks
-- `rerender-memo` - Extract expensive work into memoized components
-- `rerender-dependencies` - Use primitive dependencies in effects
-- `rerender-derived-state` - Subscribe to derived booleans, not raw values
-- `rerender-functional-setstate` - Use functional setState for stable callbacks
-- `rerender-lazy-state-init` - Pass function to useState for expensive values
-- `rerender-transitions` - Use startTransition for non-urgent updates
+### 5. 重新渲染最佳化（中）
 
-### 6. Rendering Performance (MEDIUM)
+- `rerender-defer-reads` - 不要訂閱僅在回呼中使用的狀態
+- `rerender-memo` - 將昂貴的運算提取到記憶化元件中
+- `rerender-dependencies` - 在 effect 中使用基本型別依賴
+- `rerender-derived-state` - 訂閱衍生的布林值，而非原始值
+- `rerender-functional-setstate` - 使用函式式 setState 以獲得穩定的回呼
+- `rerender-lazy-state-init` - 對昂貴的值使用函式傳遞給 useState
+- `rerender-transitions` - 對非緊急更新使用 startTransition
 
-- `rendering-animate-svg-wrapper` - Animate div wrapper, not SVG element
-- `rendering-content-visibility` - Use content-visibility for long lists
-- `rendering-hoist-jsx` - Extract static JSX outside components
-- `rendering-svg-precision` - Reduce SVG coordinate precision
-- `rendering-hydration-no-flicker` - Use inline script for client-only data
-- `rendering-activity` - Use Activity component for show/hide
-- `rendering-conditional-render` - Use ternary, not && for conditionals
+### 6. 渲染效能（中）
 
-### 7. JavaScript Performance (LOW-MEDIUM)
+- `rendering-animate-svg-wrapper` - 對 div 包裝器做動畫，而非 SVG 元素
+- `rendering-content-visibility` - 對長列表使用 content-visibility
+- `rendering-hoist-jsx` - 將靜態 JSX 提取到元件外
+- `rendering-svg-precision` - 降低 SVG 座標精度
+- `rendering-hydration-no-flicker` - 對僅客戶端資料使用內嵌腳本
+- `rendering-activity` - 使用 Activity 元件處理顯示/隱藏
+- `rendering-conditional-render` - 使用三元運算子，而非 && 進行條件渲染
 
-- `js-batch-dom-css` - Group CSS changes via classes or cssText
-- `js-index-maps` - Build Map for repeated lookups
-- `js-cache-property-access` - Cache object properties in loops
-- `js-cache-function-results` - Cache function results in module-level Map
-- `js-cache-storage` - Cache localStorage/sessionStorage reads
-- `js-combine-iterations` - Combine multiple filter/map into one loop
-- `js-length-check-first` - Check array length before expensive comparison
-- `js-early-exit` - Return early from functions
-- `js-hoist-regexp` - Hoist RegExp creation outside loops
-- `js-min-max-loop` - Use loop for min/max instead of sort
-- `js-set-map-lookups` - Use Set/Map for O(1) lookups
-- `js-tosorted-immutable` - Use toSorted() for immutability
+### 7. JavaScript 效能（低中）
 
-### 8. Advanced Patterns (LOW)
+- `js-batch-dom-css` - 透過 class 或 cssText 批次修改 CSS
+- `js-index-maps` - 為重複查找建立 Map
+- `js-cache-property-access` - 在迴圈中快取物件屬性
+- `js-cache-function-results` - 在模組層級 Map 中快取函式結果
+- `js-cache-storage` - 快取 localStorage/sessionStorage 讀取
+- `js-combine-iterations` - 將多個 filter/map 合併為一個迴圈
+- `js-length-check-first` - 在昂貴的比較前先檢查陣列長度
+- `js-early-exit` - 提早從函式返回
+- `js-hoist-regexp` - 將 RegExp 建立提升到迴圈外
+- `js-min-max-loop` - 使用迴圈求最小/最大值，而非排序
+- `js-set-map-lookups` - 使用 Set/Map 進行 O(1) 查找
+- `js-tosorted-immutable` - 使用 toSorted() 以保持不可變性
 
-- `advanced-event-handler-refs` - Store event handlers in refs
-- `advanced-use-latest` - useLatest for stable callback refs
+### 8. 進階模式（低）
 
-## How to Use
+- `advanced-event-handler-refs` - 將事件處理器存在 refs 中
+- `advanced-use-latest` - 使用 useLatest 以獲得穩定的回呼 refs
 
-Read individual rule files for detailed explanations and code examples:
+## 使用方式
+
+閱讀個別規則檔案以獲取詳細說明和程式碼範例：
 
 ```
 rules/async-parallel.md
@@ -114,12 +115,13 @@ rules/bundle-barrel-imports.md
 rules/_sections.md
 ```
 
-Each rule file contains:
-- Brief explanation of why it matters
-- Incorrect code example with explanation
-- Correct code example with explanation
-- Additional context and references
+每個規則檔案包含：
 
-## Full Compiled Document
+- 為何重要的簡要說明
+- 錯誤程式碼範例與說明
+- 正確程式碼範例與說明
+- 額外的上下文和參考資料
 
-For the complete guide with all rules expanded: `AGENTS.md`
+## 完整編譯文件
+
+完整指南及所有規則展開內容請參閱：`AGENTS.md`
