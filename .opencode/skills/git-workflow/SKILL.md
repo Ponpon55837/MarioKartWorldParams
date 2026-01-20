@@ -144,21 +144,60 @@ git push origin --delete <branch-name>
 
 與分支類型相同: `feat`, `fix`, `refactor`, `docs`, `style`, `test`, `chore`
 
+### ⚠️ 重要：語言使用規範
+
+**預設使用繁體中文撰寫 commit message**
+
+除非有特別要求（如國際協作專案），否則 commit message 的 subject 和 body 都應該使用**繁體中文**撰寫。
+
+#### 原則
+
+1. **Type 使用英文**: `feat`, `fix`, `refactor` 等類型標籤保持英文
+2. **Subject 使用中文**: 主要描述使用繁體中文
+3. **Body 使用中文**: 詳細說明使用繁體中文
+4. **Footer 依情況**: issue 編號等可使用英文
+
 ### 範例
 
 ```bash
-# 簡單提交
-git commit -m "feat: add language selector component"
+# ✅ 正確：使用中文
+git commit -m "feat: 新增語言選擇器元件"
 
-# 詳細提交
-git commit -m "feat: add language selector component
+# ✅ 正確：詳細提交使用中文
+git commit -m "feat: 新增語言選擇器元件
 
-- Implement dropdown with 5 language options
-- Add language persistence to localStorage
-- Update i18n configuration
+- 實作包含 5 種語言選項的下拉選單
+- 新增語言設定持久化到 localStorage
+- 更新 i18n 配置
 
 Closes #123"
+
+# ✅ 正確：修復 bug
+git commit -m "fix: 修正登入按鈕點擊無反應的問題"
+
+# ✅ 正確：重構程式碼
+git commit -m "refactor: 重構 Jotai 狀態管理結構
+
+- 拆分 dataAtoms 為多個模組
+- 優化 atom 命名和組織
+- 改善型別定義"
+
+# ❌ 錯誤：使用英文（除非有特別要求）
+git commit -m "feat: add language selector component"
+
+# ❌ 錯誤：中英混用不當
+git commit -m "feat: 新增 language selector 元件"
 ```
+
+### 特殊情況
+
+**何時使用英文？**
+
+1. 國際協作專案明確要求
+2. 開源專案的國際貢獻
+3. 團隊特別指定使用英文
+
+**如果不確定，預設使用中文。**
 
 ## 注意事項
 
