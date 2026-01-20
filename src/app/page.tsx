@@ -2,20 +2,19 @@
 
 import { useEffect, useCallback, useState } from "react";
 import { useAtom } from "jotai";
-import CharacterCard from "@/components/CharacterCard";
-import VehicleCard from "@/components/VehicleCard";
-import CombinationCard from "@/components/CombinationCard";
-import CombinationSelector from "@/components/CombinationSelector";
-import PageControls from "@/components/PageControls";
 import SearchModal from "@/components/SearchModal";
-import SearchButton, { SearchShortcutHint } from "@/components/SearchButton";
 import RecommendationsPage from "@/components/RecommendationsPage";
+import PageControls from "@/components/PageControls";
 import { useMarioKartStore } from "@/hooks/useMarioKartStore";
 import { useLanguagePersistence } from "@/hooks/useLanguagePersistence";
 import { searchModalOpenAtom } from "@/store/dataAtoms";
 import LayoutContent from "@/components/LayoutContent";
 import ClientOnlyWrapper from "@/components/ClientOnlyWrapper";
 import { useTranslation } from "react-i18next";
+import { SearchBar } from "@/components/home/SearchBar";
+import { CombinationsView } from "@/components/home/CombinationsView";
+import { CharactersView } from "@/components/home/CharactersView";
+import { VehiclesView } from "@/components/home/VehiclesView";
 
 function HomeContent() {
   const { t, i18n } = useTranslation();
@@ -134,20 +133,11 @@ function HomeContent() {
     <LayoutContent>
       <div className="space-y-6">
         {/* 搜尋功能區 */}
-        <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <SearchButton onClick={() => setIsSearchModalOpen(true)} />
-              <SearchShortcutHint onClick={() => setIsSearchModalOpen(true)} />
-            </div>
-            <div className="text-sm text-gray-500">
-              {t("stats.total", {
-                charactersCount: characters.length,
-                vehiclesCount: vehicles.length,
-              })}
-            </div>
-          </div>
-        </div>
+        <SearchBar
+          onSearchClick={() => setIsSearchModalOpen(true)}
+          charactersCount={characters.length}
+          vehiclesCount={vehicles.length}
+        />
 
         <PageControls
           currentPage={currentPage}
@@ -165,94 +155,34 @@ function HomeContent() {
 
         {/* 組合頁面 */}
         {currentPage === "combinations" && (
-          <section>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-gray-800 text-center flex-1">
-                ⭐ {t("stats.combinationCount", { count: combinations.length })}
-              </h2>
-              {combinations.length > 0 && (
-                <button
-                  onClick={handleClearCombinations}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
-                >
-                  🗑️ {t("stats.clearAll")}
-                </button>
-              )}
-            </div>
-
-            {/* 組合選擇器 */}
-            <CombinationSelector
-              characters={characters}
-              vehicles={vehicles}
-              onAddCombination={addCombination}
-            />
-
-            {combinations.length === 0 ? (
-              <div className="text-center py-8 bg-gray-50 rounded-lg mt-4">
-                <div className="text-6xl mb-4">🎯</div>
-                <p className="text-gray-500 text-lg mb-2">
-                  {t("emptyCombination.title")}
-                </p>
-                <p className="text-gray-400 mb-4">
-                  {t("emptyCombination.subtitle")}
-                </p>
-                <div className="text-sm text-gray-500 bg-white p-3 rounded-lg border border-gray-200 inline-block">
-                  💡 {t("emptyCombination.tip")}
-                </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                {combinations.map((combination) => (
-                  <CombinationCard
-                    key={combination.id}
-                    character={combination.character}
-                    vehicle={combination.vehicle}
-                    onRemove={() => handleRemoveCombination(combination.id)}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
+          <CombinationsView
+            characters={characters}
+            vehicles={vehicles}
+            combinations={combinations}
+            onAddCombination={addCombination}
+            onRemoveCombination={handleRemoveCombination}
+            onClearAll={handleClearCombinations}
+          />
         )}
 
         {/* 角色頁面 */}
         {currentPage === "characters" && (
-          <section>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-              🎮 {t("stats.characterCount", { count: sortedCharacters.length })}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {sortedCharacters.map((character) => (
-                <CharacterCard
-                  key={character.name}
-                  character={character}
-                  maxStats={maxStats}
-                  speedFilter={speedFilter}
-                  handlingFilter={handlingFilter}
-                />
-              ))}
-            </div>
-          </section>
+          <CharactersView
+            characters={sortedCharacters}
+            maxStats={maxStats}
+            speedFilter={speedFilter}
+            handlingFilter={handlingFilter}
+          />
         )}
 
         {/* 載具頁面 */}
         {currentPage === "vehicles" && (
-          <section>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-              🏎️ {t("stats.vehicleCount", { count: sortedVehicles.length })}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {sortedVehicles.map((vehicle) => (
-                <VehicleCard
-                  key={vehicle.name}
-                  vehicle={vehicle}
-                  maxStats={maxStats}
-                  speedFilter={speedFilter}
-                  handlingFilter={handlingFilter}
-                />
-              ))}
-            </div>
-          </section>
+          <VehiclesView
+            vehicles={sortedVehicles}
+            maxStats={maxStats}
+            speedFilter={speedFilter}
+            handlingFilter={handlingFilter}
+          />
         )}
 
         {/* 推薦組合頁面 */}
