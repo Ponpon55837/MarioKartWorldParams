@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import dynamic from "next/dynamic";
 import "@/app/globals.css";
 import JotaiProvider from "@/providers/JotaiProvider";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // 延遲載入 SpeedInsights 以改善初始載入效能
 const SpeedInsights = dynamic(
@@ -26,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="zh-TW" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <JotaiProvider>{children}</JotaiProvider>
+        <ErrorBoundary>
+          <JotaiProvider>{children}</JotaiProvider>
+        </ErrorBoundary>
         <SpeedInsights />
       </body>
     </html>
