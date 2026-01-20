@@ -1,11 +1,53 @@
 ---
 name: git-workflow
-description: Git 分支命名與工作流程規範
+description: |
+  Git 分支命名與工作流程規範。
+
+  ⚠️ 關鍵規則 - 必須遵守：
+  1. 絕對不可以直接在 main 分支上進行任何修改或提交
+  2. 任何變更都必須先建立功能分支（格式：<type>/<name>/<description>）
+  3. 完成後透過 Pull Request 合併
+  4. 本技能適用於所有涉及檔案修改、新增功能、bug 修復的任務
+
+  觸發時機：任何需要修改專案檔案的操作（包括新增、編輯、刪除檔案）都必須參考此規範。
 license: MIT
 compatibility: opencode
 metadata:
   audience: developers
   workflow: git
+  priority: critical
+  auto-trigger: true
+---
+
+# ⚠️ 核心規則 - 開始任何工作前必讀
+
+## 🚫 絕對禁止的操作
+
+**在開始任何程式碼修改前，必須先檢查目前分支！**
+
+```bash
+# 檢查目前分支
+git branch
+
+# 如果在 main 分支，立即建立新分支
+git checkout -b <type>/<name>/<description>
+```
+
+### 禁止清單
+
+❌ **絕對不可以直接在 main 分支上修改檔案**  
+❌ 不可以在 main 分支上執行 `git add`  
+❌ 不可以在 main 分支上執行 `git commit`  
+❌ 不可以在 main 分支上編輯、新增或刪除任何檔案
+
+### 正確流程
+
+✅ 先確認目前在 main 分支  
+✅ 建立新的功能分支  
+✅ 在功能分支上進行修改  
+✅ 提交到功能分支  
+✅ 透過 Pull Request 合併
+
 ---
 
 ## 我的功能

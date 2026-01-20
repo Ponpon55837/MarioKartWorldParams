@@ -298,23 +298,47 @@ pnpm dev
 # 在對話中提及相關主題時，AI 會自動參考對應的 skill
 ```
 
-Skills 位於 `.opencode/skills/` 目錄：
+#### OpenCode 配置結構
 
 ```
-.opencode/skills/
-├── git-workflow/
-│   └── SKILL.md
-├── code-standards/
-│   └── SKILL.md
-├── i18n-workflow/
-│   └── SKILL.md
-├── react-best-practices/
-│   ├── SKILL.md
-│   └── AGENTS.md
-└── web-design-guidelines/
-    ├── SKILL.md
-    └── AGENTS.md
+.opencode/
+├── README.md              # AI 助手必讀檔案（關鍵規範）
+├── config.yaml            # 專案配置與自動檢查規則
+├── hooks/
+│   └── pre-modify.sh      # 檔案修改前的自動檢查腳本
+└── skills/
+    ├── git-workflow/      # Git 工作流程規範（必讀）
+    │   └── SKILL.md
+    ├── code-standards/    # 程式碼標準
+    │   └── SKILL.md
+    ├── i18n-workflow/     # 多語言流程
+    │   └── SKILL.md
+    ├── react-best-practices/  # React 效能最佳化
+    │   ├── SKILL.md
+    │   └── AGENTS.md
+    └── web-design-guidelines/ # UI/UX 最佳實踐
+        ├── SKILL.md
+        └── AGENTS.md
 ```
+
+#### 🚨 關鍵規範自動執行
+
+專案配置了以下自動檢查機制：
+
+1. **`.opencode/README.md`** - AI 啟動時必讀
+   - 包含最關鍵的操作規範
+   - 防止在 main 分支上直接修改
+   - 強制執行 Git 工作流程
+
+2. **`.opencode/config.yaml`** - 專案行為配置
+   - 定義 AI 的自動檢查規則
+   - 設定 skills 自動載入時機
+   - 配置檔案修改前後的檢查流程
+
+3. **`.opencode/hooks/pre-modify.sh`** - 自動檢查腳本
+   - 在修改任何檔案前自動執行
+   - 驗證目前不在 main 分支
+   - 確保分支命名符合規範
 
 #### Skills 文件說明
 
@@ -327,6 +351,17 @@ Skills 位於 `.opencode/skills/` 目錄：
 - 相關參考資源
 
 開發者可以直接閱讀這些檔案來了解專案規範，或者讓 OpenCode AI 自動參考這些 skills 來協助開發。
+
+#### 🔒 防錯機制
+
+本專案實施以下防錯措施：
+
+- ✅ 禁止在 main 分支直接修改檔案
+- ✅ 強制使用功能分支開發
+- ✅ 自動檢查分支命名規範
+- ✅ Commit message 必須使用繁體中文
+- ✅ 推送前必須經過使用者確認
+- ✅ 修改後必須進行測試
 
 ## 🚨 已知問題
 
