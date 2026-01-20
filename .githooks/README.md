@@ -92,19 +92,44 @@ bash .githooks/install.sh
 
 ## 🧪 測試
 
-### 測試 pre-commit hook
+### 自動化測試腳本（推薦）
+
+執行完整的自動化測試套件：
+
+```bash
+bash .githooks/test-hooks.sh
+```
+
+這個腳本會自動執行以下測試：
+
+- ✅ **環境檢查**：確認 Git 環境正確
+- ✅ **Pre-commit 測試**：測試所有受保護分支
+- ✅ **Commit-msg 測試**：測試訊息格式驗證
+- ✅ **整合測試**：測試完整工作流程
+- ✅ **安全性測試**：檢查保護機制完整性
+
+**測試特點：**
+
+- 🔒 自動檢查環境（分支、工作目錄狀態）
+- 🧹 自動清理測試分支和提交
+- 📊 詳細的測試報告和統計
+- 🎨 彩色輸出，易於閱讀
+
+### 手動測試
+
+#### 測試 pre-commit hook
 
 ```bash
 # 1. 切換到 main 分支
 git checkout main
 
 # 2. 嘗試提交（應該被阻止）
-git commit --allow-empty -m "test"
+git commit --allow-empty -m "test: 測試"
 
 # 預期結果：看到錯誤訊息，提交被阻止 ✅
 ```
 
-### 測試 commit-msg hook
+#### 測試 commit-msg hook
 
 ```bash
 # 1. 建立測試分支
@@ -121,17 +146,35 @@ git commit --allow-empty -m "feat: 測試 commit message 格式"
 # 預期結果：成功提交 ✅
 ```
 
+#### 測試受保護分支
+
+```bash
+# 測試所有受保護的分支（main, master, develop, production, staging）
+# 都應該阻止直接提交
+git checkout main && git commit --allow-empty -m "test: 測試" # ❌ 應被阻止
+```
+
 ## 🛡️ 保護機制
 
 這些 hooks 提供以下保護：
 
 | 保護項目                | Hook       | 嚴重程度 | 行為       |
 | ----------------------- | ---------- | -------- | ---------- |
-| 在 main 分支提交        | pre-commit | ❌ 錯誤  | 阻止提交   |
+| 在保護分支提交          | pre-commit | ❌ 錯誤  | 阻止提交   |
 | 分支命名不規範          | pre-commit | ⚠️ 警告  | 允許但警告 |
 | Commit message 格式錯誤 | commit-msg | ❌ 錯誤  | 阻止提交   |
 | 冒號後沒空格            | commit-msg | ⚠️ 警告  | 允許但警告 |
 | 描述過短                | commit-msg | ⚠️ 警告  | 允許但警告 |
+
+### 受保護的分支清單
+
+以下分支**禁止**直接提交，必須透過 PR 合併：
+
+- `main` - 主分支
+- `master` - 主分支（舊命名）
+- `develop` - 開發分支
+- `production` - 生產環境分支
+- `staging` - 預發布環境分支
 
 ## ⚠️ 重要注意事項
 

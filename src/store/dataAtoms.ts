@@ -1,5 +1,6 @@
 import { atom, type Atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import { cache } from "react";
 import {
   CharacterStats,
   VehicleStats,
@@ -330,8 +331,8 @@ const logDevError = (message: string, ...args: unknown[]) => {
   }
 };
 
-// JSON 資料載入器
-const loadJSONData = async () => {
+// JSON 資料載入器（使用 React cache 避免重複請求）
+const loadJSONData = cache(async () => {
   logDev("🚀 嘗試載入 JSON 格式資料...");
 
   const jsonResponse = await fetch("/mario-kart-data.json");
@@ -355,10 +356,10 @@ const loadJSONData = async () => {
   logDev("🕐 最後更新:", jsonData.lastUpdate);
 
   return data;
-};
+});
 
-// CSV 資料載入器
-const loadCSVData = async () => {
+// CSV 資料載入器（使用 React cache 避免重複請求）
+const loadCSVData = cache(async () => {
   const csvResponse = await fetch("/mario-kart-data.csv");
 
   if (!csvResponse.ok) {
@@ -373,7 +374,7 @@ const loadCSVData = async () => {
   );
 
   return data;
-};
+});
 
 // 資料驗證函數
 const validateData = (data: { characters: unknown[]; vehicles: unknown[] }) => {
@@ -485,6 +486,22 @@ export const clearAllCombinationsAtom = atom(null, (get, set) => {
 });
 
 // 推薦組合相關 atoms
+// 使用 cache 機制避免重複計算
+const recommendationsCache = new Map<
+  string,
+  {
+    road: Array<any>;
+    terrain: Array<any>;
+    water: Array<any>;
+    maxCombinedStats: {
+      speed: number;
+      acceleration: number;
+      weight: number;
+      handling: number;
+    };
+  }
+>();
+
 export const recommendedCombinationsAtom = atom((get) => {
   const characters = get(charactersAtom);
   const vehicles = get(vehiclesAtom);
@@ -501,6 +518,16 @@ export const recommendedCombinationsAtom = atom((get) => {
         handling: 1,
       },
     };
+  }
+
+  // 生成快取鍵（基於角色和載具數量及名稱）
+  const cacheKey = `${characters.length}-${vehicles.length}-${
+    characters[0]?.name || ""
+  }-${vehicles[0]?.name || ""}`;
+
+  // 檢查快取
+  if (recommendationsCache.has(cacheKey)) {
+    return recommendationsCache.get(cacheKey)!;
   }
 
   // 計算所有可能組合的最大值
@@ -631,7 +658,7 @@ export const recommendedCombinationsAtom = atom((get) => {
     }));
   };
 
-  return {
+  const result = {
     road: getTopCombinations("road"),
     terrain: getTopCombinations("terrain"),
     water: getTopCombinations("water"),
@@ -642,4 +669,15 @@ export const recommendedCombinationsAtom = atom((get) => {
       handling: maxCombinedHandling,
     },
   };
+
+  // 儲存到快取（限制快取大小避免記憶體洩漏）
+  if (recommendationsCache.size > 10) {
+    const firstKey = recommendationsCache.keys().next().value as string;
+    if (firstKey) {
+      recommendationsCache.delete(firstKey);
+    }
+  }
+  recommendationsCache.set(cacheKey, result);
+
+  return result;
 });

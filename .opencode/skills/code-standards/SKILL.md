@@ -150,6 +150,65 @@ function processCharacter(character: CharacterStats) {
 
 ## Jotai 狀態管理
 
+### 核心原則
+
+**⭐ 優先使用全域狀態管理，避免 Props Drilling**
+
+當數據已經在全域狀態（Jotai atoms）中管理時，元件應該直接使用 atoms，而不是透過 props 傳遞。
+
+#### ❌ 錯誤做法：Props Drilling
+
+```typescript
+// ❌ 不好：透過 props 傳遞已在全域狀態中的數據
+function ParentComponent() {
+  const characters = useAtomValue(charactersAtom);
+  const vehicles = useAtomValue(vehiclesAtom);
+
+  return (
+    <ChildComponent
+      characters={characters}  // ❌ 不需要傳遞
+      vehicles={vehicles}      // ❌ 不需要傳遞
+    />
+  );
+}
+
+interface ChildComponentProps {
+  characters: CharacterStats[];
+  vehicles: VehicleStats[];
+}
+
+function ChildComponent({ characters, vehicles }: ChildComponentProps) {
+  // 使用 characters 和 vehicles
+}
+```
+
+#### ✅ 正確做法：直接使用全域狀態
+
+```typescript
+// ✅ 好：元件直接從 atoms 讀取數據
+function ParentComponent() {
+  return <ChildComponent />;  // ✅ 簡潔，無需傳遞 props
+}
+
+function ChildComponent() {
+  // ✅ 直接使用全域狀態
+  const characters = useAtomValue(charactersAtom);
+  const vehicles = useAtomValue(vehiclesAtom);
+
+  // 使用 characters 和 vehicles
+}
+```
+
+### 何時使用 Props vs 全域狀態
+
+| 情境                         | 使用方式      | 原因                          |
+| ---------------------------- | ------------- | ----------------------------- |
+| 數據已在 atoms 中            | ✅ 使用 atoms | 避免 props drilling，減少耦合 |
+| 元件特定的配置               | ✅ 使用 props | 提高元件可重用性              |
+| 回調函數（簡單）             | ✅ 使用 props | 清晰的數據流向                |
+| 回調函數（已有 atom action） | ✅ 使用 atoms | 統一狀態管理                  |
+| 樣式或 className             | ✅ 使用 props | 元件外觀配置                  |
+
 ### 定義 Atoms
 
 ```typescript
@@ -166,6 +225,12 @@ export const languageAtom = atomWithStorage<SupportedLanguage>(
   "mario-kart-language",
   "zh-TW",
 );
+
+// 操作 Atom（write-only）
+export const addItemAtom = atom(null, (get, set, newItem: Item) => {
+  const items = get(itemsAtom);
+  set(itemsAtom, [...items, newItem]);
+});
 ```
 
 ### 在元件中使用
@@ -173,14 +238,25 @@ export const languageAtom = atomWithStorage<SupportedLanguage>(
 ```typescript
 'use client';
 
-import { useAtom } from 'jotai';
-import { charactersAtom, languageAtom } from '@/store/dataAtoms';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { charactersAtom, languageAtom, addItemAtom } from '@/store/dataAtoms';
 
 export default function Component() {
-  const [characters] = useAtom(charactersAtom);
-  const [language, setLanguage] = useAtom(languageAtom);
+  // 讀取和寫入
+  const [characters, setCharacters] = useAtom(charactersAtom);
 
-  return <div>Current Language: {language}</div>;
+  // 只讀取
+  const language = useAtomValue(languageAtom);
+
+  // 只寫入（操作）
+  const addItem = useSetAtom(addItemAtom);
+
+  return (
+    <div>
+      <p>Current Language: {language}</p>
+      <button onClick={() => addItem(newItem)}>Add Item</button>
+    </div>
+  );
 }
 ```
 
@@ -583,10 +659,21 @@ git push origin branch-name
 - [ ] 使用 pnpm 管理套件
 - [ ] 符合響應式設計原則
 
+### 狀態管理
+
+- [ ] **優先使用 Jotai atoms 而非 props 傳遞已在全域狀態中的數據**
+- [ ] 避免 props drilling（數據層層傳遞）
+- [ ] 元件直接從 atoms 讀取所需數據
+- [ ] 只在必要時使用 props（元件配置、樣式等）
+- [ ] 使用 `useAtomValue` 進行只讀操作
+- [ ] 使用 `useSetAtom` 進行只寫操作
+- [ ] 使用 `useAtom` 進行讀寫操作
+
 ### 測試驗證
 
-- [ ] 每次修改後都已運行測試
+- [ ] 每次修改後都已運行 `pnpm run build` 測試
 - [ ] 所有測試都已通過
+- [ ] **已在瀏覽器 DevTools Console 確認無錯誤**
 - [ ] 完整功能測試已完成
 - [ ] 無編譯錯誤
 - [ ] 無執行錯誤
