@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# MarioKartWorldParams 專案 - Pre-commit Hook
+# 防止在 main 分支直接提交程式碼
+
+set -e
+
+# 獲取目前分支名稱
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# 檢查是否在 main 或 master 分支
+if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+    echo ""
+    echo "🚫 ============================================="
+    echo "🚫  錯誤：禁止在 $BRANCH 分支直接提交程式碼！"
+    echo "🚫 ============================================="
+    echo ""
+    echo "⚠️  根據專案規範，所有程式碼修改必須在功能分支上進行。"
+    echo ""
+    echo "📋 請執行以下步驟："
+    echo ""
+    echo "  1️⃣  建立新的功能分支："
+    echo "     git checkout -b <type>/<name>/<description>"
+    echo ""
+    echo "  📝 分支類型："
+    echo "     • feat     - 新功能"
+    echo "     • fix      - Bug 修復"
+    echo "     • refactor - 程式碼重構"
+    echo "     • docs     - 文件更新"
+    echo "     • style    - 樣式調整"
+    echo "     • test     - 測試相關"
+    echo "     • chore    - 雜項任務"
+    echo ""
+    echo "  ✅ 正確範例："
+    echo "     git checkout -b feat/ponpon/add-new-feature"
+    echo "     git checkout -b fix/opencode/fix-login-bug"
+    echo "     git checkout -b docs/ponpon/update-readme"
+    echo ""
+    echo "  2️⃣  在新分支上重新提交："
+    echo "     git add ."
+    echo "     git commit -m \"type: 你的提交訊息\""
+    echo ""
+    echo "  3️⃣  推送到遠端並建立 PR："
+    echo "     git push -u origin <branch-name>"
+    echo ""
+    echo "📚 相關文件："
+    echo "  • .opencode/README.md - AI 助手規範"
+    echo "  • .opencode/skills/git-workflow/SKILL.md - Git 工作流程"
+    echo "  • .opencode/config.yaml - 專案配置"
+    echo ""
+    echo "💡 提示："
+    echo "  • 這個檢查保護你不會誤提交到主分支"
+    echo "  • 如果是 AI 助手造成的，請檢查 .opencode/config.yaml"
+    echo "  • 絕對不要使用 --no-verify 跳過此檢查！"
+    echo ""
+    exit 1
+fi
+
+# 檢查分支命名是否符合規範（警告，不阻止）
+if [[ ! "$BRANCH" =~ ^(feat|fix|refactor|docs|style|test|chore|hotfix)\/.+\/.+ ]]; then
+    echo ""
+    echo "⚠️  警告：分支命名不符合規範"
+    echo "   目前分支：$BRANCH"
+    echo "   標準格式：<type>/<name>/<description>"
+    echo ""
+    echo "   建議重新命名分支："
+    echo "   git branch -m <new-branch-name>"
+    echo ""
+    # 這是警告，不中斷提交
+fi
+
+# 檢查 commit message 是否包含類型前綴（提醒）
+# 注意：這個檢查在某些情況下可能無法正常工作，因為 pre-commit 鉤子
+# 在 commit message 建立之前執行。這裡只是作為提醒。
+if [ $# -gt 0 ]; then
+    COMMIT_MSG_FILE=$1
+    if [ -f "$COMMIT_MSG_FILE" ]; then
+        COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+        
+        # 檢查是否符合基本格式
+        if [[ ! "$COMMIT_MSG" =~ ^(feat|fix|refactor|docs|style|test|chore|hotfix): ]]; then
+            echo ""
+            echo "⚠️  提示：commit message 格式建議"
+            echo "   格式：<type>: <描述>"
+            echo "   範例：feat: 新增使用者登入功能"
+            echo ""
+        fi
+    fi
+fi
+
+# 通過所有檢查
+echo "✅ Pre-commit 檢查通過 (分支: $BRANCH)"
+exit 0

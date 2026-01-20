@@ -1,0 +1,147 @@
+# OpenCode 專案配置
+# 此配置確保 AI 助手自動遵守專案規範
+
+# 全域行為規則
+rules:
+  # Git 工作流程規則
+  git:
+    # 關鍵規則：禁止在 main 分支上直接修改
+    enforce_branch_workflow: true
+    protected_branches:
+      - main
+      - master
+
+    # 任何檔案修改前都必須檢查分支
+    pre_modify_checks:
+      - check_current_branch
+      - ensure_feature_branch
+
+    # 分支命名規範
+    branch_naming:
+      format: "<type>/<name>/<description>"
+      types:
+        - feat
+        - fix
+        - refactor
+        - docs
+        - style
+        - test
+        - chore
+        - hotfix
+
+    # Commit message 規範
+    commit_message:
+      language: "zh-TW" # 預設使用繁體中文
+      format: "<type>: <中文描述>"
+
+  # 開發流程規則
+  workflow:
+    # 修改檔案前必須執行的檢查
+    before_file_modification:
+      - name: "檢查 Git 分支"
+        action: "確認不在 main/master 分支上"
+        priority: "critical"
+        auto_fix: true # 自動建立功能分支
+
+      - name: "確認專案結構"
+        action: "檢查是否在正確的專案目錄"
+        priority: "high"
+
+    # 修改後必須執行的操作
+    after_file_modification:
+      - name: "測試變更"
+        action: "執行 pnpm dev 測試"
+        priority: "critical"
+        auto_execute: false # 不自動執行，但會提醒
+
+      - name: "提交前確認"
+        action: "等待使用者確認後再推送"
+        priority: "critical"
+
+  # Skills 自動載入規則
+  skills:
+    # 這些 skills 在每次對話開始時都會自動載入
+    auto_load:
+      - git-workflow
+      - code-standards
+
+    # 根據任務類型自動觸發的 skills
+    triggers:
+      - task_type: "file_modification"
+        skills: ["git-workflow", "code-standards"]
+
+      - task_type: "react_component"
+        skills: ["react-best-practices", "code-standards"]
+
+      - task_type: "ui_review"
+        skills: ["web-design-guidelines", "code-standards"]
+
+      - task_type: "translation"
+        skills: ["i18n-workflow"]
+
+# 提醒訊息設定
+reminders:
+  # 在特定操作前顯示的提醒
+  pre_action:
+    file_edit: |
+      ⚠️ 檢查清單：
+      1. 確認目前不在 main 分支
+      2. 已建立適當的功能分支
+      3. 分支命名符合規範
+
+    git_commit: |
+      ⚠️ 提交前確認：
+      1. 使用繁體中文撰寫 commit message
+      2. 遵循 <type>: <描述> 格式
+      3. 已在本地測試過
+
+    git_push: |
+      🛑 推送前必須：
+      1. 等待使用者確認
+      2. 確認所有測試通過
+      3. 不要自動推送
+
+# AI 助手行為設定
+assistant:
+  # 在執行任何檔案修改前
+  pre_flight_checks:
+    enabled: true
+    checks:
+      - git_branch_check
+      - project_structure_check
+
+  # 自動修正行為
+  auto_fix:
+    enabled: true
+    actions:
+      - name: "自動建立功能分支"
+        condition: "在 main 分支上且需要修改檔案"
+        action: "建立符合規範的功能分支"
+
+      - name: "自動切換分支"
+        condition: "在錯誤的分支上"
+        action: "切換到正確的功能分支"
+
+  # 互動模式
+  interaction:
+    # 在關鍵操作前總是詢問確認
+    require_confirmation:
+      - git_push
+      - git_merge
+      - file_delete
+      - destructive_operations
+
+# 專案特定設定
+project:
+  name: "MarioKartWorldParams"
+  type: "next.js"
+  languages:
+    - typescript
+    - react
+
+  # 專案慣例
+  conventions:
+    commit_language: "zh-TW"
+    branch_format: "<type>/<name>/<description>"
+    test_before_commit: true
+    wait_for_user_approval: true
