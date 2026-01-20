@@ -242,10 +242,13 @@ pnpm dev
 
 #### 可用的 Skills
 
+**專案自訂 Skills：**
+
 - **git-workflow**: Git 分支命名與工作流程規範
   - 標準化的分支命名格式 (`<type>/<name>/<description>`)
   - 分支類型: feat, fix, refactor, docs, style, test, chore
   - Git 工作流程最佳實踐
+  - 支援中文 commit message 規範
 
 - **code-standards**: Next.js App Router 與 TypeScript 編碼規範
   - Next.js 16 App Router 規範
@@ -258,6 +261,33 @@ pnpm dev
   - i18next 使用方式
   - 翻譯檔案管理流程
   - 語言持久化實現
+
+**Vercel Labs Skills：**
+
+- **react-best-practices**: React 與 Next.js 性能優化指南 (來自 Vercel Engineering)
+  - 40+ 條規則，涵蓋 8 大類別，按影響程度分級
+  - **消除 Waterfalls** (關鍵): 非同步操作優化、Promise.all()、Suspense 邊界
+  - **Bundle Size 優化** (關鍵): 避免 barrel imports、動態匯入、延遲載入
+  - **伺服器端效能** (高): React.cache()、LRU 快取、平行資料獲取
+  - **客戶端資料獲取** (中高): SWR、事件監聽器去重
+  - **Re-render 優化** (中): memo、衍生狀態、transitions
+  - **渲染效能** (中): SVG 優化、content-visibility、靜態 JSX
+  - **JavaScript 效能** (低中): 快取優化、Set/Map 查找、迴圈優化
+  - **進階模式** (低): useLatest、事件處理器 refs
+
+- **web-design-guidelines**: Web 介面設計最佳實踐檢查
+  - 100+ 條 UI/UX 規則，用於審查前端程式碼
+  - **無障礙性**: aria-labels、語義化 HTML、鍵盤處理
+  - **焦點狀態**: 可見的焦點、focus-visible 模式
+  - **表單**: autocomplete、驗證、錯誤處理
+  - **動畫**: prefers-reduced-motion、compositor-friendly transforms
+  - **排版**: 彎引號、省略號、tabular-nums
+  - **圖片**: 尺寸、延遲載入、alt 文字
+  - **效能**: 虛擬化、避免 layout thrashing、preconnect
+  - **導航與狀態**: URL 反映狀態、深度連結
+  - **深色模式與主題**: color-scheme、theme-color meta
+  - **觸控與互動**: touch-action、tap-highlight
+  - **本地化與 i18n**: Intl.DateTimeFormat、Intl.NumberFormat
 
 #### 如何使用 OpenCode Skills
 
@@ -276,8 +306,14 @@ Skills 位於 `.opencode/skills/` 目錄：
 │   └── SKILL.md
 ├── code-standards/
 │   └── SKILL.md
-└── i18n-workflow/
-    └── SKILL.md
+├── i18n-workflow/
+│   └── SKILL.md
+├── react-best-practices/
+│   ├── SKILL.md
+│   └── AGENTS.md
+└── web-design-guidelines/
+    ├── SKILL.md
+    └── AGENTS.md
 ```
 
 #### Skills 文件說明
