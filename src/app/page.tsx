@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useAtom } from "jotai";
 import CharacterCard from "@/components/CharacterCard";
 import VehicleCard from "@/components/VehicleCard";
@@ -18,8 +18,14 @@ import ClientOnlyWrapper from "@/components/ClientOnlyWrapper";
 import { useTranslation } from "react-i18next";
 
 function HomeContent() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isInitialized } = useLanguagePersistence();
+  const [isMounted, setIsMounted] = useState(false);
+
+  // 確保組件已掛載
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // 使用全域狀態管理搜尋模態框
   const [isSearchModalOpen, setIsSearchModalOpen] =
@@ -80,13 +86,15 @@ function HomeContent() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [setIsSearchModalOpen]);
 
-  // 語言初始化載入中
-  if (!isInitialized) {
+  // 語言初始化載入中 - 避免 hydration 錯誤
+  if (!isMounted || !isInitialized) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600">{t("loading.initializing")}</p>
+          {isMounted && i18n.isInitialized && (
+            <p className="text-xl text-gray-600">{t("loading.initializing")}</p>
+          )}
         </div>
       </div>
     );
