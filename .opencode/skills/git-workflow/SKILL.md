@@ -144,21 +144,60 @@ git push origin --delete <branch-name>
 
 與分支類型相同: `feat`, `fix`, `refactor`, `docs`, `style`, `test`, `chore`
 
+### ⚠️ 重要：語言使用規範
+
+**預設使用繁體中文撰寫 commit message**
+
+除非有特別要求（如國際協作專案），否則 commit message 的 subject 和 body 都應該使用**繁體中文**撰寫。
+
+#### 原則
+
+1. **Type 使用英文**: `feat`, `fix`, `refactor` 等類型標籤保持英文
+2. **Subject 使用中文**: 主要描述使用繁體中文
+3. **Body 使用中文**: 詳細說明使用繁體中文
+4. **Footer 依情況**: issue 編號等可使用英文
+
 ### 範例
 
 ```bash
-# 簡單提交
-git commit -m "feat: add language selector component"
+# ✅ 正確：使用中文
+git commit -m "feat: 新增語言選擇器元件"
 
-# 詳細提交
-git commit -m "feat: add language selector component
+# ✅ 正確：詳細提交使用中文
+git commit -m "feat: 新增語言選擇器元件
 
-- Implement dropdown with 5 language options
-- Add language persistence to localStorage
-- Update i18n configuration
+- 實作包含 5 種語言選項的下拉選單
+- 新增語言設定持久化到 localStorage
+- 更新 i18n 配置
 
 Closes #123"
+
+# ✅ 正確：修復 bug
+git commit -m "fix: 修正登入按鈕點擊無反應的問題"
+
+# ✅ 正確：重構程式碼
+git commit -m "refactor: 重構 Jotai 狀態管理結構
+
+- 拆分 dataAtoms 為多個模組
+- 優化 atom 命名和組織
+- 改善型別定義"
+
+# ❌ 錯誤：使用英文（除非有特別要求）
+git commit -m "feat: add language selector component"
+
+# ❌ 錯誤：中英混用不當
+git commit -m "feat: 新增 language selector 元件"
 ```
+
+### 特殊情況
+
+**何時使用英文？**
+
+1. 國際協作專案明確要求
+2. 開源專案的國際貢獻
+3. 團隊特別指定使用英文
+
+**如果不確定，預設使用中文。**
 
 ## 注意事項
 
@@ -168,6 +207,71 @@ Closes #123"
 4. **使用有意義的名稱**: 讓他人能理解分支目的
 5. **一個分支一個功能**: 避免在單一分支混合多個不相關的變更
 
+## ⚠️ 重要：測試與提交流程
+
+### 每次修改後必須測試
+
+**這是強制性規則！任何程式碼修改都必須立即測試。**
+
+```bash
+# 修改程式碼後，立即執行測試
+lsof -ti:3000 | xargs kill -9 2>/dev/null
+sleep 2
+pnpm dev
+```
+
+**檢查項目：**
+
+- ✅ 專案能否成功啟動
+- ✅ 無編譯錯誤
+- ✅ 功能正常運作
+- ✅ 無執行錯誤
+
+### 完成後的提交流程
+
+**⚠️ 絕不直接推送！必須等待使用者確認。**
+
+```bash
+# 1. 提交到本地分支
+git add .
+git commit -m "type: description"
+
+# 2. ⏸️ 停止！告知使用者已完成
+# 說明：「修改已完成並測試通過，請檢查後再推送」
+
+# 3. ⏸️ 等待使用者檢查確認
+
+# 4. ✅ 使用者確認後才推送
+git push origin branch-name
+```
+
+### 推送前最終檢查清單
+
+- [ ] 所有修改都已測試通過
+- [ ] 完整功能測試已完成
+- [ ] 無編譯錯誤和執行錯誤
+- [ ] 變更已提交到本地
+- [ ] **已通知使用者檢查**
+- [ ] **等待使用者確認**
+- [ ] 確認後才執行 push
+
+### 錯誤示範 vs 正確示範
+
+```bash
+# ❌ 錯誤：直接推送
+git add .
+git commit -m "feat: add feature"
+git push origin feature-branch  # 錯誤！未經確認就推送
+
+# ✅ 正確：等待確認
+git add .
+git commit -m "feat: add feature"
+# 告知使用者：「修改完成，已測試通過，請檢查」
+# 等待使用者回覆確認
+# 收到確認後才執行：
+git push origin feature-branch
+```
+
 ## 常見問題
 
 ### Q: 如何處理長期開發的功能？
@@ -176,11 +280,19 @@ A: 建立 feature 分支，定期從 main rebase，完成後再合併。
 
 ### Q: 可以在分支名稱中使用 issue 編號嗎？
 
-A: 可以，格式: `feat/lip/add-feature-#123`
+A: 可以，格式: `feat/ponpon/add-feature-#123`
 
 ### Q: 如何處理緊急修復？
 
-A: 使用 `hotfix` 類型: `hotfix/lip/critical-bug-fix`
+A: 使用 `hotfix` 類型: `hotfix/ponpon/critical-bug-fix`
+
+### Q: 為什麼不能直接推送？
+
+A: 使用者需要在本地環境檢查功能、測試效果、確認無誤後才能推送到遠端。這可以防止將問題程式碼推送到遠端儲存庫。
+
+### Q: 每次修改都要測試嗎？
+
+A: 是的，絕對需要！任何程式碼修改（無論大小）都必須立即測試，確保沒有破壞現有功能。
 
 ## 參考資源
 

@@ -1,5 +1,5 @@
-import { useRef, useCallback, useMemo } from 'react';
-import { debounce, throttle, memoize, deepEqual } from '@/utils/performance';
+import { useRef, useCallback, useMemo } from "react";
+import { debounce, throttle, memoize, deepEqual } from "@/utils/performance";
 
 /**
  * 防抖 Hook
@@ -9,14 +9,15 @@ import { debounce, throttle, memoize, deepEqual } from '@/utils/performance';
  */
 export function useDebounce<T extends (...args: any[]) => any>(
   callback: T,
-  delay: number
+  delay: number,
 ): T {
   const callbackRef = useRef(callback);
   callbackRef.current = callback;
 
   return useMemo(
-    () => debounce((...args: Parameters<T>) => callbackRef.current(...args), delay),
-    [delay]
+    () =>
+      debounce((...args: Parameters<T>) => callbackRef.current(...args), delay),
+    [delay],
   ) as T;
 }
 
@@ -28,14 +29,15 @@ export function useDebounce<T extends (...args: any[]) => any>(
  */
 export function useThrottle<T extends (...args: any[]) => any>(
   callback: T,
-  limit: number
+  limit: number,
 ): T {
   const callbackRef = useRef(callback);
   callbackRef.current = callback;
 
   return useMemo(
-    () => throttle((...args: Parameters<T>) => callbackRef.current(...args), limit),
-    [limit]
+    () =>
+      throttle((...args: Parameters<T>) => callbackRef.current(...args), limit),
+    [limit],
   ) as T;
 }
 
@@ -50,7 +52,7 @@ export function useMemoize<T extends (...args: any[]) => any>(fn: T): T {
 
   return useMemo(
     () => memoize((...args: Parameters<T>) => fnRef.current(...args)),
-    []
+    [],
   ) as T;
 }
 
@@ -61,11 +63,11 @@ export function useMemoize<T extends (...args: any[]) => any>(fn: T): T {
  */
 export function useDeepMemo<T>(value: T): T {
   const ref = useRef<T>(value);
-  
+
   if (!deepEqual(ref.current, value)) {
     ref.current = value;
   }
-  
+
   return ref.current;
 }
 
@@ -77,17 +79,17 @@ export function useDeepMemo<T>(value: T): T {
  */
 export function useStableCallback<T extends (...args: any[]) => any>(
   callback: T,
-  deps: any[]
+  deps: unknown[],
 ): T {
   const callbackRef = useRef(callback);
   const stableDeps = useDeepMemo(deps);
-  
+
   // 更新回調引用當依賴變化時
   callbackRef.current = callback;
-  
+
   return useCallback(
     (...args: Parameters<T>) => callbackRef.current(...args),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [stableDeps]
+    [stableDeps],
   ) as T;
 }
