@@ -236,11 +236,38 @@ pnpm dev
 # Jotai DevTools 會自動啟用
 ```
 
-### OpenCode Skills 整合
+### 雙系統 Agent Skills 整合
 
-本專案整合了 OpenCode Agent Skills，提供可重複使用的開發指南和最佳實踐。
+本專案實作了創新的**軟路由共享機制**，讓 OpenCode 和 GitHub Copilot 兩個 AI 系統共享同一套技能庫，避免重複維護。
 
-#### 可用的 Skills
+#### 🔄 軟路由共享機制
+
+```
+.github/skills/          # GitHub Copilot Agent Skills
+│   ├── code-standards -> ../../.opencode/skills/code-standards
+│   ├── git-workflow -> ../../.opencode/skills/git-workflow
+│   ├── i18n-workflow -> ../../.opencode/skills/i18n-workflow
+│   ├── react-best-practices -> ../../.opencode/skills/react-best-practices
+│   ├── web-design-guidelines -> ../../.opencode/skills/web-design-guidelines
+│   └── readme-maintenance/  # 新技能：README 維護指南
+│
+.opencode/skills/         # OpenCode Agent Skills
+│   ├── code-standards/
+│   ├── git-workflow/
+│   ├── i18n-workflow/
+│   ├── react-best-practices/
+│   ├── web-design-guidelines/
+│   └── readme-maintenance -> ../../.github/skills/readme-maintenance
+```
+
+**🎯 優勢**：
+
+- ✅ **單一維護點**：修改一次，兩個系統同步更新
+- ✅ **無縫整合**：兩個 AI 系統都能存取完整的技能庫
+- ✅ **自動同步**：透過符號連結實現即時同步
+- ✅ **節省時間**：避免重複維護相同內容
+
+#### 🛠️ 可用的 Skills
 
 **專案自訂 Skills：**
 
@@ -253,14 +280,22 @@ pnpm dev
 - **code-standards**: Next.js App Router 與 TypeScript 編碼規範
   - Next.js 16 App Router 規範
   - TypeScript 嚴格模式與型別定義
-  - Jotai 狀態管理規範
+  - Jotai 狀態管理規範（優先使用 atoms，避免 props drilling）
   - Tailwind CSS 樣式規範
+  - 開發測試流程與強制性驗證步驟
 
 - **i18n-workflow**: 多語言國際化開發流程
   - 五語言支援 (繁中、簡中、英、日、韓)
   - i18next 使用方式
   - 翻譯檔案管理流程
   - 語言持久化實現
+
+- **readme-maintenance**: README.md 維護與文檔同步指南 🆕
+  - 技術棧版本自動同步檢查
+  - 專案結構變更更新流程
+  - 功能變更文檔化規範
+  - 雙系統技能整合驗證
+  - 自動化檢查腳本範本
 
 **Vercel Labs Skills：**
 
@@ -289,36 +324,44 @@ pnpm dev
   - **觸控與互動**: touch-action、tap-highlight
   - **本地化與 i18n**: Intl.DateTimeFormat、Intl.NumberFormat
 
-#### 如何使用 OpenCode Skills
+#### 🎯 如何使用 Agent Skills
 
-如果你使用 OpenCode AI 開發工具：
+**OpenCode AI 使用者：**
 
 ```bash
 # OpenCode 會自動載入專案中的 skills
 # 在對話中提及相關主題時，AI 會自動參考對應的 skill
 ```
 
-#### OpenCode 配置結構
+**GitHub Copilot 使用者：**
+
+- GitHub Copilot 會自動偵測 `.github/skills/` 目錄中的技能
+- 在相關開發任務中，Copilot 會自動載入對應的技能指南
+- 支援 VS Code、Copilot CLI 和 GitHub.com 中的 agent 模式
+
+#### 📁 雙系統配置結構
 
 ```
-.opencode/
-├── README.md              # AI 助手必讀檔案（關鍵規範）
-├── config.yaml            # 專案配置與自動檢查規則
+.opencode/                      # OpenCode 配置
+├── README.md                   # AI 助手必讀檔案
+├── config.yaml                 # 專案配置規則
 ├── hooks/
-│   └── pre-modify.sh      # 檔案修改前的自動檢查腳本
+│   └── pre-modify.sh          # 檔案修改前檢查
 └── skills/
-    ├── git-workflow/      # Git 工作流程規範（必讀）
-    │   └── SKILL.md
-    ├── code-standards/    # 程式碼標準
-    │   └── SKILL.md
-    ├── i18n-workflow/     # 多語言流程
-    │   └── SKILL.md
-    ├── react-best-practices/  # React 效能最佳化
-    │   ├── SKILL.md
-    │   └── AGENTS.md
-    └── web-design-guidelines/ # UI/UX 最佳實踐
-        ├── SKILL.md
-        └── AGENTS.md
+    ├── git-workflow/           # Git 規範
+    ├── code-standards/         # 程式碼標準
+    ├── i18n-workflow/         # 多語言流程
+    ├── react-best-practices/   # React 效能最佳化
+    ├── web-design-guidelines/   # UI/UX 最佳實踐
+    └── readme-maintenance/ -> ../../.github/skills/readme-maintenance
+
+.github/skills/                # GitHub Copilot 技能
+├── git-workflow -> ../../.opencode/skills/git-workflow
+├── code-standards -> ../../.opencode/skills/code-standards
+├── i18n-workflow -> ../../.opencode/skills/i18n-workflow
+├── react-best-practices -> ../../.opencode/skills/react-best-practices
+├── web-design-guidelines -> ../../.opencode/skills/web-design-guidelines
+└── readme-maintenance/        # README 維護指南
 ```
 
 #### 🚨 關鍵規範自動執行
