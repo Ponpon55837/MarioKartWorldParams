@@ -1,11 +1,7 @@
 ---
 name: code-standards
-description: Next.js App Router 與 TypeScript 編碼規範
+description: Next.js App Router 與 TypeScript 編碼規範。包含嚴格的 TypeScript 配置、Jotai 狀態管理最佳實踐、Tailwind CSS 使用規範、元件設計原則、效能優化指南，以及強制性的開發測試流程。確保程式碼品質、一致性和可維護性。
 license: MIT
-compatibility: opencode
-metadata:
-  audience: developers
-  workflow: coding
 ---
 
 ## 我的功能
