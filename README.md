@@ -238,7 +238,7 @@ pnpm dev
 
 ### 雙系統 Agent Skills 整合
 
-本專案開發了創新的**軟路由共享機制**，讓 OpenCode 和 GitHub Copilot 兩個 AI 系統共享同一套技能庫，避免重複維護。
+本專案採用了**軟路由共享機制**，讓 OpenCode 和 GitHub Copilot 兩個 AI 系統共享同一套技能庫，避免重複維護。
 
 #### 🔄 軟路由共享機制
 
