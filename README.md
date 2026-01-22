@@ -34,17 +34,17 @@
 
 ### 核心技術
 
-- **Framework**: Next.js 14.2.5 (App Router)
+- **Framework**: Next.js 16.0.10 (App Router)
 - **UI Library**: React 18.3.1
-- **狀態管理**: Jotai 2.12.5 + 本地持久化
-- **樣式框架**: Tailwind CSS 3.4.0
-- **開發語言**: TypeScript 5.8.3
+- **狀態管理**: Jotai 2.16.0 + 本地持久化
+- **樣式框架**: Tailwind CSS 3.4.19
+- **開發語言**: TypeScript 5.9.3
 - **套件管理**: pnpm
 
 ### 多國語系
 
-- **i18n Framework**: react-i18next 15.1.2
-- **語言檢測**: i18next-browser-languagedetector 8.0.0
+- **i18n Framework**: react-i18next 15.7.4
+- **語言檢測**: i18next-browser-languagedetector 8.2.0
 - **SSR 支援**: 完整的伺服器端渲染國際化
 - **語言持久化**: localStorage + 智能語言檢測
 

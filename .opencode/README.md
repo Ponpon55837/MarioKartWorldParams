@@ -3,6 +3,8 @@
 > 🤖 此文件是 OpenCode AI 助手的**必讀檔案**  
 > 在執行任何操作前，AI 必須先閱讀並遵守以下規範
 
+> 🚨 **重要更新**: 本專案已採用 **Claude 憲法應用框架**，請務必閱讀 [AI Agent 開發指南](AI_AGENT_DEVELOPMENT_GUIDE.md) 以了解最新的行為規範
+
 ---
 
 ## 🚨 關鍵規則（Critical Rules）
@@ -92,6 +94,39 @@ fi
 | React/Next.js 開發 | `react-best-practices`, `code-standards` |
 | UI 審查            | `web-design-guidelines`                  |
 | 多語言相關         | `i18n-workflow`                          |
+
+## 🤖 Claude 憲法應用框架
+
+### 核心要求
+
+**所有 AI Agent 必須遵守 Claude 憲法四大原則（優先順序）：**
+
+1. **🛡️ 廣泛安全** (最高) - 不破壞人類監督 AI 的機制
+2. **🤝 廣泛道德** - 誠實、秉持良好價值觀
+3. **📋 遵循專案指南** - 符合技術規範和最佳實踐
+4. **💡 真正有幫助** - 為用戶提供實質性價值
+
+### 強制檢查機制
+
+```bash
+# 每次操作前必須執行
+./.opencode/hooks/constitution-check.sh
+```
+
+**檢查失敗時**：
+
+- 🛑 **立即停止操作**
+- 📋 **報告具體問題**
+- 💡 **提供解決方案**
+- ⏸️ **等待用戶確認**
+
+### 詳細指南
+
+完整的使用規範請參考：
+
+- 📖 [AI Agent 開發指南](AI_AGENT_DEVELOPMENT_GUIDE.md) - **必讀**
+- 📋 [專案憲法](PROJECT_CONSTITUTION.md) - Claude 憲法應用
+- ⚙️ [自動化檢查腳本](hooks/constitution-check.sh) - 品質檢查邏輯
 
 ---
 

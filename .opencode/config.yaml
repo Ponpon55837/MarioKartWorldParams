@@ -34,10 +34,55 @@ rules:
       language: "zh-TW" # 預設使用繁體中文
       format: "<type>: <中文描述>"
 
+  # Claude 憲法規則
+  constitution:
+    # 四大核心原則（優先順序）
+    principles:
+      - name: "廣泛安全"
+        priority: 1
+        description: "不破壞人類監督 AI 的適當機制"
+        checks:
+          - security_audit
+          - sensitive_data_check
+          - dependency_integrity
+
+      - name: "廣泛道德"
+        priority: 2
+        description: "誠實、秉持良好價值觀、避免不當行為"
+        checks:
+          - multilingual_support
+          - accessibility_basic
+          - data_transparency
+
+      - name: "遵循專案指南"
+        priority: 3
+        description: "符合已建立的技術規範和最佳實踐"
+        checks:
+          - git_branch_check
+          - typescript_check
+          - eslint_check
+
+      - name: "真正有幫助"
+        priority: 4
+        description: "為用戶提供實質性價值和優質體驗"
+        checks:
+          - build_success
+          - readme_sync
+          - performance_basic
+
+    # 自動執行憲法檢查
+    auto_check_script: ".opencode/hooks/constitution-check.sh"
+    check_frequency: "pre_commit"
+
   # 開發流程規則
   workflow:
     # 修改檔案前必須執行的檢查
     before_file_modification:
+      - name: "Claude 憲法檢查"
+        action: "執行 .opencode/hooks/constitution-check.sh"
+        priority: "critical"
+        auto_execute: true
+
       - name: "檢查 Git 分支"
         action: "確認不在 main/master 分支上"
         priority: "critical"
@@ -49,6 +94,11 @@ rules:
 
     # 修改後必須執行的操作
     after_file_modification:
+      - name: "Claude 憲法重新檢查"
+        action: "執行完整的憲法品質檢查"
+        priority: "critical"
+        auto_execute: true
+
       - name: "測試變更"
         action: "執行 pnpm dev 測試"
         priority: "critical"

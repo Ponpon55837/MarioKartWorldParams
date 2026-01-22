@@ -32,5 +32,12 @@
     "prettier": "^3.7.4",
     "prettier-eslint": "^16.4.2",
     "typescript": "^5.9.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "jsondiffpatch@<0.7.2": ">=0.7.2",
+      "glob@>=10.2.0 <10.5.0": ">=10.5.0",
+      "lodash@>=4.0.0 <=4.17.22": ">=4.17.23"
+    }
   }
 }
