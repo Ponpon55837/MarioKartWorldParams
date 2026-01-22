@@ -2,7 +2,12 @@
 
 import React, { useEffect, useRef, useMemo } from "react";
 import { useAtom, useAtomValue } from "jotai";
-import { SearchModalProps, SearchResult } from "@/types";
+import {
+  SearchModalProps,
+  SearchResultItem,
+  CharacterStats,
+  VehicleStats,
+} from "@/types";
 import { useDebounce } from "@/hooks/usePerformance";
 import { useTranslation } from "react-i18next";
 import {
@@ -118,9 +123,14 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
     setIsLoading(true);
     setShowHistory(false);
 
-    const results: SearchResult[] = [];
+    const results: SearchResultItem[] = [];
 
     // 搜尋角色
+    const characterResults: Array<{
+      type: "character";
+      data: CharacterStats;
+      score: number;
+    }> = [];
     characters.forEach((character) => {
       const score = searchAlgorithm.calculateScore(
         character.name,
@@ -129,7 +139,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       );
       if (score > 20) {
         // 只顯示相關性較高的結果
-        results.push({
+        characterResults.push({
           type: "character",
           data: character,
           score,
@@ -138,6 +148,11 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
     });
 
     // 搜尋載具
+    const vehicleResults: Array<{
+      type: "vehicle";
+      data: VehicleStats;
+      score: number;
+    }> = [];
     vehicles.forEach((vehicle) => {
       const score = searchAlgorithm.calculateScore(
         vehicle.name,
@@ -146,7 +161,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       );
       if (score > 20) {
         // 只顯示相關性較高的結果
-        results.push({
+        vehicleResults.push({
           type: "vehicle",
           data: vehicle,
           score,
@@ -154,17 +169,14 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       }
     });
 
-    // 按相關性排序
-    results.sort((a, b) => b.score - a.score);
+    // 合併所有結果並按相關性排序
+    const allResults = [...characterResults, ...vehicleResults];
+    const sortedResults = allResults.sort((a, b) => b.score - a.score);
 
-    // 限制結果數量
-    const limitedResults = results.slice(0, 20);
-
-    // 轉換為符合 SearchResultItem 格式
-    const finalResults = limitedResults.map((result) => ({
-      type: result.type,
-      data: result.data,
-    }));
+    // 轉換為 SearchResultItem 格式並限制結果數量
+    const finalResults: SearchResultItem[] = sortedResults
+      .slice(0, 20)
+      .map(({ score, ...result }) => result);
     setSearchResults(finalResults);
     setIsLoading(false);
 

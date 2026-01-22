@@ -1,0 +1,84 @@
+{
+  "name": "mario-kart-world-params",
+  "version": "1.0.0",
+  "description": "瑪利歐賽車世界參數分析工具",
+  "type": "openspec",
+  "spec": {
+    "framework": "Next.js 16",
+    "language": "TypeScript 5.9",
+    "stateManagement": "Jotai",
+    "styling": "Tailwind CSS",
+    "i18n": "i18next",
+    "packageManager": "pnpm"
+  },
+  "features": [
+    "data-analysis",
+    "smart-recommendations",
+    "search-system",
+    "multi-language",
+    "responsive-design",
+    "admin-panel"
+  ],
+  "languages": ["zh-TW", "zh-CN", "en", "ja", "ko"],
+  "deployment": {
+    "primary": "vercel",
+    "options": ["netlify", "aws-amplify", "docker"],
+    "ci": "github-actions"
+  },
+  "standards": {
+    "typescript": "strict",
+    "testing": "jest + rtl",
+    "accessibility": "wcag-2.1-aa",
+    "codeStyle": "prettier + eslint"
+  },
+  "integrations": {
+    "aiTools": ["opencode"],
+    "monitoring": ["vercel-analytics", "sentry"],
+    "performance": ["web-vitals"],
+    "security": ["https", "csp", "rate-limiting"]
+  },
+  "documentation": {
+    "architecture": "docs/architecture.md",
+    "api": "docs/api.md",
+    "components": "docs/components.md",
+    "deployment": "openspec/DEPLOYMENT.md",
+    "contributing": "openspec/CONTRIBUTING.md",
+    "changelog": "openspec/CHANGELOG.md",
+    "roadmap": "openspec/ROADMAP.md",
+    "projectSpec": "openspec/PROJECT_SPEC.md"
+  },
+  "scripts": {
+    "dev": "pnpm dev",
+    "build": "pnpm build",
+    "test": "pnpm test",
+    "test:coverage": "pnpm test --coverage",
+    "test:e2e": "playwright test",
+    "lint": "pnpm lint",
+    "typecheck": "pnpm typecheck",
+    "deploy": "vercel --prod",
+    "openspec:check": "openspec check",
+    "openspec:report": "openspec report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/MarioKartWorldParams.git"
+  },
+  "keywords": [
+    "mario-kart",
+    "data-analysis",
+    "recommendations",
+    "next.js",
+    "typescript",
+    "tailwind-css",
+    "jotai",
+    "i18n"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "contributors": ["Your Name <your.email@example.com>"],
+  "community": {
+    "issues": "https://github.com/your-username/MarioKartWorldParams/issues",
+    "discussions": "https://github.com/your-username/MarioKartWorldParams/discussions",
+    "discord": "https://discord.gg/your-invite"
+  }
+}
