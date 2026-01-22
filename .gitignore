@@ -13,3 +13,4 @@ dist/
 build/
 out/
 public/static/
+tsconfig.tsbuildinfo
