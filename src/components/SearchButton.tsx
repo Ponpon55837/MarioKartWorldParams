@@ -23,6 +23,7 @@ export default function SearchButton({
         ${className}
       `}
       title={t("search.button")}
+      aria-label={t("search.button")}
     >
       <svg
         className="w-5 h-5"

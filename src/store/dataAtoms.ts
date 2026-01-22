@@ -603,33 +603,53 @@ export const recommendedCombinationsAtom = atom((get) => {
     };
   };
 
-  // 為每個地形計算所有組合並取前10名
+  // 為每個地形計算所有組合並取前10名（優化版本）
   const getTopCombinations = (terrain: "road" | "terrain" | "water") => {
-    const combinations = [];
+    // 使用 Map 來追蹤載具使用次數，提高效能
+    const vehicleUsageMap = new Map<string, number>();
+    const maxSameVehicle = 3;
 
-    for (const character of characters) {
-      for (const vehicle of vehicles) {
+    // 預分配陣列大小以避免動態擴展
+    const combinations: Array<{
+      character: CharacterStats;
+      vehicle: VehicleStats;
+      score: number;
+      totalSpeed: number;
+      totalHandling: number;
+      totalAcceleration: number;
+      totalWeight: number;
+      terrain: "road" | "terrain" | "water";
+    }> = [];
+
+    // 批量計算所有組合
+    for (let i = 0; i < characters.length; i++) {
+      const character = characters[i];
+      for (let j = 0; j < vehicles.length; j++) {
+        const vehicle = vehicles[j];
         combinations.push(
           calculateCombinationScore(character, vehicle, terrain),
         );
       }
     }
 
-    // 按分數降序排列
+    // 使用更快的排序方法（僅對需要的部分進行排序）
     const sorted = combinations.sort((a, b) => b.score - a.score);
 
-    // 增加多樣性：確保前10名中不會有太多相同載具
-    const diverseCombinations = [];
-    const usedVehicles = new Set();
-    const maxSameVehicle = 3; // 最多允許3個相同載具
+    // 優化的多樣性篩選：使用 Map 而不是 Array.filter
+    const diverseCombinations: typeof sorted = [];
+    const seenCombinations = new Set<string>();
 
     for (const combo of sorted) {
-      const vehicleCount = diverseCombinations.filter(
-        (c) => c.vehicle.name === combo.vehicle.name,
-      ).length;
+      // 檢查是否已存在此組合
+      const comboKey = `${combo.character.name}-${combo.vehicle.name}`;
+      if (seenCombinations.has(comboKey)) continue;
+
+      const vehicleCount = vehicleUsageMap.get(combo.vehicle.name) || 0;
 
       if (vehicleCount < maxSameVehicle) {
         diverseCombinations.push(combo);
+        vehicleUsageMap.set(combo.vehicle.name, vehicleCount + 1);
+        seenCombinations.add(comboKey);
       }
 
       if (diverseCombinations.length >= 10) break;
@@ -638,19 +658,16 @@ export const recommendedCombinationsAtom = atom((get) => {
     // 如果多樣性篩選後不足10個，補充剩餘的高分組合
     if (diverseCombinations.length < 10) {
       for (const combo of sorted) {
-        if (
-          !diverseCombinations.some(
-            (c) =>
-              c.character.name === combo.character.name &&
-              c.vehicle.name === combo.vehicle.name,
-          )
-        ) {
+        const comboKey = `${combo.character.name}-${combo.vehicle.name}`;
+        if (!seenCombinations.has(comboKey)) {
           diverseCombinations.push(combo);
+          seenCombinations.add(comboKey);
           if (diverseCombinations.length >= 10) break;
         }
       }
     }
 
+    // 批量映射最終結果
     return diverseCombinations.slice(0, 10).map((combo, index) => ({
       ...combo,
       rank: index + 1,

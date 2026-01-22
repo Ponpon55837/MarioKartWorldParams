@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import JotaiProvider from "@/providers/JotaiProvider";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SpeedInsightsWrapper } from "@/components/SpeedInsightsWrapper";
+import { LanguageProvider } from "@/components/LanguageProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
     <html lang="zh-TW" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <ErrorBoundary>
-          <JotaiProvider>{children}</JotaiProvider>
+          <JotaiProvider>
+            <LanguageProvider>{children}</LanguageProvider>
+          </JotaiProvider>
         </ErrorBoundary>
         <SpeedInsightsWrapper />
       </body>
