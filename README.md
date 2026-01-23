@@ -475,4 +475,8 @@ pnpm store prune
 
 **💡 有好的建議？歡迎在 [Discussions](https://github.com/Ponpon55837/MarioKartWorldParams/discussions) 中分享**
 
-**🚀 想要貢獻？查看我們的 [貢獻指南](#-貢獻指南)**
+**🚀 想要貢獻？查看我們的 [貢獻指南](./openspec/CONTRIBUTING.md)**
+
+**📋 查看發展藍圖？參考我們的 [Roadmap](./openspec/ROADMAP.md)**
+
+**🚀 需要部署協助？查看 [部署指南](./openspec/DEPLOYMENT.md)**
