@@ -358,7 +358,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
                   Ctrl
                 </kbd>
                 <span className="text-xs">+</span>
-                <kbd className="px-1 sm:px-2 py-1 bg-white border border-gray-300 rounded text-gray-700 font-mono text-xs">
+                <kbd className="px-1 sm:px-2 py-1 theme-input theme-border rounded text-foreground font-mono text-xs">
                   K
                 </kbd>
                 <span className="text-xs">{t("search.modal.ctrlKOpen")}</span>

@@ -27,7 +27,7 @@ export function CombinationsView() {
   return (
     <section>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-gray-800 text-center flex-1">
+        <h2 className="text-2xl font-bold text-foreground text-center flex-1">
           ⭐ {t("stats.combinationCount", { count: combinations.length })}
         </h2>
         {combinations.length > 0 && (
@@ -50,13 +50,13 @@ export function CombinationsView() {
       />
 
       {combinations.length === 0 ? (
-        <div className="text-center py-8 bg-gray-50 rounded-lg mt-4">
+        <div className="text-center py-8 bg-muted rounded-lg mt-4">
           <div className="text-6xl mb-4">🎯</div>
-          <p className="text-gray-500 text-lg mb-2">
+          <p className="text-muted text-lg mb-2">
             {t("emptyCombination.title")}
           </p>
-          <p className="text-gray-400 mb-4">{t("emptyCombination.subtitle")}</p>
-          <div className="text-sm text-gray-500 bg-white p-3 rounded-lg border border-gray-200 inline-block">
+          <p className="text-muted mb-4">{t("emptyCombination.subtitle")}</p>
+          <div className="text-sm text-muted theme-card p-3 theme-border rounded-lg inline-block">
             💡 {t("emptyCombination.tip")}
           </div>
         </div>

@@ -123,7 +123,7 @@ export function SearchResults({
 
   // 預設空狀態（沒有搜尋詞）
   return (
-    <div className="text-center py-8 text-gray-500">
+    <div className="text-center py-8 text-muted">
       <div className="text-6xl mb-4">🎮</div>
       <p className="text-lg">{t("search.modal.startSearch")}</p>
       <p className="text-sm mt-2">{t("search.modal.supportBoth")}</p>
