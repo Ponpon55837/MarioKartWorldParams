@@ -4,12 +4,22 @@
 
 ## 文件結構
 
+### 核心文件
+
 - `PROJECT_SPEC.md` - 專案規格文件
 - `CHANGELOG.md` - 變更日誌
-- `ROADMAP.md` - 發展藍圖
-- `CONTRIBUTING.md` - 貢獻指南
-- `DEPLOYMENT.md` - 部署指南
 - `openspec.json` - OpenSpec 配置文件
+
+### 開發指南
+
+- `ROADMAP.md` - 發展藍圖和功能規劃
+- `CONTRIBUTING.md` - 貢獻指南和開發流程
+- `DEPLOYMENT.md` - 部署指南和監控方案
+
+### 變更記錄
+
+- `changes/` - 詳細變更記錄目錄
+- `changes/20250122-performance-optimization.md` - 效能優化變更記錄
 
 ## 相關連結
 

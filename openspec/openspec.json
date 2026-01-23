@@ -45,7 +45,9 @@
     "contributing": "openspec/CONTRIBUTING.md",
     "changelog": "openspec/CHANGELOG.md",
     "roadmap": "openspec/ROADMAP.md",
-    "projectSpec": "openspec/PROJECT_SPEC.md"
+    "projectSpec": "openspec/PROJECT_SPEC.md",
+    "agents": "openspec/AGENTS.md",
+    "readme": "openspec/README.md"
   },
   "scripts": {
     "dev": "pnpm dev",

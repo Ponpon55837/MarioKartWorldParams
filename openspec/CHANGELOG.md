@@ -9,6 +9,9 @@
 ### 新增
 
 - 完整的 OpenSpec 文件架構
+- 專案發展藍圖 (`openspec/ROADMAP.md`) - 規劃 v1.5.0 到 v2.5.0 的功能路線
+- 貢獻者指南 (`openspec/CONTRIBUTING.md`) - 完整的開發流程和社群準則
+- 部署指南 (`openspec/DEPLOYMENT.md`) - 多平台部署方案和故障排除
 - 資料驗證和錯誤處理機制 (`dataValidation.ts`, `retryFetch.ts`, `fetchWithRetry.ts`)
 - 新增 `LanguageProvider` 組件處理客戶端語言初始化
 - 動態元件載入優化 (`RecommendationsPage.tsx`)
