@@ -271,7 +271,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       className="fixed inset-0 w-screen h-screen m-0 p-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl my-4 mx-4 overflow-hidden min-h-[400px] max-h-[calc(100vh-2rem)]">
+      <div className="theme-card rounded-lg shadow-2xl w-full max-w-4xl my-4 mx-4 overflow-hidden min-h-[400px] max-h-[calc(100vh-2rem)]">
         {/* 搜尋標題列 */}
         <SearchModalHeader onClose={handleClose} />
 
@@ -305,7 +305,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
         </div>
 
         {/* 底部操作區域 */}
-        <div className="border-t border-gray-200 p-3 sm:p-4 bg-gray-50 sticky bottom-0">
+        <div className="border-t border-border p-3 sm:p-4 bg-muted sticky bottom-0">
           {/* 導航按鈕 */}
           {onNavigate && (
             <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
@@ -340,25 +340,25 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
           )}
 
           {/* 快捷鍵說明 */}
-          <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
+          <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-muted">
             <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 mb-2 sm:mb-0">
               <span className="text-xs mb-1 sm:mb-0">
                 {t("search.modal.supportHint")}
               </span>
               <div className="flex items-center space-x-1">
-                <kbd className="px-1 sm:px-2 py-1 bg-white border border-gray-300 rounded text-gray-700 font-mono text-xs">
-                  Esc
+                <kbd className="px-1 sm:px-2 py-1 theme-input border border-border rounded text-foreground font-mono text-xs">
+                  Escape
                 </kbd>
                 <span className="text-xs">{t("search.modal.escClose")}</span>
               </div>
             </div>
             <div className="text-center sm:text-right">
               <div className="flex items-center space-x-1">
-                <kbd className="px-1 sm:px-2 py-1 bg-white border border-gray-300 rounded text-gray-700 font-mono text-xs">
+                <kbd className="px-1 sm:px-2 py-1 theme-input border border-border rounded text-foreground font-mono text-xs">
                   Ctrl
                 </kbd>
                 <span className="text-xs">+</span>
-                <kbd className="px-1 sm:px-2 py-1 bg-white border border-gray-300 rounded text-gray-700 font-mono text-xs">
+                <kbd className="px-1 sm:px-2 py-1 theme-input theme-border rounded text-foreground font-mono text-xs">
                   K
                 </kbd>
                 <span className="text-xs">{t("search.modal.ctrlKOpen")}</span>

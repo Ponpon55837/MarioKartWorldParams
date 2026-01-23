@@ -11,6 +11,13 @@
       "disclaimer": "基於社群資料的非官方工具 @Upfloor5"
     }
   },
+  "theme": {
+    "toggle": "切換主題",
+    "switchToDark": "切換到深色",
+    "switchToLight": "切換到亮色",
+    "light": "亮色",
+    "dark": "深色"
+  },
   "language": {
     "switch": "切換語言",
     "current": "目前：繁體中文",

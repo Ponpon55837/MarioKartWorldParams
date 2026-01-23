@@ -20,10 +20,10 @@ export function SearchHistory({
     return (
       <div className="space-y-4">
         {/* 使用提示 */}
-        <div className="mt-6 p-3 bg-blue-50 rounded-lg">
+        <div className="mt-6 p-3 bg-accent/10 rounded-lg">
           <div className="flex items-start space-x-2">
             <span className="text-blue-500 text-sm">💡</span>
-            <div className="text-sm text-blue-700">
+            <div className="text-sm text-accent">
               <p className="font-medium mb-1">{t("search.modal.searchTips")}</p>
               <ul className="space-y-1 text-xs">
                 <li>{t("search.modal.tip1")}</li>
@@ -35,7 +35,7 @@ export function SearchHistory({
         </div>
 
         {/* 空狀態提示 */}
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-muted">
           <div className="text-6xl mb-4">🎮</div>
           <p className="text-lg">{t("search.modal.startSearch")}</p>
           <p className="text-sm mt-2">{t("search.modal.supportBoth")}</p>
@@ -48,7 +48,7 @@ export function SearchHistory({
     <div className="space-y-4">
       {/* 搜尋歷史 */}
       <div>
-        <h3 className="text-sm font-medium text-gray-700 mb-2">
+        <h3 className="text-sm font-medium text-foreground mb-2">
           {t("search.modal.recentSearches")}
         </h3>
         <div className="space-y-1">
@@ -59,16 +59,16 @@ export function SearchHistory({
             >
               <button
                 onClick={() => onSelectItem(item.query)}
-                className="flex-1 text-left px-3 py-2 rounded text-sm text-gray-600 hover:bg-gray-100 transition-colors"
+                className="flex-1 text-left px-3 py-2 rounded text-sm text-muted hover:bg-muted transition-colors"
               >
                 <span className="font-medium">{item.query}</span>
-                <span className="text-xs text-gray-400 ml-2">
+                <span className="text-xs text-muted ml-2">
                   {item.resultCount} {t("search.modal.resultsCount")}
                 </span>
               </button>
               <button
                 onClick={() => onRemoveItem(item.query)}
-                className="p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="p-1 text-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                 aria-label={t("common.delete")}
               >
                 <svg
@@ -91,10 +91,10 @@ export function SearchHistory({
       </div>
 
       {/* 使用提示 */}
-      <div className="mt-6 p-3 bg-blue-50 rounded-lg">
+      <div className="mt-6 p-3 bg-accent/10 rounded-lg">
         <div className="flex items-start space-x-2">
           <span className="text-blue-500 text-sm">💡</span>
-          <div className="text-sm text-blue-700">
+          <div className="text-sm text-accent">
             <p className="font-medium mb-1">{t("search.modal.searchTips")}</p>
             <ul className="space-y-1 text-xs">
               <li>{t("search.modal.tip1")}</li>

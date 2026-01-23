@@ -23,7 +23,7 @@ export function SearchInput({
   const { t } = useTranslation();
 
   return (
-    <div className="p-3 sm:p-4 border-b border-gray-200 bg-white sticky top-12 sm:top-16 z-10">
+    <div className="p-3 sm:p-4 border-b border-border theme-card sticky top-12 sm:top-16 z-10">
       <div className="relative">
         <input
           ref={inputRef}
@@ -32,7 +32,7 @@ export function SearchInput({
           onChange={(e) => onChange(e.target.value)}
           placeholder={t("search.inputPlaceholder")}
           autoFocus={autoFocus}
-          className="w-full p-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mario-blue focus:border-transparent text-sm sm:text-base"
+          className="w-full p-3 pr-10 theme-input theme-border rounded-lg focus:ring-2 focus:ring-mario-blue focus:border-transparent text-sm sm:text-base"
         />
         <div className="absolute right-3 top-3">
           {isLoading ? (
@@ -40,7 +40,7 @@ export function SearchInput({
           ) : value ? (
             <button
               onClick={onClear}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="text-muted hover:text-foreground transition-colors"
               aria-label={t("search.modal.clearSearch")}
             >
               <svg

@@ -11,6 +11,13 @@
       "disclaimer": "Unofficial tool based on community data @Upfloor5"
     }
   },
+  "theme": {
+    "toggle": "Toggle Theme",
+    "switchToDark": "Switch to Dark",
+    "switchToLight": "Switch to Light",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "language": {
     "switch": "Switch Language",
     "current": "Current: English",

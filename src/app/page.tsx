@@ -92,7 +92,7 @@ function HomeContent() {
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           {isMounted && i18n.isInitialized && (
-            <p className="text-xl text-gray-600">{t("loading.initializing")}</p>
+            <p className="text-xl text-muted">{t("loading.initializing")}</p>
           )}
         </div>
       </div>
@@ -105,7 +105,7 @@ function HomeContent() {
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-mario-red mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600">{t("loading.loadingData")}</p>
+          <p className="text-xl text-muted">{t("loading.loadingData")}</p>
         </div>
       </div>
     );
@@ -166,14 +166,14 @@ function HomeContent() {
         )}
 
         {/* 說明區塊 */}
-        <section className="bg-white rounded-lg shadow-md p-4 mt-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
+        <section className="theme-card rounded-lg shadow-md p-4 mt-8">
+          <h2 className="text-xl font-bold text-foreground mb-4 text-center">
             📊 {t("stats.legend.title")}
           </h2>
 
           {/* 顏色圖例 */}
-          <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-            <h3 className="font-semibold text-base mb-2 text-gray-800">
+          <div className="mb-4 p-3 bg-muted rounded-lg">
+            <h3 className="font-semibold text-base mb-2 text-foreground">
               🎨 {t("stats.legend.colorLegend")}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -204,7 +204,7 @@ function HomeContent() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-foreground">
             <div>
               <h3 className="font-semibold text-base mb-2 text-blue-600">
                 🏎️ {t("stats.descriptions.speedTitle")}
@@ -266,7 +266,7 @@ function HomeContent() {
         <div className="text-center mb-2">
           <a
             href="/admin"
-            className="inline-flex items-center px-3 py-1 text-xs text-gray-500 hover:text-blue-600 transition-colors border border-gray-300 rounded-full hover:border-blue-300"
+            className="inline-flex items-center px-3 py-1 text-xs text-muted hover:text-accent transition-colors theme-border rounded-full hover:border-accent"
           >
             🔧 {t("admin.dataManagement")}
           </a>

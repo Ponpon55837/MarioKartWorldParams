@@ -16,10 +16,10 @@ const RecommendationCard = dynamic(
   () => import("@/components/RecommendationCard"),
   {
     loading: () => (
-      <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-        <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-        <div className="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
-        <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+      <div className="theme-card rounded-lg shadow-md p-6 animate-pulse">
+        <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
+        <div className="h-3 bg-muted rounded w-1/2 mb-2"></div>
+        <div className="h-3 bg-muted rounded w-2/3"></div>
       </div>
     ),
   },
@@ -55,7 +55,7 @@ const RecommendationsPage: React.FC = () => {
           <button
             key={terrain}
             onClick={() => handleTerrainChange(terrain)}
-            className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 flex-1 sm:flex-none ${selectedTerrain === terrain ? "bg-blue-500 text-white shadow-lg transform scale-105" : "bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg"}`}
+            className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 flex-1 sm:flex-none ${selectedTerrain === terrain ? "bg-blue-500 text-white shadow-lg transform scale-105" : "theme-card text-foreground hover:bg-muted shadow-md hover:shadow-lg"}`}
           >
             <span className="text-xl sm:text-2xl">
               {getTerrainIcon(terrain)}
@@ -75,7 +75,7 @@ const RecommendationsPage: React.FC = () => {
       {/* 當前選擇的地形資訊 */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-1">
         <div className="text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted">
             {t("recommendations.scoreFormula")}
           </p>
         </div>
@@ -88,7 +88,7 @@ const RecommendationsPage: React.FC = () => {
             {[...Array(6)].map((_, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg shadow-md p-6 animate-pulse"
+                className="theme-card rounded-lg shadow-md p-6 animate-pulse"
               >
                 <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
                 <div className="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
@@ -101,7 +101,7 @@ const RecommendationsPage: React.FC = () => {
         {currentRecommendations.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🔄</div>
-            <p className="text-gray-500 text-lg">
+            <p className="text-muted text-lg">
               {t("recommendations.calculating")}
             </p>
             <p className="text-gray-400 text-sm mt-2">

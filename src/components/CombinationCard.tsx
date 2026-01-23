@@ -77,7 +77,7 @@ export default function CombinationCard({
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300 border border-yellow-300 relative">
+    <div className="theme-card rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300 theme-border relative">
       {/* 移除按鈕 */}
       <button
         onClick={onRemove}
@@ -90,10 +90,10 @@ export default function CombinationCard({
       {/* 組合標題 */}
       <div className="text-center mb-3">
         <div className="bg-yellow-100 rounded-lg p-2 border border-yellow-300">
-          <h3 className="text-sm font-semibold text-gray-800 mb-0.5">
+          <h3 className="text-sm font-semibold text-foreground mb-0.5">
             {character.name} + {vehicle.name}
           </h3>
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-muted">
             {character.englishName} + {vehicle.englishName}
           </p>
         </div>
@@ -125,12 +125,12 @@ export default function CombinationCard({
                   />
                 </div>
               </div>
-              <div className="text-xs text-gray-500 ml-2">
+              <div className="text-xs text-muted ml-2">
                 {Math.round((stat.value / maxPossibleValue) * 100)}%
               </div>
             </div>
             {/* 組成明細 */}
-            <div className="text-xs text-gray-600 flex justify-between">
+            <div className="text-xs text-muted flex justify-between">
               <span>
                 {t("types.character")}: {stat.charValue}
               </span>
@@ -144,8 +144,8 @@ export default function CombinationCard({
       </div>
 
       {/* 詳細速度分佈 */}
-      <div className="mt-3 pt-2 border-t border-gray-200">
-        <div className="text-xs text-gray-600 font-semibold mb-1 text-center">
+      <div className="mt-3 pt-2 border-t border-border">
+        <div className="text-xs text-muted font-semibold mb-1 text-center">
           {t("combination.detailedSpeedDistribution")}
         </div>
         <div className="grid grid-cols-3 gap-1 text-xs">
@@ -156,7 +156,7 @@ export default function CombinationCard({
             <div className="text-blue-600 font-bold text-xs">
               {combinedStats.roadSpeed}
             </div>
-            <div className="text-gray-500 text-xs">
+            <div className="text-muted text-xs">
               {character.roadSpeed}+{vehicle.roadSpeed}+3
             </div>
           </div>
@@ -167,7 +167,7 @@ export default function CombinationCard({
             <div className="text-green-600 font-bold text-xs">
               {combinedStats.terrainSpeed}
             </div>
-            <div className="text-gray-500 text-xs">
+            <div className="text-muted text-xs">
               {character.terrainSpeed}+{vehicle.terrainSpeed}+3
             </div>
           </div>
@@ -178,7 +178,7 @@ export default function CombinationCard({
             <div className="text-cyan-600 font-bold text-xs">
               {combinedStats.waterSpeed}
             </div>
-            <div className="text-gray-500 text-xs">
+            <div className="text-muted text-xs">
               {character.waterSpeed}+{vehicle.waterSpeed}+3
             </div>
           </div>

@@ -6,6 +6,7 @@ import { useClientMounted } from "@/hooks/useClientMounted";
 import { useMarioKartStore } from "@/hooks/useMarioKartStore";
 import { useLanguagePersistence } from "@/hooks/useLanguagePersistence";
 import LanguageSelector from "@/components/LanguageSelector";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import ClientOnlyWrapper from "@/components/ClientOnlyWrapper";
 import type { SyncResult, DataStatus } from "@/types";
 
@@ -108,34 +109,31 @@ function AdminPageContent() {
 
   // 避免 SSR 水合不匹配問題 - 現在由 ClientOnlyWrapper 處理
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-muted py-8">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-md p-3">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+        <div className="theme-card rounded-lg shadow-md p-3">
+          <h1 className="text-3xl font-bold text-foreground mb-6 text-center">
             🛠️ {t("admin.systemManagement")}
           </h1>
-          <div className="flex justify-center lg:justify-end lg:ml-4 p-1">
+          <div className="flex justify-center lg:justify-end lg:ml-4 p-1 gap-2">
+            <ThemeToggle />
             <LanguageSelector className="w-full max-w-[200px] lg:w-auto" />
           </div>
 
           {/* 當前資料狀態 */}
-          <div className="mb-6 p-3 bg-gray-50 rounded-lg border">
-            <h2 className="text-lg font-semibold text-gray-800 mb-3">
+          <div className="mb-6 p-3 bg-muted rounded-lg theme-border">
+            <h2 className="text-lg font-semibold text-foreground mb-3">
               📊 {t("admin.currentDataStatus")}
             </h2>
             {checkingStatus ? (
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full animate-spin"></div>
-                <span className="text-gray-600">
-                  {t("admin.checkingStatus")}
-                </span>
+                <div className="w-4 h-4 border-2 theme-border500 border-t-transparent rounded-full animate-spin"></div>
+                <span className="text-muted">{t("admin.checkingStatus")}</span>
               </div>
             ) : dataStatus ? (
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t("admin.jsonDataFile")}
-                  </span>
+                  <span className="text-muted">{t("admin.jsonDataFile")}</span>
                   <span
                     className={
                       dataStatus.hasData
@@ -151,7 +149,7 @@ function AdminPageContent() {
                 {dataStatus.hasData && dataStatus.metadata && (
                   <>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">
+                      <span className="text-muted">
                         {t("admin.characterCountNum")}:
                       </span>
                       <span className="text-blue-600 font-medium">
@@ -159,7 +157,7 @@ function AdminPageContent() {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">
+                      <span className="text-muted">
                         {t("admin.vehicleCountNum")}:
                       </span>
                       <span className="text-blue-600 font-medium">
@@ -167,7 +165,7 @@ function AdminPageContent() {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">
+                      <span className="text-muted">
                         {t("admin.dataSource")}:
                       </span>
                       <span className="text-purple-600 font-medium">
@@ -178,10 +176,10 @@ function AdminPageContent() {
                 )}
                 {dataStatus.lastUpdate && (
                   <div className="flex justify-between">
-                    <span className="text-gray-600">
+                    <span className="text-muted">
                       {t("admin.lastUpdated")}:
                     </span>
-                    <span className="text-gray-800 font-medium">
+                    <span className="text-foreground font-medium">
                       {/* 自動抓取使用者當地時間 */}
                       {new Date(dataStatus.lastUpdate).toLocaleString("zh-TW")}
                     </span>
@@ -241,7 +239,7 @@ function AdminPageContent() {
 
                       {result.metadata && (
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
-                          <div className="bg-white p-2 rounded border border-green-200">
+                          <div className="theme-card p-2 rounded border border-green-200">
                             <div className="text-green-600 font-medium">
                               {t("admin.characterCountNum")}
                             </div>
@@ -249,7 +247,7 @@ function AdminPageContent() {
                               {result.metadata.characterCount}
                             </div>
                           </div>
-                          <div className="bg-white p-2 rounded border border-green-200">
+                          <div className="theme-card p-2 rounded border border-green-200">
                             <div className="text-green-600 font-medium">
                               {t("admin.vehicleCountNum")}
                             </div>
@@ -257,7 +255,7 @@ function AdminPageContent() {
                               {result.metadata.vehicleCount}
                             </div>
                           </div>
-                          <div className="bg-white p-2 rounded border border-green-200">
+                          <div className="theme-card p-2 rounded border border-green-200">
                             <div className="text-green-600 font-medium">
                               {t("admin.csvSize")}
                             </div>
@@ -266,7 +264,7 @@ function AdminPageContent() {
                               KB
                             </div>
                           </div>
-                          <div className="bg-white p-2 rounded border border-green-200">
+                          <div className="theme-card p-2 rounded border border-green-200">
                             <div className="text-green-600 font-medium">
                               {t("admin.jsonSize")}
                             </div>

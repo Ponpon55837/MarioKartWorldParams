@@ -84,10 +84,10 @@ export function SearchShortcutHint({ onClick }: { onClick: () => void }) {
   const { t } = useTranslation();
 
   return (
-    <div className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
+    <div className="hidden md:flex items-center space-x-2 text-sm text-muted">
       <span>{t("search.shortcutHint.press")}</span>
       <kbd
-        className="px-2 py-1 bg-gray-100 border border-gray-300 rounded text-xs font-mono cursor-pointer hover:bg-gray-200 transition-colors"
+        className="px-2 py-1 theme-input border border-border rounded text-xs font-mono cursor-pointer hover:bg-muted transition-colors"
         onClick={onClick}
       >
         Ctrl+K

@@ -50,19 +50,19 @@ export class ErrorBoundary extends Component<Props, State> {
 
       // 預設錯誤 UI
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-          <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+        <div className="min-h-screen flex items-center justify-center bg-muted px-4">
+          <div className="max-w-md w-full theme-card rounded-lg shadow-lg p-8">
             <div className="text-center">
               <div className="text-6xl mb-4">⚠️</div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              <h1 className="text-2xl font-bold text-foreground mb-4">
                 糟糕！發生了一些錯誤
               </h1>
-              <p className="text-gray-600 mb-6">
+              <p className="text-muted mb-6">
                 應用程式遇到了意外錯誤。請嘗試重新載入頁面。
               </p>
               {process.env.NODE_ENV === "development" && this.state.error && (
-                <details className="text-left bg-gray-100 rounded p-4 mb-6">
-                  <summary className="cursor-pointer font-semibold text-gray-700 mb-2">
+                <details className="text-left bg-muted rounded p-4 mb-6">
+                  <summary className="cursor-pointer font-semibold text-foreground mb-2">
                     錯誤詳情（僅開發環境顯示）
                   </summary>
                   <pre className="text-xs text-red-600 overflow-auto">

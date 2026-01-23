@@ -9,6 +9,8 @@ import {
   SpeedType,
   HandlingType,
   SearchResultItem,
+  ThemeMode,
+  ThemeState,
 } from "@/types";
 import { parseMarioKartCSV } from "@/utils/csvParser";
 import { combinationsAtom } from "@/store/combinations";
@@ -697,4 +699,34 @@ export const recommendedCombinationsAtom = atom((get) => {
   recommendationsCache.set(cacheKey, result);
 
   return result;
+});
+
+// ==========================================
+// 主題系統
+// ==========================================
+
+// 主題模式偏好設定（持久化到 localStorage）
+export const themeModeAtom = atomWithStorage<ThemeMode>(
+  "mario-kart-theme",
+  "light",
+);
+
+// 主題狀態
+export const themeStateAtom = atom<ThemeState>((get) => {
+  const mode = get(themeModeAtom);
+
+  return {
+    mode,
+  };
+});
+
+// 主題切換動作
+export const toggleThemeAtom = atom(null, (get, set, newMode?: ThemeMode) => {
+  const currentMode = get(themeModeAtom);
+
+  // 如果沒有指定新模式，就切換
+  const nextMode: ThemeMode =
+    newMode ?? (currentMode === "light" ? "dark" : "light");
+
+  set(themeModeAtom, nextMode);
 });
