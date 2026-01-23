@@ -127,3 +127,37 @@ export interface DataStatus {
   lastUpdate?: string;
   version?: string;
 }
+
+// ==========================================
+// 主題系統相關型別
+// ==========================================
+
+export type ThemeMode = "light" | "dark" | "system";
+
+export interface ThemeState {
+  mode: ThemeMode;
+  systemPreference: "light" | "dark";
+  resolvedTheme: "light" | "dark";
+}
+
+export interface ThemeConfig {
+  colors: {
+    background: string;
+    foreground: string;
+    muted: string;
+    accent: string;
+    card: string;
+    border: string;
+    input: string;
+    ring: string;
+    // 瑪利歐賽車主題色
+    marioRed: string;
+    marioBlue: string;
+    marioYellow: string;
+    marioGreen: string;
+  };
+  gradients: {
+    background: string;
+    card: string;
+  };
+}

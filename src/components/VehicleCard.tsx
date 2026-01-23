@@ -84,13 +84,13 @@ const VehicleCard: React.FC<VehicleCardProps> = React.memo(
     };
 
     return (
-      <div className="bg-white rounded-lg shadow-md p-3 card-hover border border-gray-200">
+      <div className="theme-card rounded-lg shadow-md p-3 card-hover">
         {/* 載具名稱 */}
         <div className="text-center mb-3">
-          <h3 className="text-base font-semibold text-gray-800 mb-0.5">
+          <h3 className="text-base font-semibold text-foreground mb-0.5">
             {vehicle.name}
           </h3>
-          <p className="text-xs text-gray-500">{vehicle.englishName}</p>
+          <p className="text-xs text-muted">{vehicle.englishName}</p>
         </div>
 
         {/* 統計資料 */}
@@ -126,10 +126,10 @@ const VehicleCard: React.FC<VehicleCardProps> = React.memo(
 
         {/* 詳細統計 */}
         <details className="mt-3">
-          <summary className="cursor-pointer text-xs text-gray-600 hover:text-gray-800 transition-colors">
+          <summary className="cursor-pointer text-xs text-muted hover:text-foreground transition-colors">
             {t("stats.details")}
           </summary>
-          <div className="mt-2 text-xs text-gray-600 space-y-1">
+          <div className="mt-2 text-xs text-muted space-y-1">
             <div className="grid grid-cols-2 gap-1 text-xs">
               <div>
                 {t("stats.roadSpeed")}: {vehicle.roadSpeed}

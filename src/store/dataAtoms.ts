@@ -9,6 +9,8 @@ import {
   SpeedType,
   HandlingType,
   SearchResultItem,
+  ThemeMode,
+  ThemeState,
 } from "@/types";
 import { parseMarioKartCSV } from "@/utils/csvParser";
 import { combinationsAtom } from "@/store/combinations";
@@ -697,4 +699,64 @@ export const recommendedCombinationsAtom = atom((get) => {
   recommendationsCache.set(cacheKey, result);
 
   return result;
+});
+
+// ==========================================
+// 主題系統
+// ==========================================
+
+// 主題模式偏好設定（持久化到 localStorage）
+export const themeModeAtom = atomWithStorage<ThemeMode>(
+  "mario-kart-theme",
+  "system",
+);
+
+// 系統主題偏好
+export const systemThemePreferenceAtom = atom<"light" | "dark">("light");
+
+// 解析後的實際主題
+export const resolvedThemeAtom = atom<"light" | "dark">((get) => {
+  const themeMode = get(themeModeAtom);
+  const systemPreference = get(systemThemePreferenceAtom);
+
+  if (themeMode === "system") {
+    return systemPreference;
+  }
+
+  return themeMode;
+});
+
+// 主題狀態組合
+export const themeStateAtom = atom<ThemeState>((get) => {
+  const mode = get(themeModeAtom);
+  const systemPreference = get(systemThemePreferenceAtom);
+  const resolvedTheme = get(resolvedThemeAtom);
+
+  return {
+    mode,
+    systemPreference,
+    resolvedTheme,
+  };
+});
+
+// 主題切換動作
+export const toggleThemeAtom = atom(null, (get, set, newMode?: ThemeMode) => {
+  const currentMode = get(themeModeAtom);
+
+  let nextMode: ThemeMode;
+
+  if (newMode) {
+    nextMode = newMode;
+  } else {
+    // 切換循環：system -> light -> dark -> system
+    if (currentMode === "system") {
+      nextMode = "light";
+    } else if (currentMode === "light") {
+      nextMode = "dark";
+    } else {
+      nextMode = "system";
+    }
+  }
+
+  set(themeModeAtom, nextMode);
 });
