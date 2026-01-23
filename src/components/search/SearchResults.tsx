@@ -40,7 +40,7 @@ export function SearchResults({
     return (
       <div className="text-center py-8">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mario-blue mx-auto mb-4"></div>
-        <p className="text-gray-500">{t("search.loading")}</p>
+        <p className="text-muted">{t("search.loading")}</p>
       </div>
     );
   }
@@ -48,13 +48,13 @@ export function SearchResults({
   // 無結果狀態
   if (results.length === 0 && searchQuery) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-8 text-muted">
         <div className="text-6xl mb-4">🤔</div>
         <p className="text-lg">
           {t("search.modal.noResultsFor", { query: searchQuery })}
         </p>
         <p className="text-sm mt-2">{t("search.modal.tryOther")}</p>
-        <div className="mt-4 text-xs text-gray-400">
+        <div className="mt-4 text-xs text-muted">
           <p>{t("search.modal.searchTipTitle")}</p>
           <p>{t("search.modal.searchTip1")}</p>
           <p>{t("search.modal.searchTip2")}</p>
@@ -69,7 +69,7 @@ export function SearchResults({
     return (
       <div className="space-y-4">
         {/* 搜尋結果統計 */}
-        <div className="flex items-center justify-between text-sm text-gray-600">
+        <div className="flex items-center justify-between text-sm text-muted">
           <span>
             {t("search.modal.foundResults", {
               count: results.length,

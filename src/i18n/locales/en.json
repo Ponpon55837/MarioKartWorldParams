@@ -13,14 +13,10 @@
   },
   "theme": {
     "toggle": "Toggle Theme",
-    "selectTheme": "Select Theme",
-    "current": "Current Theme",
-    "system": "System",
-    "systemDescription": "Follow system settings",
+    "switchToDark": "Switch to Dark",
+    "switchToLight": "Switch to Light",
     "light": "Light",
-    "lightDescription": "Always use light theme",
-    "dark": "Dark",
-    "darkDescription": "Always use dark theme"
+    "dark": "Dark"
   },
   "language": {
     "switch": "Switch Language",

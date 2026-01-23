@@ -1,74 +1,46 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAtom, useAtomValue } from "jotai";
-import {
-  themeStateAtom,
-  systemThemePreferenceAtom,
-  toggleThemeAtom,
-} from "@/store/dataAtoms";
-import { ThemeMode } from "@/types";
+import { useAtomValue } from "jotai";
+import { themeStateAtom } from "@/store/dataAtoms";
+import { useTranslation } from "react-i18next";
 
 /**
  * 主題提供者組件
  *
- * 處理主題初始化、系統主題偵測和 DOM 屬性設定
+ * 處理主題 DOM 屬性設定和整體主題應用
  */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const themeState = useAtomValue(themeStateAtom);
-  const [, setSystemPreference] = useAtom(systemThemePreferenceAtom);
-  const [, toggleTheme] = useAtom(toggleThemeAtom);
 
   useEffect(() => {
-    // 偵測系統主題偏好
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const updateSystemPreference = (
-      e: MediaQueryListEvent | MediaQueryList,
-    ) => {
-      setSystemPreference(e.matches ? "dark" : "light");
-    };
+    // 更新 HTML 和 body 元素的主題
+    const html = document.documentElement;
+    const body = document.body;
 
-    // 初始設定
-    updateSystemPreference(mediaQuery);
+    // 移除所有主題類別
+    html.classList.remove("light", "dark");
+    body.classList.remove("light", "dark");
 
-    // 監聽系統主題變化
-    mediaQuery.addEventListener("change", updateSystemPreference);
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateSystemPreference);
-    };
-  }, [setSystemPreference]);
-
-  useEffect(() => {
-    // 更新 HTML 元素的主題屬性
-    const root = document.documentElement;
-
-    // 設定主題類別
-    root.classList.remove("light", "dark");
-    root.classList.add(themeState.resolvedTheme);
+    // 設定當前主題類別
+    const currentTheme = themeState.mode;
+    html.classList.add(currentTheme);
+    body.classList.add(currentTheme);
 
     // 設定 color-scheme 屬性
-    root.style.setProperty("color-scheme", themeState.resolvedTheme);
+    html.style.setProperty("color-scheme", currentTheme);
+    body.style.setProperty("color-scheme", currentTheme);
 
-    // 設定主題資料屬性（供 CSS 使用）
-    root.setAttribute("data-theme", themeState.resolvedTheme);
-    root.setAttribute("data-theme-mode", themeState.mode);
+    // 設定主題資料屬性
+    html.setAttribute("data-theme", currentTheme);
+    html.setAttribute("data-theme-mode", currentTheme);
+    body.setAttribute("data-theme", currentTheme);
+
+    // 強制重繪確保主題立即生效
+    html.style.display = "none";
+    html.offsetHeight; // 觸發重繪
+    html.style.display = "";
   }, [themeState]);
-
-  // 主題變更時提供過渡效果
-  useEffect(() => {
-    const root = document.documentElement;
-
-    // 添加過渡類別
-    root.classList.add("theme-transitioning");
-
-    // 移除過渡類別（短暫延遲以確保過渡效果）
-    const timeout = setTimeout(() => {
-      root.classList.remove("theme-transitioning");
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [themeState.resolvedTheme]);
 
   return <>{children}</>;
 }

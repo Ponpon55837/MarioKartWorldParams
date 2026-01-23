@@ -132,12 +132,10 @@ export interface DataStatus {
 // 主題系統相關型別
 // ==========================================
 
-export type ThemeMode = "light" | "dark" | "system";
+export type ThemeMode = "light" | "dark";
 
 export interface ThemeState {
   mode: ThemeMode;
-  systemPreference: "light" | "dark";
-  resolvedTheme: "light" | "dark";
 }
 
 export interface ThemeConfig {

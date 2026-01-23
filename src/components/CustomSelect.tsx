@@ -98,13 +98,13 @@ export default function CustomSelect({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-labelledby={`select-label-${Math.random().toString(36).substr(2, 9)}`}
-        className="w-full p-2 text-sm text-left bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400 transition-all duration-200 flex items-center justify-between"
+        className="w-full p-2 text-sm text-left theme-input theme-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-muted transition-all duration-200 flex items-center justify-between"
       >
-        <span className={selectedOption ? "text-gray-900" : "text-gray-500"}>
+        <span className={selectedOption ? "text-foreground" : "text-muted"}>
           {selectedOption ? selectedOption.label : defaultPlaceholder}
         </span>
         <svg
-          className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={`w-4 h-4 text-muted transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -123,7 +123,7 @@ export default function CustomSelect({
       {isOpen && (
         <div
           role="listbox"
-          className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+          className="absolute z-50 w-full mt-1 theme-card theme-border rounded-lg shadow-lg max-h-60 overflow-y-auto"
         >
           {options.map((option, index) => (
             <button
@@ -133,13 +133,13 @@ export default function CustomSelect({
               aria-selected={option.value === value}
               onClick={() => handleOptionClick(option.value)}
               onMouseEnter={() => setHighlightedIndex(index)}
-              className={`w-full p-2 text-sm text-left hover:bg-blue-50 transition-colors duration-150 ${index === highlightedIndex ? "bg-blue-50" : ""} ${option.value === value ? "bg-blue-100 text-blue-700 font-medium" : "text-gray-900"} ${index === 0 ? "rounded-t-lg" : ""} ${index === options.length - 1 ? "rounded-b-lg" : ""}`}
+              className={`w-full p-2 text-sm text-left hover:bg-accent transition-colors duration-150 ${index === highlightedIndex ? "bg-accent" : ""} ${option.value === value ? "bg-accent text-accent-foreground font-medium" : "text-foreground"} ${index === 0 ? "rounded-t-lg" : ""} ${index === options.length - 1 ? "rounded-b-lg" : ""}`}
             >
               <div className="flex items-center justify-between">
                 <span>{option.label}</span>
                 {option.value === value && (
                   <svg
-                    className="w-4 h-4 text-blue-600"
+                    className="w-4 h-4 text-accent"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     aria-hidden="true"
