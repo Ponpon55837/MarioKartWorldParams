@@ -78,18 +78,20 @@ license: MIT
 
 ### 狀態管理組合
 
-| 專案規模             | 推薦組合                             | 理由               |
-| -------------------- | ------------------------------------ | ------------------ |
-| **小型（< 10 頁）**  | URL + useState + Context             | 輕量、快速開發     |
-| **中型（10-30 頁）** | TanStack Query + URL + Zustand       | 平衡功能與複雜度   |
-| **大型（> 30 頁）**  | TanStack Query + URL + Redux Toolkit | 完整生態、團隊規範 |
+| 專案規模             | 推薦組合                             | 理由                       |
+| -------------------- | ------------------------------------ | -------------------------- |
+| **小型（< 10 頁）**  | URL + useState + Context             | 輕量、快速開發、零依賴     |
+| **中型（10-30 頁）** | TanStack Query + URL + Zustand/Jotai | 平衡功能與複雜度           |
+| **大型（> 30 頁）**  | TanStack Query + URL + Redux Toolkit | 完整生態、團隊規範         |
+| **高性能要求**       | TanStack Query + Zustand             | 極簡 API、最高效能         |
+| **複雜狀態依賴**     | TanStack Query + Jotai               | 原子化細粒度控制、自動優化 |
 
 ### 核心工具庫
 
 | 類型           | 工具                                 | 推薦理由                 |
 | -------------- | ------------------------------------ | ------------------------ |
 | **資料獲取**   | TanStack Query                       | 自動快取、重試、樂觀更新 |
-| **客戶端狀態** | Zustand                              | 極簡 API、高效能         |
+| **客戶端狀態** | Zustand/Jotai                        | 極簡 API、高效能/原子化  |
 | **路由管理**   | React Router v6 / Next.js App Router | 標準方案、型別安全       |
 | **表單管理**   | React Hook Form                      | 效能優異、驗證整合       |
 | **UI 增強**    | @tanstack/react-virtual              | 虛擬滾動、長列表優化     |
@@ -201,6 +203,7 @@ license: MIT
 | **TanStack Query DevTools** | 查詢調試 | `npm install @tanstack/react-query-devtools` |
 | **Redux DevTools**          | 狀態調試 | 瀏覽器擴充 + `@reduxjs/toolkit`              |
 | **Zustand DevTools**        | 狀態調試 | 使用 `devtools` 中間件                       |
+| **Jotai DevTools**          | 狀態調試 | 使用 `jotai-devtools` 擴充                   |
 
 ### 效能監控
 
@@ -221,6 +224,13 @@ license: MIT
 ---
 
 ## 📝 更新日誌
+
+### v2.1 (2025-01-28)
+
+- ✨ 新增 Jotai 狀態管理支援與詳細對比
+- 📚 更新狀態管理組合推薦表格
+- 🛠️ 增加 Jotai 範例程式碼與最佳實踐
+- 🔧 補充 Jotai DevTools 工具說明
 
 ### v2.0 (2025-01-28)
 
@@ -254,6 +264,7 @@ license: MIT
 - [Next.js 官方文檔](https://nextjs.org/docs)
 - [TanStack Query 文檔](https://tanstack.com/query/latest)
 - [Zustand 文檔](https://docs.pmnd.rs/zustand)
+- [Jotai 文檔](https://jotai.org/)
 - [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 
 ---

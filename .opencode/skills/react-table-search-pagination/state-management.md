@@ -91,7 +91,7 @@ const SearchPage = () => {
 ### 策略 B：中型專案（10-50 個頁面）
 
 ```javascript
-// 組合：TanStack Query + URL + Zustand
+// 組合：TanStack Query + URL + Zustand/Jotai
 
 // 1. TanStack Query 處理資料獲取
 const { data, isLoading } = useQuery({
@@ -114,6 +114,24 @@ const useUIStore = create((set) => ({
     })),
   setViewMode: (mode) => set({ viewMode: mode }),
 }));
+
+// 3b. Jotai 原子化狀態管理（替代方案）
+import { atom, useAtom } from "jotai";
+
+// 原子定義
+const selectedIdsAtom = atom([]);
+const viewModeAtom = atom("grid");
+
+// 在組件中使用
+const [selectedIds, setSelectedIds] = useAtom(selectedIdsAtom);
+const [viewMode, setViewMode] = useAtom(viewModeAtom);
+
+// 操作函數
+const toggleSelect = (id) => {
+  setSelectedIds((prev) =>
+    prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+  );
+};
 ```
 
 **適用場景**：
@@ -125,9 +143,10 @@ const useUIStore = create((set) => ({
 ### 策略 C：大型專案（> 50 個頁面）
 
 ```javascript
-// 組合：TanStack Query + URL + Zustand + Feature-based Store
+// 組合：TanStack Query + URL + Zustand/Jotai + Feature-based Store
 
 // 特性：按功能模塊拆分 Store
+// Zustand 方案
 // stores/search.js
 export const useSearchStore = create((set) => ({
   filters: {},
@@ -148,9 +167,25 @@ export const useTableStore = create((set) => ({
     })),
 }));
 
+// Jotai 方案
+// stores/search-atoms.js
+import { atom } from "jotai";
+
+export const filtersAtom = atom({});
+export const sortByAtom = atom("relevance");
+
+// stores/table-atoms.js
+export const selectedRowsAtom = atom([]);
+export const expandedRowsAtom = atom([]);
+
 // 使用時按需導入
+// Zustand
 import { useSearchStore } from "@/stores/search";
 import { useTableStore } from "@/stores/table";
+
+// Jotai
+import { filtersAtom, sortByAtom } from "@/stores/search-atoms";
+import { selectedRowsAtom } from "@/stores/table-atoms";
 ```
 
 **適用場景**：
@@ -214,6 +249,7 @@ const [searchParams] = useSearchParams(); // URL 狀態
 
 ```javascript
 // ❌ 錯誤：所有狀態都放全局
+// Zustand
 const useGlobalStore = create((set) => ({
   userData: null,
   modalOpen: false,
@@ -223,7 +259,18 @@ const useGlobalStore = create((set) => ({
   // ... 100+ 個狀態
 }));
 
+// Jotai
+const globalStateAtom = atom({
+  userData: null,
+  modalOpen: false,
+  searchQuery: "",
+  currentPage: 1,
+  selectedItems: [],
+  // ... 100+ 個狀態
+});
+
 // ✅ 正確：按功能拆分
+// Zustand
 const useUserStore = create((set) => ({
   userData: null,
   updateUser: (data) => set({ userData: data }),
@@ -234,6 +281,11 @@ const useSearchStore = create((set) => ({
   filters: {},
   setQuery: (q) => set({ query: q }),
 }));
+
+// Jotai
+const userDataAtom = atom(null);
+const searchQueryAtom = atom("");
+const searchFiltersAtom = atom({});
 ```
 
 ---
@@ -243,6 +295,7 @@ const useSearchStore = create((set) => ({
 ### 使用選擇器避免不必要的重渲染
 
 ```javascript
+// Zustand
 // ❌ 錯誤：訂閱整個 store
 const Component = () => {
   const store = useStore(); // 任何狀態改變都會重渲染
@@ -252,6 +305,13 @@ const Component = () => {
 // ✅ 正確：精確訂閱
 const Component = () => {
   const specificValue = useStore((state) => state.specificValue);
+  return <div>{specificValue}</div>;
+};
+
+// Jotai - 自動精確訂閱
+// ✅ Jotai 天然支援精確訂閱
+const Component = () => {
+  const [specificValue] = useAtom(specificValueAtom);
   return <div>{specificValue}</div>;
 };
 ```
@@ -274,14 +334,14 @@ const { data } = useQuery({
 
 ## 6. 工具選擇總結
 
-| 工具               | 適用場景                 | 學習曲線 | 生態系統                   |
-| ------------------ | ------------------------ | -------- | -------------------------- |
-| **TanStack Query** | 所有需要資料獲取的專案   | 中       | 極佳（DevTools、插件豐富） |
-| **SWR**            | 輕量級資料獲取           | 低       | 良好                       |
-| **Zustand**        | 客戶端狀態管理           | 低       | 良好                       |
-| **Jotai**          | 原子化狀態管理           | 中       | 中等                       |
-| **Redux Toolkit**  | 超大型應用、需要時間旅行 | 高       | 極佳                       |
-| **Context API**    | 簡單的狀態共享           | 低       | React 內建                 |
+| 工具               | 適用場景                 | 學習曲線 | 生態系統                   | 特色優勢                          |
+| ------------------ | ------------------------ | -------- | -------------------------- | --------------------------------- |
+| **TanStack Query** | 所有需要資料獲取的專案   | 中       | 極佳（DevTools、插件豐富） | 自動快取、重試、樂觀更新          |
+| **SWR**            | 輕量級資料獲取           | 低       | 良好                       | 簡單易用、體積小                  |
+| **Zustand**        | 客戶端狀態管理           | 低       | 良好                       | 極簡 API、高效能、TypeScript 友好 |
+| **Jotai**          | 原子化狀態管理           | 中       | 中等                       | 細粒度控制、自動優化、無渲染層級  |
+| **Redux Toolkit**  | 超大型應用、需要時間旅行 | 高       | 極佳                       | 完整工具鏈、中間件生態            |
+| **Context API**    | 簡單的狀態共享           | 低       | React 內建                 | 無需額外依賴、React 原生          |
 
 ---
 
@@ -292,26 +352,30 @@ const { data } = useQuery({
 ```
 Redux → Redux Toolkit（漸進式）
        → Zustand（重構時）
+       → Jotai（需要原子化時）
 
 useContext + useReducer → Zustand（中小型）
+                        → Jotai（需要細粒度控制）
                         → Redux Toolkit（大型）
 
 Prop Drilling → TanStack Query（伺服器狀態）
-              → Zustand（客戶端狀態）
+               → Zustand（客戶端狀態）
+               → Jotai（複雜狀態依賴）
 ```
 
 ---
 
 ## 狀態管理組合推薦
 
-| 專案特徵               | 推薦組合                                       | 理由               |
-| ---------------------- | ---------------------------------------------- | ------------------ |
-| **小型（< 10 頁）**    | URL + useState + Context                       | 輕量、快速         |
-| **中型（10-30 頁）**   | TanStack Query + URL + Zustand                 | 平衡功能與複雜度   |
-| **中大型（30-50 頁）** | TanStack Query + URL + Zustand (Feature-based) | 成熟穩定、易維護   |
-| **大型（> 50 頁）**    | TanStack Query + URL + Redux Toolkit           | 完整生態、團隊規範 |
-| **複雜狀態邏輯**       | TanStack Query + Jotai                         | 原子化細粒度控制   |
-| **簡單 CRUD**          | SWR + Context                                  | 無需額外依賴       |
+| 專案特徵               | 推薦組合                                       | 理由                       |
+| ---------------------- | ---------------------------------------------- | -------------------------- |
+| **小型（< 10 頁）**    | URL + useState + Context                       | 輕量、快速、零依賴         |
+| **中型（10-30 頁）**   | TanStack Query + URL + Zustand/Jotai           | 平衡功能與複雜度           |
+| **中大型（30-50 頁）** | TanStack Query + URL + Zustand (Feature-based) | 成熟穩定、易維護           |
+| **大型（> 50 頁）**    | TanStack Query + URL + Redux Toolkit           | 完整生態、團隊規範         |
+| **複雜狀態邏輯**       | TanStack Query + Jotai                         | 原子化細粒度控制、自動優化 |
+| **高性能要求**         | TanStack Query + Zustand                       | 極簡 API、最高效能         |
+| **簡單 CRUD**          | SWR + Context                                  | 無需額外依賴、快速開發     |
 
 ---
 
