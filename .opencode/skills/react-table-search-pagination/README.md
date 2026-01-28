@@ -1,42 +1,12 @@
----
-name: react-table-search-pagination
-description: |
-  React/Next.js 專案中表格、搜尋、分頁功能的完整開發指南。涵蓋競態條件處理、搜尋系統實作、分頁系統、無限捲動、CRUD 同步、Intersection Observer API、狀態管理選擇等核心技術。
+# React/Next.js 專案開發指南 (SKILL.md)
 
-  主要功能：
-  - 處理非同步請求的競態條件問題
-  - 實作高效能的搜尋與自動完成功能
-  - 建立專業級分頁系統與快取策略
-  - 開發流暢的無限捲動體驗
-  - 確保 CRUD 操作的資料一致性
-  - 選擇最適合的狀態管理方案
+## 概述
 
-  適用場景：
-  - 需要搜尋與分頁功能的 React/Next.js 應用
-  - 處理大量資料的列表展示和 CRUD 操作
-  - 需要高效能的無限捲動或虛擬化列表
-  - 面臨競態條件、狀態同步等複雜資料管理問題
-  - 需要選擇合適狀態管理方案的專案
-license: MIT
----
-
-# React Table Search Pagination
-
-## 描述
-
-這是一個專門處理 React/Next.js 專案中表格、搜尋、分頁功能的完整開發指南。涵蓋了從基礎的競態條件處理到複雜的狀態管理選擇等所有核心技術實作與最佳實踐。
-
-## 適用場景
-
-- 需要實作搜尋與分頁功能的 React/Next.js 應用
-- 處理大量資料的列表展示和 CRUD 操作
-- 需要高效能的無限捲動或虛擬化列表
-- 面臨競態條件、狀態同步等複雜資料管理問題
-- 需要選擇合適的狀態管理方案的專案
+本指南整合了 React/Next.js 專案開發中的核心技術實作與最佳實踐，涵蓋資料處理、效能優化、使用者體驗提升等關鍵領域。
 
 ---
 
-## 📚 指南結構
+## 指南結構
 
 本指南已拆分為多個專門文件，便於查閱和維護：
 
@@ -54,9 +24,9 @@ license: MIT
 
 ---
 
-## 🚀 快速導航
+## 快速導航
 
-### 快速開始
+### 🚀 快速開始
 
 如果你是新專案，建議閱讀順序：
 
@@ -68,13 +38,13 @@ license: MIT
    - 無限捲動 → [infinite-scroll.md](./infinite-scroll.md)
    - CRUD 操作 → [crud-sync.md](./crud-sync.md)
 
-### 專案檢查清單
+### 📋 專案檢查清單
 
 完整開發檢查清單請參考各專門文件末尾的「開發檢查清單」章節。
 
 ---
 
-## 🛠️ 技術棧推薦
+## 技術棧推薦
 
 ### 狀態管理組合
 
@@ -96,7 +66,7 @@ license: MIT
 
 ---
 
-## 🎯 最佳實踐核心原則
+## 最佳實踐核心原則
 
 ### 1. 效能優先
 
@@ -126,72 +96,7 @@ license: MIT
 
 ---
 
-## 📖 詳細指南
-
-### 競態條件處理 ([race-condition.md](./race-condition.md))
-
-學習如何處理非同步請求的競態條件，包括：
-
-- AbortController 使用方法
-- Boolean Flag 模式
-- TanStack Query/SWR 自動處理
-
-### 搜尋系統實作 ([search-system.md](./search-system.md))
-
-建立高效能搜尋系統：
-
-- 自動完成功能
-- 輸入法優化（中日韓文）
-- 防抖與防護機制
-- URL 狀態同步
-
-### 分頁系統實作 ([pagination-system.md](./pagination-system.md))
-
-實作專業級分頁系統：
-
-- 快取策略與失效
-- 異常處理與邊界情況
-- 虛擬滾動優化
-- 狀態管理整合
-
-### 動態加載與無限捲動 ([infinite-scroll.md](./infinite-scroll.md))
-
-流暢的無限捲動體驗：
-
-- Intersection Observer 實作
-- 捲動位置保存
-- 資料去重與併發防護
-
-### Intersection Observer API ([intersection-observer.md](./intersection-observer.md))
-
-掌握高效能監測技術：
-
-- 圖片懶加載
-- 動畫觸發
-- 廣告曝光追蹤
-- React Hook 封裝
-
-### 列表 CRUD 同步 ([crud-sync.md](./crud-sync.md))
-
-確保資料操作的一致性：
-
-- 同步策略選擇
-- 樂觀更新實作
-- 狀態管理庫整合
-- 開發防護機制
-
-### 狀態管理選擇 ([state-management.md](./state-management.md))
-
-選擇最適合的狀態管理方案：
-
-- 狀態分類框架
-- 決策樹指導
-- 工具對比分析
-- 遷移路徑建議
-
----
-
-## 🛠️ 開發工具推薦
+## 開發工具推薦
 
 ### DevTools 必備
 
@@ -212,7 +117,7 @@ license: MIT
 
 ---
 
-## 📋 版本資訊
+## 版本資訊
 
 **版本**：2.0 (重構版本)  
 **最後更新**：2025-01-28  
@@ -220,7 +125,7 @@ license: MIT
 
 ---
 
-## 📝 更新日誌
+## 更新日誌
 
 ### v2.0 (2025-01-28)
 
@@ -237,7 +142,7 @@ license: MIT
 
 ---
 
-## 🤝 貢獻指南
+## 貢獻指南
 
 若要更新或新增內容，請：
 
@@ -248,14 +153,9 @@ license: MIT
 
 ---
 
-## 🔗 相關連結
+**相關連結**：
 
 - [React 官方文檔](https://react.dev/)
 - [Next.js 官方文檔](https://nextjs.org/docs)
 - [TanStack Query 文檔](https://tanstack.com/query/latest)
 - [Zustand 文檔](https://docs.pmnd.rs/zustand)
-- [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
-
----
-
-_本指南持續更新中，歡迎提供回饋與建議。_
