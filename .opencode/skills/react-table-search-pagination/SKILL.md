@@ -283,15 +283,14 @@ license: MIT
 - [Next.js 官方文檔](https://nextjs.org/docs)
 - [TanStack Query 文檔](https://tanstack.com/query/latest)
 - [Zustand 文檔](https://docs.pmnd.rs/zustand)
+- [Jotai 文檔](https://jotai.org/)
+- [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 
 ---
 
 ## ✍️ 寫作風格指南（繁體中文）
 
-本專案的寫作風格指南已移至本目錄的 `README.md` 中，請參考 `README.md` 的「寫作風格指南（繁體中文）」章節，該章節包含用詞統一、UI 文案規則、標點與中英混寫策略，以及文件變更流程等內容。
-
-- [Jotai 文檔](https://jotai.org/)
-- [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+本專案的寫作風格指南請參考 `README.md` 的「寫作風格指南（繁體中文）」章節，該章節包含用詞統一、UI 文案規則、標點與中英混寫策略，以及文件變更流程等內容。
 
 ---
 
