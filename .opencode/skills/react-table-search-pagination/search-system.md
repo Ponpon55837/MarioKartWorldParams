@@ -2,16 +2,16 @@
 
 ## 概述
 
-本指南專注於建立高效能、用戶體驗優良的搜尋系統，涵蓋自動完成、輸入法優化、防護機制等核心技術。
+本指南專注於建立高效能、使用者體驗優良的搜尋系統，涵蓋自動完成、輸入法優化、防護機制等核心技術。
 
 ---
 
 ## 目錄
 
 1. [核心挑戰與解決方案](#1-核心挑戰與解決方案)
-2. [自動完成 (Autocomplete)](#2-自動完成-autocomplete)
-3. [輸入法優化 (Composition Events)](#3-輸入法優化-composition-events)
-4. [點擊防護 (Loading State)](#4-點擊防護-loading-state)
+2. [自動完成（Autocomplete）](#2-自動完成-autocomplete)
+3. [輸入法優化（Composition Events）](#3-輸入法優化-composition-events)
+4. [點擊防護（載入狀態 / Loading State）](#4-點擊防護-loading-state)
 5. [URL 狀態管理](#5-url-狀態管理)
 
 ---
@@ -110,7 +110,7 @@ const SearchInput = ({ onSearch }) => {
 
 ---
 
-## 4. 點擊防護 (Loading State)
+## 4. 點擊防護（載入狀態 / Loading State）
 
 **防止連點的正規寫法**：
 
@@ -134,7 +134,7 @@ const SearchButtonAction = () => {
 
   return (
     <button onClick={handleSearch} disabled={loading}>
-      {loading ? "搜尋中..." : "搜尋"}
+      {loading ? "搜尋中…" : "搜尋"}
     </button>
   );
 };
