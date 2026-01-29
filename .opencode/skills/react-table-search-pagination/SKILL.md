@@ -42,15 +42,16 @@ license: MIT
 
 ### 🔗 核心技術指南
 
-| 文件                                                   | 描述                      | 主要內容                                      |
-| ------------------------------------------------------ | ------------------------- | --------------------------------------------- |
-| [race-condition.md](./race-condition.md)               | 競態條件處理              | AbortController、Boolean Flag、TanStack Query |
-| [search-system.md](./search-system.md)                 | 搜尋系統實作              | 自動完成、輸入法優化、防護機制                |
-| [pagination-system.md](./pagination-system.md)         | 分頁系統實作              | 快取策略、異常處理、效能優化                  |
-| [infinite-scroll.md](./infinite-scroll.md)             | 動態加載與無限捲動        | Intersection Observer、位置保存               |
-| [intersection-observer.md](./intersection-observer.md) | Intersection Observer API | 懶加載、動畫觸發、廣告追蹤                    |
-| [crud-sync.md](./crud-sync.md)                         | 列表資料 CRUD 同步        | 同步策略、狀態管理整合                        |
-| [state-management.md](./state-management.md)           | 狀態管理選擇指南          | 決策樹、工具對比、最佳實踐                    |
+| 文件                                                                 | 描述                      | 主要內容                                      |
+| -------------------------------------------------------------------- | ------------------------- | --------------------------------------------- |
+| [race-condition.md](./race-condition.md)                             | 競態條件處理              | AbortController、Boolean Flag、TanStack Query |
+| [search-system.md](./search-system.md)                               | 搜尋系統實作              | 自動完成、輸入法優化、防護機制                |
+| [pagination-system.md](./pagination-system.md)                       | 分頁系統實作              | 快取策略、異常處理、效能優化                  |
+| [infinite-scroll.md](./infinite-scroll.md)                           | 動態加載與無限捲動        | Intersection Observer、位置保存               |
+| [intersection-observer.md](./intersection-observer.md)               | Intersection Observer API | 懶加載、動畫觸發、廣告追蹤                    |
+| [crud-sync.md](./crud-sync.md)                                       | 列表資料 CRUD 同步        | 同步策略、狀態管理整合                        |
+| [state-management.md](./state-management.md)                         | 狀態管理選擇指南          | 決策樹、工具對比、最佳實踐                    |
+| [refresh-token-race-condition.md](./refresh-token-race-condition.md) | Refresh Token 與競態條件  | 無感刷新、Axios攔截器、TanStack Query/SWR整合 |
 
 ---
 
@@ -191,6 +192,16 @@ license: MIT
 - 工具對比分析
 - 遷移路徑建議
 
+### Refresh Token 與競態條件處理 ([refresh-token-race-condition.md](./refresh-token-race-condition.md))
+
+處理複雜驗證場景的最佳實踐：
+
+- Refresh Token 無感刷新機制
+- Axios 攔截器與請求佇列
+- TanStack Query/SWR 整合方案
+- 競態條件自動處理
+- 實務情境分析與解決方案
+
 ---
 
 ## 🛠️ 開發工具推薦
@@ -224,6 +235,14 @@ license: MIT
 ---
 
 ## 📝 更新日誌
+
+### v2.2 (2025-01-29)
+
+- 🎯 新增 Refresh Token 與競態條件處理專門指南
+- 🔄 完整整理 Axios 攔截器實作方案
+- ⚡ 補充 TanStack Query/SWR 整合策略
+- 🛡️ 增加實務情境分析與解決方案
+- 📋 更新技術指南清單，新增驗證相關內容
 
 ### v2.1 (2025-01-28)
 
