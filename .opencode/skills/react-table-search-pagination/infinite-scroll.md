@@ -30,7 +30,7 @@
 ## 2. 完整實作範例
 
 ```javascript
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 const InfiniteList = () => {
   const [items, setItems] = useState([]);
@@ -54,8 +54,8 @@ const InfiniteList = () => {
       },
       {
         threshold: 0.5,
-        rootMargin: "200px", // 提早 200px 觸發預加載
-      },
+        rootMargin: '200px' // 提早 200px 觸發預加載
+      }
     );
 
     if (sentinelRef.current) {
@@ -79,7 +79,7 @@ const InfiniteList = () => {
 
       try {
         const res = await fetch(`/api/data?page=${page}`, {
-          signal: abortControllerRef.current.signal,
+          signal: abortControllerRef.current.signal
         });
         const newData = await res.json();
 
@@ -91,8 +91,8 @@ const InfiniteList = () => {
         }
       } catch (err) {
         // 4. 忽略 AbortError
-        if (err.name !== "AbortError") {
-          console.error("Fetch error:", err);
+        if (err.name !== 'AbortError') {
+          console.error('Fetch error:', err);
         }
       } finally {
         // 5. 解除鎖定
@@ -114,7 +114,7 @@ const InfiniteList = () => {
       ))}
 
       {/* 隱形錨點與狀態顯示器 */}
-      <div ref={sentinelRef} style={{ height: "50px", textAlign: "center" }}>
+      <div ref={sentinelRef} style={{ height: '50px', textAlign: 'center' }}>
         {isLoading && <p>資料載入中...</p>}
         {!hasMore && <p>— 已經到底囉 —</p>}
       </div>
@@ -134,9 +134,9 @@ const saveScrollState = () => {
   const state = {
     items,
     page,
-    scrollTop: document.documentElement.scrollTop || document.body.scrollTop,
+    scrollTop: document.documentElement.scrollTop || document.body.scrollTop
   };
-  sessionStorage.setItem("SEARCH_CACHE_V1", JSON.stringify(state));
+  sessionStorage.setItem('SEARCH_CACHE_V1', JSON.stringify(state));
 };
 
 // 在離開頁面前呼叫
@@ -149,7 +149,7 @@ useEffect(() => {
 
 ```javascript
 useEffect(() => {
-  const savedState = sessionStorage.getItem("SEARCH_CACHE_V1");
+  const savedState = sessionStorage.getItem('SEARCH_CACHE_V1');
 
   if (savedState) {
     const { items, page, scrollTop } = JSON.parse(savedState);
@@ -160,7 +160,7 @@ useEffect(() => {
     requestAnimationFrame(() => {
       window.scrollTo({
         top: scrollTop,
-        behavior: "instant",
+        behavior: 'instant'
       });
     });
   }
@@ -172,8 +172,8 @@ useEffect(() => {
 ```javascript
 useEffect(() => {
   // 禁用瀏覽器內建的捲動恢復功能
-  if ("scrollRestoration" in history) {
-    history.scrollRestoration = "manual";
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
   }
 }, []);
 ```
@@ -197,7 +197,7 @@ useEffect(() => {
         }, 100);
       }
     },
-    { threshold: 0.5, rootMargin: "200px" },
+    { threshold: 0.5, rootMargin: '200px' }
   );
 
   if (sentinelRef.current) {
@@ -238,10 +238,10 @@ const loadData = async () => {
 
 ## 5. 方案對比
 
-| 方案                 | 適用情境           | 優點                     | 缺點                              |
-| -------------------- | ------------------ | ------------------------ | --------------------------------- |
-| **自動無限捲動**     | 社群動態、新聞串   | 體驗流暢，增加用戶黏著度 | 使用者點不到 Footer；難以掌握終點 |
-| **手動「載入更多」** | 搜尋結果、電商列表 | 高度可控性，對 SEO 友善  | 增加使用者操作成本                |
+| 方案                 | 適用情境           | 優點                       | 缺點                              |
+| -------------------- | ------------------ | -------------------------- | --------------------------------- |
+| **自動無限捲動**     | 社群動態、新聞串   | 體驗流暢，增加使用者黏著度 | 使用者點不到 Footer；難以掌握終點 |
+| **手動「載入更多」** | 搜尋結果、電商列表 | 高度可控性，對 SEO 友善    | 增加使用者操作成本                |
 
 ---
 

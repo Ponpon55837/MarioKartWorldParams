@@ -32,7 +32,7 @@ Intersection Observer 提供了一種異步監測目標元素與其祖先元素�
 **應用場景**：當使用者滑動到圖片附近時才開始下載，節省初始流量。
 
 ```javascript
-const lazyImages = document.querySelectorAll("img[data-src]");
+const lazyImages = document.querySelectorAll('img[data-src]');
 
 const imageObserver = new IntersectionObserver(
   (entries, observer) => {
@@ -40,14 +40,14 @@ const imageObserver = new IntersectionObserver(
       if (entry.isIntersecting) {
         const img = entry.target;
         img.src = img.dataset.src; // 切換為真實路徑
-        img.onload = () => img.classList.add("fade-in");
+        img.onload = () => img.classList.add('fade-in');
         observer.unobserve(img); // 載入後停止觀測
       }
     });
   },
   {
-    rootMargin: "0px 0px 200px 0px", // 提前 200px 預載
-  },
+    rootMargin: '0px 0px 200px 0px' // 提前 200px 預載
+  }
 );
 
 lazyImages.forEach((img) => imageObserver.observe(img));
@@ -64,7 +64,7 @@ lazyImages.forEach((img) => imageObserver.observe(img));
 **應用場景**：類似社群媒體動態牆，影片進入視線時自動播放。
 
 ```javascript
-const video = document.querySelector("video");
+const video = document.querySelector('video');
 
 const videoObserver = new IntersectionObserver(
   ([entry]) => {
@@ -74,7 +74,7 @@ const videoObserver = new IntersectionObserver(
       entry.target.pause();
     }
   },
-  { threshold: 0.5 }, // 露出 50% 面積才執行
+  { threshold: 0.5 } // 露出 50% 面積才執行
 );
 
 videoObserver.observe(video);
@@ -86,12 +86,12 @@ videoObserver.observe(video);
 
 ```javascript
 // 在 Header 上方放一個 1px 的隱形哨兵 (Sentinel)
-const sentinel = document.querySelector(".sentinel");
-const header = document.querySelector(".main-header");
+const sentinel = document.querySelector('.sentinel');
+const header = document.querySelector('.main-header');
 
 const stickyObserver = new IntersectionObserver(([entry]) => {
   // 當哨兵「離開」視窗時，表示頁面已下捲超過該點
-  header.classList.toggle("is-sticky", !entry.isIntersecting);
+  header.classList.toggle('is-sticky', !entry.isIntersecting);
 });
 
 stickyObserver.observe(sentinel);
@@ -104,7 +104,7 @@ stickyObserver.observe(sentinel);
 ### 通用自定義 Hook：useIntersection
 
 ```javascript
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 
 export const useIntersection = (options) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
@@ -145,7 +145,7 @@ const ScrollReveal = ({ children }) => {
   }, [isVisible]);
 
   return (
-    <div ref={ref} className={`box ${hasAnimated ? "reveal" : ""}`}>
+    <div ref={ref} className={`box ${hasAnimated ? 'reveal' : ''}`}>
       {children}
     </div>
   );
@@ -188,7 +188,7 @@ const AdComponent = ({ adId }) => {
 
 ```javascript
 const Documentation = () => {
-  const [activeId, setActiveId] = useState("");
+  const [activeId, setActiveId] = useState('');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -201,21 +201,21 @@ const Documentation = () => {
         });
       },
       {
-        rootMargin: "-10% 0px -80% 0px", // 上方 10%，下方 80%
-      },
+        rootMargin: '-10% 0px -80% 0px' // 上方 10%，下方 80%
+      }
     );
 
-    document.querySelectorAll("h2[id]").forEach((el) => observer.observe(el));
+    document.querySelectorAll('h2[id]').forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
 
   return (
     <nav>
-      <a className={activeId === "sec1" ? "active" : ""} href="#sec1">
+      <a className={activeId === 'sec1' ? 'active' : ''} href="#sec1">
         第一章
       </a>
-      <a className={activeId === "sec2" ? "active" : ""} href="#sec2">
+      <a className={activeId === 'sec2' ? 'active' : ''} href="#sec2">
         第二章
       </a>
     </nav>
@@ -238,9 +238,9 @@ const Documentation = () => {
 
 ```javascript
 const options = {
-  root: document.querySelector("#scrollArea"), // 根元素，null 為 viewport
-  rootMargin: "0px", // 邊界偏移，類似 CSS margin
-  threshold: [0, 0.25, 0.5, 0.75, 1.0], // 觸發閾值陣列
+  root: document.querySelector('#scrollArea'), // 根元素，null 為 viewport
+  rootMargin: '0px', // 邊界偏移，類似 CSS margin
+  threshold: [0, 0.25, 0.5, 0.75, 1.0] // 觸發閾值陣列
 };
 ```
 

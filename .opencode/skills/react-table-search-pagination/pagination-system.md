@@ -2,7 +2,7 @@
 
 ## 概述
 
-本指南專注於建立高效能、用戶體驗優良的分頁系統，涵蓋基礎實作、快取策略、異常處理、效能優化等核心技術。
+本指南專注於建立高效能、使用者體驗優良的分頁系統，涵蓋基礎實作、快取策略、異常處理、效能優化等核心技術。
 
 ---
 
@@ -83,7 +83,7 @@ const SearchSystem = ({ query, page, pageSize }) => {
 
   return (
     <div>
-      <button disabled={isLoading}>{isLoading ? "載入中..." : "下一頁"}</button>
+      <button disabled={isLoading}>{isLoading ? "載入中…" : "下一頁"}</button>
     </div>
   );
 };
