@@ -279,7 +279,7 @@ function AdminPageContent() {
                       )}
 
                       {result.csvData && (
-                        <div className="space-y-3">
+                        <div className="space-y-3 mt-3">
                           <div className="flex flex-wrap gap-2">
                             <button
                               onClick={() => {
@@ -314,6 +314,7 @@ function AdminPageContent() {
                           </div>
                         </div>
                       )}
+
                     </div>
                   </div>
                 </div>

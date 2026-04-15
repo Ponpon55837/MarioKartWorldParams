@@ -1,10 +1,39 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { parseMarioKartCSV } from "@/utils/csvParser";
 
 // Google Sheets CSV 導出 URL
 const GOOGLE_SHEETS_CSV_URL = process.env.GOOGLE_SHEETS_CSV_URL || "";
 
-export async function POST() {
+// 驗證同步請求是否包含有效的 secret token
+// 本地開發環境（NODE_ENV=development）跳過驗證，方便開發測試
+// 生產環境必須在 Authorization header 帶入正確的 Bearer token
+function validateSyncToken(request: NextRequest): boolean {
+  if (process.env.NODE_ENV === "development") {
+    return true;
+  }
+  const SYNC_SECRET_TOKEN = process.env.SYNC_SECRET_TOKEN;
+  if (!SYNC_SECRET_TOKEN) {
+    // 生產環境未設定 token 時，拒絕所有請求
+    console.error("❌ 生產環境未設定 SYNC_SECRET_TOKEN，拒絕同步請求");
+    return false;
+  }
+  const authHeader = request.headers.get("Authorization");
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return false;
+  }
+  const token = authHeader.slice("Bearer ".length).trim();
+  return token === SYNC_SECRET_TOKEN;
+}
+
+export async function POST(request: NextRequest) {
+  // 身份驗證：驗證 Authorization header 中的 Bearer token
+  if (!validateSyncToken(request)) {
+    return NextResponse.json(
+      { success: false, error: "未授權的請求" },
+      { status: 401 },
+    );
+  }
+
   try {
     console.log("🔄 開始從 Google Sheets 同步資料...");
 
@@ -78,8 +107,8 @@ export async function POST() {
       success: true,
       message: `資料同步成功！共載入 ${parsedData.characters.length} 個角色和 ${parsedData.vehicles.length} 個載具`,
       timestamp: new Date().toISOString(),
-      csvData: csvData, // 提供原始 CSV 資料供下載
-      jsonData: jsonData, // 提供轉換後的 JSON 資料
+      csvData: csvData,
+      jsonData: jsonData,
       metadata: {
         characterCount: parsedData.characters.length,
         vehicleCount: parsedData.vehicles.length,
