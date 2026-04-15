@@ -59,6 +59,7 @@ function AdminPageContent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SYNC_TOKEN ?? ""}`,
         },
       });
 
@@ -85,25 +86,6 @@ function AdminPageContent() {
       });
     } finally {
       setSyncing(false);
-    }
-  };
-
-  const downloadJsonData = () => {
-    if (result?.jsonData && typeof result.jsonData === "object") {
-      const blob = new Blob([JSON.stringify(result.jsonData, null, 2)], {
-        type: "application/json;charset=utf-8;",
-      });
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute(
-        "download",
-        `mario-kart-data-${new Date().toISOString().split("T")[0]}.json`,
-      );
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     }
   };
 
@@ -278,42 +260,6 @@ function AdminPageContent() {
                         </div>
                       )}
 
-                      {result.csvData && (
-                        <div className="space-y-3">
-                          <div className="flex flex-wrap gap-2">
-                            <button
-                              onClick={() => {
-                                const blob = new Blob([result.csvData!], {
-                                  type: "text/csv;charset=utf-8;",
-                                });
-                                const link = document.createElement("a");
-                                const url = URL.createObjectURL(blob);
-                                link.setAttribute("href", url);
-                                link.setAttribute(
-                                  "download",
-                                  `mario-kart-data-${new Date().toISOString().split("T")[0]}.csv`,
-                                );
-                                link.style.visibility = "hidden";
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                              }}
-                              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm"
-                            >
-                              📥 {t("admin.downloadCsv")}
-                            </button>
-
-                            {Boolean(result.jsonData) && (
-                              <button
-                                onClick={downloadJsonData}
-                                className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm"
-                              >
-                                📥 {t("admin.downloadJson")}
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>

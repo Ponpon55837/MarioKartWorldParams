@@ -100,8 +100,6 @@ export interface SyncResult {
   success: boolean;
   message?: string;
   error?: string;
-  csvData?: string;
-  jsonData?: unknown;
   timestamp?: string;
   metadata?: {
     characterCount: number;
