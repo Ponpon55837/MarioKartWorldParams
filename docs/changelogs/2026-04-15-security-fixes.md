@@ -1,13 +1,25 @@
 # 安全漏洞修復記錄
 
-> 修復日期：2026-04-15  
-> 分支：`fix/ponpon/security-vulnerabilities`
+| 欄位 | 內容 |
+|------|------|
+| **修改日期** | 2026-04-15 |
+| **分支名稱** | `fix/ponpon/security-vulnerabilities` |
+| **Commits** | `5ce7f9a`, `04f3064` |
+| **影響範圍** | 依賴套件、API 路由、HTTP 回應標頭 |
 
 ---
 
 ## 修復摘要
 
 本次共修復 **5 項安全問題**，涵蓋依賴套件漏洞、API 未授權存取及缺少 HTTP 安全標頭。
+
+| # | 問題 | 嚴重等級 | 狀態 |
+|---|------|---------|------|
+| 1 | 升級 Next.js 至 16.2.3 | HIGH | 已修復 |
+| 2 | 修復 lodash override 版本 | HIGH | 已修復 |
+| 3 | `/api/sync-data` POST 新增授權驗證 | HIGH | 已修復 |
+| 4 | CSP `font-src` 允許 base64 字型 | MEDIUM | 已修復 |
+| 5 | 新增 HTTP 安全 Headers | MEDIUM | 已修復 |
 
 ---
 
@@ -16,16 +28,11 @@
 **嚴重等級：HIGH**  
 **影響檔案：** `package.json`
 
-### 修復前
+### 變更
 
-```json
-"next": "16.0.10"
-```
-
-### 修復後
-
-```json
-"next": "16.2.3"
+```diff
+- "next": "16.0.10"
++ "next": "16.2.3"
 ```
 
 ### 修復的 CVE
@@ -44,24 +51,11 @@
 **嚴重等級：HIGH**  
 **影響檔案：** `package.json`
 
-### 修復前
+### 變更
 
-```json
-"pnpm": {
-  "overrides": {
-    "lodash@>=4.0.0 <=4.17.22": ">=4.17.23"
-  }
-}
-```
-
-### 修復後
-
-```json
-"pnpm": {
-  "overrides": {
-    "lodash@>=4.0.0 <=4.17.22": ">=4.18.0"
-  }
-}
+```diff
+- "lodash@>=4.0.0 <=4.17.22": ">=4.17.23"
++ "lodash@>=4.0.0 <=4.17.22": ">=4.18.0"
 ```
 
 ### 說明
@@ -75,7 +69,6 @@ lodash `_.template()` 的代碼注入漏洞（GHSA）修補版本需要 `>=4.18.
 **嚴重等級：HIGH（未授權存取）**  
 **影響檔案：**
 - `src/app/api/sync-data/route.ts`
-- `src/app/admin/page.tsx`
 - `.env`
 
 ### 問題描述
@@ -122,10 +115,11 @@ SYNC_SECRET_TOKEN = <使用 openssl rand -base64 32 生成的強隨機值>
 
 CSP 的 `font-src 'self'` 過於嚴格，阻擋了以 `data:font/truetype;base64,...` 形式嵌入的 base64 字型，導致瀏覽器拋出 CSP 違規錯誤並阻止字型載入。
 
-### 修復
+### 變更
 
-```
-font-src 'self' data:
+```diff
+- "font-src 'self'"
++ "font-src 'self' data:"
 ```
 
 ---
@@ -156,7 +150,7 @@ font-src 'self' data:
 
 | 套件 | 漏洞類型 | 路徑 |
 |------|---------|------|
-| `minimatch` (多版本) | ReDoS | `eslint-config-next > ...` |
+| `minimatch`（多版本） | ReDoS | `eslint-config-next > ...` |
 | `@isaacs/brace-expansion` | Uncontrolled Resource Consumption | `eslint-config-next > glob > minimatch > ...` |
 | `flatted` | Prototype Pollution / DoS | `eslint > file-entry-cache > flat-cache > ...` |
 | `immutable` | Prototype Pollution | `jotai-devtools > @redux-devtools/extension > ...` |
@@ -170,20 +164,19 @@ font-src 'self' data:
 
 修復部署前請確認：
 
-- [ ] 在生產環境設定 `SYNC_SECRET_TOKEN`（強隨機值）
+- [ ] 在生產環境設定 `SYNC_SECRET_TOKEN`（強隨機值，使用 `openssl rand -base64 32` 生成）
 - [ ] 在生產環境設定 `GOOGLE_SHEETS_CSV_URL`
 - [ ] 執行 `pnpm install` 以更新 `pnpm-lock.yaml`
 - [ ] 執行 `pnpm audit` 確認漏洞數量已減少
-- [ ] 呼叫 POST `/api/sync-data` 時於 header 加入 `Authorization: Bearer <token>`
 
 ---
 
-## 執行 `pnpm install` 後的審計差異
+## 審計差異
 
-| 嚴重等級 | 修復前 | 修復後（預估） |
-|---------|--------|--------------|
-| high | 18 | 依賴 eslint-config-next 版本 |
-| moderate | 13 | 依賴 eslint-config-next 版本 |
-| low | 1 | 0（Next.js DoS 已修復） |
+| 嚴重等級 | 修復前 | 修復後 |
+|---------|--------|--------|
+| high | 18 | 15（Next.js 4 個已修復） |
+| moderate | 13 | 6 |
+| low | 1 | 0 |
 
-Next.js 本身的 HIGH/moderate 漏洞（4 個）已透過升級至 16.2.3 完全修復。
+> `pnpm audit` 總數：32 → 21，Next.js 本身的 HIGH/moderate 漏洞已全數透過升級至 16.2.3 修復。
