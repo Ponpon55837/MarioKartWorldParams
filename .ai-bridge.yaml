@@ -10,15 +10,15 @@ session:
 agents:
   - id: codex
     runtime: codex
-    pane: 0
+    pane: 2
     role: orchestrator
   - id: implementer
     runtime: opencode
-    pane: 1
+    pane: 0
     role: implementation
   - id: reviewer
-    runtime: claude
-    pane: 2
+    runtime: opencode
+    pane: 1
     role: review
 
 workflow:
