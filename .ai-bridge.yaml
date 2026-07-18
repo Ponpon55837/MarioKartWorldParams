@@ -4,7 +4,7 @@ project:
   orchestrator_runtime: codex
 
 session:
-  name: agent-bridge-dev
+  name: MarioKartWorldParams-ai
   pane_count: 3
 
 agents:
@@ -17,7 +17,7 @@ agents:
     pane: 1
     role: implementation
   - id: reviewer
-    runtime: opencode
+    runtime: claude
     pane: 2
     role: review
 
