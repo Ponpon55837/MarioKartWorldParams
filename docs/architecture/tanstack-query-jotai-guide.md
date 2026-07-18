@@ -81,7 +81,7 @@ Tanstack Query 和 Jotai **不是競爭關係，而是互補的**：
 
 #### ✅ Jotai 適合
 
-```typescript
+```javascript=
 // UI 狀態
 const currentPageAtom = atom('characters');
 const searchQueryAtom = atom('');
@@ -99,7 +99,7 @@ const accessTokenAtom = atomWithStorage('access-token', null);
 
 #### ✅ Tanstack Query 適合
 
-```typescript
+```javascript=
 // API 資料獲取
 const { data, isLoading } = useQuery({
   queryKey: ['characters'],
@@ -153,7 +153,7 @@ pnpm add react-hook-form zod @hookform/resolvers
 - ❌ **jotai-persist** - 第三方套件（不推薦）
 - ✅ **jotai/utils** - Jotai 官方內建（已有，無需安裝）
 
-```typescript
+```javascript=
 // ❌ 錯誤：使用第三方套件
 import { atomWithStorage } from 'jotai-persist';
 
@@ -167,7 +167,7 @@ import { atomWithStorage } from 'jotai/utils';
 
 ### 1. Token 管理（Jotai）
 
-```typescript
+```javascript=
 // store/authAtoms.ts
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
@@ -241,7 +241,7 @@ export const setAuthDataAtom = atom(
 
 ### 2. 認證 Fetch 工具
 
-```typescript
+```javascript=
 // utils/authFetch.ts
 import { getDefaultStore } from 'jotai';
 import { accessTokenAtom, refreshTokenAtom, canRefreshTokenAtom, logoutAtom, setAuthDataAtom } from '@/store/authAtoms';
@@ -356,7 +356,7 @@ export async function authFetch<T = any>(url: string, options: RequestInit = {})
 
 ### 3. AuthProvider（核心）
 
-```typescript
+```javascript=
 // providers/AuthProvider.tsx
 'use client'
 
@@ -471,7 +471,7 @@ export function useAuth() {
 
 ### 4. Layout 整合
 
-```typescript
+```javascript=
 // app/layout.tsx
 'use client'
 
@@ -563,7 +563,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ### 1. 定義驗證 Schema
 
-```typescript
+```javascript=
 // schemas/authSchemas.ts
 import { z } from 'zod';
 
@@ -607,7 +607,7 @@ export type ProfileFormData = z.infer<typeof profileSchema>;
 
 ### 2. 基礎表單實現
 
-````typescript
+````javascript=
 // components/LoginForm.tsx
 'use client'
 
@@ -710,9 +710,31 @@ export default function LoginForm() {
 
       {/* 伺服器錯誤訊息 */}
       {loginMutation.isError && (
-    範例 1: 帶驗證的登入頁面
+        <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-600">
+            {loginMutation.error instanceof Error
+              ? loginMutation.error.message
+              : '登入失敗，請稍後再試'}
+          </p>
+        </div>
+      )}
 
-```typescript
+      {/* 提交按鈕 */}
+      <button
+        type="submit"
+        disabled={isSubmitting || loginMutation.isPending}
+        className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      >
+        {loginMutation.isPending ? '登入中...' : '登入'}
+      </button>
+    </form>
+  )
+}
+```
+
+### 範例 1: 帶驗證的登入頁面
+
+```javascript=
 // app/login/page.tsx
 'use client'
 
@@ -841,7 +863,7 @@ export default function LoginPage() {
 
 ### 範例 2: 註冊表單（跨欄位驗證）
 
-```typescript
+```javascript=
 // app/register/page.tsx
 'use client'
 
@@ -987,18 +1009,22 @@ export default function RegisterPage() {
 
 ### 範例 3: 多步驟表單（含草稿儲存）
 
-```typescript
+```javascript=
 // app/survey/page.tsx
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 import { useAtom } from 'jotai'
 import { surveyDraftAtom } from '@/store/formDraftAtoms'
 import { surveySchema, type SurveyFormData } from '@/schemas/surveySchema'
+import { authFetch } from '@/utils/authFetch'
 
 export default function SurveyPage() {
+  const router = useRouter()
   const [step, setStep] = useState(1)
   const [draft, setDraft] = useAtom(surveyDraftAtom)
 
@@ -1016,38 +1042,124 @@ export default function SurveyPage() {
     return () => clearTimeout(timer)
   }, [formValues, setDraft])
 
-  const onSubmit = async (data: SurveyFormData) => {
-    // 提交成功後清除草稿
-    await submitSurvey(data)
-    setDraft(null)
+  // ⭐ Tanstack Query Mutation - API 提交
+  const surveyMutation = useMutation({
+    mutationFn: async (data: SurveyFormData) => {
+      return authFetch('/api/survey', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    },
+    onSuccess: () => {
+      // 提交成功後清除草稿
+      setDraft(null)
+      router.push('/survey/success')
+    },
+    onError: (error: any) => {
+      console.error('提交失敗:', error)
+    }
+  })
+
+  const onSubmit = (data: SurveyFormData) => {
+    surveyMutation.mutate(data)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {step === 1 && (
-        <div>
-          <h2>步驟 1：基本資料</h2>
-          <input {...register('name')} />
-          <button type="button" onClick={() => setStep(2)}>下一步</button>
-        </div>
-      )}
+    <div className="max-w-2xl mx-auto p-6">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {step === 1 && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">步驟 1：基本資料</h2>
+            <div>
+              <label className="block text-sm font-medium mb-1">姓名</label>
+              <input
+                {...register('name')}
+                className="w-full px-4 py-2 border rounded-lg"
+                placeholder="請輸入姓名"
+              />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => setStep(2)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              下一步
+            </button>
+          </div>
+        )}
 
-      {step === 2 && (
-        <div>
-          <h2>步驟 2：詳細資訊</h2>
-          <input {...register('details')} />
-          <button type="button" onClick={() => setStep(1)}>上一步</button>
-          <button type="submit">提交</button>
-        </div>
-      )}
+        {step === 2 && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">步驟 2：詳細資訊</h2>
+            <div>
+              <label className="block text-sm font-medium mb-1">詳細資料</label>
+              <textarea
+                {...register('details')}
+                className="w-full px-4 py-2 border rounded-lg"
+                rows={4}
+                placeholder="請輸入詳細資訊"
+              />
+              {errors.details && (
+                <p className="mt-1 text-sm text-red-500">{errors.details.message}</p>
+              )}
+            </div>
 
-      {/* 草稿提示 */}
-      {draft && (
-        <p className="text-sm text-gray-500">
-          ✅ 已自動儲存草稿
-        </p>
-      )}
-    </form.enum(['leader', 'member']),
+            {/* 錯誤訊息 */}
+            {surveyMutation.isError && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-600">
+                  {surveyMutation.error instanceof Error
+                    ? surveyMutation.error.message
+                    : '提交失敗，請稍後再試'}
+                </p>
+              </div>
+            )}
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+              >
+                上一步
+              </button>
+              <button
+                type="submit"
+                disabled={surveyMutation.isPending}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+              >
+                {surveyMutation.isPending ? '提交中...' : '提交'}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* 草稿提示 */}
+        {draft && !surveyMutation.isPending && (
+          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-sm text-green-600">
+              ✅ 已自動儲存草稿
+            </p>
+          </div>
+        )}
+      </form>
+    </div>
+  )
+}
+```
+
+### 模式 3: 陣列欄位（動態新增/刪除）
+
+```javascript=
+// schemas/teamSchema.ts
+import { z } from 'zod'
+
+export const memberSchema = z.object({
+  name: z.string().min(2, '姓名至少 2 個字元'),
+  role: z.enum(['leader', 'member']),
   email: z.string().email('電子郵件格式不正確')
 })
 
@@ -1106,7 +1218,7 @@ function TeamForm() {
 
 適用於長表單，避免使用者意外離開頁面導致資料遺失。
 
-```typescript
+```javascript=
 // store/formDraftAtoms.ts
 import { atomWithStorage } from 'jotai/utils'
 import type { RegisterFormData } from '@/schemas/authSchemas'
@@ -1152,7 +1264,7 @@ function RegisterForm() {
 
 ### 5. 多語言錯誤訊息
 
-```typescript
+```javascript=
 // schemas/i18nSchemas.ts
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
@@ -1185,7 +1297,7 @@ function LoginForm() {
 
 ### 6. 錯誤處理最佳實踐
 
-```typescript
+```javascript=
 // components/FormErrorMessage.tsx
 interface FormErrorMessageProps {
   error?: { message?: string }
@@ -1233,7 +1345,7 @@ export function FormErrorMessage({ error }: FormErrorMessageProps) {
 
 Jotai 的狀態作為 Tanstack Query 的查詢參數。
 
-```typescript
+```javascript=
 // ✅ 正確模式：狀態驅動查詢
 function CharactersPage() {
   // Jotai 管理過濾/排序的 UI 狀態
@@ -1282,7 +1394,7 @@ Tanstack Query 偵測到 queryKey 變化
 
 適用於下拉選單、多層級資料結構。
 
-```typescript
+```javascript=
 // store/organizationAtoms.ts
 export const selectedDepartmentIdAtom = atom<string | null>(null);
 export const selectedGroupIdAtom = atom<string | null>(null);
@@ -1340,7 +1452,7 @@ export function usePersonDetail() {
 
 **元件使用**：
 
-```typescript
+```javascript=
 function OrganizationSelector() {
   const setDepartment = useSetAtom(setDepartmentAtom)
   const [selectedGroupId, setSelectedGroupId] = useAtom(selectedGroupIdAtom)
@@ -1385,7 +1497,7 @@ function OrganizationSelector() {
 
 ### 模式 3: Mutation 與快取更新
 
-```typescript
+```javascript=
 // 新增角色
 function useCreateCharacter() {
   const queryClient = useQueryClient()
@@ -1441,46 +1553,54 @@ function CreateCharacterForm() {
 
 ## 實戰範例
 
-### 完整認證流程
+### 範例 1: 完整認證流程（React Hook Form + Tanstack Query）
 
-```typescript
+此範例展示如何結合 React Hook Form 的表單驗證與 Tanstack Query 的 API 提交功能。
+
+```javascript=
 // app/login/page.tsx
 'use client'
 
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { useSetAtom } from 'jotai'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { setAuthDataAtom } from '@/store/authAtoms'
+import { loginSchema, type LoginFormData } from '@/schemas/authSchemas'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
-
   const setAuthData = useSetAtom(setAuthDataAtom)
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError('')
+  // 1️⃣ React Hook Form - 表單驗證
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onBlur'
+  })
 
-    try {
+  // 2️⃣ Tanstack Query Mutation - API 提交
+  const loginMutation = useMutation({
+    mutationFn: async (data: LoginFormData) => {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify(data)
       })
 
       if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.message || '登入失敗')
+        const error = await response.json()
+        throw new Error(error.message || '登入失敗')
       }
 
-      const data = await response.json()
-
+      return response.json()
+    },
+    onSuccess: (data) => {
       // 設定認證資料（自動存入 localStorage）
       setAuthData({
         accessToken: data.accessToken,
@@ -1492,50 +1612,97 @@ export default function LoginPage() {
       // 導向原本要訪問的頁面或首頁
       const redirect = searchParams.get('redirect') || '/'
       router.push(redirect)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '登入失敗')
-    } finally {
-      setIsLoading(false)
     }
+  })
+
+  // 3️⃣ 提交處理
+  const onSubmit = (data: LoginFormData) => {
+    loginMutation.mutate(data)
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <form onSubmit={handleLogin} className="w-full max-w-md space-y-4">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="電子郵件"
-          className="w-full px-4 py-2 border rounded-lg"
-        />
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold mb-6 text-center">登入</h1>
 
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="密碼"
-          className="w-full px-4 py-2 border rounded-lg"
-        />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* 電子郵件欄位 */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
+              電子郵件
+            </label>
+            <input
+              id="email"
+              type="email"
+              {...register('email')}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
+                errors.email ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="example@email.com"
+            />
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+            )}
+          </div>
 
-        {error && <p className="text-red-500">{error}</p>}
+          {/* 密碼欄位 */}
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium mb-1">
+              密碼
+            </label>
+            <input
+              id="password"
+              type="password"
+              {...register('password')}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
+                errors.password ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="••••••••"
+            />
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+            )}
+          </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full py-2 bg-blue-500 text-white rounded-lg"
-        >
-          {isLoading ? '登入中...' : '登入'}
-        </button>
-      </form>
+          {/* 伺服器錯誤訊息 */}
+          {loginMutation.isError && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-600">
+                {loginMutation.error instanceof Error
+                  ? loginMutation.error.message
+                  : '登入失敗，請稍後再試'}
+              </p>
+            </div>
+          )}
+
+          {/* 提交按鈕 */}
+          <button
+            type="submit"
+            disabled={isSubmitting || loginMutation.isPending}
+            className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {loginMutation.isPending ? '登入中...' : '登入'}
+          </button>
+        </form>
+      </div>
     </div>
   )
 }
 ```
 
-### 受保護的頁面
+**此範例展示的整合重點**：
 
-```typescript
+1. ✅ **表單驗證**：使用 React Hook Form + Zod 進行客戶端驗證
+2. ✅ **API 提交**：使用 Tanstack Query 的 `useMutation` 處理登入請求
+3. ✅ **錯誤處理**：區分表單驗證錯誤與伺服器錯誤
+4. ✅ **載入狀態**：自動管理提交按鈕的 disabled 狀態
+5. ✅ **成功回調**：登入成功後更新 Jotai 狀態並導航
+
+### 範例 2: 受保護的頁面（狀態驅動查詢）
+
+此範例展示如何使用 Jotai 狀態作為 Tanstack Query 的查詢參數，實現狀態驅動的資料獲取。
+
+```javascript=
 // app/page.tsx
 'use client'
 
@@ -1549,46 +1716,92 @@ export default function HomePage() {
   const { user, logout } = useAuth()
   const [sortBy, setSortBy] = useAtom(sortByAtom)
 
-  // 自動帶 token 的 API 請求
-  const { data: characters, isLoading } = useQuery({
-    queryKey: ['characters', sortBy],
-    queryFn: () => authFetch('/api/characters', {
-      method: 'POST',
-      body: JSON.stringify({ sortBy })
-    })
+  // ⭐ Jotai 狀態作為 queryKey 參數
+  // sortBy 改變時，Tanstack Query 會自動重新獲取資料
+  const { data: characters, isLoading, error } = useQuery({
+    queryKey: ['characters', sortBy], // sortBy 是依賴
+    queryFn: () => authFetch(`/api/characters?sortBy=${sortBy}`),
+    staleTime: 5 * 60 * 1000, // 5 分鐘快取
+    refetchOnWindowFocus: true // 視窗聚焦時重新獲取
   })
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">歡迎，{user?.name}！</h1>
-          <p className="text-gray-600">{user?.email}</p>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* 頁首 */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              歡迎，{user?.name}！
+            </h1>
+            <p className="text-gray-600">{user?.email}</p>
+          </div>
+
+          <button
+            onClick={logout}
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+          >
+            登出
+          </button>
         </div>
 
-        <button onClick={logout} className="px-4 py-2 bg-red-500 text-white rounded-lg">
-          登出
-        </button>
+        {/* 排序選擇器 - Jotai 狀態 */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2">排序方式：</label>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="speed">速度</option>
+            <option value="acceleration">加速</option>
+            <option value="weight">重量</option>
+            <option value="handling">操控</option>
+          </select>
+        </div>
+
+        {/* 錯誤處理 */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-600">
+              載入失敗：{error instanceof Error ? error.message : '未知錯誤'}
+            </p>
+          </div>
+        )}
+
+        {/* 載入狀態 */}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
+            <span className="ml-3 text-gray-600">載入中...</span>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {characters?.map((character: any) => (
+              <div
+                key={character.id}
+                className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              >
+                <h3 className="font-bold text-lg">{character.name}</h3>
+                <p className="text-sm text-gray-600">速度: {character.speed}</p>
+                <p className="text-sm text-gray-600">加速: {character.acceleration}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-
-      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-        <option value="speed">速度</option>
-        <option value="acceleration">加速</option>
-      </select>
-
-      {isLoading ? (
-        <div>載入中...</div>
-      ) : (
-        <div className="grid grid-cols-3 gap-4">
-          {characters?.map((character: any) => (
-            <div key={character.id}>{character.name}</div>
-          ))}
-        </div>
-      )}
     </div>
   )
 }
 ```
+
+**此範例展示的整合重點**：
+
+1. ✅ **狀態驅動查詢**：Jotai 的 `sortBy` 狀態作為 `queryKey` 參數
+2. ✅ **自動重新獲取**：狀態改變時，Tanstack Query 自動觸發新請求
+3. ✅ **智能快取**：5 分鐘內重複查詢不會重新請求
+4. ✅ **認證整合**：使用 `authFetch` 自動帶入 token
+5. ✅ **完整的 UI 狀態**：載入、錯誤、成功的完整處理
 
 ---
 
@@ -1598,7 +1811,7 @@ export default function HomePage() {
 
 **A**: 根據使用場景選擇驗證時機：
 
-```typescript
+```javascript=
 // onChange - 即時驗證（適合簡單欄位）
 const form = useForm({
   mode: 'onChange'
@@ -1628,7 +1841,7 @@ const form = useForm({
 - ✅ **需要持久化**：多步驟表單、問卷調查、長篇內容編輯
 - ❌ **不需要**：登入/註冊表單、簡單設定、即時搜尋
 
-```typescript
+```javascript=
 // 長表單使用 Jotai 持久化
 const [draft, setDraft] = useAtom(atomWithStorage('form-draft', null));
 
@@ -1649,7 +1862,7 @@ useEffect(() => {
 
 **A**: 使用 `setError` 手動設定錯誤：
 
-````typescript
+````javascript=
 const { setError } = useForm()
 
 const mutation = useMutation({
@@ -1670,7 +1883,7 @@ const mutation = useMutation({
 
 ### 1. QueryKey 命名規範
 
-```typescript
+```javascript=
 // ✅ 好的命名
 ['characters'][('characters', sortBy)][('characters', { sortBy, filter })][('departments', deptId, 'groups')][('user', userId, 'posts', { page: 1 })][ // 單一資源 // 帶參數 // 多參數（物件） // 巢狀資源 // 複雜結構
   // ❌ 不好的命名
@@ -1680,7 +1893,7 @@ const mutation = useMutation({
 
 ### 2. 錯誤處理
 
-```typescript
+```javascript=
 // API 錯誤類別
 export class ApiError extends Error {
   constructor(
@@ -1721,7 +1934,7 @@ const { data, error } = useQuery({
 
 ### 3. 防抖搜尋
 
-```typescript
+```javascript=
 import { useDebounce } from 'use-debounce'
 
 function SearchComponent() {
@@ -1746,7 +1959,7 @@ function SearchComponent() {
 
 ### 4. 樂觀更新
 
-```typescript
+```javascript=
 function useUpdateCharacter() {
   const queryClient = useQueryClient();
 
@@ -1783,7 +1996,7 @@ function useUpdateCharacter() {
 
 ### 5. 預載資料
 
-```typescript
+```javascript=
 // 預載下一頁資料
 function CharactersList({ page }: { page: number }) {
   const queryClient = useQueryClient()
@@ -1814,7 +2027,7 @@ function CharactersList({ page }: { page: number }) {
 
 **A**: 使用 Tanstack Query 後，**95% 的資料獲取相關 useEffect 都可以移除**。
 
-```typescript
+```javascript=
 // ❌ 不再需要
 useEffect(() => {
   fetch('/api/characters')
@@ -1839,7 +2052,7 @@ const { data } = useQuery({
 
 **A**: Tanstack Query 自動處理！
 
-```typescript
+```javascript=
 // 用戶快速輸入 "a" → "ab" → "abc"
 const [search, setSearch] = useState('');
 
@@ -1856,7 +2069,7 @@ const { data } = useQuery({
 
 **A**: ❌ **不要！** 這是常見誤解。
 
-```typescript
+```javascript=
 // ❌ 錯誤做法
 const [characters, setCharacters] = useAtom(charactersAtom);
 const { data } = useQuery(['characters'], fetchCharacters);
@@ -1873,7 +2086,7 @@ const { data: characters } = useQuery(['characters'], fetchCharacters);
 
 **A**: Tanstack Query 自動去重和共享！
 
-```typescript
+```javascript=
 // ComponentA
 const { data } = useQuery(['characters'], fetchCharacters);
 
@@ -1888,7 +2101,7 @@ const { data } = useQuery(['characters'], fetchCharacters);
 
 **A**: ✅ **會！** `authFetch` 內建重試邏輯。
 
-```typescript
+```javascript=
 // authFetch 流程
 1. 發送請求（舊 token）→ 401
 2. 刷新 token → 成功
@@ -1900,7 +2113,7 @@ const { data } = useQuery(['characters'], fetchCharacters);
 
 **A**: 使用鎖機制（已在 `authFetch` 中實現）。
 
-```typescript
+```javascript=
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
 
