@@ -19,3 +19,5 @@ tsconfig.tsbuildinfo
 .ai-bridge.local.yaml
 .mcp.json
 # agent-bridge:end
+opencode.json
+.codex/config.toml
