@@ -129,6 +129,12 @@ rules:
       - task_type: "translation"
         skills: ["i18n-workflow"]
 
+      - task_type: "algorithm_or_performance"
+        skills: ["algorithm-patterns", "react-best-practices", "code-standards"]
+
+      - task_type: "state_management"
+        skills: ["state-management", "code-standards"]
+
 # 提醒訊息設定
 reminders:
   # 在特定操作前顯示的提醒

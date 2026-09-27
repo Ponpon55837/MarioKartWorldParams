@@ -1,6 +1,6 @@
 # 🏎️ 瑪利歐賽車世界參數工具 (Mario Kart World Parameters)
 
-一個功能豐富的 React/Next.js 應用程式，用於分析和比較瑪利歐賽車角色與載具統計資料，提供智能推薦系統和高性能的使用者體驗。
+一個功能豐富的 React/Next.js 應用程式，用於分析和比較瑪利歐賽車角色與載具統計資料，提供智能推薦系統和高性能的使用者體驗。核心計算（推薦、搜尋、排序、解析）採用 LeetCode 式演算法實作，並以暴力解作為測試基準驗證正確性。
 
 ## 🌟 功能特色
 
@@ -18,17 +18,15 @@
 
 ### 🔍 篩選與搜索
 
-- **多維度排序**: 依據速度、加速度、重量、操控性進行排序
-- **即時搜索**: 快速搜索角色和載具
-- **高級篩選**: 複合條件篩選和範圍選擇
-- **排序記憶**: 自動記住使用者的篩選偏好
+- **多維度排序**: 依據速度、加速度、重量、操控性進行排序，速度與操控可切換道路／地形／水面數值
+- **即時搜索**: `Ctrl + K` 開啟搜尋，支援中英文名稱、前綴與模糊比對
+- **搜尋歷史**: 保留最近 10 筆搜尋紀錄（最近使用優先）
 
 ### 💾 資料持久化
 
-- **本地儲存**: 用戶組合和偏好自動儲存到 localStorage
+- **本地儲存**: 用戶組合、語言與主題偏好自動儲存到 localStorage
 - **即時同步**: 資料變更即時反映到 UI
-- **跨設備同步**: 支援未來雲端同步功能
-- **備份恢復**: 支援資料備份和恢復
+- **資料同步**: 管理頁面可從 Google Sheets 同步最新資料，寫入前會先完整驗證
 
 ### 🌙 暗色模式與主題
 
@@ -43,12 +41,13 @@
 
 ### 核心技術
 
-- **Framework**: Next.js 16.0.10 (App Router)
+- **Framework**: Next.js 16.2.3 (App Router)
 - **UI Library**: React 18.3.1
 - **狀態管理**: Jotai 2.16.0 + 本地持久化
 - **樣式框架**: Tailwind CSS 3.4.19
 - **開發語言**: TypeScript 5.9.3
 - **套件管理**: pnpm
+- **測試**: Node.js 內建 `node:test`（無額外依賴）
 
 ### 多國語系
 
@@ -62,62 +61,57 @@
 ```
 src/
 ├── app/                          # Next.js App Router
-│   ├── admin/                    # 資料同步頁面
-│   │   └── page.tsx              # 同步管理介面
-│   ├── api/                      # API 路由
-│   │   └── sync-data/            # 資料同步端點
-│   │       └── route.ts          # Google Sheets 同步 API
+│   ├── admin/page.tsx            # 資料同步管理頁面
+│   ├── api/sync-data/route.ts    # Google Sheets 同步 API（含驗證）
 │   ├── globals.css               # 全域樣式
 │   ├── layout.tsx                # 根版面配置
 │   └── page.tsx                  # 首頁
 ├── components/                   # React 組件庫
-│   ├── CharacterCard.tsx         # 角色卡片組件
-│   ├── VehicleCard.tsx           # 載具卡片組件
-│   ├── CombinationCard.tsx       # 組合卡片組件
-│   ├── RecommendationCard.tsx    # 推薦卡片組件
-│   ├── RecommendationsPage.tsx   # 推薦頁面
-│   ├── StatBar.tsx               # 統計條組件
-│   ├── CustomSelect.tsx          # 自定義下拉選單
-│   ├── LanguageSelector.tsx      # 語言選擇器
-│   ├── ClientOnlyWrapper.tsx     # 客戶端包裝組件
-│   ├── LayoutContent.tsx         # 版面內容組件
-│   ├── SearchModal.tsx           # 搜索模態框
-│   ├── SearchButton.tsx          # 搜索按鈕
-│   ├── PageControls.tsx          # 頁面控制元件
+│   ├── home/                     # 首頁各分頁 View（角色／載具／組合／搜尋列）
+│   ├── search/                   # 搜尋模態框子元件（輸入、結果、歷史）
+│   ├── EntityCard.tsx            # 角色／載具共用卡片
+│   ├── CombinationCard.tsx       # 組合卡片
 │   ├── CombinationSelector.tsx   # 組合選擇器
-│   ├── DebugDataLoading.tsx      # 偵錯元件
-│   └── TestPersistence.tsx       # 持久化測試元件
-├── hooks/                        # 自定義 Hooks
+│   ├── RecommendationCard.tsx    # 推薦卡片
+│   ├── RecommendationsPage.tsx   # 推薦頁面
+│   ├── SearchModal.tsx           # 搜尋模態框
+│   ├── PageControls.tsx          # 分頁與篩選控制
+│   ├── StatBar.tsx               # 統計條
+│   ├── CustomSelect.tsx          # 自定義下拉選單
+│   └── ...                       # 主題、語言、錯誤邊界等
+├── config/themes.ts              # 主題色彩設定
+├── constants/                    # 常數（能力值樣式、地形）
+├── hooks/
+│   ├── useMarioKartStore.ts      # 頁面層級狀態（載入、篩選、數量）
+│   ├── useLanguagePersistence.ts # 語言持久化
 │   ├── useClientMounted.ts       # 客戶端掛載檢查
-│   ├── useMarioKartData.ts       # 瑪利歐賽車資料管理
-│   ├── useMarioKartStore.ts      # Jotai 狀態管理
-│   └── useLanguagePersistence.ts # 語言持久化管理
-├── i18n/                         # 國際化系統
-│   ├── config.ts                 # i18next 配置
-│   └── locales/                  # 語言文件
-│       ├── zh-TW.json            # 繁體中文
-│       ├── zh-CN.json            # 簡體中文
-│       ├── en.json               # 英文
-│       ├── ja.json               # 日文
-│       └── ko.json               # 韓文
-├── providers/                    # Context Providers
-│   └── JotaiProvider.tsx         # Jotai Provider 配置
-├── store/                        # 狀態管理
-│   ├── atoms.ts                  # Jotai atoms 定義
-│   └── combinations.ts           # 組合狀態管理
-├── utils/                        # 工具函數
-│   └── csvParser.ts              # CSV 解析和資料處理
-├── types/                        # TypeScript 類型定義
-│   └── index.ts                  # 應用程式類型定義
-└── constants/                    # 應用程式常數
-    └── index.ts                  # 通用常數
+│   └── usePerformance.ts         # useDebounce（卸載時自動取消）
+├── i18n/                         # 國際化（5 種語言）
+├── providers/JotaiProvider.tsx   # Jotai Provider
+├── store/
+│   ├── dataAtoms.ts              # 原始／衍生／action atoms
+│   └── combinations.ts           # 組合持久化 atom
+├── types/index.ts                # 型別定義（STAT_KEYS 為能力值欄位單一來源）
+└── utils/                        # 純函數，可直接在 Node 測試
+    ├── stats.ts                  # 查表、組合計算、排序、最大值
+    ├── heap.ts                   # BinaryHeap、topK
+    ├── recommendation.ts         # 推薦演算法（K 路合併）
+    ├── search.ts                 # 搜尋索引與評分
+    ├── csvParser.ts              # CSV 解析（雙指標）
+    ├── dataValidation.ts         # 資料驗證
+    ├── searchHistory.ts          # 搜尋歷史
+    └── performance.ts            # debounce
+tests/
+├── algorithms.test.mts           # 演算法測試（暴力解 Oracle + 隨機測試）
+├── register.mjs                  # 註冊 @/ 路徑別名解析
+└── alias-hooks.mjs
 ```
 
 ## 🛠️ 安裝與執行
 
 ### 系統需求
 
-- Node.js 18.0 或更高版本
+- Node.js 18.0 或更高版本（執行 `pnpm test` 需要 Node.js 22.18+）
 - pnpm 8.0 或更高版本
 
 ### 1. 複製專案
@@ -153,11 +147,20 @@ pnpm build
 pnpm start
 ```
 
-### 6. 程式碼檢查
+### 6. 程式碼檢查與測試
 
 ```bash
-pnpm lint
+pnpm lint         # ESLint
+pnpm type-check   # TypeScript 型別檢查
+pnpm test         # 演算法與工具函數測試
 ```
+
+### 7. 環境變數（資料同步用）
+
+| 變數                    | 說明                                                                                      |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| `GOOGLE_SHEETS_CSV_URL` | Google Sheets CSV 匯出網址，未設定時同步 API 回傳錯誤                                     |
+| `SYNC_SECRET_TOKEN`     | 生產環境呼叫 `POST /api/sync-data` 需帶 `Authorization: Bearer <token>`；開發環境略過驗證 |
 
 ## 📊 資料格式
 
@@ -221,6 +224,8 @@ pnpm lint
 綜合評分 = 速度 × 40% + 操控性 × 30% + 加速度 × 20% - 重量 × 10%
 ```
 
+評分以整數運算（權重 ×10）避免浮點誤差，同分時依原始資料順序排列，結果穩定可重現。
+
 ### 地形特化系統
 
 - **道路** 🏁: 平坦賽道，注重速度和操控性平衡
@@ -232,6 +237,25 @@ pnpm lint
 - 每個地形最多推薦 3 種相同載具
 - 確保推薦結果的多樣性和實用性
 - 避免推薦清單過度集中於少數載具
+
+## ⚡ 效能與演算法
+
+核心計算都是 `src/utils/` 下的純函數，由 Jotai 衍生 atom 呼叫（依賴不變時自動快取），並在 `tests/` 以暴力解驗證結果完全一致。
+
+| 功能       | 做法（LeetCode 對應）                                                  | 複雜度                                                   |
+| ---------- | ---------------------------------------------------------------------- | -------------------------------------------------------- |
+| 推薦組合   | 評分可拆成「角色分 + 載具分」→ 各自排序後以堆積做 K 路合併（23 / 373） | O(C log C + V log V + (V+K) log V)，原為 O(C·V log(C·V)) |
+| 組合最大值 | max(c + v) = max(c) + max(v)                                           | O(C + V)，原為 O(C·V)                                    |
+| 搜尋       | 預建小寫索引 + 堆積 Top-K（347）                                       | O(n log K)                                               |
+| 排序       | 查表取得欄位 + Decorate-Sort-Undecorate                                | O(n log n)，排序鍵只取一次                               |
+| 最大值     | 單次走訪所有欄位                                                       | O(n·k)                                                   |
+| CSV 解析   | 雙指標 + slice，支援引號跳脫與 CRLF                                    | O(n)                                                     |
+| 資料驗證   | Set 偵測重複（217）                                                    | O(n)                                                     |
+| 資料載入   | 進行中請求去重（多個元件同時觸發只發一次請求）                         | —                                                        |
+
+實測（Node.js 25）：真實資料 50 角色 × 40 載具，三地形推薦約 **1.8 ms → 0.1 ms**；500 × 500 時約 **400 ms → 1.6 ms**。
+
+渲染層面：頁面框架只訂閱載入狀態、篩選器與數量，排序後列表由各分頁 View 訂閱，隱藏分頁的衍生資料不會被計算；角色與載具共用 `EntityCard`，組合卡片使用穩定 callback 搭配 `React.memo`。
 
 ## 🔧 開發指南
 
@@ -253,18 +277,22 @@ pnpm dev
 
 ```
 .github/skills/          # GitHub Copilot Agent Skills
+│   ├── algorithm-patterns -> ../../.opencode/skills/algorithm-patterns
 │   ├── code-standards -> ../../.opencode/skills/code-standards
 │   ├── git-workflow -> ../../.opencode/skills/git-workflow
 │   ├── i18n-workflow -> ../../.opencode/skills/i18n-workflow
 │   ├── react-best-practices -> ../../.opencode/skills/react-best-practices
 │   ├── web-design-guidelines -> ../../.opencode/skills/web-design-guidelines
-│   └── readme-maintenance/  # 新技能：README 維護指南
+│   ├── readme-maintenance/  # README 維護指南
+│   └── state-management/    # Jotai 狀態管理（含 Tanstack Query 參考架構）
 │
 .opencode/skills/         # OpenCode Agent Skills
+│   ├── algorithm-patterns/
 │   ├── code-standards/
 │   ├── git-workflow/
 │   ├── i18n-workflow/
 │   ├── react-best-practices/
+│   ├── react-table-search-pagination/
 │   ├── web-design-guidelines/
 │   └── readme-maintenance -> ../../.github/skills/readme-maintenance
 ```
@@ -291,7 +319,8 @@ pnpm dev
   - TypeScript 嚴格模式與型別定義
   - Jotai 狀態管理規範（優先使用 atoms，避免 props drilling）
   - Tailwind CSS 樣式規範
-  - 開發測試流程與強制性驗證步驟
+  - 開發測試流程與強制性驗證步驟（`type-check` / `lint` / `test` / `build`）
+  - `src/utils` 純函數與目錄慣例
 
 - **i18n-workflow**: 多語言國際化開發流程
   - 五語言支援 (繁中、簡中、英、日、韓)
@@ -299,7 +328,19 @@ pnpm dev
   - 翻譯檔案管理流程
   - 語言持久化實現
 
-- **readme-maintenance**: README.md 維護與文檔同步指南 🆕
+- **algorithm-patterns**: LeetCode 式演算法與效能優化 🆕
+  - 專案中使用的演算法模式與位置（Hash Map、堆積 Top-K、K 路合併等）
+  - 「先寫暴力解 → 最佳化 → 以 Oracle 測試驗證」流程
+  - 常見反模式與改寫方式
+
+- **state-management**: Jotai 狀態管理架構
+  - 本專案現行 atoms 分類（原始／UI／持久化／衍生／action）
+  - 只訂閱需要的 atom、載入去重、強制重新載入
+  - Tanstack Query + React Hook Form 參考架構（未來 API 化時使用）
+
+- **react-table-search-pagination**（僅 OpenCode）: 表格搜尋、分頁、無限捲動與競態處理範本
+
+- **readme-maintenance**: README.md 維護與文檔同步指南
   - 技術棧版本自動同步檢查
   - 專案結構變更更新流程
   - 功能變更文檔化規範
@@ -362,6 +403,7 @@ pnpm dev
     ├── i18n-workflow/         # 多語言流程
     ├── react-best-practices/   # React 效能最佳化
     ├── web-design-guidelines/   # UI/UX 最佳實踐
+    ├── algorithm-patterns/      # 演算法與效能優化
     └── readme-maintenance/ -> ../../.github/skills/readme-maintenance
 
 .github/skills/                # GitHub Copilot 技能
@@ -370,7 +412,9 @@ pnpm dev
 ├── i18n-workflow -> ../../.opencode/skills/i18n-workflow
 ├── react-best-practices -> ../../.opencode/skills/react-best-practices
 ├── web-design-guidelines -> ../../.opencode/skills/web-design-guidelines
-└── readme-maintenance/        # README 維護指南
+├── algorithm-patterns -> ../../.opencode/skills/algorithm-patterns
+├── readme-maintenance/        # README 維護指南
+└── state-management/          # 狀態管理架構
 ```
 
 #### 🚨 關鍵規範自動執行
@@ -419,9 +463,10 @@ pnpm dev
 
 ### 開發環境警告
 
-- TypeScript 5.8.3 版本超出官方支援範圍 (>=4.7.4 <5.5.0)
+- Next.js 16 已移除 `next lint`，`pnpm lint` 改為直接執行 ESLint CLI
 - jotai-devtools 將在未來版本中移除自動 tree-shaking
-- 某些 pnpm 快取檔案可能導致編譯警告
+- 本機執行時 Vercel Speed Insights 腳本會回應 404，屬正常現象（僅部署到 Vercel 後生效）
+- 管理頁面的同步按鈕未帶 `Authorization` header，生產環境需另行以帶 token 的請求呼叫同步 API
 
 ### 解決方案
 
@@ -458,8 +503,9 @@ pnpm store prune
 
 ### 資料安全
 
-- **本地儲存**: 所有資料僅存於用戶本地
-- **無伺服器**: 純前端應用，無後端資料收集
+- **本地儲存**: 使用者的組合與偏好僅存於瀏覽器本地
+- **無資料收集**: 唯一的伺服器端點是受 token 保護的資料同步 API，不收集使用者資料
+- **同步驗證**: 同步資料寫入前會完整驗證，避免錯誤資料覆蓋既有檔案
 - **隱私保護**: 不收集任何個人資訊
 - **開源透明**: 程式碼完全開源，可供審核
 
