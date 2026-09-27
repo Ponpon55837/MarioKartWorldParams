@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useAtomValue, useSetAtom } from "jotai";
 import CombinationSelector from "@/components/CombinationSelector";
@@ -12,6 +13,7 @@ import {
   clearAllCombinationsAtom,
 } from "@/store/dataAtoms";
 import { combinationsAtom } from "@/store/combinations";
+import type { CharacterStats, VehicleStats } from "@/types";
 
 export function CombinationsView() {
   const { t } = useTranslation();
@@ -24,6 +26,12 @@ export function CombinationsView() {
   const removeCombination = useSetAtom(removeCombinationAtom);
   const clearAllCombinations = useSetAtom(clearAllCombinationsAtom);
 
+  const handleAddCombination = useCallback(
+    (character: CharacterStats, vehicle: VehicleStats) =>
+      addCombination({ character, vehicle }),
+    [addCombination],
+  );
+
   return (
     <section>
       <div className="flex justify-between items-center mb-4">
@@ -32,7 +40,7 @@ export function CombinationsView() {
         </h2>
         {combinations.length > 0 && (
           <button
-            onClick={() => clearAllCombinations()}
+            onClick={clearAllCombinations}
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
           >
             🗑️ {t("stats.clearAll")}
@@ -44,9 +52,7 @@ export function CombinationsView() {
       <CombinationSelector
         characters={characters}
         vehicles={vehicles}
-        onAddCombination={(character, vehicle) =>
-          addCombination({ character, vehicle })
-        }
+        onAddCombination={handleAddCombination}
       />
 
       {combinations.length === 0 ? (
@@ -65,9 +71,10 @@ export function CombinationsView() {
           {combinations.map((combination) => (
             <CombinationCard
               key={combination.id}
+              id={combination.id}
               character={combination.character}
               vehicle={combination.vehicle}
-              onRemove={() => removeCombination(combination.id)}
+              onRemove={removeCombination}
             />
           ))}
         </div>

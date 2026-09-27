@@ -2,29 +2,13 @@
 
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { CharacterStats, VehicleStats } from "@/types";
+import type { RecommendedCombination, SummaryMaxStats } from "@/types";
 import StatBar from "@/components/StatBar";
 import { getTerrainIcon, useTerrainName } from "@/constants/terrain";
 
 interface RecommendationCardProps {
-  recommendation: {
-    character: CharacterStats;
-    vehicle: VehicleStats;
-    score: number;
-    totalSpeed: number;
-    totalHandling: number;
-    totalAcceleration: number;
-    totalWeight: number;
-    terrain: "road" | "terrain" | "water";
-    rank: number;
-    id: string;
-  };
-  maxStats: {
-    speed: number;
-    acceleration: number;
-    weight: number;
-    handling: number;
-  };
+  recommendation: RecommendedCombination;
+  maxStats: SummaryMaxStats;
 }
 
 const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(

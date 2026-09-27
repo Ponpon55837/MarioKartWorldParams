@@ -1,4 +1,4 @@
-import { CharacterStats, VehicleStats } from "@/types";
+import { STAT_KEYS } from "@/types";
 
 // 驗證結果介面
 export interface ValidationResult {
@@ -7,347 +7,176 @@ export interface ValidationResult {
   warnings: string[];
 }
 
-// 角色資料驗證函數
-export function validateCharacterStats(character: unknown): ValidationResult {
+type EntityKind = "character" | "vehicle";
+
+const ENTITY_LABEL: Record<EntityKind, string> = {
+  character: "角色",
+  vehicle: "載具",
+};
+
+/** 數值超過此值時提出警告 */
+const STAT_WARNING_THRESHOLD = 100;
+/** 載具重量超過此值時提出警告 */
+const VEHICLE_WEIGHT_WARNING_THRESHOLD = 10;
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null;
+
+const isNonEmptyString = (value: unknown): value is string =>
+  typeof value === "string" && value.trim().length > 0;
+
+/**
+ * 驗證單一實體（角色或載具），單次走訪所有欄位
+ */
+const validateEntity = (
+  entity: unknown,
+  kind: EntityKind,
+): ValidationResult => {
+  const label = ENTITY_LABEL[kind];
   const errors: string[] = [];
   const warnings: string[] = [];
 
-  // 型別檢查
-  if (!character || typeof character !== "object") {
-    errors.push("角色資料必須是物件");
-    return { isValid: false, errors, warnings };
+  if (!isRecord(entity)) {
+    return { isValid: false, errors: [`${label}資料必須是物件`], warnings };
   }
 
-  const char = character as Record<string, unknown>;
+  if (!isNonEmptyString(entity.name)) {
+    errors.push(`${label}名稱必須是非空字串`);
+  }
+  if (!isNonEmptyString(entity.englishName)) {
+    errors.push(`${label}英文名稱必須是非空字串`);
+  }
 
-  // 必要欄位檢查
-  const requiredFields = [
-    "name",
-    "englishName",
-    "displaySpeed",
-    "roadSpeed",
-    "terrainSpeed",
-    "waterSpeed",
-    "acceleration",
-    "weight",
-    "displayHandling",
-    "roadHandling",
-    "terrainHandling",
-    "waterHandling",
-  ];
-
-  for (const field of requiredFields) {
-    if (char[field] === undefined || char[field] === null) {
+  for (const field of STAT_KEYS) {
+    const value = entity[field];
+    if (value === undefined || value === null) {
       errors.push(`缺少必要欄位: ${field}`);
-    }
-  }
-
-  // 名稱型別檢查
-  if (typeof char.name !== "string" || char.name.trim().length === 0) {
-    errors.push("角色名稱必須是非空字串");
-  }
-
-  if (
-    typeof char.englishName !== "string" ||
-    char.englishName.trim().length === 0
-  ) {
-    errors.push("角色英文名稱必須是非空字串");
-  }
-
-  // 數值欄位檢查
-  const numericFields = [
-    "displaySpeed",
-    "roadSpeed",
-    "terrainSpeed",
-    "waterSpeed",
-    "acceleration",
-    "weight",
-    "displayHandling",
-    "roadHandling",
-    "terrainHandling",
-    "waterHandling",
-  ];
-
-  for (const field of numericFields) {
-    const value = char[field];
-    if (typeof value !== "number" || isNaN(value) || !isFinite(value)) {
+    } else if (typeof value !== "number" || !Number.isFinite(value)) {
       errors.push(`${field} 必須是有效的數值`);
     } else if (value < 0) {
       errors.push(`${field} 不能為負數`);
-    } else if (value > 100) {
-      warnings.push(`${field} 超過 100，請確認資料正確性`);
+    } else if (value > STAT_WARNING_THRESHOLD) {
+      warnings.push(
+        `${field} 超過 ${STAT_WARNING_THRESHOLD}，請確認資料正確性`,
+      );
     }
   }
 
-  // 合理性檢查
-  const displaySpeed = char.displaySpeed as number;
-  const roadSpeed = char.roadSpeed as number;
-  const terrainSpeed = char.terrainSpeed as number;
-  const waterSpeed = char.waterSpeed as number;
-
-  if (
-    Math.abs(displaySpeed - Math.max(roadSpeed, terrainSpeed, waterSpeed)) > 1
-  ) {
-    warnings.push("displaySpeed 應接近 terrain, road, water 中的最大值");
+  if (errors.length > 0) {
+    return { isValid: false, errors, warnings };
   }
 
-  return {
-    isValid: errors.length === 0,
-    errors,
-    warnings,
-  };
-}
+  // 合理性檢查（僅在欄位皆為有效數值時執行）
+  if (kind === "character") {
+    const terrainMax = Math.max(
+      entity.roadSpeed as number,
+      entity.terrainSpeed as number,
+      entity.waterSpeed as number,
+    );
+    if (Math.abs((entity.displaySpeed as number) - terrainMax) > 1) {
+      warnings.push("displaySpeed 應接近 terrain, road, water 中的最大值");
+    }
+  } else if ((entity.weight as number) > VEHICLE_WEIGHT_WARNING_THRESHOLD) {
+    warnings.push(
+      `載具重量超過 ${VEHICLE_WEIGHT_WARNING_THRESHOLD}，可能影響遊戲平衡`,
+    );
+  }
+
+  return { isValid: true, errors, warnings };
+};
+
+/**
+ * 批次驗證實體陣列
+ * 以 Set 偵測重複名稱，整體 O(n)
+ */
+const validateEntityList = (
+  list: unknown,
+  kind: EntityKind,
+): ValidationResult => {
+  const label = ENTITY_LABEL[kind];
+
+  if (!Array.isArray(list)) {
+    return { isValid: false, errors: [`${label}資料必須是陣列`], warnings: [] };
+  }
+  if (list.length === 0) {
+    return {
+      isValid: false,
+      errors: [`${label}資料陣列不能為空`],
+      warnings: [],
+    };
+  }
+
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  const seenNames = new Set<string>();
+  const seenEnglishNames = new Set<string>();
+
+  list.forEach((entity, index) => {
+    const prefix = `${label} ${index + 1}: `;
+    const result = validateEntity(entity, kind);
+    for (const error of result.errors) errors.push(prefix + error);
+    for (const warning of result.warnings) warnings.push(prefix + warning);
+
+    if (!isRecord(entity)) return;
+
+    if (isNonEmptyString(entity.name)) {
+      if (seenNames.has(entity.name)) {
+        errors.push(`重複的${label}名稱: ${entity.name}`);
+      }
+      seenNames.add(entity.name);
+    }
+    if (isNonEmptyString(entity.englishName)) {
+      if (seenEnglishNames.has(entity.englishName)) {
+        errors.push(`重複的英文名稱: ${entity.englishName}`);
+      }
+      seenEnglishNames.add(entity.englishName);
+    }
+  });
+
+  return { isValid: errors.length === 0, errors, warnings };
+};
+
+// 角色資料驗證函數
+export const validateCharacterStats = (character: unknown): ValidationResult =>
+  validateEntity(character, "character");
 
 // 載具資料驗證函數
-export function validateVehicleStats(vehicle: unknown): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-
-  // 型別檢查
-  if (!vehicle || typeof vehicle !== "object") {
-    errors.push("載具資料必須是物件");
-    return { isValid: false, errors, warnings };
-  }
-
-  const veh = vehicle as Record<string, unknown>;
-
-  // 必要欄位檢查
-  const requiredFields = [
-    "name",
-    "englishName",
-    "displaySpeed",
-    "roadSpeed",
-    "terrainSpeed",
-    "waterSpeed",
-    "acceleration",
-    "weight",
-    "displayHandling",
-    "roadHandling",
-    "terrainHandling",
-    "waterHandling",
-  ];
-
-  for (const field of requiredFields) {
-    if (veh[field] === undefined || veh[field] === null) {
-      errors.push(`缺少必要欄位: ${field}`);
-    }
-  }
-
-  // 名稱型別檢查
-  if (typeof veh.name !== "string" || veh.name.trim().length === 0) {
-    errors.push("載具名稱必須是非空字串");
-  }
-
-  if (
-    typeof veh.englishName !== "string" ||
-    veh.englishName.trim().length === 0
-  ) {
-    errors.push("載具英文名稱必須是非空字串");
-  }
-
-  // 數值欄位檢查
-  const numericFields = [
-    "displaySpeed",
-    "roadSpeed",
-    "terrainSpeed",
-    "waterSpeed",
-    "acceleration",
-    "weight",
-    "displayHandling",
-    "roadHandling",
-    "terrainHandling",
-    "waterHandling",
-  ];
-
-  for (const field of numericFields) {
-    const value = veh[field];
-    if (typeof value !== "number" || isNaN(value) || !isFinite(value)) {
-      errors.push(`${field} 必須是有效的數值`);
-    } else if (value < 0) {
-      errors.push(`${field} 不能為負數`);
-    } else if (value > 100) {
-      warnings.push(`${field} 超過 100，請確認資料正確性`);
-    }
-  }
-
-  // 載具特有檢查
-  const weight = veh.weight as number;
-  if (weight > 10) {
-    warnings.push("載具重量超過 10，可能影響遊戲平衡");
-  }
-
-  return {
-    isValid: errors.length === 0,
-    errors,
-    warnings,
-  };
-}
+export const validateVehicleStats = (vehicle: unknown): ValidationResult =>
+  validateEntity(vehicle, "vehicle");
 
 // 批次驗證角色資料
-export function validateCharactersData(
-  characters: unknown[],
-): ValidationResult {
-  const allErrors: string[] = [];
-  const allWarnings: string[] = [];
-
-  if (!Array.isArray(characters)) {
-    return {
-      isValid: false,
-      errors: ["角色資料必須是陣列"],
-      warnings: [],
-    };
-  }
-
-  if (characters.length === 0) {
-    return {
-      isValid: false,
-      errors: ["角色資料陣列不能為空"],
-      warnings: [],
-    };
-  }
-
-  // 檢查重複名稱
-  const nameSet = new Set<string>();
-  const englishNameSet = new Set<string>();
-
-  characters.forEach((character, index) => {
-    const result = validateCharacterStats(character);
-
-    result.errors.forEach((error) => {
-      allErrors.push(`角色 ${index + 1}: ${error}`);
-    });
-
-    result.warnings.forEach((warning) => {
-      allWarnings.push(`角色 ${index + 1}: ${warning}`);
-    });
-
-    // 檢查名稱重複
-    if (character && typeof character === "object") {
-      const char = character as CharacterStats;
-      if (char.name) {
-        if (nameSet.has(char.name)) {
-          allErrors.push(`重複的角色名稱: ${char.name}`);
-        } else {
-          nameSet.add(char.name);
-        }
-      }
-
-      if (char.englishName) {
-        if (englishNameSet.has(char.englishName)) {
-          allErrors.push(`重複的英文名稱: ${char.englishName}`);
-        } else {
-          englishNameSet.add(char.englishName);
-        }
-      }
-    }
-  });
-
-  return {
-    isValid: allErrors.length === 0,
-    errors: allErrors,
-    warnings: allWarnings,
-  };
-}
+export const validateCharactersData = (characters: unknown): ValidationResult =>
+  validateEntityList(characters, "character");
 
 // 批次驗證載具資料
-export function validateVehiclesData(vehicles: unknown[]): ValidationResult {
-  const allErrors: string[] = [];
-  const allWarnings: string[] = [];
+export const validateVehiclesData = (vehicles: unknown): ValidationResult =>
+  validateEntityList(vehicles, "vehicle");
 
-  if (!Array.isArray(vehicles)) {
-    return {
-      isValid: false,
-      errors: ["載具資料必須是陣列"],
-      warnings: [],
-    };
-  }
-
-  if (vehicles.length === 0) {
-    return {
-      isValid: false,
-      errors: ["載具資料陣列不能為空"],
-      warnings: [],
-    };
-  }
-
-  // 檢查重複名稱
-  const nameSet = new Set<string>();
-  const englishNameSet = new Set<string>();
-
-  vehicles.forEach((vehicle, index) => {
-    const result = validateVehicleStats(vehicle);
-
-    result.errors.forEach((error) => {
-      allErrors.push(`載具 ${index + 1}: ${error}`);
-    });
-
-    result.warnings.forEach((warning) => {
-      allWarnings.push(`載具 ${index + 1}: ${warning}`);
-    });
-
-    // 檢查名稱重複
-    if (vehicle && typeof vehicle === "object") {
-      const veh = vehicle as VehicleStats;
-      if (veh.name) {
-        if (nameSet.has(veh.name)) {
-          allErrors.push(`重複的載具名稱: ${veh.name}`);
-        } else {
-          nameSet.add(veh.name);
-        }
-      }
-
-      if (veh.englishName) {
-        if (englishNameSet.has(veh.englishName)) {
-          allErrors.push(`重複的英文名稱: ${veh.englishName}`);
-        } else {
-          englishNameSet.add(veh.englishName);
-        }
-      }
-    }
-  });
-
-  return {
-    isValid: allErrors.length === 0,
-    errors: allErrors,
-    warnings: allWarnings,
-  };
-}
-
-// 驗證完整的 Mario Kart 資料
+/**
+ * 驗證完整的 Mario Kart 資料
+ */
 export function validateMarioKartData(data: unknown): ValidationResult {
+  if (!isRecord(data)) {
+    return { isValid: false, errors: ["資料必須是物件"], warnings: [] };
+  }
+
   const errors: string[] = [];
   const warnings: string[] = [];
 
-  if (!data || typeof data !== "object") {
-    errors.push("資料必須是物件");
-    return { isValid: false, errors, warnings };
+  const sections: Array<[unknown, EntityKind, string]> = [
+    [data.characters, "character", "characters"],
+    [data.vehicles, "vehicle", "vehicles"],
+  ];
+
+  for (const [list, kind, field] of sections) {
+    if (!list) {
+      errors.push(`缺少 ${field} 欄位`);
+      continue;
+    }
+    const result = validateEntityList(list, kind);
+    errors.push(...result.errors);
+    warnings.push(...result.warnings);
   }
 
-  const marioData = data as Record<string, unknown>;
-
-  // 驗證角色資料
-  if (!marioData.characters) {
-    errors.push("缺少 characters 欄位");
-  } else {
-    const characterResult = validateCharactersData(
-      marioData.characters as unknown[],
-    );
-    errors.push(...characterResult.errors);
-    warnings.push(...characterResult.warnings);
-  }
-
-  // 驗證載具資料
-  if (!marioData.vehicles) {
-    errors.push("缺少 vehicles 欄位");
-  } else {
-    const vehicleResult = validateVehiclesData(marioData.vehicles as unknown[]);
-    errors.push(...vehicleResult.errors);
-    warnings.push(...vehicleResult.warnings);
-  }
-
-  return {
-    isValid: errors.length === 0,
-    errors,
-    warnings,
-  };
+  return { isValid: errors.length === 0, errors, warnings };
 }
