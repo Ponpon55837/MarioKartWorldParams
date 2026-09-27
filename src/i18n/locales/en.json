@@ -64,7 +64,12 @@
     "autoReload": "Application will automatically reload data after sync",
     "jsonLoadingSpeed": "JSON format loads approximately 2-3 times faster than CSV",
     "regularSync": "Recommended to sync regularly after data updates",
-    "backToHome": "Back to Home"
+    "backToHome": "Back to Home",
+    "syncToken": "Sync token",
+    "syncTokenPlaceholder": "Enter SYNC_SECRET_TOKEN (optional in local development)",
+    "syncTokenHint": "The token is only used for this request and is never stored",
+    "unauthorized": "Unauthorized: please enter a valid sync token",
+    "notPersisted": "The server file system is read-only, so the data was not saved. Download the JSON file and commit it to the project's public/ folder."
   },
   "navigation": {
     "dataPages": "Data Pages",

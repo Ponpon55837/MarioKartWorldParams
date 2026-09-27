@@ -57,7 +57,12 @@
     "autoReload": "同期後、アプリケーションは自動的にデータを再読み込みします",
     "jsonLoadingSpeed": "JSON形式の読み込み速度はCSVより約2-3倍高速",
     "regularSync": "データ更新後は定期的に同期を実行することをお勧めします",
-    "backToHome": "ホームに戻る"
+    "backToHome": "ホームに戻る",
+    "syncToken": "同期トークン",
+    "syncTokenPlaceholder": "SYNC_SECRET_TOKEN を入力（ローカル開発では空欄可）",
+    "syncTokenHint": "トークンはこのリクエストにのみ使用され、保存されません",
+    "unauthorized": "認証エラー：正しい同期トークンを入力してください",
+    "notPersisted": "サーバーのファイルシステムが読み取り専用のため、データは保存されていません。JSON ファイルをダウンロードし、プロジェクトの public/ フォルダにコミットしてください。"
   },
   "navigation": {
     "dataPages": "データページ",

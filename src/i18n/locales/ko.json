@@ -57,7 +57,12 @@
     "autoReload": "동기화 후 애플리케이션이 자동으로 데이터를 다시 로드합니다",
     "jsonLoadingSpeed": "JSON 형식은 CSV보다 약 2-3배 빠른 로딩 속도",
     "regularSync": "데이터 업데이트 후 정기적인 동기화 실행 권장",
-    "backToHome": "홈으로 돌아가기"
+    "backToHome": "홈으로 돌아가기",
+    "syncToken": "동기화 토큰",
+    "syncTokenPlaceholder": "SYNC_SECRET_TOKEN 입력 (로컬 개발 시 비워 둘 수 있음)",
+    "syncTokenHint": "토큰은 이번 요청에만 사용되며 저장되지 않습니다",
+    "unauthorized": "인증 실패: 올바른 동기화 토큰을 입력하세요",
+    "notPersisted": "서버 파일 시스템이 읽기 전용이라 데이터가 저장되지 않았습니다. JSON 파일을 다운로드하여 프로젝트의 public/ 폴더에 커밋하세요."
   },
   "navigation": {
     "dataPages": "데이터 페이지",

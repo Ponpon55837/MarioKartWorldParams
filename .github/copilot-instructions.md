@@ -26,9 +26,9 @@
 
 ### 核心依賴
 
-- **Next.js**: `^16.2.3` - 必須使用 App Router 模式
+- **Next.js**: `^16.3.6` - 必須使用 App Router 模式
 - **React**: `^18.3.1` 和 `react-dom`: `^18.3.1`
-- **Jotai**: `^2.16.0` - 用於狀態管理
+- **Jotai**: `^2.20.3` - 用於狀態管理
 - **Tailwind CSS**: `^3.4.19` - 用於樣式設計
 - **TypeScript**: `^5.9.3`
 - **i18next**: `^25.7.3` - 國際化核心
@@ -40,7 +40,7 @@
 - `@types/node`, `@types/react`, `@types/react-dom`
 - `eslint`, `eslint-config-next`
 - `postcss`, `autoprefixer`
-- `jotai-devtools`: `^0.13.0` - Jotai 開發工具
+- `jotai-devtools`: `^0.14.0` - Jotai 開發工具
 - `prettier`: `^3.7.4` - 程式碼格式化
 
 ### 監控與分析

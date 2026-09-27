@@ -27,6 +27,8 @@ function AdminPageContent() {
   const [result, setResult] = useState<SyncResult | null>(null);
   const [dataStatus, setDataStatus] = useState<DataStatus | null>(null);
   const [checkingStatus, setCheckingStatus] = useState(true);
+  // 同步 token 只保存在元件狀態中，不寫入任何儲存空間
+  const [syncToken, setSyncToken] = useState("");
 
   // 檢查當前資料狀態
   const checkDataStatus = async () => {
@@ -55,18 +57,24 @@ function AdminPageContent() {
     setResult(null);
 
     try {
+      const token = syncToken.trim();
       const response = await fetch("/api/sync-data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
       });
 
-      const data = await response.json();
-      setResult(data);
+      const data: SyncResult = await response.json();
+      setResult(
+        response.status === 401
+          ? { ...data, error: t("admin.unauthorized") }
+          : data,
+      );
 
-      // 同步成功後重新檢查狀態並重新載入應用資料
-      if (data.success) {
+      // 同步成功且已寫入檔案後，重新檢查狀態並重新載入應用資料
+      if (data.success && data.persisted !== false) {
         await checkDataStatus();
 
         // 重新載入應用中的資料
@@ -206,6 +214,27 @@ function AdminPageContent() {
             </ul>
           </div>
 
+          <div className="mb-4 max-w-md mx-auto">
+            <label
+              htmlFor="sync-token"
+              className="block text-sm font-medium text-foreground mb-1"
+            >
+              🔑 {t("admin.syncToken")}
+            </label>
+            <input
+              id="sync-token"
+              type="password"
+              autoComplete="off"
+              value={syncToken}
+              onChange={(e) => setSyncToken(e.target.value)}
+              placeholder={t("admin.syncTokenPlaceholder")}
+              className="w-full px-3 py-2 rounded-lg theme-input theme-border focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <p className="mt-1 text-xs text-muted">
+              {t("admin.syncTokenHint")}
+            </p>
+          </div>
+
           <div className="text-center mb-6">
             <button
               onClick={handleSync}
@@ -236,6 +265,11 @@ function AdminPageContent() {
                       <p className="text-green-700 text-sm mb-3">
                         {result.message}
                       </p>
+                      {result.persisted === false && (
+                        <p className="text-yellow-800 bg-yellow-50 border border-yellow-300 rounded p-2 text-sm mb-3">
+                          ⚠️ {t("admin.notPersisted")}
+                        </p>
+                      )}
 
                       {result.metadata && (
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
@@ -314,7 +348,6 @@ function AdminPageContent() {
                           </div>
                         </div>
                       )}
-
                     </div>
                   </div>
                 </div>

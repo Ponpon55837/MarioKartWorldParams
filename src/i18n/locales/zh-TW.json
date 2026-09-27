@@ -64,7 +64,12 @@
     "autoReload": "同步後應用程式將自動重新載入資料",
     "jsonLoadingSpeed": "JSON 格式載入速度比 CSV 快約 2-3 倍",
     "regularSync": "建議在資料更新後定期執行同步",
-    "backToHome": "回到首頁"
+    "backToHome": "回到首頁",
+    "syncToken": "同步 Token",
+    "syncTokenPlaceholder": "輸入 SYNC_SECRET_TOKEN（本機開發可留空）",
+    "syncTokenHint": "Token 只用於本次請求，不會被儲存",
+    "unauthorized": "未授權：請輸入正確的同步 Token",
+    "notPersisted": "伺服器檔案系統為唯讀，資料未寫入。請下載 JSON 檔案並提交到專案的 public/ 目錄。"
   },
   "navigation": {
     "dataPages": "資料頁面",

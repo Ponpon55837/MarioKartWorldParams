@@ -41,9 +41,9 @@
 
 ### 核心技術
 
-- **Framework**: Next.js 16.2.3 (App Router)
+- **Framework**: Next.js 16.3.6 (App Router)
 - **UI Library**: React 18.3.1
-- **狀態管理**: Jotai 2.16.0 + 本地持久化
+- **狀態管理**: Jotai 2.20.3 + 本地持久化
 - **樣式框架**: Tailwind CSS 3.4.19
 - **開發語言**: TypeScript 5.9.3
 - **套件管理**: pnpm
@@ -157,10 +157,10 @@ pnpm test         # 演算法與工具函數測試
 
 ### 7. 環境變數（資料同步用）
 
-| 變數                    | 說明                                                                                      |
-| ----------------------- | ----------------------------------------------------------------------------------------- |
-| `GOOGLE_SHEETS_CSV_URL` | Google Sheets CSV 匯出網址，未設定時同步 API 回傳錯誤                                     |
-| `SYNC_SECRET_TOKEN`     | 生產環境呼叫 `POST /api/sync-data` 需帶 `Authorization: Bearer <token>`；開發環境略過驗證 |
+| 變數                    | 說明                                                                                                                    |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `GOOGLE_SHEETS_CSV_URL` | Google Sheets CSV 匯出網址，未設定時同步 API 回傳錯誤                                                                   |
+| `SYNC_SECRET_TOKEN`     | 生產環境呼叫 `POST /api/sync-data` 需帶 `Authorization: Bearer <token>`（管理頁可直接輸入，不會儲存）；開發環境略過驗證 |
 
 ## 📊 資料格式
 
@@ -466,7 +466,7 @@ pnpm dev
 - Next.js 16 已移除 `next lint`，`pnpm lint` 改為直接執行 ESLint CLI
 - jotai-devtools 將在未來版本中移除自動 tree-shaking
 - 本機執行時 Vercel Speed Insights 腳本會回應 404，屬正常現象（僅部署到 Vercel 後生效）
-- 管理頁面的同步按鈕未帶 `Authorization` header，生產環境需另行以帶 token 的請求呼叫同步 API
+- Vercel 等無伺服器環境的檔案系統為唯讀，同步時不會寫入 `public/mario-kart-data.json`；管理頁會提示改為下載 JSON 後提交到 repo
 
 ### 解決方案
 
