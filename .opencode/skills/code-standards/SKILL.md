@@ -28,7 +28,7 @@ license: MIT
 
 ### 必須使用的套件
 
-- **Next.js**: `^16.0.10` (App Router 模式)
+- **Next.js**: `^16.2.3` (App Router 模式)
 - **React**: `^18.3.1`
 - **Jotai**: `^2.16.0` (狀態管理)
 - **Tailwind CSS**: `^3.4.19` (樣式)
@@ -97,6 +97,39 @@ license: MIT
 - 測試流程
 - Git 工作流程整合
 - 建置與部署規範
+
+### 9. 演算法與資料處理
+
+- 計算邏輯寫成 `src/utils/` 下的純函數，不放在元件或 `useMemo` 內
+- Jotai 衍生 atom 只負責組合依賴並呼叫純函數（依賴不變時自動快取，不需自建快取）
+- 重複查找使用 `Map` / `Set`，需要前 K 名使用 `topK` 堆積，避免整體排序
+- 詳見 [`algorithm-patterns`](../algorithm-patterns/SKILL.md)
+
+## 專案目錄慣例
+
+```text
+src/
+├── types/index.ts        # 共用型別；STAT_KEYS 為能力值欄位的單一來源
+├── utils/                # 純函數（可在 Node 直接測試，不依賴 React）
+│   ├── stats.ts          # 查表、組合計算、排序、最大值
+│   ├── heap.ts           # BinaryHeap、topK
+│   ├── recommendation.ts # 推薦演算法（K 路合併）
+│   ├── search.ts         # 搜尋索引與評分
+│   ├── csvParser.ts      # CSV 解析
+│   └── dataValidation.ts # 資料驗證（載入與同步時使用）
+├── store/dataAtoms.ts    # 原始 atom + 衍生 atom + action atom
+└── components/           # 只負責渲染；角色與載具共用 EntityCard
+tests/                    # node:test 測試（暴力解 Oracle + 隨機測試）
+```
+
+## 驗證指令（修改後必須執行）
+
+```bash
+pnpm type-check   # TypeScript 型別檢查（含 tests/）
+pnpm lint         # ESLint（Next 16 已移除 next lint，改用 eslint CLI）
+pnpm test         # 演算法與工具函數測試（需 Node.js 22.18+）
+pnpm build        # 生產建置
+```
 
 ## 快速參考
 
@@ -173,6 +206,9 @@ import styled from "styled-components";
 ### 效能
 
 - [ ] 使用適當的 React 最佳化（memo、useCallback）
+- [ ] 傳給 memo 元件的 callback 保持穩定（例如 `onRemove={removeCombination}` + `id` prop，而非行內箭頭函數）
+- [ ] 頁面層級元件只訂閱需要的 atom，列表由各 View 自行訂閱
+- [ ] 避免 O(n²) 巢狀迴圈與 comparator 中的重複計算（參考 algorithm-patterns）
 - [ ] 避免不必要的重新渲染
 - [ ] 使用動態導入（如適當）
 - [ ] 優化圖片載入
@@ -182,6 +218,7 @@ import styled from "styled-components";
 - [`git-workflow`](../git-workflow/SKILL.md) - Git 工作流程規範
 - [`i18n-workflow`](../i18n-workflow/SKILL.md) - 多語言國際化流程
 - [`readme-maintenance`](../readme-maintenance/SKILL.md) - README.md 維護指南
+- [`algorithm-patterns`](../algorithm-patterns/SKILL.md) - LeetCode 式演算法與效能優化
 
 ---
 

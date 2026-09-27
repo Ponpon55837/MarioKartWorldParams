@@ -1,96 +1,59 @@
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useCallback } from 'react';
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useCallback } from "react";
 import {
   loadingAtom,
   errorAtom,
   charactersAtom,
   vehiclesAtom,
   loadDataAtom,
-  dynamicMaxStatsAtom,
-  sortedCharactersAtom,
-  sortedVehiclesAtom,
-  addCombinationAtom,
-  removeCombinationAtom,
-  clearAllCombinationsAtom,
   sortByAtom,
   speedFilterAtom,
   handlingFilterAtom,
   currentPageAtom,
-} from '@/store/dataAtoms';
-import { combinationsAtom } from '@/store/combinations';
-import { useClientMounted } from '@/hooks/useClientMounted';
-import type { CharacterStats, VehicleStats } from '@/types';
+} from "@/store/dataAtoms";
+import { combinationsAtom } from "@/store/combinations";
+import { useClientMounted } from "@/hooks/useClientMounted";
 
 /**
- * 瑪利歐賽車資料管理 Hook
- * 使用 Jotai 進行全域狀態管理，包含資料載入、排序、過濾等功能
+ * 瑪利歐賽車頁面層級狀態 Hook
+ *
+ * 只訂閱頁面框架需要的狀態（載入、錯誤、篩選器與數量），
+ * 排序後列表、最大值等由各個 View 自行訂閱對應 atom。
+ * 如此一來，排序或篩選變更時只有實際顯示的 View 會重新計算與渲染，
+ * 隱藏頁面的衍生 atom 也不會被計算。
  */
 export function useMarioKartStore() {
-  // 客戶端掛載狀態
   const mounted = useClientMounted();
-  
-  // 基本狀態
+
   const loading = useAtomValue(loadingAtom);
   const error = useAtomValue(errorAtom);
-  const characters = useAtomValue(charactersAtom);
-  const vehicles = useAtomValue(vehiclesAtom);
-  
-  // 計算值
-  const maxStats = useAtomValue(dynamicMaxStatsAtom);
-  const sortedCharacters = useAtomValue(sortedCharactersAtom);
-  const sortedVehicles = useAtomValue(sortedVehiclesAtom);
-  
-  // 過濾狀態
+  const charactersCount = useAtomValue(charactersAtom).length;
+  const vehiclesCount = useAtomValue(vehiclesAtom).length;
+  const combinations = useAtomValue(combinationsAtom);
+
   const [sortBy, setSortBy] = useAtom(sortByAtom);
   const [speedFilter, setSpeedFilter] = useAtom(speedFilterAtom);
   const [handlingFilter, setHandlingFilter] = useAtom(handlingFilterAtom);
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
-  
-  // 組合管理 - 只在客戶端掛載後才讀取
-  const [combinations, setCombinations] = useAtom(combinationsAtom);
-  const addCombination = useSetAtom(addCombinationAtom);
-  const removeCombination = useSetAtom(removeCombinationAtom);
-  const clearAllCombinations = useSetAtom(clearAllCombinationsAtom);
-  
-  // 資料載入
+
   const loadData = useSetAtom(loadDataAtom);
 
-  // 初始化時載入資料
+  // 初始化時載入資料（重複呼叫會共用進行中的請求）
   useEffect(() => {
     loadData();
   }, [loadData]);
 
-  // 使用 useCallback 優化回調函數
-  const handleAddCombination = useCallback((character: CharacterStats, vehicle: VehicleStats) => {
-    addCombination({ character, vehicle });
-  }, [addCombination]);
-
-  const handleRemoveCombination = useCallback((id: string) => {
-    removeCombination(id);
-  }, [removeCombination]);
-
-  const handleClearAllCombinations = useCallback(() => {
-    clearAllCombinations();
-  }, [clearAllCombinations]);
-
-  // 重新載入資料
-  const reloadData = useCallback(() => {
-    loadData();
-  }, [loadData]);
+  // 強制重新載入資料（例如資料同步後）
+  const reloadData = useCallback(() => loadData({ force: true }), [loadData]);
 
   return {
-    // 基本狀態
     loading,
     error,
-    characters,
-    vehicles,
-    
-    // 計算值
-    maxStats,
-    sortedCharacters,
-    sortedVehicles,
-    
-    // 過濾狀態
+    charactersCount,
+    vehiclesCount,
+    // 在伺服器端時回傳 0 以避免水合不一致
+    combinationsCount: mounted ? combinations.length : 0,
+
     sortBy,
     setSortBy,
     speedFilter,
@@ -99,89 +62,7 @@ export function useMarioKartStore() {
     setHandlingFilter,
     currentPage,
     setCurrentPage,
-    
-    // 組合管理 - 在服務器端時返回空數組以避免水化不匹配
-    combinations: mounted ? combinations : [],
-    addCombination: handleAddCombination,
-    removeCombination: handleRemoveCombination,
-    clearAllCombinations: handleClearAllCombinations,
-    
-    // 工具函數
+
     reloadData,
-  };
-}
-
-/**
- * 簡化版的 Hook，只提供基本的資料讀取功能
- */
-export function useMarioKartData() {
-  const loading = useAtomValue(loadingAtom);
-  const error = useAtomValue(errorAtom);
-  const characters = useAtomValue(charactersAtom);
-  const vehicles = useAtomValue(vehiclesAtom);
-  const loadData = useSetAtom(loadDataAtom);
-
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
-
-  return {
-    loading,
-    error,
-    characters,
-    vehicles,
-  };
-}
-
-/**
- * 只管理過濾和排序狀態的 Hook
- */
-export function useFilters() {
-  const [sortBy, setSortBy] = useAtom(sortByAtom);
-  const [speedFilter, setSpeedFilter] = useAtom(speedFilterAtom);
-  const [handlingFilter, setHandlingFilter] = useAtom(handlingFilterAtom);
-  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
-
-  return {
-    sortBy,
-    setSortBy,
-    speedFilter,
-    setSpeedFilter,
-    handlingFilter,
-    setHandlingFilter,
-    currentPage,
-    setCurrentPage,
-  };
-}
-
-/**
- * 只管理組合的 Hook
- */
-export function useCombinations() {
-  // 客戶端掛載狀態
-  const mounted = useClientMounted();
-  
-  const [combinations, setCombinations] = useAtom(combinationsAtom);
-  const addCombination = useSetAtom(addCombinationAtom);
-  const removeCombination = useSetAtom(removeCombinationAtom);
-  const clearAllCombinations = useSetAtom(clearAllCombinationsAtom);
-
-  const handleAddCombination = (character: CharacterStats, vehicle: VehicleStats) => {
-    addCombination({ character, vehicle });
-  };
-
-  const handleRemoveCombination = (id: string) => {
-    removeCombination(id);
-  };
-
-  const handleClearAllCombinations = () => {
-    clearAllCombinations();
-  };
-
-  return {
-    combinations: mounted ? combinations : [], // 在服務器端時返回空數組
-    addCombination: handleAddCombination,
-    removeCombination: handleRemoveCombination,
-    clearAllCombinations: handleClearAllCombinations,
   };
 }

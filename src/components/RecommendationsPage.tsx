@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 import { useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 import { recommendedCombinationsAtom } from "@/store/dataAtoms";
+import { TERRAINS } from "@/utils/recommendation";
+import type { TerrainType } from "@/types";
 import {
   getTerrainIcon,
   useTerrainName,
@@ -29,9 +31,7 @@ const RecommendationsPage: React.FC = () => {
   const { t } = useTranslation();
   const getTerrainName = useTerrainName();
   const getTerrainDescription = useTerrainDescription();
-  const [selectedTerrain, setSelectedTerrain] = useState<
-    "road" | "terrain" | "water"
-  >("road");
+  const [selectedTerrain, setSelectedTerrain] = useState<TerrainType>("road");
   const recommendations = useAtomValue(recommendedCombinationsAtom);
 
   // 使用 useMemo 優化當前推薦計算
@@ -41,7 +41,7 @@ const RecommendationsPage: React.FC = () => {
 
   // 使用 useCallback 優化事件處理
   const handleTerrainChange = useCallback(
-    (terrain: "road" | "terrain" | "water") => {
+    (terrain: TerrainType) => {
       setSelectedTerrain(terrain);
     },
     [],
@@ -51,7 +51,7 @@ const RecommendationsPage: React.FC = () => {
     <div className="space-y-6">
       {/* 地形選擇器 */}
       <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mb-2">
-        {(["road", "terrain", "water"] as const).map((terrain) => (
+        {TERRAINS.map((terrain) => (
           <button
             key={terrain}
             onClick={() => handleTerrainChange(terrain)}

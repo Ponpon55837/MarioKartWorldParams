@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
-import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { useSetAtom } from "jotai";
 import SearchModal from "@/components/SearchModal";
 import RecommendationsPage from "@/components/RecommendationsPage";
 import PageControls from "@/components/PageControls";
@@ -27,18 +27,15 @@ function HomeContent() {
   }, []);
 
   // 使用全域狀態管理搜尋模態框
-  const [isSearchModalOpen, setIsSearchModalOpen] =
-    useAtom(searchModalOpenAtom);
+  const setIsSearchModalOpen = useSetAtom(searchModalOpenAtom);
 
-  // 使用 Jotai store 管理所有狀態
+  // 頁面層級狀態；列表與最大值由各 View 自行訂閱
   const {
     loading,
     error,
-    characters,
-    vehicles,
-    maxStats,
-    sortedCharacters,
-    sortedVehicles,
+    charactersCount,
+    vehiclesCount,
+    combinationsCount,
     sortBy,
     setSortBy,
     speedFilter,
@@ -47,30 +44,7 @@ function HomeContent() {
     setHandlingFilter,
     currentPage,
     setCurrentPage,
-    combinations,
-    addCombination,
-    removeCombination,
-    clearAllCombinations,
   } = useMarioKartStore();
-
-  // 使用 useCallback 優化事件處理
-  const handlePageChange = useCallback(
-    (page: typeof currentPage) => {
-      setCurrentPage(page);
-    },
-    [setCurrentPage],
-  );
-
-  const handleClearCombinations = useCallback(() => {
-    clearAllCombinations();
-  }, [clearAllCombinations]);
-
-  const handleRemoveCombination = useCallback(
-    (id: string) => {
-      removeCombination(id);
-    },
-    [removeCombination],
-  );
 
   // 搜尋快捷鍵
   useEffect(() => {
@@ -137,16 +111,16 @@ function HomeContent() {
 
         <PageControls
           currentPage={currentPage}
-          setCurrentPage={handlePageChange}
+          setCurrentPage={setCurrentPage}
           sortBy={sortBy}
           setSortBy={setSortBy}
           speedFilter={speedFilter}
           setSpeedFilter={setSpeedFilter}
           handlingFilter={handlingFilter}
           setHandlingFilter={setHandlingFilter}
-          charactersCount={sortedCharacters.length}
-          vehiclesCount={sortedVehicles.length}
-          combinationsCount={combinations.length}
+          charactersCount={charactersCount}
+          vehiclesCount={vehiclesCount}
+          combinationsCount={combinationsCount}
         />
 
         {/* 組合頁面 */}
@@ -273,7 +247,7 @@ function HomeContent() {
         </div>
 
         {/* 搜尋模態框 */}
-        <SearchModal onNavigate={(type) => setCurrentPage(type)} />
+        <SearchModal onNavigate={setCurrentPage} />
       </div>
     </LayoutContent>
   );

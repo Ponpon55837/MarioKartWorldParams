@@ -213,6 +213,22 @@ license: MIT
 - [ ] 檢查是否影響其他功能的描述
 - [ ] 清理相關的範例程式碼
 
+### 🧪 指令、測試與演算法說明同步
+
+- [ ] README「安裝與執行」的指令與 `package.json` 的 `scripts` 一致（`dev`、`build`、`start`、`lint`、`type-check`、`test`）
+- [ ] 系統需求的 Node.js 版本與測試需求一致（`pnpm test` 需要 Node.js 22.18+）
+- [ ] 修改 `src/utils/` 演算法（推薦、搜尋、排序、CSV 解析）時，同步更新 README「特色功能詳解 / 效能與演算法」區段
+- [ ] 新增或刪除 `tests/` 測試檔時更新專案結構
+- [ ] 新增或移除 skill 時，同步更新 README 技能列表與 `.github/skills/` 符號連結
+
+```bash
+# 快速比對 scripts 與 README
+node -e "console.log(Object.keys(require('./package.json').scripts).join('\n'))"
+grep -n "pnpm " README.md
+# 快速比對技能列表
+ls .opencode/skills .github/skills
+```
+
 ### 📊 版本資訊更新
 
 #### 檢查點

@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useAtomValue } from "jotai";
-import VehicleCard from "@/components/VehicleCard";
+import EntityCard from "@/components/EntityCard";
 import {
   sortedVehiclesAtom,
   dynamicMaxStatsAtom,
@@ -26,9 +26,9 @@ export function VehiclesView() {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {vehicles.map((vehicle) => (
-          <VehicleCard
+          <EntityCard
             key={vehicle.name}
-            vehicle={vehicle}
+            entity={vehicle}
             maxStats={maxStats}
             speedFilter={speedFilter}
             handlingFilter={handlingFilter}

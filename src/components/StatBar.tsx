@@ -2,6 +2,7 @@
 
 import React from "react";
 import { STAT_CONFIGS, APP_CONSTANTS } from "@/constants";
+import { getStatPercentage } from "@/utils/stats";
 
 interface StatBarProps {
   label: string;
@@ -18,7 +19,7 @@ interface StatBarProps {
 const StatBar: React.FC<StatBarProps> = React.memo(
   ({ label, value, maxValue, statType, showPercentage = true }) => {
     const config = STAT_CONFIGS[statType];
-    const percentage = Math.round((value / maxValue) * 100);
+    const percentage = getStatPercentage(value, maxValue);
     const width = Math.max(percentage, APP_CONSTANTS.MIN_PROGRESS_WIDTH);
 
     return (

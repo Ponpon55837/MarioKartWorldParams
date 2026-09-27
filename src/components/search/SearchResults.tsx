@@ -1,27 +1,20 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import CharacterCard from "@/components/CharacterCard";
-import VehicleCard from "@/components/VehicleCard";
-import {
+import EntityCard from "@/components/EntityCard";
+import type {
   SearchResultItem,
-  CharacterStats,
-  VehicleStats,
-  SpeedType,
-  HandlingType,
+  SpeedFilter,
+  HandlingFilter,
+  SummaryMaxStats,
 } from "@/types";
 
 interface SearchResultsProps {
   results: SearchResultItem[];
   searchQuery: string;
-  maxStats: {
-    speed: number;
-    acceleration: number;
-    weight: number;
-    handling: number;
-  };
-  speedFilter: SpeedType | "display";
-  handlingFilter: HandlingType | "display";
+  maxStats: SummaryMaxStats;
+  speedFilter: SpeedFilter;
+  handlingFilter: HandlingFilter;
   isLoading: boolean;
 }
 
@@ -85,8 +78,11 @@ export function SearchResults({
 
         {/* 搜尋結果列表 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
-          {results.map((result, index) => (
-            <div key={`${result.type}-${index}`} className="relative">
+          {results.map((result) => (
+            <div
+              key={`${result.type}-${"id" in result.data ? result.data.id : result.data.name}`}
+              className="relative"
+            >
               {/* 類型標籤 */}
               <div className="absolute -top-2 -right-2 z-10">
                 <span
@@ -99,16 +95,9 @@ export function SearchResults({
               </div>
 
               {/* 渲染卡片 */}
-              {result.type === "character" ? (
-                <CharacterCard
-                  character={result.data as CharacterStats}
-                  maxStats={maxStats}
-                  speedFilter={speedFilter}
-                  handlingFilter={handlingFilter}
-                />
-              ) : (
-                <VehicleCard
-                  vehicle={result.data as VehicleStats}
+              {result.type !== "combination" && (
+                <EntityCard
+                  entity={result.data}
                   maxStats={maxStats}
                   speedFilter={speedFilter}
                   handlingFilter={handlingFilter}

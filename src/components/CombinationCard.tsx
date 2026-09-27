@@ -1,86 +1,65 @@
 "use client";
-import { CharacterStats, VehicleStats } from "@/types";
-import { getStatBarWidth } from "@/utils/csvParser";
+
+import React from "react";
 import { useTranslation } from "react-i18next";
+import { APP_CONSTANTS, STAT_CONFIGS } from "@/constants";
+import {
+  combineStats,
+  getStatBarWidth,
+  getStatPercentage,
+} from "@/utils/stats";
+import type { CharacterStats, StatKey, VehicleStats } from "@/types";
 
 interface CombinationCardProps {
+  id: string;
   character: CharacterStats;
   vehicle: VehicleStats;
-  onRemove: () => void;
+  onRemove: (id: string) => void;
 }
 
-export default function CombinationCard({
+/** 組合的理論最大值：最高角色值 + 最高載具值 + 遊戲加成 */
+const MAX_POSSIBLE_VALUE = 10 + 7 + APP_CONSTANTS.COMBINATION_BONUS;
+const BONUS = APP_CONSTANTS.COMBINATION_BONUS;
+
+/** 主要能力值列：[統計類型, 欄位, i18n 鍵] */
+const MAIN_STATS: ReadonlyArray<
+  readonly [keyof typeof STAT_CONFIGS, StatKey, string]
+> = [
+  ["speed", "displaySpeed", "stats.speed"],
+  ["acceleration", "acceleration", "stats.acceleration"],
+  ["weight", "weight", "stats.weight"],
+  ["handling", "displayHandling", "stats.handling"],
+];
+
+/**
+ * 組合卡片 - 顯示角色 + 載具 + 遊戲加成的總能力值
+ * 使用 React.memo，搭配穩定的 onRemove 避免清單中其他卡片重新渲染
+ */
+const CombinationCard = React.memo(function CombinationCard({
+  id,
   character,
   vehicle,
   onRemove,
 }: CombinationCardProps) {
   const { t } = useTranslation();
 
-  // 計算組合後的總能力值 (角色 + 載具 + 3 的遊戲加成)
-  const combinedStats = {
-    displaySpeed: character.displaySpeed + vehicle.displaySpeed + 3,
-    roadSpeed: character.roadSpeed + vehicle.roadSpeed + 3,
-    terrainSpeed: character.terrainSpeed + vehicle.terrainSpeed + 3,
-    waterSpeed: character.waterSpeed + vehicle.waterSpeed + 3,
-    acceleration: character.acceleration + vehicle.acceleration + 3,
-    weight: character.weight + vehicle.weight + 3,
-    displayHandling: character.displayHandling + vehicle.displayHandling + 3,
-    roadHandling: character.roadHandling + vehicle.roadHandling + 3,
-    terrainHandling: character.terrainHandling + vehicle.terrainHandling + 3,
-    waterHandling: character.waterHandling + vehicle.waterHandling + 3,
-  };
+  // 計算組合後的總能力值 (角色 + 載具 + 遊戲加成)
+  const combinedStats = combineStats(character, vehicle);
+  const maxPossibleValue = MAX_POSSIBLE_VALUE;
 
-  // 計算最大可能值（用於進度條比例）
-  const maxPossibleValue = 10 + 7 + 3; // 最高角色值 + 最高載具值 + 遊戲加成
-
-  const stats = [
-    {
-      label: t("stats.speed"),
-      value: combinedStats.displaySpeed,
-      charValue: character.displaySpeed,
-      vehicleValue: vehicle.displaySpeed,
-      color: "text-blue-600",
-      bgColor: "bg-blue-500",
-      lightBg: "bg-blue-50",
-      borderColor: "border-blue-200",
-    },
-    {
-      label: t("stats.acceleration"),
-      value: combinedStats.acceleration,
-      charValue: character.acceleration,
-      vehicleValue: vehicle.acceleration,
-      color: "text-green-600",
-      bgColor: "bg-green-500",
-      lightBg: "bg-green-50",
-      borderColor: "border-green-200",
-    },
-    {
-      label: t("stats.weight"),
-      value: combinedStats.weight,
-      charValue: character.weight,
-      vehicleValue: vehicle.weight,
-      color: "text-purple-600",
-      bgColor: "bg-purple-500",
-      lightBg: "bg-purple-50",
-      borderColor: "border-purple-200",
-    },
-    {
-      label: t("stats.handling"),
-      value: combinedStats.displayHandling,
-      charValue: character.displayHandling,
-      vehicleValue: vehicle.displayHandling,
-      color: "text-orange-600",
-      bgColor: "bg-orange-500",
-      lightBg: "bg-orange-50",
-      borderColor: "border-orange-200",
-    },
-  ];
+  const stats = MAIN_STATS.map(([statType, key, i18nKey]) => ({
+    ...STAT_CONFIGS[statType],
+    label: t(i18nKey),
+    value: combinedStats[key],
+    charValue: character[key],
+    vehicleValue: vehicle[key],
+  }));
 
   return (
     <div className="theme-card rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300 theme-border relative">
       {/* 移除按鈕 */}
       <button
-        onClick={onRemove}
+        onClick={() => onRemove(id)}
         className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors flex items-center justify-center text-xs font-bold"
         aria-label={t("common.delete")}
       >
@@ -126,7 +105,7 @@ export default function CombinationCard({
                 </div>
               </div>
               <div className="text-xs text-muted ml-2">
-                {Math.round((stat.value / maxPossibleValue) * 100)}%
+                {getStatPercentage(stat.value, maxPossibleValue)}%
               </div>
             </div>
             {/* 組成明細 */}
@@ -137,7 +116,7 @@ export default function CombinationCard({
               <span>
                 {t("types.vehicle")}: {stat.vehicleValue}
               </span>
-              <span className="text-yellow-600 font-semibold">+3</span>
+              <span className="text-yellow-600 font-semibold">+{BONUS}</span>
             </div>
           </div>
         ))}
@@ -157,7 +136,7 @@ export default function CombinationCard({
               {combinedStats.roadSpeed}
             </div>
             <div className="text-muted text-xs">
-              {character.roadSpeed}+{vehicle.roadSpeed}+3
+              {character.roadSpeed}+{vehicle.roadSpeed}+{BONUS}
             </div>
           </div>
           <div className="text-center p-1 bg-green-50 rounded border border-green-200">
@@ -168,7 +147,7 @@ export default function CombinationCard({
               {combinedStats.terrainSpeed}
             </div>
             <div className="text-muted text-xs">
-              {character.terrainSpeed}+{vehicle.terrainSpeed}+3
+              {character.terrainSpeed}+{vehicle.terrainSpeed}+{BONUS}
             </div>
           </div>
           <div className="text-center p-1 bg-cyan-50 rounded border border-cyan-200">
@@ -179,11 +158,13 @@ export default function CombinationCard({
               {combinedStats.waterSpeed}
             </div>
             <div className="text-muted text-xs">
-              {character.waterSpeed}+{vehicle.waterSpeed}+3
+              {character.waterSpeed}+{vehicle.waterSpeed}+{BONUS}
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+});
+
+export default CombinationCard;

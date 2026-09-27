@@ -1,13 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef } from "react";
 import { useAtom, useAtomValue } from "jotai";
-import {
-  SearchModalProps,
-  SearchResultItem,
-  CharacterStats,
-  VehicleStats,
-} from "@/types";
+import type { SearchModalProps } from "@/types";
 import { useDebounce } from "@/hooks/usePerformance";
 import { useTranslation } from "react-i18next";
 import {
@@ -22,8 +17,7 @@ import {
   searchResultsAtom,
   searchLoadingAtom,
   searchHistoryVisibleAtom,
-  charactersAtom,
-  vehiclesAtom,
+  searchIndexAtom,
   dynamicMaxStatsAtom,
   speedFilterAtom,
   handlingFilterAtom,
@@ -32,6 +26,7 @@ import { SearchModalHeader } from "@/components/search/SearchModalHeader";
 import { SearchInput } from "@/components/search/SearchInput";
 import { SearchHistory } from "@/components/search/SearchHistory";
 import { SearchResults } from "@/components/search/SearchResults";
+import { searchEntities } from "@/utils/search";
 
 export default function SearchModal({ onNavigate }: SearchModalProps) {
   const { t } = useTranslation();
@@ -44,8 +39,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
   const [showHistory, setShowHistory] = useAtom(searchHistoryVisibleAtom);
 
   // 從全域狀態獲取資料
-  const characters = useAtomValue(charactersAtom);
-  const vehicles = useAtomValue(vehiclesAtom);
+  const searchIndex = useAtomValue(searchIndexAtom);
   const maxStats = useAtomValue(dynamicMaxStatsAtom);
   const speedFilter = useAtomValue(speedFilterAtom);
   const handlingFilter = useAtomValue(handlingFilterAtom);
@@ -56,62 +50,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // 優化的搜尋算法 - 使用 useMemo 避免重複計算
-  const searchAlgorithm = useMemo(() => {
-    const calculateScore = (
-      name: string,
-      englishName: string,
-      query: string,
-    ): number => {
-      const lowerQuery = query.toLowerCase();
-      const lowerName = name.toLowerCase();
-      const lowerEnglishName = englishName.toLowerCase();
-
-      // 完全匹配得分最高
-      if (lowerName === lowerQuery || lowerEnglishName === lowerQuery)
-        return 100;
-
-      // 開頭匹配得分較高
-      if (
-        lowerName.startsWith(lowerQuery) ||
-        lowerEnglishName.startsWith(lowerQuery)
-      )
-        return 80;
-
-      // 包含匹配得分中等
-      if (
-        lowerName.includes(lowerQuery) ||
-        lowerEnglishName.includes(lowerQuery)
-      )
-        return 60;
-
-      // 模糊匹配得分較低
-      const similarity =
-        calculateSimilarity(lowerQuery, lowerName) ||
-        calculateSimilarity(lowerQuery, lowerEnglishName);
-      return similarity * 40;
-    };
-
-    // 簡單的字符串相似度計算
-    const calculateSimilarity = (str1: string, str2: string): number => {
-      const len1 = str1.length;
-      const len2 = str2.length;
-      const maxLen = Math.max(len1, len2);
-
-      if (maxLen === 0) return 1;
-
-      let matches = 0;
-      for (let i = 0; i < Math.min(len1, len2); i++) {
-        if (str1[i] === str2[i]) matches++;
-      }
-
-      return matches / maxLen;
-    };
-
-    return { calculateScore };
-  }, []);
-
-  // 防抖搜尋函數
+  // 防抖搜尋：搜尋邏輯與索引皆在 utils/search.ts 與 searchIndexAtom 中
   const debouncedSearch = useDebounce((query: string) => {
     if (!query.trim()) {
       setSearchResults([]);
@@ -120,70 +59,15 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
       return;
     }
 
-    setIsLoading(true);
     setShowHistory(false);
 
-    const results: SearchResultItem[] = [];
-
-    // 搜尋角色
-    const characterResults: Array<{
-      type: "character";
-      data: CharacterStats;
-      score: number;
-    }> = [];
-    characters.forEach((character) => {
-      const score = searchAlgorithm.calculateScore(
-        character.name,
-        character.englishName,
-        query,
-      );
-      if (score > 20) {
-        // 只顯示相關性較高的結果
-        characterResults.push({
-          type: "character",
-          data: character,
-          score,
-        });
-      }
-    });
-
-    // 搜尋載具
-    const vehicleResults: Array<{
-      type: "vehicle";
-      data: VehicleStats;
-      score: number;
-    }> = [];
-    vehicles.forEach((vehicle) => {
-      const score = searchAlgorithm.calculateScore(
-        vehicle.name,
-        vehicle.englishName,
-        query,
-      );
-      if (score > 20) {
-        // 只顯示相關性較高的結果
-        vehicleResults.push({
-          type: "vehicle",
-          data: vehicle,
-          score,
-        });
-      }
-    });
-
-    // 合併所有結果並按相關性排序
-    const allResults = [...characterResults, ...vehicleResults];
-    const sortedResults = allResults.sort((a, b) => b.score - a.score);
-
-    // 轉換為 SearchResultItem 格式並限制結果數量
-    const finalResults: SearchResultItem[] = sortedResults
-      .slice(0, 20)
-      .map(({ score, ...result }) => result);
-    setSearchResults(finalResults);
+    const results = searchEntities(searchIndex, query);
+    setSearchResults(results);
     setIsLoading(false);
 
     // 保存搜尋歷史
-    if (finalResults.length > 0) {
-      addSearchHistory(query, finalResults.length);
-      setSearchHistory(getSearchHistory());
+    if (results.length > 0) {
+      setSearchHistory(addSearchHistory(query, results.length));
     }
   }, 300);
 
@@ -202,17 +86,23 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
 
   // 處理移除歷史項目
   const handleRemoveHistoryItem = (query: string) => {
-    removeSearchHistoryItem(query);
-    setSearchHistory(getSearchHistory());
+    setSearchHistory(removeSearchHistoryItem(query));
   };
 
-  // 清空搜尋
+  // 清空搜尋（同時取消尚未執行的防抖搜尋，避免舊結果覆蓋）
   const clearSearch = React.useCallback(() => {
+    debouncedSearch.cancel();
     setSearchQuery("");
     setSearchResults([]);
     setIsLoading(false);
     setShowHistory(true);
-  }, [setSearchQuery, setSearchResults, setIsLoading, setShowHistory]);
+  }, [
+    debouncedSearch,
+    setSearchQuery,
+    setSearchResults,
+    setIsLoading,
+    setShowHistory,
+  ]);
 
   // 關閉模態框
   const handleClose = React.useCallback(() => {

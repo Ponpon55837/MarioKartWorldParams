@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { CharacterStats, VehicleStats } from "@/types";
 import CustomSelect from "@/components/CustomSelect";
 import { useTranslation } from "react-i18next";
@@ -18,28 +18,38 @@ export default function CombinationSelector({
 }: CombinationSelectorProps) {
   const { t } = useTranslation();
 
-  const characterOptions = [
-    { value: "", label: t("selection.selectCharacter") },
-    ...characters.map((character) => ({
-      value: character.name,
-      label: character.name,
-    })),
-  ];
+  const characterOptions = useMemo(
+    () => [
+      { value: "", label: t("selection.selectCharacter") },
+      ...characters.map(({ name }) => ({ value: name, label: name })),
+    ],
+    [characters, t],
+  );
 
-  const vehicleOptions = [
-    { value: "", label: t("selection.selectVehicle") },
-    ...vehicles.map((vehicle) => ({
-      value: vehicle.name,
-      label: vehicle.name,
-    })),
-  ];
+  const vehicleOptions = useMemo(
+    () => [
+      { value: "", label: t("selection.selectVehicle") },
+      ...vehicles.map(({ name }) => ({ value: name, label: name })),
+    ],
+    [vehicles, t],
+  );
+
+  // 名稱 → 實體的 Hash Map，選取時 O(1) 查找取代 Array.find 的 O(n)
+  const characterByName = useMemo(
+    () => new Map(characters.map((c) => [c.name, c])),
+    [characters],
+  );
+  const vehicleByName = useMemo(
+    () => new Map(vehicles.map((v) => [v.name, v])),
+    [vehicles],
+  );
 
   const [selectedCharacter, setSelectedCharacter] = useState<string>("");
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
 
   const handleAddCombination = () => {
-    const character = characters.find((c) => c.name === selectedCharacter);
-    const vehicle = vehicles.find((v) => v.name === selectedVehicle);
+    const character = characterByName.get(selectedCharacter);
+    const vehicle = vehicleByName.get(selectedVehicle);
 
     if (character && vehicle) {
       onAddCombination(character, vehicle);

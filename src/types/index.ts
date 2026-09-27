@@ -1,52 +1,44 @@
-// 角色統計資料接口
-export interface CharacterStats {
+// ==========================================
+// 能力值基礎型別
+// ==========================================
+
+/** 所有數值型能力值欄位（角色、載具、組合共用） */
+export const STAT_KEYS = [
+  "displaySpeed",
+  "roadSpeed",
+  "terrainSpeed",
+  "waterSpeed",
+  "acceleration",
+  "weight",
+  "displayHandling",
+  "roadHandling",
+  "terrainHandling",
+  "waterHandling",
+] as const;
+
+export type StatKey = (typeof STAT_KEYS)[number];
+
+/** 能力值表：每個欄位對應一個數值 */
+export type StatRecord = Record<StatKey, number>;
+
+/** 角色與載具共用的實體結構 */
+export interface EntityStats extends StatRecord {
   name: string;
   englishName: string;
-  displaySpeed: number;
-  roadSpeed: number;
-  terrainSpeed: number;
-  waterSpeed: number;
-  acceleration: number;
-  weight: number;
-  displayHandling: number;
-  roadHandling: number;
-  terrainHandling: number;
-  waterHandling: number;
 }
 
+// 角色統計資料接口
+export type CharacterStats = EntityStats;
+
 // 載具統計資料接口
-export interface VehicleStats {
-  name: string;
-  englishName: string;
-  displaySpeed: number;
-  roadSpeed: number;
-  terrainSpeed: number;
-  waterSpeed: number;
-  acceleration: number;
-  weight: number;
-  displayHandling: number;
-  roadHandling: number;
-  terrainHandling: number;
-  waterHandling: number;
-}
+export type VehicleStats = EntityStats;
 
 // 組合統計資料接口
 export interface CombinationStats {
   id: string;
   character: CharacterStats;
   vehicle: VehicleStats;
-  combinedStats: {
-    displaySpeed: number;
-    roadSpeed: number;
-    terrainSpeed: number;
-    waterSpeed: number;
-    acceleration: number;
-    weight: number;
-    displayHandling: number;
-    roadHandling: number;
-    terrainHandling: number;
-    waterHandling: number;
-  };
+  combinedStats: StatRecord;
 }
 
 // 瑪利歐賽車資料接口
@@ -57,8 +49,48 @@ export interface MarioKartData {
 
 // 統計類型
 export type StatType = "speed" | "acceleration" | "weight" | "handling";
-export type SpeedType = "road" | "terrain" | "water";
-export type HandlingType = "road" | "terrain" | "water";
+export type TerrainType = "road" | "terrain" | "water";
+export type SpeedType = TerrainType;
+export type HandlingType = TerrainType;
+export type SpeedFilter = SpeedType | "display";
+export type HandlingFilter = HandlingType | "display";
+export type PageType =
+  | "characters"
+  | "vehicles"
+  | "combinations"
+  | "recommendations";
+
+/** 四大能力值的最大值（用於進度條比例） */
+export interface SummaryMaxStats {
+  speed: number;
+  acceleration: number;
+  weight: number;
+  handling: number;
+}
+
+// ==========================================
+// 推薦系統型別
+// ==========================================
+
+export interface RecommendedCombination {
+  id: string;
+  rank: number;
+  character: CharacterStats;
+  vehicle: VehicleStats;
+  terrain: TerrainType;
+  score: number;
+  totalSpeed: number;
+  totalHandling: number;
+  totalAcceleration: number;
+  totalWeight: number;
+}
+
+export type RecommendationResult = Record<
+  TerrainType,
+  RecommendedCombination[]
+> & {
+  maxCombinedStats: SummaryMaxStats;
+};
 
 // 搜尋相關 atoms
 // 搜尋結果的分頁型別
@@ -80,14 +112,6 @@ export type SearchResultItem =
       type: "combination";
       data: CombinationStats;
     };
-
-// 搜尋結果的統一型別（已棄用，請使用 SearchResultItem）
-/** @deprecated 請使用 SearchResultItem 替代 */
-export interface SearchResult {
-  type: "character" | "vehicle";
-  data: CharacterStats | VehicleStats;
-  score: number;
-}
 
 // ==========================================
 // Admin 頁面相關型別

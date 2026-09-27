@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseMarioKartCSV } from "@/utils/csvParser";
+import { validateMarioKartData } from "@/utils/dataValidation";
 
 // Google Sheets CSV 導出 URL
 const GOOGLE_SHEETS_CSV_URL = process.env.GOOGLE_SHEETS_CSV_URL || "";
@@ -34,6 +35,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  if (!GOOGLE_SHEETS_CSV_URL) {
+    return NextResponse.json(
+      { success: false, error: "伺服器未設定 GOOGLE_SHEETS_CSV_URL" },
+      { status: 500 },
+    );
+  }
+
   try {
     console.log("🔄 開始從 Google Sheets 同步資料...");
 
@@ -62,11 +70,15 @@ export async function POST(request: NextRequest) {
     // 解析 CSV 資料
     const parsedData = parseMarioKartCSV(csvData);
 
-    if (parsedData.characters.length === 0) {
-      throw new Error("解析後未找到角色資料");
+    // 寫入檔案前完整驗證，避免將不完整或格式錯誤的資料覆蓋既有資料
+    const validation = validateMarioKartData(parsedData);
+    if (!validation.isValid) {
+      throw new Error(
+        `資料驗證失敗: ${validation.errors.slice(0, 5).join("；")}`,
+      );
     }
-    if (parsedData.vehicles.length === 0) {
-      throw new Error("解析後未找到載具資料");
+    if (validation.warnings.length > 0) {
+      console.warn("⚠️ 資料驗證警告:", validation.warnings);
     }
 
     console.log(

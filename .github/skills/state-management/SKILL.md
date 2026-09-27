@@ -6,6 +6,32 @@ license: MIT
 
 # Tanstack Query + Jotai 狀態管理架構
 
+## 📌 本專案現況（先讀這段）
+
+> 目前專案**只使用 Jotai**，尚未安裝 Tanstack Query / React Hook Form / Zod。
+> 資料來源是 `public/` 下的靜態 JSON（CSV 備援），由 `loadDataAtom` 載入一次。
+> 下方 Tanstack Query 內容是「未來加入真正的 API 資料時」的參考架構，**不要**為了現有功能引入新套件。
+
+### 現行 Jotai 架構（`src/store/dataAtoms.ts`）
+
+| 類型     | Atom                                                                                                                                      | 說明                   |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| 原始資料 | `charactersAtom`、`vehiclesAtom`                                                                                                          | 由 `loadDataAtom` 寫入 |
+| UI 狀態  | `sortByAtom`、`speedFilterAtom`、`handlingFilterAtom`、`currentPageAtom`、搜尋相關 atoms                                                  | 會話級別               |
+| 持久化   | `combinationsAtom`、`languageAtom`、`themeModeAtom`                                                                                       | `atomWithStorage`      |
+| 衍生     | `fieldMaximaAtom` → `dynamicMaxStatsAtom`、`sortedCharactersAtom`、`sortedVehiclesAtom`、`searchIndexAtom`、`recommendedCombinationsAtom` | 依賴不變時自動快取     |
+| Action   | `loadDataAtom`（支援 `{ force: true }`）、`addCombinationAtom`、`removeCombinationAtom`、`clearAllCombinationsAtom`                       | 寫入邏輯集中           |
+
+### 規則
+
+1. **衍生 atom 只組合依賴並呼叫 `src/utils/` 純函數**，不要在衍生 atom 外再加模組層級快取。
+2. **只訂閱需要的 atom**：頁面框架（`useMarioKartStore`）只讀載入狀態、篩選器與數量；排序後列表、最大值由各 View 訂閱。Jotai 衍生 atom 只有在被訂閱時才計算，隱藏頁面不會付出成本。
+3. **載入去重**：`loadDataAtom` 以進行中的 Promise 去重；需要略過既有資料（例如同步後）時使用 `loadData({ force: true })`。
+4. **資料驗證**：載入與 `/api/sync-data` 同步都會經過 `validateMarioKartData`。
+5. 演算法細節見 [`algorithm-patterns`](../../../.opencode/skills/algorithm-patterns/SKILL.md)。
+
+---
+
 ## 我的功能
 
 - 提供伺服器狀態（Tanstack Query）與客戶端狀態（Jotai）的分工指導
@@ -128,8 +154,8 @@ const [sortBy] = useAtom(sortByAtom);
 
 // Tanstack Query: API 資料（狀態驅動）
 const { data, isLoading } = useQuery({
-  queryKey: ['characters', sortBy], // sortBy 改變會自動重新查詢
-  queryFn: () => fetch(`/api/characters?sort=${sortBy}`).then((r) => r.json())
+  queryKey: ["characters", sortBy], // sortBy 改變會自動重新查詢
+  queryFn: () => fetch(`/api/characters?sort=${sortBy}`).then((r) => r.json()),
 });
 ```
 
@@ -227,7 +253,7 @@ function LoginForm() {
 ```typescript
 // 將 Tanstack Query 資料存到 Jotai
 const [data, setData] = useAtom(dataAtom);
-const { data: queryData } = useQuery(['data'], fetchData);
+const { data: queryData } = useQuery(["data"], fetchData);
 useEffect(() => {
   setData(queryData);
 }, [queryData]); // ❌ 錯誤！
@@ -237,7 +263,7 @@ useEffect(() => {
 
 ```typescript
 // 直接使用 Tanstack Query 的資料
-const { data } = useQuery(['data'], fetchData); // ✅ 正確
+const { data } = useQuery(["data"], fetchData); // ✅ 正確
 ```
 
 ## 相關資源
