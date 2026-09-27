@@ -57,7 +57,12 @@
     "autoReload": "同步后应用程序将自动重新加载数据",
     "jsonLoadingSpeed": "JSON 格式加载速度比 CSV 快约 2-3 倍",
     "regularSync": "建议在数据更新后定期执行同步",
-    "backToHome": "返回首页"
+    "backToHome": "返回首页",
+    "syncToken": "同步 Token",
+    "syncTokenPlaceholder": "输入 SYNC_SECRET_TOKEN（本地开发可留空）",
+    "syncTokenHint": "Token 仅用于本次请求，不会被保存",
+    "unauthorized": "未授权：请输入正确的同步 Token",
+    "notPersisted": "服务器文件系统为只读，数据未写入。请下载 JSON 文件并提交到项目的 public/ 目录。"
   },
   "navigation": {
     "dataPages": "数据页面",

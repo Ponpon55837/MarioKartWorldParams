@@ -28,9 +28,9 @@ license: MIT
 
 ### 必須使用的套件
 
-- **Next.js**: `^16.2.3` (App Router 模式)
+- **Next.js**: `^16.3.6` (App Router 模式)
 - **React**: `^18.3.1`
-- **Jotai**: `^2.16.0` (狀態管理)
+- **Jotai**: `^2.20.3` (狀態管理)
 - **Tailwind CSS**: `^3.4.19` (樣式)
 - **TypeScript**: `^5.9.3` (嚴格模式)
 - **i18next**: `^25.7.3` (國際化)

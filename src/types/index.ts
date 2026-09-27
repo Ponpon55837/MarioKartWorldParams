@@ -122,6 +122,8 @@ export type SearchResultItem =
  */
 export interface SyncResult {
   success: boolean;
+  /** 資料是否已寫入伺服器檔案；唯讀環境（如 Vercel）為 false，需手動下載 JSON */
+  persisted?: boolean;
   message?: string;
   error?: string;
   csvData?: string;

@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { parseMarioKartCSV } from "@/utils/csvParser";
 import { validateMarioKartData } from "@/utils/dataValidation";
@@ -22,8 +23,10 @@ function validateSyncToken(request: NextRequest): boolean {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return false;
   }
-  const token = authHeader.slice("Bearer ".length).trim();
-  return token === SYNC_SECRET_TOKEN;
+  const token = Buffer.from(authHeader.slice("Bearer ".length).trim());
+  const expected = Buffer.from(SYNC_SECRET_TOKEN);
+  // 使用固定時間比對，避免透過回應時間推測 token
+  return token.length === expected.length && timingSafeEqual(token, expected);
 }
 
 export async function POST(request: NextRequest) {
@@ -107,16 +110,23 @@ export async function POST(request: NextRequest) {
     const publicDir = path.join(process.cwd(), "public");
     const jsonFilePath = path.join(publicDir, "mario-kart-data.json");
 
-    await fs.writeFile(
-      jsonFilePath,
-      JSON.stringify(jsonData, null, 2),
-      "utf-8",
-    );
-
-    console.log("✅ JSON 資料已儲存到:", jsonFilePath);
+    // Vercel 等無伺服器環境的檔案系統為唯讀，寫入失敗時仍回傳資料供下載
+    let persisted = true;
+    try {
+      await fs.writeFile(
+        jsonFilePath,
+        JSON.stringify(jsonData, null, 2),
+        "utf-8",
+      );
+      console.log("✅ JSON 資料已儲存到:", jsonFilePath);
+    } catch (writeError) {
+      persisted = false;
+      console.warn("⚠️ 無法寫入 JSON 檔案（檔案系統可能為唯讀）:", writeError);
+    }
 
     return NextResponse.json({
       success: true,
+      persisted,
       message: `資料同步成功！共載入 ${parsedData.characters.length} 個角色和 ${parsedData.vehicles.length} 個載具`,
       timestamp: new Date().toISOString(),
       csvData: csvData,
