@@ -23,7 +23,7 @@
 ### 前置要求
 
 - **Node.js**：18.0 或更高版本
-- **pnpm**：8.0 或更高版本
+- **pnpm**：12.8.1（版本由 `package.json` 固定）
 - **Git**：熟悉基本 Git 操作
 - **TypeScript**：了解基礎 TypeScript 語法
 - **React/Next.js**：有基礎了解更佳

@@ -112,7 +112,7 @@ tests/
 ### 系統需求
 
 - Node.js 18.0 或更高版本（執行 `pnpm test` 需要 Node.js 22.18+）
-- pnpm 8.0 或更高版本
+- pnpm 12.8.1（版本由 `package.json` 固定）
 
 ### 1. 複製專案
 
