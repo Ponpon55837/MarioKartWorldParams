@@ -1,64 +1,45 @@
 "use client";
 
+import type { RefObject } from "react";
 import { useTranslation } from "react-i18next";
-import { RefObject } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
   onClear: () => void;
-  isLoading: boolean;
   inputRef: RefObject<HTMLInputElement>;
-  autoFocus?: boolean;
 }
 
-export function SearchInput({
-  value,
-  onChange,
-  onClear,
-  isLoading,
-  inputRef,
-  autoFocus = false,
-}: SearchInputProps) {
+export function SearchInput({ value, onChange, onClear, inputRef }: SearchInputProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="p-3 sm:p-4 border-b border-border theme-card sticky top-12 sm:top-16 z-10">
+    <div className="border-b-2 border-line p-4">
       <div className="relative">
+        <Icon
+          name="search"
+          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+        />
         <input
           ref={inputRef}
           type="text"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(event) => onChange(event.target.value)}
           placeholder={t("search.inputPlaceholder")}
-          autoFocus={autoFocus}
-          className="w-full p-3 pr-10 theme-input theme-border rounded-lg focus:ring-2 focus:ring-mario-blue focus:border-transparent text-sm sm:text-base"
+          aria-label={t("header.search")}
+          className="h-11 w-full rounded-xl border-2 border-line-strong bg-card pl-9 pr-10 text-foreground placeholder:text-muted"
         />
-        <div className="absolute right-3 top-3">
-          {isLoading ? (
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-mario-blue"></div>
-          ) : value ? (
-            <button
-              onClick={onClear}
-              className="text-muted hover:text-foreground transition-colors"
-              aria-label={t("search.modal.clearSearch")}
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          ) : null}
-        </div>
+        {value && (
+          <button
+            type="button"
+            onClick={onClear}
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted transition-colors duration-150 hover:text-foreground"
+            aria-label={t("search.modal.clearSearch")}
+          >
+            <Icon name="x" />
+          </button>
+        )}
       </div>
     </div>
   );

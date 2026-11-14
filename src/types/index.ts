@@ -60,6 +60,40 @@ export type PageType =
   | "combinations"
   | "recommendations";
 
+// ==========================================
+// 性能輪廓型別
+// ==========================================
+
+/** 跑法：依遊戲顯示速度與加速度的差距判斷 */
+export type PlayStyle = "speed" | "balanced" | "acceleration";
+export type PlayStyleFilter = PlayStyle | "all";
+
+/** 體型：依重量占最大值的比例判斷 */
+export type WeightClass = "light" | "medium" | "heavy";
+
+/** 角色或載具瀏覽頁 */
+export type EntityKind = "characters" | "vehicles";
+
+/** 數值完全相同的一組角色或載具 */
+export interface StatGroup<T extends EntityStats = EntityStats> {
+  /** 能力值簽章，作為群組唯一鍵 */
+  key: string;
+  /** 群組代表（資料中最先出現的成員） */
+  lead: T;
+  members: T[];
+  playStyle: PlayStyle;
+  weightClass: WeightClass;
+}
+
+/** 強弱項：依能力值占最大值的比例挑出 */
+export interface StatTraits {
+  strong: StatType[];
+  weak: StatType[];
+}
+
+/** 組合間比較結果：該項是否為唯一最高或唯一最低 */
+export type Standing = "best" | "worst" | null;
+
 /** 四大能力值的最大值（用於進度條比例） */
 export interface SummaryMaxStats {
   speed: number;
@@ -92,12 +126,6 @@ export type RecommendationResult = Record<
   maxCombinedStats: SummaryMaxStats;
 };
 
-// 搜尋相關 atoms
-// 搜尋結果的分頁型別
-export interface SearchModalProps {
-  onNavigate?: (type: "characters" | "vehicles" | "recommendations") => void;
-}
-
 // 搜尋結果的聯合型別
 export type SearchResultItem =
   | {
@@ -107,10 +135,6 @@ export type SearchResultItem =
   | {
       type: "vehicle";
       data: VehicleStats;
-    }
-  | {
-      type: "combination";
-      data: CombinationStats;
     };
 
 // ==========================================
@@ -159,29 +183,3 @@ export interface DataStatus {
 // ==========================================
 
 export type ThemeMode = "light" | "dark";
-
-export interface ThemeState {
-  mode: ThemeMode;
-}
-
-export interface ThemeConfig {
-  colors: {
-    background: string;
-    foreground: string;
-    muted: string;
-    accent: string;
-    card: string;
-    border: string;
-    input: string;
-    ring: string;
-    // 瑪利歐賽車主題色
-    marioRed: string;
-    marioBlue: string;
-    marioYellow: string;
-    marioGreen: string;
-  };
-  gradients: {
-    background: string;
-    card: string;
-  };
-}

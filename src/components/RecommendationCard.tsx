@@ -1,162 +1,93 @@
 "use client";
 
-import React, { useMemo } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import type { RecommendedCombination, SummaryMaxStats } from "@/types";
-import StatBar from "@/components/StatBar";
-import { getTerrainIcon, useTerrainName } from "@/constants/terrain";
+import type { RecommendedCombination, StatType, SummaryMaxStats } from "@/types";
+import { PROFILE_AXES, getPlayStyle } from "@/utils/profile";
+import { combineStats } from "@/utils/stats";
+import { PLAY_STYLE_TONE } from "@/constants/playStyle";
+import { DEFAULT_MEDAL_CLASS, MEDAL_CLASS } from "@/constants/rank";
+import { RadarChart } from "@/components/profile/RadarChart";
+import { Kart } from "@/components/profile/Kart";
 
 interface RecommendationCardProps {
   recommendation: RecommendedCombination;
   maxStats: SummaryMaxStats;
+  /** 前三名以大卡片呈現 */
+  featured?: boolean;
 }
 
-const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(
-  ({ recommendation, maxStats }) => {
-    const { t } = useTranslation();
-    const getTerrainName = useTerrainName();
-    const {
-      character,
-      vehicle,
-      score,
-      totalSpeed,
-      totalHandling,
-      totalAcceleration,
-      totalWeight,
-      terrain,
-      rank,
-    } = recommendation;
+/** 單一推薦組合：名次、組合名稱、能力輪廓與綜合評分 */
+export const RecommendationCard = memo(function RecommendationCard({
+  recommendation,
+  maxStats,
+  featured = false,
+}: RecommendationCardProps) {
+  const { t } = useTranslation();
+  const { rank, character, vehicle, score } = recommendation;
+  const totals: Readonly<Record<StatType, number>> = {
+    speed: recommendation.totalSpeed,
+    acceleration: recommendation.totalAcceleration,
+    weight: recommendation.totalWeight,
+    handling: recommendation.totalHandling,
+  };
+  // 跑法以組合後的數值判斷，與組合賽跑頁一致
+  const tone = PLAY_STYLE_TONE[getPlayStyle(combineStats(character, vehicle))];
+  const title = t("combos.title", {
+    character: character.name,
+    vehicle: vehicle.name,
+  });
 
-    // 使用 useMemo 優化地形資訊
-    const terrainInfo = useMemo(
-      () => ({
-        icon: getTerrainIcon(terrain),
-        name: getTerrainName(terrain),
-      }),
-      [terrain, getTerrainName],
-    );
+  const radar = (
+    <RadarChart
+      series={[{ values: PROFILE_AXES.map((axis) => totals[axis]), color: tone.color }]}
+      maxima={PROFILE_AXES.map((axis) => maxStats[axis])}
+      size={featured ? 72 : 44}
+      fillOpacity={0.25}
+      strokeWidth={1.5}
+    />
+  );
+  const medalBadge = (
+    <span
+      className={`grid shrink-0 place-items-center rounded-xl border-2 border-ink font-display ${
+        MEDAL_CLASS[rank] ?? DEFAULT_MEDAL_CLASS
+      } ${featured ? "h-12 w-12 text-2xl" : "h-9 w-9 text-lg"}`}
+    >
+      {rank}
+    </span>
+  );
+  const scoreLine = (
+    <p className="text-xs text-muted">
+      {t("recommendations.compositeScore")}{" "}
+      <span className="font-mono text-secondary">{score.toFixed(1)}</span>
+    </p>
+  );
 
-    // 使用 useMemo 優化排名樣式
-    const rankStyle = useMemo(() => {
-      if (rank === 1)
-        return "bg-gradient-to-br from-yellow-400 to-yellow-600 text-white";
-      if (rank === 2)
-        return "bg-gradient-to-br from-gray-300 to-gray-500 text-white";
-      if (rank === 3)
-        return "bg-gradient-to-br from-amber-600 to-amber-800 text-white";
-      return "bg-gradient-to-br from-blue-500 to-blue-700 text-white";
-    }, [rank]);
-
+  // 前三名：上方名次與雷達圖，下方卡丁車與組合名稱
+  if (featured) {
     return (
-      <div className="theme-card rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 theme-border">
-        {/* 排名徽章 */}
-        <div className="flex items-center justify-between mb-3">
-          <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${rankStyle}`}
-          >
-            {rank}
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-2xl">{terrainInfo.icon}</span>
-            <span className="text-sm font-medium text-muted">
-              {terrainInfo.name}
-            </span>
-          </div>
+      <article className="flex flex-col gap-3 rounded-[20px] border-2 border-ink bg-card p-5 shadow-press">
+        <div className="flex items-start justify-between">
+          {medalBadge}
+          <span>{radar}</span>
         </div>
-
-        {/* 角色與載具組合 */}
-        <div className="flex items-center space-x-4 mb-4">
-          <div className="flex-1 text-center">
-            <div className="text-lg font-bold text-foreground">
-              {character.name}
-            </div>
-            <div className="text-xs text-muted">{t("types.character")}</div>
-          </div>
-          <div className="text-2xl">+</div>
-          <div className="flex-1 text-center">
-            <div className="text-lg font-bold text-foreground">
-              {vehicle.name}
-            </div>
-            <div className="text-xs text-muted">{t("types.vehicle")}</div>
-          </div>
+        <Kart color={tone.color} />
+        <div>
+          <h3 className="font-display text-xl">{title}</h3>
+          {scoreLine}
         </div>
-
-        {/* 綜合分數 */}
-        <div className="mb-4 text-center">
-          <div className="text-sm text-muted">
-            {t("recommendations.compositeScore")}
-          </div>
-          <div className="text-2xl font-bold text-green-600">
-            {score.toFixed(1)}
-          </div>
-        </div>
-
-        {/* 組合統計 */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted">{t("stats.speed")}</span>
-            <span className="text-sm font-medium">{totalSpeed.toFixed(1)}</span>
-          </div>
-          <StatBar
-            value={totalSpeed}
-            maxValue={maxStats.speed}
-            statType="speed"
-            label={t("stats.speed")}
-          />
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted">{t("stats.handling")}</span>
-            <span className="text-sm font-medium">
-              {totalHandling.toFixed(1)}
-            </span>
-          </div>
-          <StatBar
-            value={totalHandling}
-            maxValue={maxStats.handling}
-            statType="handling"
-            label={t("stats.handling")}
-          />
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted">
-              {t("stats.acceleration")}
-            </span>
-            <span className="text-sm font-medium">
-              {totalAcceleration.toFixed(1)}
-            </span>
-          </div>
-          <StatBar
-            value={totalAcceleration}
-            maxValue={maxStats.acceleration}
-            statType="acceleration"
-            label={t("stats.acceleration")}
-          />
-
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted">{t("stats.weight")}</span>
-            <span className="text-sm font-medium">
-              {totalWeight.toFixed(1)}
-            </span>
-          </div>
-          <StatBar
-            value={totalWeight}
-            maxValue={maxStats.weight}
-            statType="weight"
-            label={t("stats.weight")}
-          />
-        </div>
-
-        {/* 地形特化提示 */}
-        <div className="mt-4 p-2 bg-gray-50 rounded-lg">
-          <div className="text-xs text-muted text-center">
-            {t("recommendations.optimizedFor", { terrain: terrainInfo.name })}
-          </div>
-        </div>
-      </div>
+      </article>
     );
-  },
-);
+  }
 
-RecommendationCard.displayName = "RecommendationCard";
-
-export default RecommendationCard;
+  return (
+    <article className="flex items-center gap-4 rounded-[20px] border-2 border-line bg-card px-4 py-3">
+      {medalBadge}
+      <div className="min-w-0 flex-1">
+        <h3 className="truncate font-display text-base">{title}</h3>
+        {scoreLine}
+      </div>
+      {radar}
+    </article>
+  );
+});

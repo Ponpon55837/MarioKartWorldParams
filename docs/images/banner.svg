@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-label="賽車參數筆記 · 瑪利歐賽車世界">
+  <defs>
+    <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="9" cy="9" r="1.1" fill="#1d1a2b" fill-opacity="0.08"/>
+    </pattern>
+    <pattern id="stripe" width="36" height="10" patternUnits="userSpaceOnUse">
+      <rect width="18" height="10" fill="#e52521"/>
+      <rect x="18" width="18" height="10" fill="#ffffff"/>
+    </pattern>
+    <pattern id="checker" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#ffffff"/>
+      <rect width="8" height="8" fill="#1d1a2b"/>
+      <rect x="8" y="8" width="8" height="8" fill="#1d1a2b"/>
+    </pattern>
+    <pattern id="flagChecker" width="48" height="48" patternUnits="userSpaceOnUse">
+      <rect width="48" height="48" fill="#ffffff"/>
+      <rect width="24" height="24" fill="#1d1a2b"/>
+      <rect x="24" y="24" width="24" height="24" fill="#1d1a2b"/>
+    </pattern>
+    <clipPath id="flag"><rect x="0" y="0" width="96" height="96" rx="20"/></clipPath>
+    <clipPath id="card"><rect width="1200" height="300" rx="24"/></clipPath>
+    <clipPath id="lanes">
+      <rect width="300" height="40" rx="12"/>
+      <rect y="54" width="300" height="40" rx="12"/>
+      <rect y="108" width="300" height="40" rx="12"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#card)">
+    <rect width="1200" height="300" fill="#fdf8ee"/>
+    <rect width="1200" height="300" fill="url(#dots)"/>
+    <rect y="290" width="1200" height="10" fill="url(#stripe)"/>
+  </g>
+
+  <!-- 格旗標誌 -->
+  <g transform="translate(96 100) rotate(-6 48 48)">
+    <rect x="0" y="8" width="96" height="96" rx="20" fill="#e52521"/>
+    <g clip-path="url(#flag)">
+      <rect width="96" height="96" fill="url(#flagChecker)"/>
+    </g>
+    <rect x="0" y="0" width="96" height="96" rx="20" fill="none" stroke="#1d1a2b" stroke-width="6"/>
+  </g>
+
+  <g font-family="Huninn, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif" fill="#1d1a2b">
+    <text x="236" y="150" font-size="64" font-weight="700">賽車參數筆記</text>
+    <text x="238" y="196" font-size="24" fill="#4f4a5e">瑪利歐賽車世界 · 角色、載具與組合的跑法圖鑑</text>
+  </g>
+
+  <!-- 跑法色塊 -->
+  <g font-family="'PingFang TC', 'Noto Sans TC', sans-serif" font-size="18" fill="#4f4a5e">
+    <rect x="238" y="226" width="14" height="14" rx="4" fill="#e52521"/>
+    <text x="260" y="239">速度型</text>
+    <rect x="330" y="226" width="14" height="14" rx="4" fill="#1f6feb"/>
+    <text x="352" y="239">平衡型</text>
+    <rect x="422" y="226" width="14" height="14" rx="4" fill="#18a148"/>
+    <text x="444" y="239">加速型</text>
+  </g>
+
+  <!-- 賽道與卡丁車 -->
+  <g transform="translate(820 92)">
+    <g clip-path="url(#lanes)">
+    <rect width="300" height="40" rx="12" fill="#3a3b3f"/>
+    <line x1="14" y1="20" x2="270" y2="20" stroke="#ffffff" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="9 9"/>
+    <rect x="276" width="24" height="40" fill="url(#checker)"/>
+    <rect y="54" width="300" height="40" rx="12" fill="#c98f52"/>
+    <rect x="276" y="54" width="24" height="40" fill="url(#checker)"/>
+    <rect y="108" width="300" height="40" rx="12" fill="#2f7fd1"/>
+    <rect x="276" y="108" width="24" height="40" fill="url(#checker)"/>
+    </g>
+    <g fill="#e52521"><circle cx="214" cy="12" r="6"/><path d="M196 26 q4 -10 18 -10 h10 q14 0 18 10z"/></g>
+    <g fill="#1d1a2b"><circle cx="202" cy="28" r="5"/><circle cx="234" cy="28" r="5"/></g>
+    <g fill="#1f6feb"><circle cx="150" cy="66" r="6"/><path d="M132 80 q4 -10 18 -10 h10 q14 0 18 10z"/></g>
+    <g fill="#1d1a2b"><circle cx="138" cy="82" r="5"/><circle cx="170" cy="82" r="5"/></g>
+    <g fill="#18a148"><circle cx="110" cy="120" r="6"/><path d="M92 134 q4 -10 18 -10 h10 q14 0 18 10z"/></g>
+    <g fill="#1d1a2b"><circle cx="98" cy="136" r="5"/><circle cx="130" cy="136" r="5"/></g>
+  </g>
+</svg>

@@ -1,27 +1,21 @@
-import { atom, type Atom } from "jotai";
+import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import type {
   CharacterStats,
   VehicleStats,
   CombinationStats,
-  StatType,
+  EntityKind,
   SpeedFilter,
-  HandlingFilter,
   PageType,
+  PlayStyleFilter,
   MarioKartData,
   SearchResultItem,
   ThemeMode,
-  ThemeState,
 } from "@/types";
 import { parseMarioKartCSV } from "@/utils/csvParser";
 import { validateMarioKartData } from "@/utils/dataValidation";
-import {
-  combineStats,
-  computeFieldMaxima,
-  getSortKey,
-  pickSummaryMax,
-  sortByStatDesc,
-} from "@/utils/stats";
+import { combineStats, computeFieldMaxima } from "@/utils/stats";
+import { groupByStats } from "@/utils/profile";
 import { computeRecommendations } from "@/utils/recommendation";
 import { buildSearchIndex } from "@/utils/search";
 import { combinationsAtom } from "@/store/combinations";
@@ -34,11 +28,21 @@ export const errorAtom = atom<string | null>(null);
 export const charactersAtom = atom<CharacterStats[]>([]);
 export const vehiclesAtom = atom<VehicleStats[]>([]);
 
-// 過濾和排序狀態 atoms (會話級別，不需要持久化)
-export const sortByAtom = atom<StatType>("speed");
-export const speedFilterAtom = atom<SpeedFilter>("display");
-export const handlingFilterAtom = atom<HandlingFilter>("display");
+// 瀏覽狀態 atoms (會話級別，不需要持久化)
 export const currentPageAtom = atom<PageType>("characters");
+/** 賽道篩選：同時決定速度與操控使用的欄位 */
+export const trackFilterAtom = atom<SpeedFilter>("display");
+export const playStyleFilterAtom = atom<PlayStyleFilter>("all");
+/** 各瀏覽頁目前選取的角色／載具名稱；null 表示使用第一個群組 */
+export const selectedNameAtom = atom<Record<EntityKind, string | null>>({
+  characters: null,
+  vehicles: null,
+});
+/** 組合賽跑頁建立器的預選值（從焦點區「配一台車去跑」帶入） */
+export const comboDraftAtom = atom<{ character: string; vehicle: string }>({
+  character: "",
+  vehicle: "",
+});
 
 export const searchModalOpenAtom = atom<boolean>(false);
 export const searchQueryAtom = atom<string>("");
@@ -59,63 +63,48 @@ export const languageAtom = atomWithStorage<SupportedLanguage>(
 // 衍生 Atoms（Jotai 依依賴自動快取，依賴不變時不重算）
 // ==========================================
 
-/**
- * 角色與載具每個欄位的最大值
- * 單次走訪 O(n·k)，僅在原始資料變更時重算
- */
-export const fieldMaximaAtom = atom((get) =>
-  computeFieldMaxima(get(charactersAtom), get(vehiclesAtom)),
+/** 角色各欄位最大值：單次走訪 O(n·k)，資料變更時才重算 */
+export const characterMaximaAtom = atom((get) =>
+  computeFieldMaxima(get(charactersAtom)),
 );
 
-/**
- * 四大能力值的全域最大值（不隨篩選器變動）
- */
-export const maxStatsAtom = atom((get) => {
-  const maxima = get(fieldMaximaAtom);
-  return {
-    speed: Math.max(
-      maxima.displaySpeed,
-      maxima.roadSpeed,
-      maxima.terrainSpeed,
-      maxima.waterSpeed,
-    ),
-    acceleration: maxima.acceleration,
-    weight: maxima.weight,
-    handling: Math.max(
-      maxima.displayHandling,
-      maxima.roadHandling,
-      maxima.terrainHandling,
-      maxima.waterHandling,
-    ),
-    _internal: maxima,
-  };
-});
-
-/**
- * 依目前篩選器取得的最大值（O(1) 查表）
- */
-export const dynamicMaxStatsAtom = atom((get) =>
-  pickSummaryMax(
-    get(fieldMaximaAtom),
-    get(speedFilterAtom),
-    get(handlingFilterAtom),
-  ),
+/** 載具各欄位最大值 */
+export const vehicleMaximaAtom = atom((get) =>
+  computeFieldMaxima(get(vehiclesAtom)),
 );
 
-/** 目前排序使用的欄位 */
-const sortKeyAtom = atom((get) =>
-  getSortKey(get(sortByAtom), get(speedFilterAtom), get(handlingFilterAtom)),
+/** 組合各欄位最大值：max(c + v) = max(c) + max(v)，O(k) 而非列舉 C × V */
+export const combinedMaximaAtom = atom((get) =>
+  combineStats(get(characterMaximaAtom), get(vehicleMaximaAtom)),
 );
 
-const createSortedEntitiesAtom = <T extends CharacterStats | VehicleStats>(
-  entitiesAtom: Atom<T[]>,
-) => atom((get): T[] => sortByStatDesc(get(entitiesAtom), get(sortKeyAtom)));
+/** 依數值分組的角色與載具（Hash Map 分組，詳見 utils/profile.ts） */
+export const characterGroupsAtom = atom((get) =>
+  groupByStats(get(charactersAtom)),
+);
+export const vehicleGroupsAtom = atom((get) => groupByStats(get(vehiclesAtom)));
 
-/** 排序後的角色列表：根據當前排序設定和篩選器自動更新 */
-export const sortedCharactersAtom = createSortedEntitiesAtom(charactersAtom);
+/** 名稱 → 實體的 Hash Map，選取時 O(1) 查找 */
+export const characterByNameAtom = atom(
+  (get) => new Map(get(charactersAtom).map((c) => [c.name, c])),
+);
+export const vehicleByNameAtom = atom(
+  (get) => new Map(get(vehiclesAtom).map((v) => [v.name, v])),
+);
 
-/** 排序後的載具列表：根據當前排序設定和篩選器自動更新 */
-export const sortedVehiclesAtom = createSortedEntitiesAtom(vehiclesAtom);
+/** 依瀏覽頁取用對應的資料 atom */
+export const ENTITY_ATOMS = {
+  characters: {
+    list: charactersAtom,
+    groups: characterGroupsAtom,
+    maxima: characterMaximaAtom,
+  },
+  vehicles: {
+    list: vehiclesAtom,
+    groups: vehicleGroupsAtom,
+    maxima: vehicleMaximaAtom,
+  },
+} as const;
 
 /** 搜尋索引：預先轉小寫，資料變更時才重建 */
 export const searchIndexAtom = atom((get) =>
@@ -256,6 +245,35 @@ export const loadDataAtom = atom(
 );
 
 // ==========================================
+// 瀏覽動作
+// ==========================================
+
+/** 在角色或載具頁聚焦某個名稱（搜尋結果點選時使用）；清除跑法篩選確保看得到 */
+export const focusEntityAtom = atom(
+  null,
+  (get, set, { kind, name }: { kind: EntityKind; name: string }) => {
+    set(selectedNameAtom, { ...get(selectedNameAtom), [kind]: name });
+    set(playStyleFilterAtom, "all");
+    set(currentPageAtom, kind);
+  },
+);
+
+/** 帶著角色或載具前往組合賽跑頁 */
+export const startComboWithAtom = atom(
+  null,
+  (get, set, { kind, name }: { kind: EntityKind; name: string }) => {
+    const draft = get(comboDraftAtom);
+    set(
+      comboDraftAtom,
+      kind === "characters"
+        ? { ...draft, character: name }
+        : { ...draft, vehicle: name },
+    );
+    set(currentPageAtom, "combinations");
+  },
+);
+
+// ==========================================
 // 組合管理
 // ==========================================
 
@@ -303,15 +321,6 @@ export const themeModeAtom = atomWithStorage<ThemeMode>(
   "mario-kart-theme",
   "light",
 );
-
-// 主題狀態
-export const themeStateAtom = atom<ThemeState>((get) => {
-  const mode = get(themeModeAtom);
-
-  return {
-    mode,
-  };
-});
 
 // 主題切換動作
 export const toggleThemeAtom = atom(null, (get, set, newMode?: ThemeMode) => {

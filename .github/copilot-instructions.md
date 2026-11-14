@@ -647,25 +647,21 @@ src/
 │       └── sync-data/            # 資料同步 API
 │           └── route.ts
 ├── components/                   # React 元件
-│   ├── CharacterCard.tsx         # 角色卡片元件
-│   ├── VehicleCard.tsx           # 載具卡片元件
-│   ├── CombinationCard.tsx       # 組合卡片元件
+│   ├── layout/                   # 側邊欄與應用程式框架
+│   ├── ui/                       # Button、Segmented、Avatar、Icon
+│   ├── profile/                  # 雷達圖、卡丁車、賽道、焦點區、性能卡片
+│   ├── browser/                  # 角色／載具瀏覽頁
+│   ├── combos/                   # 組合賽跑
+│   ├── search/                   # 搜尋模態框子元件
 │   ├── RecommendationCard.tsx    # 推薦卡片元件
 │   ├── RecommendationsPage.tsx   # 推薦頁面元件
-│   ├── StatBar.tsx               # 統計條元件
-│   ├── CustomSelect.tsx          # 自定義下拉選單
 │   ├── LanguageSelector.tsx      # 語言選擇器
 │   ├── SearchModal.tsx           # 搜尋模態框
-│   ├── SearchButton.tsx          # 搜尋按鈕
-│   ├── PageControls.tsx          # 頁面控制元件
-│   ├── CombinationSelector.tsx   # 組合選擇器
-│   ├── ClientOnlyWrapper.tsx     # 客戶端包裝元件
-│   └── LayoutContent.tsx         # 版面內容元件
+│   └── ClientOnlyWrapper.tsx     # 客戶端包裝元件
 ├── store/                        # Jotai 狀態管理
 │   ├── dataAtoms.ts              # 資料相關 atoms
 │   └── combinations.ts           # 組合相關 atoms
 ├── hooks/                        # 自定義 Hooks
-│   ├── useClientMounted.ts       # 客戶端掛載檢查
 │   ├── useMarioKartStore.ts      # Jotai 狀態 hook
 │   ├── useLanguagePersistence.ts # 語言持久化 hook
 │   └── usePerformance.ts         # 性能監控 hook

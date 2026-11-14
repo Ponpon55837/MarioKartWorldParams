@@ -1,45 +1,19 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useAtomValue } from 'jotai';
-import { themeStateAtom } from '@/store/dataAtoms';
+import { useEffect } from "react";
+import { useAtomValue } from "jotai";
+import { themeModeAtom } from "@/store/dataAtoms";
 
 /**
- * 主題提供者組件
- *
- * 處理主題 DOM 屬性設定和整體主題應用
+ * 主題提供者：把目前主題同步到 <html> 的 class，
+ * 色彩 token 由 globals.css 的 :root / .dark 決定
  */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const themeState = useAtomValue(themeStateAtom);
+  const mode = useAtomValue(themeModeAtom);
 
   useEffect(() => {
-    // 更新 HTML 和 body 元素的主題
-    const html = document.documentElement;
-    const body = document.body;
-
-    // 移除所有主題類別
-    html.classList.remove('light', 'dark');
-    body.classList.remove('light', 'dark');
-
-    // 設定當前主題類別
-    const currentTheme = themeState.mode;
-    html.classList.add(currentTheme);
-    body.classList.add(currentTheme);
-
-    // 設定 color-scheme 屬性
-    html.style.setProperty('color-scheme', currentTheme);
-    body.style.setProperty('color-scheme', currentTheme);
-
-    // 設定主題資料屬性
-    html.setAttribute('data-theme', currentTheme);
-    html.setAttribute('data-theme-mode', currentTheme);
-    body.setAttribute('data-theme', currentTheme);
-
-    // 強制重繪確保主題立即生效
-    html.style.display = 'none';
-    html.offsetHeight; // 觸發重繪
-    html.style.display = '';
-  }, [themeState]);
+    document.documentElement.classList.toggle("dark", mode === "dark");
+  }, [mode]);
 
   return <>{children}</>;
 }

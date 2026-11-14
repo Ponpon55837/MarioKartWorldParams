@@ -4,6 +4,21 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/zh-TW/) 並且本專案遵循 [語意化版本](https://semver.org/lang/zh-TW/)。
 
+## [0.1.1] - 2026-11-14
+
+### 改善
+
+- **介面改版**：依 unslop 原則改為賽道遊戲風格，色彩集中在角色焦點區與組合賽跑（詳見 `openspec/changes/20261114-playful-ui-redesign.md`）
+- **性能分組與跑法**：相同數值的角色／載具合併，依速度與加速分成速度型／平衡型／加速型
+- **組合賽跑**：紅綠燈倒數、賽跑模擬（封閉解 + 二分搜尋）與頒獎台
+- **手機體驗**：頂部導覽固定在畫面上；點選卡片或搜尋結果後自動捲到焦點區
+- **README**：改為與網站一致的視覺風格，附上實際畫面截圖
+- 新增 favicon 與 Apple touch icon
+
+### 修正
+
+- 開發環境主控台的 Jotai DevTools 棄用警告與 Speed Insights CSP 錯誤
+
 ## [未發布]
 
 ### 新增

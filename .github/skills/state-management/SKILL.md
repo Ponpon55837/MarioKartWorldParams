@@ -17,9 +17,9 @@ license: MIT
 | 類型     | Atom                                                                                                                                      | 說明                   |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | 原始資料 | `charactersAtom`、`vehiclesAtom`                                                                                                          | 由 `loadDataAtom` 寫入 |
-| UI 狀態  | `sortByAtom`、`speedFilterAtom`、`handlingFilterAtom`、`currentPageAtom`、搜尋相關 atoms                                                  | 會話級別               |
+| UI 狀態  | `currentPageAtom`、`trackFilterAtom`、`playStyleFilterAtom`、`selectedNameAtom`、`comboDraftAtom`、搜尋相關 atoms                                                  | 會話級別               |
 | 持久化   | `combinationsAtom`、`languageAtom`、`themeModeAtom`                                                                                       | `atomWithStorage`      |
-| 衍生     | `fieldMaximaAtom` → `dynamicMaxStatsAtom`、`sortedCharactersAtom`、`sortedVehiclesAtom`、`searchIndexAtom`、`recommendedCombinationsAtom` | 依賴不變時自動快取     |
+| 衍生     | `characterMaximaAtom`、`vehicleMaximaAtom` → `combinedMaximaAtom`、`characterGroupsAtom`、`vehicleGroupsAtom`、`searchIndexAtom`、`recommendedCombinationsAtom` | 依賴不變時自動快取     |
 | Action   | `loadDataAtom`（支援 `{ force: true }`）、`addCombinationAtom`、`removeCombinationAtom`、`clearAllCombinationsAtom`                       | 寫入邏輯集中           |
 
 ### 規則

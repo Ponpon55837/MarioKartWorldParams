@@ -34,12 +34,14 @@ license: MIT
 | 模式                                | LeetCode 對應          | 位置                                           | 複雜度                             |
 | ----------------------------------- | ---------------------- | ---------------------------------------------- | ---------------------------------- |
 | Hash Map 查表取代 switch            | 1. Two Sum             | `utils/stats.ts` `SPEED_KEY_BY_FILTER`         | O(1)                               |
-| 名稱 → 實體 Map                     | 1. Two Sum             | `CombinationSelector.tsx`                      | O(1) 查找                          |
+| 名稱 → 實體 Map                     | 1. Two Sum             | `characterByNameAtom`、`vehicleByNameAtom`     | O(1) 查找                          |
+| 簽章分組                            | 49 Group Anagrams      | `utils/profile.ts` `groupByStats`              | O(n·k)，原為兩兩比較 O(n²·k)       |
+| 單次走訪求唯一最大／最小            | 一次遍歷               | `utils/profile.ts` `compareStandings`          | O(n·k)，原為 O(n²·k)               |
+| 單調函數二分搜尋                    | 875 Koko / 二分答案    | `utils/race.ts` `solveFinishTime`              | O(log(1/ε))                        |
 | 二元堆積                            | 堆積基礎               | `utils/heap.ts` `BinaryHeap`                   | push/pop O(log n)                  |
 | Top-K 堆積                          | 215 / 347              | `utils/heap.ts` `topK`、`utils/search.ts`      | O(n log K)                         |
 | K 路合併                            | 23 / 373 Find K Pairs  | `utils/recommendation.ts` `getTopCombinations` | O(C log C + V log V + (V+K) log V) |
 | 可分解最大值 max(a+b)=max(a)+max(b) | —                      | `computeMaxCombinedStats`                      | O(C + V)，原為 O(C·V)              |
-| Decorate-Sort-Undecorate            | 穩定排序               | `utils/stats.ts` `sortByStatDesc`              | O(n log n)，鍵只取一次             |
 | 單次走訪求多欄最大值                | 一次遍歷               | `utils/stats.ts` `computeFieldMaxima`          | O(n·k)                             |
 | 雙指標 + slice                      | 字串掃描               | `utils/csvParser.ts` `parseCSVLine`            | O(n)，不逐字串接                   |
 | Set 偵測重複                        | 217 Contains Duplicate | `utils/dataValidation.ts`                      | O(n)                               |
@@ -83,9 +85,9 @@ pnpm build
 // ❌ comparator 內重複查找 / switch
 list.sort((a, b) => getValue(b, filter) - getValue(a, filter));
 
-// ✅ 先查表取得欄位，再 Decorate-Sort-Undecorate
+// ✅ 先查表取得欄位，再以欄位直接比較
 const key = getSortKey(sortBy, speedFilter, handlingFilter);
-sortByStatDesc(list, key);
+list.sort((a, b) => b[key] - a[key]);
 
 // ❌ 列舉全部組合後整體排序，只為取前 10 名
 const all = characters.flatMap((c) => vehicles.map((v) => score(c, v)));

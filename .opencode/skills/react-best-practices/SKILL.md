@@ -104,12 +104,12 @@ metadata:
 
 | 規則                                   | 位置                                                                         |
 | -------------------------------------- | ---------------------------------------------------------------------------- |
-| `js-set-map-lookups` / `js-index-maps` | `CombinationSelector.tsx` 名稱 → 實體 Map；`utils/stats.ts` 篩選器查表       |
+| `js-set-map-lookups` / `js-index-maps` | `characterByNameAtom` 名稱 → 實體 Map；`utils/stats.ts` 篩選器查表       |
 | `js-min-max-loop`                      | `utils/stats.ts` `computeFieldMaxima`、`utils/recommendation.ts` `maxOf`     |
 | `js-combine-iterations`                | `utils/csvParser.ts` 單次走訪同時解析角色與載具                              |
 | `js-hoist-regexp`                      | `utils/csvParser.ts` `NOTE_PATTERN`                                          |
 | `js-cache-storage`                     | `utils/searchHistory.ts` 寫入後直接回傳新列表，不再重讀 localStorage         |
-| `rerender-derived-state`               | `store/dataAtoms.ts` 衍生 atom（`searchIndexAtom`、`dynamicMaxStatsAtom`）   |
+| `rerender-derived-state`               | `store/dataAtoms.ts` 衍生 atom（`searchIndexAtom`、`characterGroupsAtom`）   |
 | `advanced-use-latest`                  | `hooks/usePerformance.ts` `useDebounce`（ref 保存最新 callback，卸載時取消） |
 
 更進一步的演算法層級優化（堆積、K 路合併）見 [`algorithm-patterns`](../algorithm-patterns/SKILL.md)。
