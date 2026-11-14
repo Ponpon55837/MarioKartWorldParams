@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { useAtom, useAtomValue } from "jotai";
-import type { SearchModalProps } from "@/types";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import type { EntityKind } from "@/types";
 import { useDebounce } from "@/hooks/usePerformance";
 import { useTranslation } from "react-i18next";
 import {
@@ -18,9 +18,7 @@ import {
   searchLoadingAtom,
   searchHistoryVisibleAtom,
   searchIndexAtom,
-  dynamicMaxStatsAtom,
-  speedFilterAtom,
-  handlingFilterAtom,
+  focusEntityAtom,
 } from "@/store/dataAtoms";
 import { SearchModalHeader } from "@/components/search/SearchModalHeader";
 import { SearchInput } from "@/components/search/SearchInput";
@@ -28,7 +26,7 @@ import { SearchHistory } from "@/components/search/SearchHistory";
 import { SearchResults } from "@/components/search/SearchResults";
 import { searchEntities } from "@/utils/search";
 
-export default function SearchModal({ onNavigate }: SearchModalProps) {
+export function SearchModal() {
   const { t } = useTranslation();
 
   // 使用全域狀態管理
@@ -40,9 +38,7 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
 
   // 從全域狀態獲取資料
   const searchIndex = useAtomValue(searchIndexAtom);
-  const maxStats = useAtomValue(dynamicMaxStatsAtom);
-  const speedFilter = useAtomValue(speedFilterAtom);
-  const handlingFilter = useAtomValue(handlingFilterAtom);
+  const focusEntity = useSetAtom(focusEntityAtom);
 
   // 本地狀態（不需要全域管理）
   const [searchHistory, setSearchHistory] = React.useState<SearchHistoryItem[]>(
@@ -119,6 +115,24 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
     }
   }, [isOpen, setShowHistory]);
 
+  // 選擇結果：切到對應頁面並聚焦該角色／載具
+  const handleSelect = (kind: EntityKind, name: string) => {
+    focusEntity({ kind, name });
+    handleClose();
+  };
+
+  // ⌘K / Ctrl+K 開啟搜尋
+  useEffect(() => {
+    const handleShortcut = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsOpen(true);
+      }
+    };
+    document.addEventListener("keydown", handleShortcut);
+    return () => document.removeEventListener("keydown", handleShortcut);
+  }, [setIsOpen]);
+
   // 鍵盤事件處理
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -158,24 +172,23 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
 
   return (
     <div
-      className="fixed inset-0 w-screen h-screen m-0 p-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-scrim/55 p-4"
       onClick={handleBackdropClick}
     >
-      <div className="theme-card rounded-lg shadow-2xl w-full max-w-4xl my-4 mx-4 overflow-hidden min-h-[400px] max-h-[calc(100vh-2rem)]">
-        {/* 搜尋標題列 */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="search-modal-title"
+        className="my-4 flex max-h-[calc(100vh-2rem)] w-full max-w-3xl flex-col overflow-hidden rounded-[20px] border-2 border-ink bg-card shadow-stage"
+      >
         <SearchModalHeader onClose={handleClose} />
-
-        {/* 搜尋輸入框 */}
         <SearchInput
           value={searchQuery}
           onChange={handleSearchChange}
           onClear={clearSearch}
-          isLoading={isLoading}
           inputRef={inputRef}
         />
-
-        {/* 搜尋結果區域 */}
-        <div className="p-3 sm:p-4 overflow-y-auto max-h-[calc(100vh-10rem)]">
+        <div className="flex-1 overflow-y-auto p-4">
           {showHistory && !searchQuery ? (
             <SearchHistory
               history={searchHistory}
@@ -186,76 +199,17 @@ export default function SearchModal({ onNavigate }: SearchModalProps) {
             <SearchResults
               results={searchResults}
               searchQuery={searchQuery}
-              maxStats={maxStats}
-              speedFilter={speedFilter}
-              handlingFilter={handlingFilter}
               isLoading={isLoading}
+              onSelect={handleSelect}
             />
           )}
         </div>
-
-        {/* 底部操作區域 */}
-        <div className="border-t border-border p-3 sm:p-4 bg-muted sticky bottom-0">
-          {/* 導航按鈕 */}
-          {onNavigate && (
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-              <button
-                onClick={() => {
-                  onNavigate("characters");
-                  handleClose();
-                }}
-                className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm"
-              >
-                {t("search.modal.viewAllCharacters")}
-              </button>
-              <button
-                onClick={() => {
-                  onNavigate("vehicles");
-                  handleClose();
-                }}
-                className="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm"
-              >
-                {t("search.modal.viewAllVehicles")}
-              </button>
-              <button
-                onClick={() => {
-                  onNavigate("recommendations");
-                  handleClose();
-                }}
-                className="px-3 py-1 bg-orange-100 text-orange-700 rounded hover:bg-orange-200 transition-colors text-sm"
-              >
-                {t("search.modal.recommendedCombos")}
-              </button>
-            </div>
-          )}
-
-          {/* 快捷鍵說明 */}
-          <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-muted">
-            <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 mb-2 sm:mb-0">
-              <span className="text-xs mb-1 sm:mb-0">
-                {t("search.modal.supportHint")}
-              </span>
-              <div className="flex items-center space-x-1">
-                <kbd className="px-1 sm:px-2 py-1 theme-input border border-border rounded text-foreground font-mono text-xs">
-                  Escape
-                </kbd>
-                <span className="text-xs">{t("search.modal.escClose")}</span>
-              </div>
-            </div>
-            <div className="text-center sm:text-right">
-              <div className="flex items-center space-x-1">
-                <kbd className="px-1 sm:px-2 py-1 theme-input border border-border rounded text-foreground font-mono text-xs">
-                  Ctrl
-                </kbd>
-                <span className="text-xs">+</span>
-                <kbd className="px-1 sm:px-2 py-1 theme-input theme-border rounded text-foreground font-mono text-xs">
-                  K
-                </kbd>
-                <span className="text-xs">{t("search.modal.ctrlKOpen")}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p className="flex items-center gap-2 border-t-2 border-line px-4 py-2.5 text-xs text-muted">
+          <kbd className="rounded border border-b-2 border-line-strong bg-raised px-1.5 font-mono">
+            Esc
+          </kbd>
+          {t("search.modal.escClose")}
+        </p>
       </div>
     </div>
   );

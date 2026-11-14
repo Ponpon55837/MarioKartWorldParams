@@ -1,38 +1,15 @@
 {
   "app": {
-    "title": "🏁 马力欧赛车世界 🏁",
-    "subtitle": "马力欧赛车笔记 - 角色与载具数据参考",
-    "metadata": {
-      "title": "马力欧赛车世界 - 马力欧赛车笔记",
-      "description": "马力欧赛车角色与载具数据参考系统"
-    },
-    "footer": {
-      "copyright": "© 2025 马力欧赛车世界笔记系统",
-      "disclaimer": "基于社区数据的非官方工具 @Upfloor5"
-    }
-  },
-  "language": {
-    "switch": "切换语言",
-    "current": "当前：简体中文",
-    "options": {
-      "en": "English",
-      "ja": "日本語",
-      "ko": "한국어",
-      "zh-CN": "简体中文",
-      "zh-TW": "繁體中文"
-    },
-    "selector": "选择语言"
+    "brand": "赛车参数笔记",
+    "brandSub": "马力欧赛车世界"
   },
   "admin": {
     "dataManagement": "数据管理",
-    "systemManagement": "系统管理面板",
     "currentDataStatus": "当前数据状态",
     "checkingStatus": "检查中...",
     "jsonDataFile": "JSON 数据文件:",
     "jsonDataFileExists": "存在",
     "jsonDataFileNotExists": "不存在",
-    "characterCount": "角色数量:",
-    "vehicleCount": "载具数量:",
     "dataSource": "数据来源:",
     "lastUpdated": "最后更新:",
     "checkStatusFailed": "无法检查数据状态",
@@ -57,260 +34,144 @@
     "autoReload": "同步后应用程序将自动重新加载数据",
     "jsonLoadingSpeed": "JSON 格式加载速度比 CSV 快约 2-3 倍",
     "regularSync": "建议在数据更新后定期执行同步",
-    "backToHome": "返回首页",
     "syncToken": "同步 Token",
     "syncTokenPlaceholder": "输入 SYNC_SECRET_TOKEN（本地开发可留空）",
     "syncTokenHint": "Token 仅用于本次请求，不会被保存",
     "unauthorized": "未授权：请输入正确的同步 Token",
-    "notPersisted": "服务器文件系统为只读，数据未写入。请下载 JSON 文件并提交到项目的 public/ 目录。"
+    "notPersisted": "服务器文件系统为只读，数据未写入。请下载 JSON 文件并提交到项目的 public/ 目录。",
+    "unknownSyncError": "同步时发生未知错误"
   },
   "navigation": {
-    "dataPages": "数据页面",
     "characters": "角色",
     "vehicles": "载具",
-    "combinations": "组合配置",
-    "recommendations": "推荐配置",
-    "descriptions": {
-      "characters": "查看所有角色数据资料",
-      "vehicles": "查看所有载具数据资料",
-      "combinations": "创建与管理角色+载具组合配置",
-      "recommendations": "根据地形特性推荐最佳组合配置"
-    },
-    "goToCombinations": "想建立角色+载具组合？前往",
-    "combinationsPage": "组合页面",
-    "filterAndSort": "筛选与排序"
-  },
-  "stats": {
-    "speed": "速度",
-    "acceleration": "加速度",
-    "weight": "重量",
-    "handling": "操控性",
-    "display": "游戏显示",
-    "road": "普通道路",
-    "terrain": "越野地形",
-    "water": "水中",
-    "speedType": "速度类型",
-    "handlingType": "操控类型",
-    "details": "📊 详细数据",
-    "roadSpeed": "普通道路速度",
-    "terrainSpeed": "越野地形速度",
-    "waterSpeed": "水中速度",
-    "roadHandling": "普通道路操控",
-    "terrainHandling": "越野地形操控",
-    "waterHandling": "水中操控",
-    "total": "总计 {{charactersCount}} 个角色和 {{vehiclesCount}} 个载具",
-    "characterCount": "角色 ({{count}})",
-    "vehicleCount": "载具 ({{count}})",
-    "combinationCount": "角色+载具组合 ({{count}})",
-    "clearAll": "清除所有",
-    "speedTypes": {
-      "road": "普通道路速度",
-      "terrain": "越野地形速度",
-      "water": "水中速度",
-      "default": "速度"
-    },
-    "handlingTypes": {
-      "road": "普通道路操控",
-      "terrain": "越野地形操控",
-      "water": "水中操控",
-      "default": "操控性"
-    },
-    "legend": {
-      "title": "数据说明与图例",
-      "colorLegend": "数据颜色图例",
-      "speed": "速度",
-      "acceleration": "加速度",
-      "weight": "重量",
-      "handling": "操控性"
-    },
-    "descriptions": {
-      "speedTitle": "速度",
-      "roadSpeedDesc": "普通道路：混凝土、沥青路、金属等平滑表面",
-      "terrainSpeedDesc": "越野地形：泥泞、沙地、雪地等崎岖地形",
-      "waterSpeedDesc": "水中：水域区域，会启动水中卡丁车模式",
-      "otherStatsTitle": "其他数据",
-      "accelerationDesc": "加速度：从静止到最高速度的时间",
-      "weightDesc": "重量：影响碰撞结果和金币收集",
-      "handlingDesc": "操控性：卡丁车的转弯灵活度"
-    },
-    "tips": {
-      "usage": "使用提示：进度条颜色越深代表数据越高，百分比显示相对于最大值的比例，方便快速比较不同角色与载具！",
-      "notice": "注意事项：游戏中所有角色与载具组合都会额外获得 +3 数据加成，表格显示的是原始数据，实际游戏中可能会有调整。"
-    },
-    "tooltips": {
-      "displayStats": "显示数据：游戏中实际显示的数据",
-      "terrainStats": "地形专用详细数值：在各地形类型上的实际表现",
-      "score": "综合评分：考量所有数据的加权计算"
-    }
-  },
-  "selection": {
-    "all": "全部",
-    "character": "角色",
-    "vehicle": "载具",
-    "sortBy": "排序方式",
-    "sortByRoadSpeed": "普通道路速度",
-    "sortByTerrainSpeed": "越野地形速度",
-    "sortByWaterSpeed": "水中速度",
-    "sortByAcceleration": "加速度",
-    "sortByWeight": "重量",
-    "sortByRoadHandling": "普通道路操控",
-    "sortByTerrainHandling": "越野地形操控",
-    "sortByWaterHandling": "水中操控",
-    "filterBySpeed": "按速度筛选",
-    "filterByHandling": "按操控性筛选",
-    "selectCharacter": "选择角色",
-    "selectVehicle": "选择载具",
-    "chooseOption": "请选择选项"
+    "combinations": "组合赛跑",
+    "recommendations": "赛道推荐",
+    "garage": "车库"
   },
   "search": {
-    "placeholder": "搜索角色或载具...",
     "inputPlaceholder": "输入角色或载具名称...",
-    "noResults": "找不到符合的结果",
     "loading": "搜索中...",
-    "button": "搜索角色与载具",
-    "buttonShort": "搜索",
-    "shortcutHint": {
-      "press": "按下",
-      "quickSearch": "快速搜索"
-    },
     "modal": {
-      "title": "🔍 搜索角色与载具",
-      "recentSearches": "🕐 最近搜索",
+      "title": "搜索角色与载具",
+      "recentSearches": "最近搜索",
       "resultsCount": "项结果",
-      "searchTime": "搜索时间",
-      "seconds": "秒",
       "searchTips": "搜索技巧：",
-      "tip1": "• 支持中文与英文名称搜索",
-      "tip2": "• 支持部分名称搜索，例如：「马力欧」可找到「马力欧」",
-      "tip3": "• 结果按相关性排序",
+      "tip1": "支持中文与英文名称搜索",
+      "tip2": "支持部分名称搜索，例如：「马力欧」可找到「马力欧」",
+      "tip3": "结果按相关性排序",
       "startSearch": "开始输入以搜索角色或载具",
       "supportBoth": "支持中文与英文名称搜索",
       "noResultsFor": "找不到「{{query}}」的相关结果",
       "tryOther": "试试其他关键字或检查拼写",
-      "searchTipTitle": "搜索技巧：",
-      "searchTip1": "• 试试使用较短的关键字",
-      "searchTip2": "• 使用中文或英文名称",
-      "searchTip3": "• 检查是否有拼写错误",
       "foundResults": "找到 {{count}} 项结果",
-      "searchQuery": "搜索「{{query}}」",
-      "viewAllCharacters": "查看所有角色",
-      "viewAllVehicles": "查看所有载具",
-      "recommendedCombos": "推荐组合",
-      "supportHint": "支持中文与英文名称搜索",
-      "escClose": "按下 ESC 键关闭搜索窗口",
-      "ctrlKOpen": "按下 Ctrl + K 打开搜索",
-      "backToHome": "← 返回首页"
+      "escClose": "关闭搜索窗口",
+      "clearSearch": "清除搜索",
+      "removeHistory": "移除“{{query}}”"
     }
-  },
-  "combination": {
-    "autoSave": "自动保存：创建的组合会自动保存到本地，下次访问时会自动加载！",
-    "createNew": "创建新的角色+载具组合",
-    "selectCharacter": "选择角色 🎮",
-    "selectVehicle": "选择载具 🏎️",
-    "createButton": "创建组合",
-    "detailedSpeedDistribution": "详细速度分布",
-    "terrainNames": {
-      "road": "普通道路",
-      "terrain": "越野地形",
-      "water": "水中"
-    }
-  },
-  "test": {
-    "mario": "测试马力欧",
-    "vehicle": "测试载具",
-    "added": "🟡 测试组合已添加...",
-    "success": "✅ 持久化测试成功！组合已保存至 localStorage",
-    "failNoData": "❌ 测试失败：在 localStorage 中找不到组合数据",
-    "failNoKey": "❌ 测试失败：在 localStorage 中找不到密钥",
-    "loading": "加载中...",
-    "title": "持久化测试工具",
-    "currentCount": "当前组合数量：",
-    "autoSaveInfo": "这些组合应该会自动保存到 localStorage",
-    "testPersistence": "测试持久化",
-    "clearTestData": "清除测试数据",
-    "instructions": "测试说明：",
-    "instruction1": "点击「测试持久化」会添加一个测试组合",
-    "instruction2": "刷新页面后组合应该还在",
-    "instruction3": "组合数据保存在 localStorage 的「mario-kart-combinations」密钥下"
   },
   "recommendations": {
     "scoreFormula": "综合评分计算：速度 40% + 操控性 30% + 加速度 20% - 重量 10%",
-    "calculating": "计算推荐组合中...",
     "ensureDataLoaded": "请确保角色与载具数据已加载",
     "compositeScore": "综合评分",
-    "optimizedFor": "针对{{terrain}}地形优化",
     "instructions": {
-      "title": "💡 使用说明",
-      "description": "此页面提供针对不同地形类型的最佳角色与载具组合。点击下方按钮查看特定地形的推荐配置。",
-      "howToUse": "使用方式：",
       "step1": "重要说明：游戏中所有角色与载具的组合都会额外获得 +3 的能力值，可能是由某个独立的函数处理。这在《马力欧赛车7》、《马力欧赛车8》与《马力欧赛车8豪华版》中也一样。某些载具在使用库巴（Bowser）或超轻量角色时，能力值会完全不同，与使用其他角色时不同。详情请见下方「¹ 能力值显示不一致」章节。有些载具的某项能力值特别突出，例如「星星机动雪橇（Stellar Sled）」拥有 +11 的水上速度，远超所有其他载具。虽然不清楚任天堂为什么这样设定，但这个数值应该是正确的。游戏中显示的「速度」与「操控」在界面上看似单一数值，但实际上是三个子能力值的加总。游戏内显示的值只是平均概估，并不精确。表格中列出的「地形能力值」仅为等级（例如：1 比 2 慢），不是实际数值。要获得实际数值，必须进行数据挖掘。某些等级在游戏中根本没有载具使用，例如没有任何载具的地形速度是 3。这可以通过比较相近等级的角色与载具来验证。角色本身很可能也有隐藏的「操控」子能力值，目前尚无法得知，正在研究中。"
     },
-    "backToHome": "← 返回首页"
+    "subtitle": "按赛道挑出综合评分最高的 10 组"
   },
   "loading": {
-    "initializing": "初始化中...",
     "loadingData": "加载马力欧赛车数据中...",
     "error": "加载错误",
     "retry": "重新加载"
   },
-  "emptyCombination": {
-    "title": "尚未创建任何组合",
-    "subtitle": "使用上方的选择器来创建您的第一个组合！",
-    "tip": "选择一个角色和一个载具，然后点击「创建组合」按钮"
-  },
-  "debug": {
-    "title": "数据加载调试",
-    "loadingState": "加载状态",
-    "charactersCount": "角色数量",
-    "vehiclesCount": "载具数量",
-    "errorState": "错误状态",
-    "loading": "加载中...",
-    "idle": "空闲",
-    "noError": "无错误",
-    "manualLoad": "手动加载",
-    "testDirectFetch": "测试直接请求",
-    "errorDetails": "错误详情：",
-    "loadSuccess": "加载成功！",
-    "firstCharacters": "前3个角色：",
-    "firstVehicles": "前3个载具：",
-    "speed": "速度"
-  },
-  "terrain": {
-    "road": {
-      "name": "普通道路",
-      "description": "适合普通赛道与沥青路面"
-    },
-    "terrain": {
-      "name": "越野地形",
-      "description": "适合越野与沙地赛道"
-    },
-    "water": {
-      "name": "水中",
-      "description": "适合水上与湿滑路面"
-    }
-  },
   "common": {
-    "all": "全部",
-    "cancel": "取消",
     "close": "关闭",
-    "confirm": "确认",
-    "delete": "删除",
-    "edit": "编辑",
-    "filterBy": "筛选",
-    "reset": "重置",
-    "save": "保存",
-    "sortBy": "排序"
-  },
-  "dataPages": {
-    "recommendations": "推荐"
+    "delete": "删除"
   },
   "types": {
     "vehicle": "载具",
     "character": "角色"
   },
-  "sorting": {
-    "ascending": "升序",
-    "descending": "降序",
-    "sortBy": "排序方式"
+  "sidebar": {
+    "darkMode": "深色模式",
+    "on": "开",
+    "off": "关",
+    "language": "语言"
+  },
+  "header": {
+    "search": "搜索角色或载具"
+  },
+  "track": {
+    "display": "游戏显示",
+    "road": "道路",
+    "terrain": "地形",
+    "water": "水面"
+  },
+  "playStyle": {
+    "all": "全部",
+    "speed": "速度型",
+    "balanced": "平衡型",
+    "acceleration": "加速型"
+  },
+  "weightClass": {
+    "light": "轻量级",
+    "medium": "中量级",
+    "heavy": "重量级"
+  },
+  "axis": {
+    "speed": "速度",
+    "acceleration": "加速",
+    "weight": "重量",
+    "handling": "操控"
+  },
+  "browser": {
+    "trackLabel": "赛道",
+    "playStyleLabel": "跑法",
+    "allGroups": "所有性能",
+    "groupCount": "{{count}} 种",
+    "empty": "没有符合的性能，换个跑法看看",
+    "subtitle": {
+      "characters": "{{count}} 位角色，其实只有 {{groups}} 种性能。先挑跑法，再挑喜欢的角色",
+      "vehicles": "{{count}} 台载具，分成 {{groups}} 种性能。外观不同的车可能跑起来一样"
+    }
+  },
+  "spotlight": {
+    "traits": "擅长<mark>{{strong}}</mark>，代价是{{weak}}。",
+    "traitsStrongOnly": "擅长<mark>{{strong}}</mark>。",
+    "traitsNone": "各项都在中段，<mark>没有短板</mark>也没有绝招。",
+    "fastest": "{{track}}赛道跑得最快",
+    "sameStats": "{{names}} 的性能完全相同，选喜欢的外观就好",
+    "buildCombo": {
+      "characters": "配一台车去跑",
+      "vehicles": "配一位角色去跑"
+    },
+    "rawToggle": "原始数值",
+    "raw": "速度 {{speed}} · 操控 {{handling}}（道路/地形/水面）· 加速 {{acceleration}} · 重量 {{weight}}",
+    "lanesTitle": "三种赛道的速度",
+    "lanesHint": "越靠右越快",
+    "traitsWeakOnly": "没有特别突出的强项，要留意<mark>{{weak}}</mark>。"
+  },
+  "combos": {
+    "subtitle": "{{count}} 组参赛。选一种赛道，按开跑看谁先冲线",
+    "character": "角色",
+    "vehicle": "载具",
+    "selectPlaceholder": "请选择",
+    "add": "加入赛局",
+    "raceTitle": "模拟一圈",
+    "trackLabel": "比赛赛道",
+    "start": "开跑",
+    "raceHint": "起跑快慢看加速，后段拉开看速度。这是依参数换算的简化模拟，不代表实际比赛结果",
+    "place": "第 {{place}} 名",
+    "profileTitle": "能力轮廓",
+    "profileHint": "哪个方向越突出，组合就越偏向那种跑法",
+    "bestFor": "最适合跑<mark>{{track}}</mark>",
+    "best": "{{axis}}最强",
+    "worst": "{{axis}}最弱",
+    "meta": "{{style}}组合",
+    "remove": "移除 {{name}}",
+    "clearAll": "全部清除",
+    "emptyTitle": "还没有参赛组合",
+    "emptyHint": "从上方挑一位角色和一台载具，加入赛局",
+    "autoSave": "组合会自动保存在这台设备",
+    "title": "{{character}} + {{vehicle}}"
   }
 }

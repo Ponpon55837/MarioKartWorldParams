@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { Icon } from "@/components/ui/Icon";
 
 interface SearchModalHeaderProps {
   onClose: () => void;
@@ -10,28 +11,17 @@ export function SearchModalHeader({ onClose }: SearchModalHeaderProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="flex items-center justify-between p-3 sm:p-4 border-b border-border theme-card sticky top-0 z-10">
-      <h2 className="text-lg sm:text-xl font-bold text-foreground">
+    <div className="flex items-center justify-between border-b-2 border-line px-4 py-3">
+      <h2 id="search-modal-title" className="font-display text-xl">
         {t("search.modal.title")}
       </h2>
       <button
+        type="button"
         onClick={onClose}
-        className="text-muted hover:text-foreground transition-colors"
+        className="rounded-md p-1 text-muted transition-colors duration-150 hover:bg-raised hover:text-foreground"
         aria-label={t("common.close")}
       >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+        <Icon name="x" className="h-5 w-5" />
       </button>
     </div>
   );

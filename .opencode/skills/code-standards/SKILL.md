@@ -118,7 +118,7 @@ src/
 │   ├── csvParser.ts      # CSV 解析
 │   └── dataValidation.ts # 資料驗證（載入與同步時使用）
 ├── store/dataAtoms.ts    # 原始 atom + 衍生 atom + action atom
-└── components/           # 只負責渲染；角色與載具共用 EntityCard
+└── components/           # 只負責渲染；角色與載具共用 EntityBrowser
 tests/                    # node:test 測試（暴力解 Oracle + 隨機測試）
 ```
 

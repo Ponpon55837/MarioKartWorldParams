@@ -6,7 +6,6 @@
  */
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 
 import { BinaryHeap, topK } from "@/utils/heap";
 import {
@@ -21,52 +20,14 @@ import {
   combineStats,
   computeFieldMaxima,
   getSortKey,
-  sortByStatDesc,
+  getStatPercentage,
 } from "@/utils/stats";
 import { validateMarioKartData } from "@/utils/dataValidation";
 import type { EntityStats, TerrainType } from "@/types";
 
-const readPublic = (file: string) =>
-  readFileSync(new URL(`../public/${file}`, import.meta.url), "utf8");
+import { createFixtures, readPublic, realData } from "./helpers.mts";
 
-const realData = JSON.parse(readPublic("mario-kart-data.json")).data as {
-  characters: EntityStats[];
-  vehicles: EntityStats[];
-};
-
-// ==========================================
-// 測試輔助
-// ==========================================
-
-/** 可重現的亂數產生器（mulberry32） */
-const createRandom = (seed: number) => () => {
-  seed |= 0;
-  seed = (seed + 0x6d2b79f5) | 0;
-  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-};
-
-const random = createRandom(20260927);
-const randomInt = (max: number) => Math.floor(random() * max);
-
-const makeEntity = (prefix: string, index: number): EntityStats => ({
-  name: `${prefix}${index}`,
-  englishName: `${prefix}${index}`,
-  displaySpeed: randomInt(8),
-  roadSpeed: randomInt(8),
-  terrainSpeed: randomInt(8),
-  waterSpeed: randomInt(8),
-  acceleration: randomInt(8),
-  weight: randomInt(8),
-  displayHandling: randomInt(8),
-  roadHandling: randomInt(8),
-  terrainHandling: randomInt(8),
-  waterHandling: randomInt(8),
-});
-
-const makeEntities = (prefix: string, count: number) =>
-  Array.from({ length: count }, (_, i) => makeEntity(prefix, i));
+const { randomInt, makeEntities } = createFixtures(20260927);
 
 const TERRAIN_FIELDS = {
   road: ["roadSpeed", "roadHandling"],
@@ -256,16 +217,6 @@ describe("推薦演算法（K 路合併）", () => {
 });
 
 describe("能力值工具", () => {
-  it("sortByStatDesc 為穩定的遞減排序", () => {
-    for (let i = 0; i < 200; i++) {
-      const entities = makeEntities("e", randomInt(30));
-      assert.deepEqual(
-        sortByStatDesc(entities, "terrainHandling"),
-        [...entities].sort((a, b) => b.terrainHandling - a.terrainHandling),
-      );
-    }
-  });
-
   it("getSortKey 查表", () => {
     assert.equal(getSortKey("speed", "water", "display"), "waterSpeed");
     assert.equal(getSortKey("handling", "road", "terrain"), "terrainHandling");
@@ -278,6 +229,11 @@ describe("能力值工具", () => {
     const combined = combineStats(c, v);
     assert.equal(combined.roadSpeed, c.roadSpeed + v.roadSpeed + 3);
     assert.equal(combined.weight, c.weight + v.weight + 3);
+  });
+
+  it("getStatPercentage 四捨五入，最大值為 0 時回傳 0", () => {
+    assert.equal(getStatPercentage(1, 3), 33);
+    assert.equal(getStatPercentage(5, 0), 0);
   });
 
   it("computeFieldMaxima 最小值為 1", () => {
@@ -293,7 +249,7 @@ describe("搜尋", () => {
 
   const topEnglishName = (query: string) => {
     const [first] = searchEntities(index, query);
-    assert.ok(first && first.type !== "combination");
+    assert.ok(first);
     return first.data.englishName;
   };
 
